@@ -89,3 +89,41 @@ def test_network_freight_factor_and_inbound_targets() -> None:
     np.testing.assert_array_equal(a.orders, b.orders)
     np.testing.assert_array_equal(a.costs["inbound_freight"], b.costs["inbound_freight"])
     np.testing.assert_array_equal(a.costs["outbound_freight"] * 2, b.costs["outbound_freight"])
+
+
+def test_marginal_service_cost_uses_paired_percentage_points() -> None:
+    from scm.contracts import ExperimentRow
+    from scm.experiments.design import case
+    from scm.experiments.runner import marginal_service_cost
+
+    cases = [case("E2", sku="SKU01", target_csl=t) for t in [0.9, 0.95, 0.99]]
+    rows = [
+        ExperimentRow(
+            experiment="E2",
+            case_id=c.case_id,
+            phase="evaluation",
+            replication=0,
+            seed=123,
+            metric=m,
+            value=v,
+        )
+        for c, (cost, service) in zip(cases, [(100.0, 0.9), (130.0, 0.95), (140.0, 0.95)])
+        for m, v in [("inventory_cost_inr", cost), ("achieved_csl", service)]
+    ]
+    marginal = marginal_service_cost(cases, rows)
+    assert marginal[0].value == pytest.approx(6)
+    assert marginal[1].value is None
+
+
+def test_reject_duplicate_design_values_and_empty_mitigation_grid() -> None:
+    from pydantic import ValidationError
+    from scm.experiments.design import ExperimentSpec
+
+    spec = load_spec()
+    spec.e5.offsets = [0.0, 0.0]
+    with pytest.raises(ValidationError, match="duplicate"):
+        ExperimentSpec.model_validate(spec.model_dump())
+    spec = load_spec()
+    spec.e6.mitigations = {}
+    with pytest.raises(ValidationError):
+        ExperimentSpec.model_validate(spec.model_dump())

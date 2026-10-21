@@ -116,7 +116,7 @@ cost differences; unit tests separately exercise binding cases. Price promotions
 reduce purchase cost without changing service. See [validation](validation.md) for
 numbers and [parameters](parameters.md) for assumptions.
 
-M6 implements events and metrics. E6 mitigation sweeps, the ±20% sensitivity design,
-confidence intervals and reproducible Parquet output remain M7 work. Dual sourcing,
-lateral transshipment and a dedicated expedite policy are not implemented in this
-fixed-sourcing engine. No calibrated operational resilience claims are made.
+M6 implements events and metrics. M7 adds [E6 mitigation and ±20% sensitivity grids](experiments.md),
+confidence intervals and reproducible Parquet output, plus reactive backup sourcing,
+stock buffers and expediting. Lateral transshipment remains deferred. The M6 evidence
+above uses the original fixed-sourcing model. Operational calibration remains unverified.

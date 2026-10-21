@@ -111,7 +111,8 @@ Every cause must increase weekly DC BWE in each paired replication. POS sharing,
 smoothing and lead reduction compare with signal processing; VMI compares with
 signal processing + batching + rationing; EDLP compares with price promotions.
 These are controlled implementation checks, not confidence intervals or universal
-claims about countermeasure effectiveness. M7 will add the full E4 factorial design.
+claims about countermeasure effectiveness. M7 adds the full
+[E4 factorial grid](experiments.md), including paired POS and lead effects.
 
 ![Chen benchmark and weekly network comparisons](evidence/m5/bullwhip.png)
 

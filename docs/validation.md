@@ -306,3 +306,93 @@ M7 is next: general experiment orchestration, complete E1–E6 sweeps, mitigatio
 sensitivity studies, confidence intervals and reproducible Parquet outputs. M6 does
 not implement dual sourcing, lateral transshipment or a dedicated expedite policy.
 Operational calibration, remote CI, API, frontend and deployment remain unverified.
+
+## M7: experiment grids, paired statistics and Parquet
+
+Local result (22 October 2026, Python 3.12.10): `python -m scm.check` passes
+**176 tests**, lint, formatting, strict mypy and generated-schema drift checks.
+New tests were observed failing before implementation. They check Student t
+intervals, seed-aligned paired differences, missing/nonfinite observations,
+full-factorial cell counts, deterministic case IDs, near-break-even selection,
+marginal service cost in percentage points, duplicate/empty designs, and exact
+serial/parallel Parquet bytes. Mitigation tests check stock/pipeline conservation,
+shared supplier capacity, actual backup purchase prices, stock buffers and expedite
+charges. Inbound transit overrides rebuild policy targets; outbound freight factors
+leave inbound charges and physical orders unchanged.
+
+All six experiment grids completed with `configs/m7_validation.yaml`. It retains
+all factor cells and uses reduced counts: two evaluation/screening replications,
+three independent confirmation replications and five E5 calibration replications.
+E1 retains the longer validated M2 design. The complete configured 30-replication
+research campaign has not been run. Each experiment saves its row contract in
+Parquet, estimates and paired intervals in JSON, a static figure, and a manifest
+with actual source/config/schema/package/output provenance.
+
+| Experiment | Saved records | Executed design | Evidence |
+| --- | --- | --- | --- |
+| E1 | 498 | V1–V4 results plus eight quantity settings, 30 replications | [Manifest](evidence/m7/E1/manifest.json), [summary](evidence/m7/E1/summary.json), [figure](evidence/m7/E1/summary.png) |
+| E2 | 144 | 15 service/SKU cells × 2 runs; includes 24 marginal-cost observations | [Manifest](evidence/m7/E2/manifest.json), [summary](evidence/m7/E2/summary.json), [figure](evidence/m7/E2/summary.png) |
+| E3 | 19371 | 432 screen cells × 2 runs; 299 near-break-even cells × 3 independent confirmation runs | [Manifest](evidence/m7/E3/manifest.json), [summary](evidence/m7/E3/summary.json), [figure](evidence/m7/E3/summary.png) |
+| E4 | 1920 | All 64 cause/POS/lead cells × 2 runs | [Manifest](evidence/m7/E4/manifest.json), [summary](evidence/m7/E4/summary.json), [figure](evidence/m7/E4/summary.png) |
+| E5 | 539 | Nine calibration candidates × 5 runs; two selected arms × 2 held-out runs | [Manifest](evidence/m7/E5/manifest.json), [summary](evidence/m7/E5/summary.json), [figure](evidence/m7/E5/summary.png) |
+| E6 | 6912 | Six events × four mitigation settings × nine OAT settings × 2 runs | [Manifest](evidence/m7/E6/manifest.json), [summary](evidence/m7/E6/summary.json), [figure](evidence/m7/E6/summary.png) |
+
+E2's finite-run achieved-CSL increments are nonpositive for 8 of 24 marginal-cost
+observations; these are explicitly null. The small representative sample does not
+establish smooth marginal costs or whole-class service performance.
+
+The E3 screen slice with nominal CV 0.4, regional rho 0.3, outbound factor 1 and
+base inbound lead 7 days gives mean measured landed costs INR 293911039.47,
+291870600.69, 290528961.47 and 297840839.77 for 1, 2, 4 and 8 DCs respectively.
+This is one exploratory slice, not a general recommendation for four DCs. Purchase
+cost is included in the 5% near-break-even selection criterion, so many counts
+qualify. Confirmation remains separate from screening in saved records and summaries.
+
+E5 selects a segmented safety-factor offset of **0.5**. Its calibration mean fill
+gap is +0.1868 percentage points and held-out gap is +0.1736 points, both within
+the configured 0.5-point tolerance. Held-out mean fill is 99.0613% uniform versus
+99.2349% segmented; mean inventory value is INR 11071156.07 versus 13291052.83.
+Inventory increases in this case; approximate service matching and two held-out
+replications do not establish an inventory-saving result.
+
+For E6's first event (S4 outage), without an OAT adjustment, the measured means are:
+
+| Mitigation | TTR | Paired disruption cost INR | Whole measured-run landed cost INR |
+| --- | --- | --- | --- |
+| None | 193 days | 2712363.75 | 295329926.60 |
+| Stock buffer | 97.5 days | 286730.79 | 293539067.13 |
+| Expedite | 179 days | 2197028.56 | 386864548.02 |
+| Dual sourcing | 34 days | 151900.94 | 294931262.38 |
+
+Each disruption-cost entry compares with its own mitigation-enabled undisturbed
+baseline. Expediting reduces event-related loss here but raises total measured
+cost substantially because its premium applies throughout the run. Buffer starting
+inventory acquisition and backup reservation fees are excluded by the documented
+accounting assumptions. These comparisons are synthetic implementation evidence,
+not calibrated mitigation recommendations. Recovery estimates omit censored nulls
+with missing counts retained; intervals are conditional on observed recovery.
+
+The saved [reproduction check](evidence/m7/reproducibility.json) records exact E2
+Parquet byte equality for one versus eight workers. The complete hash is
+`48dfbd37aae1bc6e8fc2ca23639884201be76690a8bf9844ef4fe1e919b2adf9`.
+The automated test independently repeats a smaller case across worker counts.
+Reproduction is scoped to the dependency lock and source inputs recorded in manifests.
+The [complete-grid repeat report](evidence/m7/all_experiments_reproduction.json)
+also confirms that every E1–E6 Parquet hash is identical on a second pass after
+the figure palette correction. Numerical code and experiment settings were unchanged
+between these two passes. Every current manifest's input and output hashes were
+verified against the saved files. Git treats evidence files as bytes to preserve
+recorded checksums across newline conversion.
+
+The [performance regression](evidence/m7/network_regression/results.json) and
+[manifest](evidence/m7/network_regression/manifest.json) pass V5 and the original
+limits: **0.5230 s** for one 455-day/eight-DC run and **6.3125 s** for 30 runs on
+eight worker processes, below 3 s and 30 s respectively. This measures the standard
+known-demand path; it does not establish a universal timing guarantee for all events.
+
+The implementation uses the plan's PyArrow, joblib and Typer dependencies. DuckDB,
+API response envelopes and the generated TypeScript client belong to M8. Lateral
+transshipment is deferred under the plan's explicit descoping provision. Network
+warm-up/service calibration, powered comparisons, remote CI and deployment remain
+unverified. Earlier M2–M6 manifests continue to describe their historical source
+snapshots rather than the current engine.

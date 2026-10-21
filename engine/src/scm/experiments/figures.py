@@ -27,6 +27,8 @@ def plot_experiment(
         return float(value) if value is not None else float("nan")
 
     figure, axes = plt.subplots(1, 2, figsize=(13, 5), layout="constrained")
+    for axis in axes:
+        axis.set_prop_cycle(color=["#2B5C8A", "#52525b", "#a1a1aa", "#27272a"])
     if experiment == "E1":
         quantity_cases = sorted(
             {r.case_id for r in rows if r.metric == "quantity"}, key=lambda x: int(x[2:])
@@ -115,7 +117,14 @@ def plot_experiment(
                 ]
                 winner = min(block, key=lambda c: mean(c.case_id, "landed_cost_inr", "screen"))
                 best[i, j] = int(winner.factors["dc_count"])
-                axes[1].text(j, i, str(int(best[i, j])), ha="center", va="center")
+                axes[1].text(
+                    j,
+                    i,
+                    str(int(best[i, j])),
+                    ha="center",
+                    va="center",
+                    color="white" if best[i, j] >= 6 else "#18181b",
+                )
         axes[1].imshow(best, cmap="Blues", vmin=0, vmax=max(best.max(), 1))
         axes[1].set(
             xticks=range(len(freights)),

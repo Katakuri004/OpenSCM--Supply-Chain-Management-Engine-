@@ -1,0 +1,4543 @@
+{
+  "experiment": "E3",
+  "config_hash": "629123d2b2e93c6cddd3bbd190e47b4142fc429b2859a356054e7152a5c3893e",
+  "parquet_sha256": "ad736ceab74c8b7c4968588efe68f55f5c4c32985749b49ab0c402a74e3c9ab1",
+  "python": "3.12.10",
+  "git_sha": "6ed8ac8455509c370699a8a7aad71b09724a7245",
+  "workers": 8,
+  "versions": {
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "pydantic": "2.14.1",
+    "PyYAML": "6.0.3",
+    "pyarrow": "26.0.0",
+    "joblib": "1.6.0",
+    "typer": "0.27.3",
+    "matplotlib": "3.11.2"
+  },
+  "input_sha256": {
+    "configs/base_4dc.yaml": "2585eeae6cbd57750c13bf6b60ef68e14544b5dbe9483caf4cb226b1ea0aa085",
+    "configs/bullwhip.yaml": "5af501a2c7be42ad5326553186680b8adc03dbc5b49d45f35d6821cb85e2a45d",
+    "configs/demand.yaml": "9e12d753f26dc52de1851685d1756f3fd0c04da3c1e64757bd4925f62c165a21",
+    "configs/experiments.yaml": "ab277c82f5c5cf5c026ad1613b31a4e65a55e07775e4d06b2ea6a0f1f528b0be",
+    "configs/m2_validation.yaml": "0a28812f044879e328bc67b2683382b3037fbf0e36b6cb7d705d25b94b586739",
+    "configs/m3_validation.yaml": "4a559760fedcb7349c9e69acbd2a6ecb32e088c4339e7b0f702653a38ede280b",
+    "configs/m4_validation.yaml": "4a5476240e85660117d35393941e5764f71ed9f414dec5b10aa6de747d5f6dbd",
+    "configs/m5_validation.yaml": "bbd0cf1292c3b60b6cca8798ad95cedbaeb52a18bff7145d1f7cf16d367402dd",
+    "configs/m6_validation.yaml": "04ee1af2775385d57cfcad1240c49c86872d2efbf29fe48eb326fc6fab7527df",
+    "configs/m7_validation.yaml": "33554119f40e2b55793a16b5d93cc48d42eba299ab7cdf846d047a77241bc0e5",
+    "configs/network.yaml": "7b6c57a12a024cacb3660794c68c24babfd70a5b5db96cee4e0d0360b913937e",
+    "configs/planning.yaml": "9c723b379f5e370f58b4a4991a6ffae516a19809a3b8593970fe42e3e7ae48ed",
+    "contracts/experiment_row.schema.json": "91b4063cfa4bb86e6349258998ae96f97feb85021a265f906baddf0a5b7caffa",
+    "contracts/health.schema.json": "9c7e7398c5bc76b78d3a2c030f67e0a8c8df72c8b74e05541ce4672d106bf59c",
+    "contracts/kpis.schema.json": "be466e0007b499d67adccf598750193e25841c6c478f453623e60f65ebe5481f",
+    "contracts/network.schema.json": "83f1911c47f0fa430df6ae2217c859b808b7f4bebe88e4676ac14577b77f17c0",
+    "contracts/query.schema.json": "8ad72c07c05f02780328974eaf75d92c99320a9646e442a47df9e8bdb1746fff",
+    "contracts/scenario.schema.json": "f54acf12a4cbe454308919aba622963827a3e5b64775d0cfe9c8eabd3e941e9e",
+    "contracts/timeseries.schema.json": "2b562b3e7898e525698926fd4b32e2bd97c9fdc8af61c899c961ca83cf0149b8",
+    "engine/src/scm/__init__.py": "29f546e43d9b1260cdd97b8cbcf0d89a646eb54eabc4e4a498e715f107fb59bc",
+    "engine/src/scm/analytics/__init__.py": "29da98227f86c5f8c5942700b912e4decb35e0981ca9e12563a0fa182ee501b0",
+    "engine/src/scm/analytics/_validation.py": "143d626402e4e617968ae5f8d3120f5e89d9b6537a22ce78f4ac9c1292844cf4",
+    "engine/src/scm/analytics/discounts.py": "932d248000137478bbb677fe3e028877db0310ee0a1c2162f44af87d4178ed0e",
+    "engine/src/scm/analytics/eoq.py": "57331c9ab68271639db7a334aa2ca7bdecd966ea62f214ff1335a892cb562f18",
+    "engine/src/scm/analytics/epq.py": "bfb00f1264cc646549fc5feab558dd4262f377f3da70bbc77a89c4a44b644403",
+    "engine/src/scm/analytics/newsvendor.py": "865ea023a13d439f2a6f906bc85027ee98bcc9dbe420e31f846c19312b4529ed",
+    "engine/src/scm/analytics/pooling.py": "126d9b447003142d6192482d53a769417f78de701538624051d8a0bd7ad6bfa7",
+    "engine/src/scm/analytics/safety_stock.py": "7d785732e99e4e5e172108b73a7bd51c2c5a4fa03cc275855abec294261a0d82",
+    "engine/src/scm/check.py": "8459a6565c3ff352a2b3e88b413099c472acbfbd4ce2559e5e94185cafb2b5c6",
+    "engine/src/scm/config/__init__.py": "d10fb7ae39c7a20218f8336f808c4bf8b293e8f520d90f0b7b18a7b0981bc953",
+    "engine/src/scm/config/bullwhip.py": "6d5a13f0566beb64f9847b5a8c95bd2ca653e5af6816aea2ff9a6dc8ab9b36b6",
+    "engine/src/scm/config/loader.py": "941099a258ad50b4b878c684d57226b6b17899fdc02ef215cc265aec131c5d7a",
+    "engine/src/scm/config/mitigation.py": "92c70fb2d47ecb115d84df1b1583b8f63e45b37e09dac5765c6389a0e2c71675",
+    "engine/src/scm/config/models.py": "0e6a9bed788ca2d11b45b6c73293994bc4ce8f4d07ea83f1651100a85da7c3ad",
+    "engine/src/scm/config/planning.py": "505cbd538cb2ec7b171697125e4a32b5da04ecadfc419303d91c8ebe1860ba26",
+    "engine/src/scm/contracts.py": "bff998e976bc5b74de7da7232b7085b1ee134f53a43ed0b5c714e608f5c4f942",
+    "engine/src/scm/demand/__init__.py": "134e36103ac87365c466cf7033df94e8b668a8cc53760b2c44fe0932b870fd08",
+    "engine/src/scm/demand/classify.py": "28a63d53d5a57292fa51f291f493676660e8d1178d751817ba7dad187ba96b4f",
+    "engine/src/scm/demand/generator.py": "cf2ce49e718eca2265a1e6e3ab7060d44020fdb26c7f29a0219ebd0fed015601",
+    "engine/src/scm/experiments/__init__.py": "fdbcf916abd9c1b30e547490a76589b52013b3552e980e2a5c0163e8ac2c4623",
+    "engine/src/scm/experiments/design.py": "d50db144e739342f066d52ea95bbcdef00011316081b711a6e227209a03beef1",
+    "engine/src/scm/experiments/e4_validate.py": "887dd39382dd995c3d13db3d4172e0ec5dd906cbdd14d5a5fb658db34dae07c8",
+    "engine/src/scm/experiments/e5_dry_run.py": "77160146c732aea972681a957bcc14597aeddca25f256888b3d2b3332ff37c01",
+    "engine/src/scm/experiments/e6_validate.py": "358e470910ee4c7f7763ce2d681241c706b41dc6525bb27306deaad93d4e7e94",
+    "engine/src/scm/experiments/figures.py": "3646def405e1926fa44faca4a003c1eca4fd7cfc8cd611ea139640b54a67ab6e",
+    "engine/src/scm/experiments/replication.py": "afec8f37f6de4a37786a7dc1c4a6102486940adb376e8d8c862bfbd4b0079aef",
+    "engine/src/scm/experiments/runner.py": "11670cc607cff185ef44af9565e27021fcd824c28375d5c684986c8010648c4d",
+    "engine/src/scm/experiments/stats.py": "4319b714c0a026d3e4aaa636924cf66279269d4badedb8110ef4bd760b27f243",
+    "engine/src/scm/forecast/__init__.py": "df47ad7907d8ad7925496bf98317241f57eed5b133614bffb9e4096025776504",
+    "engine/src/scm/forecast/error_metrics.py": "252365f5c4d0a963c8ac76682824c928d5945b5182c46684f945171b2b960a4a",
+    "engine/src/scm/forecast/methods.py": "1017d529bba1447d0ef9064049564c01976b1407412d7ba1584b81ab2a195117",
+    "engine/src/scm/metrics/__init__.py": "ec6d573c1a2014935ebd1ca4d5aaa422cdc10a73c051849d458d514f2b1f0af3",
+    "engine/src/scm/metrics/bullwhip.py": "9d3af506b92e20964a09c23d90b151c90ef6c2d41766f06190fe5aefe1ef98e0",
+    "engine/src/scm/metrics/resilience.py": "58ae7e295ad0f43e5e4a360d63efd1efb93e98560933cbc283edd7e9db4c2ff2",
+    "engine/src/scm/network/__init__.py": "273f69bd6fe0f3e90e93ece720cc3341d362313612137c57fdd0692d17a98d68",
+    "engine/src/scm/network/builder.py": "f6e5c122eba9953105ec4dca8605328d0b8a94b98394e10f86b7403a33a6dfb3",
+    "engine/src/scm/network/facility_location.py": "b238e5eea22a884668e206bce512cd553dc7fbc2c10bd0c7a0575e3798944ac5",
+    "engine/src/scm/network/geography.py": "848ba0ae28fbf62d69366c6d26b22b1755069231019c2bdb9ac6113f739b4526",
+    "engine/src/scm/network/inputs.py": "ed29b9189d0b617191fc6a189a014d225f3fe12a146bd5a3e43723fdb8030d56",
+    "engine/src/scm/policies/__init__.py": "d396a6d549acd2f44f74b394b62297276b3ed06eb8f1a60b21276310a47775df",
+    "engine/src/scm/policies/bullwhip.py": "ae02704bac5e779a9e4bcbb86d911ea2a173853a8a6eff27e3cba23917cb5071",
+    "engine/src/scm/policies/ordering.py": "f12a06249aeba443f2ce228e32dcc77616f3468341133c8573e5d80a9e5cd831",
+    "engine/src/scm/policies/planning.py": "21437a0f8b8eecb2007f0917bb49cb4cfda902f14978ed6b48c113bd48e96a1d",
+    "engine/src/scm/sim/__init__.py": "0a684579f7f609a503fb600981837749e191cdedd29da1daadc55fe6ced5478a",
+    "engine/src/scm/sim/bullwhip_reference.py": "c6533c9489a9e03628c8a90d15d669e9d41e3dc335738e9cb1064afd41767498",
+    "engine/src/scm/sim/disruptions.py": "b5240ad5213ff04d54f9ed65c35caa2ef1efe69308f7e15a85d4b834ebad473d",
+    "engine/src/scm/sim/engine.py": "12e0b7a60e8a541ad30812081aa0d52d9b9d78c90b86030e14f29df0ba82147a",
+    "engine/src/scm/sim/multi_echelon.py": "b506487509d76da14c34cbb598ec576a0062c5c18a4e2389e84b7849550b9ce5",
+    "engine/src/scm/sim/transport.py": "46668e0f4990d88b6e1c0779b04be87fa216d0a70aab90d005fbfd6b1a6c4f78",
+    "engine/src/scm/sim/validate.py": "43adea3ef8d59be2a66e4ea3242d507ef45f0b7c3bb159b4ba8a9a6d1dd381d4",
+    "engine/src/scm/sim/validate_network.py": "51bdf05fee68613398d434240b1a1412e26fbf39185d93b9eaeb937e9ac16741",
+    "pyproject.toml": "9db058da7e53bb9c9d5031d4524305dd88cc63ce345e7b25f34d49eff690a53f",
+    "requirements-dev.lock": "21a48e3e009f279f80ba10f4ebe4ac9dc9d5dfa36b368c2c94f1ba701aeefec1"
+  },
+  "settings": {
+    "seed": 707,
+    "replications": 2,
+    "workers": 8,
+    "warmup_days": 90,
+    "horizon_days": 365,
+    "training_days": 180,
+    "e2": {
+      "targets": [
+        0.9,
+        0.95,
+        0.98,
+        0.99,
+        0.995
+      ],
+      "skus": [
+        "SKU01",
+        "SKU07",
+        "SKU15"
+      ]
+    },
+    "e3": {
+      "dc_counts": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "demand_cvs": [
+        0.2,
+        0.4,
+        0.8
+      ],
+      "correlations": [
+        0.0,
+        0.3,
+        0.6,
+        0.9
+      ],
+      "outbound_factors": [
+        0.5,
+        1.0,
+        2.0
+      ],
+      "inbound_days": [
+        3.0,
+        7.0,
+        14.0
+      ],
+      "screen_replications": 2,
+      "confirm_replications": 3,
+      "break_even_fraction": 0.05
+    },
+    "e4": {
+      "sharing": [
+        false,
+        true
+      ],
+      "lead_factors": [
+        1.0,
+        0.5
+      ]
+    },
+    "e5": {
+      "calibration_replications": 5,
+      "offsets": [
+        -1.5,
+        -1.0,
+        -0.5,
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0
+      ],
+      "service_tolerance": 0.005
+    },
+    "e6": {
+      "events_config": "configs/m6_validation.yaml",
+      "sensitivities": [
+        "demand",
+        "capacity",
+        "lead",
+        "holding"
+      ],
+      "sensitivity_factors": [
+        0.8,
+        1.2
+      ],
+      "mitigations": {
+        "none": {
+          "buffer_days": 0.0,
+          "expedite_factor": 1.0,
+          "expedite_unit_cost": 0.0,
+          "backup_suppliers": {}
+        },
+        "stock_buffer": {
+          "buffer_days": 7.0,
+          "expedite_factor": 1.0,
+          "expedite_unit_cost": 0.0,
+          "backup_suppliers": {}
+        },
+        "expedite": {
+          "buffer_days": 0.0,
+          "expedite_factor": 0.5,
+          "expedite_unit_cost": 20.0,
+          "backup_suppliers": {}
+        },
+        "dual_sourcing": {
+          "buffer_days": 0.0,
+          "expedite_factor": 1.0,
+          "expedite_unit_cost": 0.0,
+          "backup_suppliers": {
+            "S1": "S2",
+            "S2": "S1",
+            "S3": "S1",
+            "S4": "S1"
+          }
+        }
+      }
+    }
+  },
+  "cases": [
+    {
+      "case_id": "E3_e42dbaba5d88a913",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_c7e439b7a6f6388d",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_52eb7bd20071bf75",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_d0320c62c601786b",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_036f330fa2e38f9b",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_b12fb5008295aec1",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_47d773f5bf6be1bd",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_3455f37f7b35913a",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_60fc122619fd0139",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_b4509f00e5a7f035",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_d9fb58ed13dc1e97",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_771d30e341b79d11",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_b44926958300ae9a",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_4bb89bccbd39dc0f",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_02c2383de56de4ce",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_963f6fbc9826a3a7",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_637d9034998a3fd7",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_478b4805e63cd164",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_eae3b7f2e373f76c",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_ee208934b8e5f52d",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_9c6de9f8b81133c5",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_20da9733c356f4de",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_49ac8cd30854242e",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_ad7bb1c4df31a6db",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_e2fa093bf001e979",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_68fb098269e2ad40",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_cd6c21d0cd92da9a",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_475a819673ebf39d",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_943e66cbdeaf7044",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_6aa075b6d0fec23f",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_0f8c4629e1afc704",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_4a07d1d7268eaa57",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_6f310c233f226410",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_fbbdc33f5a097851",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_1d50fcb07a62630d",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_b99deddf7df2e004",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_022415d5ba7cac61",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_395ebffb229a9461",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_ab9416411dfdc08b",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_efdcaf0689f36500",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_9e62130ec8054a17",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_5e7f7778486ea50f",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_0c6a3de047438ba4",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_957706b9ef6179f1",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_8ed5fa01237b2c63",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_420ca146aec525c3",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_bddeb53100689e09",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_e2952264a857aeab",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_457dd7afaf9e8216",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_5f08d5bad46f3935",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_ebd921855be38d93",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_f22a93d33f851ac8",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_115b0a35eb95c1de",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_5006021cbcc7c68c",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_cf746a4f9ca37a74",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_390f00369b1692e2",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_8bf67db9fc68679f",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_99d8ebd3d0a2242d",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_8e9f5a97f0d4ec5f",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_9bd26318d903d11d",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_54ccba3abf8f8d4e",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_cc957721566f2e88",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_e188e0557a0c6a96",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_69fa0e0840c1053d",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_c33842e0c0bbeada",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_a178846d4b76a39a",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_c92b5940f49698f4",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_96f57412a087fded",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_c3b7306e80b5d869",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_bac31e19d6621dc8",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_6dc1a690146b1cf1",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_2d0bffbe07b7964d",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_571aed6af6f6f65d",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_d9d4988bd4793e57",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_e1d44bd8d3efb706",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_662212447bef337c",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_c27181e5d9c26c2f",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_e535cd31ca48b084",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_bdb8f0329869d2c5",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_11a9502baefe58a0",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_06869d764f6773fb",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_570e0962b81aea12",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_b1ab8e85ce13c5ea",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_b39fcc0b1da1a4ce",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_7b71c305525b93f0",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_0325756d68d89b26",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_3de4bb497c4728bf",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_6d440d4438ef0dc6",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_912d1f42bc7958b7",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_0fe386f357efd7ce",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_5f6d681196bf877d",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_1fbd5c1518eadc81",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_aa4e4b15e4a3c93f",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_0cd70a1b6d2c827b",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_a51dd6bf27867281",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_f9b2fbf0406e3f47",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_160f2f47928f5936",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_6c7454e60f8fede9",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_a8ad9851abb9d54e",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_0149c81cf723f295",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_c0ffb322dd3706fa",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_a1a478b7e341cf56",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_fb02b7fe796602be",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_81f3faf2767d6509",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_98114a60fed54195",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_540b63399bd38af7",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_95965d0e0978008d",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_4632ac936ceae4f6",
+      "factors": {
+        "dc_count": 1,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_09d750c16b122b30",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_66dddc762a675584",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_198bdce94b965cd7",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_2a03c4303e302d6b",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_55e78acdad67511b",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_af8d8ae5b1b539fb",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_6c2c8b9d9a5bd335",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_b917c1279ac7a20b",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_849c17608f23e6bf",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_70ba0569d8e78e7a",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_d2dff2b581f0ed1f",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_efcf4af7f316d5fc",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_12d152e7a17dd998",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_4b1d945908fbabed",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_fc81936af4b9c34d",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_877a314470cd4d57",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_feeea3a90ffd2b3e",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_f3e58b5d09fc2aeb",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_66832d6777554a2f",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_dff6ba159dd0abc9",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_44a951975fc7567e",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_9997c7f41f592b55",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_82dc3dcacb86e901",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_8505ace05f948cdb",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_5f56c51cad677b8e",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_d7bace3cf5a00b9d",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_d56ff5102fcb1263",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_ff4a21b027719efd",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_21d3db51a46ced9f",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_95c5552711a8b1b3",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_32048683c601ce91",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_ff6b8fd903583902",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_ef73f58098126d6d",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_4fa5cf3f11157ccf",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_46e1ccee275c0d13",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_662a4ce3415c228d",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_162a1fb6c101ea5d",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_e489e8b9c7147737",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_daa4ecbef0a58669",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_9d06d644cadef3e8",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_630e726b252f0e4b",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_8ad760ffcf98129f",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_05d9bbd348a48069",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_26745aa6e4edfb54",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_e8a655cb155d5bd8",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_72cfaa47d7ad7430",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_083178b1e052fdbc",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_ff17ad71b824efa6",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_d4699cf823e5107d",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_6b03c97e8438304b",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_2a7a823bc4b303e0",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_14d07b2227f0f085",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_c87f1a91ba657245",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_d1f90a4395a68d6b",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_cad02b0860611c49",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_45c01f5d4b57e791",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_83e6f1a656f47fbc",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_6d0757f2a483aca8",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_94b43a8ce7c39c6e",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_a4cdacdecd9a5bdf",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_4bc1547027f055db",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_93c3efe053b87d78",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_8dcbcad2c62543f4",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_9bdaa9df73bf87bc",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_0628440239eafe20",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_8157919de0f59495",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_656eec82a373517c",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_3161e3fc0da3ae7b",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_9121b22fe6e0527d",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_71ba8e58e07e241c",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_bd86e27e2823384d",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_ef28dda610ced420",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_b2217cdfb0563fee",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_9b6195670ed43d7d",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_c8b8e2eaa39701e1",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_c7541e6ae29ddbd7",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_cb256c1c08dc7863",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_353bb66e9127dd1e",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_93c59e1be13c83a2",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_1c32a8a19da368d5",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_5f1bfa044b8f2340",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_8cdfcdcf8597aed9",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_e43d09574d3b3a25",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_8bf4f15f58f09ece",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_2e6e718bf7f0f8a1",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_f8d5b2376cb06295",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_60796637bf8d216c",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_d0623b9755d502b8",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_833cab790bedf286",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_d3be83b27c8fac02",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_951d05f4d426a313",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_c81e2883baa47f51",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_3583940f10665e58",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_a8b2011bb81e2506",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_73d70b5a439e0637",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_f1a4c48006d03293",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_c3e45932c5f26dbe",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_711920262e0b8288",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_98aa84d29c24bbe8",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_8b935aeaea3640e4",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_1839400afde3cb9e",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_6276bda067586e76",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_d2777e966896d75a",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_946b17ad9cc65c45",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_8c181a323a02728d",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_16e4713d75d12b44",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_7ab724e785b0e86c",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_91c10ec994f7d0b1",
+      "factors": {
+        "dc_count": 2,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_5c1afef27c28d8cc",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_b1711107c25fb79e",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_c63adcca896c6f5d",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_2fa94e29abfad581",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_428ce6e00a171558",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_718ed25f10df7594",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_06178363645fcf54",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_32ed2a125818cb28",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_a27cea042928b475",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_f61734a7e2b02590",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_23f6481d5af9dd5c",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_a800b6265eaaece2",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_823a83fedaf8de01",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_b65cf585bdc74265",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_8a27e1177e9f3d28",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_3752a4cf01a5a689",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_d3b3b5c96b6e65fc",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_0c471e79733b2201",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_a0d7e7f787a2f515",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_94ca31b8ce6b4718",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_86339efd7c276dd5",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_c05332ccb2fcc526",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_3312797462392d51",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_fa8f71f16ad8112d",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_878c0b7f1d2e8858",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_327b9686185d9a04",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_084b115cc3db9542",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_afe6279ec8c759c5",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_1127c59784b0d401",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_8299e498f7dca903",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_23989dfd2b545e35",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_2ea36ef13b82c127",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_e859178271022603",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_5b4671a84067224b",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_c3de3c11c3aef4f7",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_b15a7823c287208f",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_faf2b3ac9bee5891",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_e23e087846189dcd",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_1329281156e341d3",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_84475ba77afac2c7",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_dd6f561d2a07113d",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_860453300a9abd94",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_550afc0e1a59fa32",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_c9b3fcf86232ee99",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_08271c2a2130ba99",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_8fee820734697203",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_da1762b9ec34030b",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_5112511ecf36ddc4",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_e086c01654b65e17",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_b0e6172f265e34b0",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_7ad17796ee8b99d5",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_372c5c095ea98c14",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_8a30f4b2160f0ad9",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_84beb34abdef2a70",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_c4a5e1c256f4f1d1",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_a4c80512a8c01492",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_d25b07ef69e718e9",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_66587544009fe9ef",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_6231817036110058",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_54e47c74e2132866",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_4b22ddce4c2a373b",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_3c86208cd6ffbd8e",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_cd5466e1b9a0618f",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_9b55f6d78516010b",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_12b34ac1258aa8f7",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_fb9bd1335078e9d1",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_ff9e5a90fdfbc2d9",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_a9a40a42714e5257",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_dcb24a8185d5623a",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_2035558f5f75393b",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_42090574a1c1bb00",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_5d05dd47a7b9e48b",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_9a04db89e4ab65ca",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_cfd7cf292df4b8b4",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_d153a066350f35fc",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_2c05aa54bf0fc492",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_acb7384113771ad1",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_ab58b8da3678a48d",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_4560f6aa44b45d85",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_7c89188549529779",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_84c5021dc7f02d22",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_32daab43f58f4879",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_137494896f52fee4",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_4f0e765a97b75950",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_aab7a7c2208d1405",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_4ca062f4e4b66dd5",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_dd3fd6d6534e7bd8",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_e11c6656426dbea4",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_6c25f75072e0c8a7",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_fe6d6818753fd413",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_c39c9b219739efe8",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_1b2c943c49e9d17e",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_e76e64513ee707dd",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_aa2e80b360dd791f",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_2ee5d66db042103f",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_2cb1e687ad199781",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_d969587638b89eee",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_7f2f9188fbefce31",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_7018bdacad6a1ff6",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_373ba846306bfe8b",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_499aa499c6a37a9c",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_b79f411aad2c5337",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_db75891178c63cc1",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_38a9caad89497a29",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_04d78d7015427d3d",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_477a9d9008cb6425",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_baa6574b458f2909",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_224adb8b1d8868e2",
+      "factors": {
+        "dc_count": 4,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_730c1d4a9b4430b2",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_d7ebeae5823b03df",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_d67923c65e4359ad",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_7d2c4a37f881f9c4",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_db5812f0e0135715",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_0c439a7110a18f06",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_197a9834d79a8d1f",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_3575a57c82dc4af6",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_58f002308209f128",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_ee71caf864874c00",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_ccde500a29b3daf2",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_6b7344e563eabeb5",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_43cfba9f6298d15b",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_f546c9ea6d6f590e",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_13f40d5ed952659f",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_85536fed18281ffd",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_7a462e23ed6bb625",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_bb21769e33a2b493",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_ae0382bd5d6632d9",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_6d49292fb6ddfcb8",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_086589755482fbb7",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_8407173499091743",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_a0c8e415610375c0",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_10cd3d1a553d25d5",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_e2c046ec3f37e8ab",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_fd9b61c309a4b446",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_16df664cf7a1195d",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_c13b4925dc4028ec",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_4d2a5e45d0293b61",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_80735e686901e936",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_0867d84b452fc2f9",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_2881d87db59f8adc",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_8bc39ff9413f1156",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_a30db7b94566b155",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_4eb2e3ca4cf394ff",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_653d830595dc116f",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.2,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_6580877e4904980c",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_ff6dac9b14b6aeec",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_1f46b39d8326aebb",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_ca3950f389608955",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_940514a78e5cf2a8",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_42457f48cc7b5ea9",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_18d706f5458fab09",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_0ab5b1dae44345a1",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_b9b8f6085d5760ec",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_f27951edaa35367c",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_7e2956f2a0f1f522",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_b1307f5b9a50b630",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_57724810c5bdb693",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_37d924a0dfd3c6f4",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_103464e3ca379a2c",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_2d4556833ae82086",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_3436c7592071d782",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_36e6d497a0b83e30",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_e4c447ed76761200",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_46c2b3dace75c091",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_65162856aa115424",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_6dbef8699f03fe98",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_a07ce733bb09e1a9",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_61e43f72ac526ff8",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_23016828d55aa5d8",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_109f208d906faf0b",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_c2ed4e948fa5c1cd",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_a2f25fe07cffebc8",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_28ddd213e5227206",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_910160bfab3f2fad",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_b23bbcc51818091b",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_f20d613d66523a19",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_ae141498b2639c24",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_c96217b2c3a699cd",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_d692289ee754ad41",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_7df1068d52a8c9ef",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.4,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_8d4001f73d1ca617",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_12fa99017635b5fa",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_2040dff742bbd65e",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_0e1588c846d2a31f",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_c1062adfcc8e7e8e",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_48f956312a6c9e88",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_f449af77d055d81d",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_ef83e744fece3cec",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_f2aaff66540bac4d",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.0,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_7ae8129f88aa8b8f",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_31af1a598b3ffefe",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_e6cec032b9a4e587",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_51dc1f83c16be99e",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_b0b9e36af8ec32e4",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_94b576ed70c5097a",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_c323bbda08ee997f",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_118b52f759e3d3c4",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_34e38602ed9526ed",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.3,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_3e584d78f28b78e8",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_3818efa5e1bc7548",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_53e3e534960a3667",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_166f7de830a0c779",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_05ec8fe3916f8af0",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_a218c983dedb7b12",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_f124cd7f8ad0d3e6",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_fd5e538b333d6f06",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_3c9c93d215deefb8",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.6,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_c98e0a5174bf37d5",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_3c04fb2eee2677bc",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_ff71f76278a55992",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 0.5,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_58fcfd75080e100a",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_b6a96caa68cc2971",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_4e1592c45057737e",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 1.0,
+        "inbound_days": 14.0
+      }
+    },
+    {
+      "case_id": "E3_b159a476b067dba0",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 3.0
+      }
+    },
+    {
+      "case_id": "E3_3db0bcca41aa166b",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 7.0
+      }
+    },
+    {
+      "case_id": "E3_f4c7b30fbb4d464a",
+      "factors": {
+        "dc_count": 8,
+        "demand_cv": 0.8,
+        "rho": 0.9,
+        "outbound_factor": 2.0,
+        "inbound_days": 14.0
+      }
+    }
+  ],
+  "row_count": 19371,
+  "output_sha256": {
+    "results.parquet": "ad736ceab74c8b7c4968588efe68f55f5c4c32985749b49ab0c402a74e3c9ab1",
+    "summary.json": "9ab752b891128743b8b3f06a66d3256db18b268c3c5b9da36cb5b0d2f2cf18c8",
+    "summary.png": "eb1e0888b4e76cace4d92711511eaeae758282fc774a163b5cf6c4c7556d8691"
+  }
+}

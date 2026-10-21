@@ -1,0 +1,345 @@
+{
+  "estimates": [
+    {
+      "phase": "validation",
+      "case_id": "V1_cost",
+      "metric": "actual",
+      "n": 1,
+      "missing": 0,
+      "mean": 11680.0,
+      "low": null,
+      "high": null
+    },
+    {
+      "phase": "validation",
+      "case_id": "V1_cost",
+      "metric": "expected",
+      "n": 1,
+      "missing": 0,
+      "mean": 11680.0,
+      "low": null,
+      "high": null
+    },
+    {
+      "phase": "validation",
+      "case_id": "V1_cost",
+      "metric": "tolerance",
+      "n": 1,
+      "missing": 0,
+      "mean": 58.4,
+      "low": null,
+      "high": null
+    },
+    {
+      "phase": "validation",
+      "case_id": "V1_stockout_days",
+      "metric": "actual",
+      "n": 1,
+      "missing": 0,
+      "mean": 0.0,
+      "low": null,
+      "high": null
+    },
+    {
+      "phase": "validation",
+      "case_id": "V1_stockout_days",
+      "metric": "expected",
+      "n": 1,
+      "missing": 0,
+      "mean": 0.0,
+      "low": null,
+      "high": null
+    },
+    {
+      "phase": "validation",
+      "case_id": "V1_stockout_days",
+      "metric": "tolerance",
+      "n": 1,
+      "missing": 0,
+      "mean": 0.0,
+      "low": null,
+      "high": null
+    },
+    {
+      "phase": "validation",
+      "case_id": "V2_optimal_quantity",
+      "metric": "actual",
+      "n": 1,
+      "missing": 0,
+      "mean": 100.0,
+      "low": null,
+      "high": null
+    },
+    {
+      "phase": "validation",
+      "case_id": "V2_optimal_quantity",
+      "metric": "expected",
+      "n": 1,
+      "missing": 0,
+      "mean": 100.0,
+      "low": null,
+      "high": null
+    },
+    {
+      "phase": "validation",
+      "case_id": "V2_optimal_quantity",
+      "metric": "tolerance",
+      "n": 1,
+      "missing": 0,
+      "mean": 10.0,
+      "low": null,
+      "high": null
+    },
+    {
+      "phase": "validation",
+      "case_id": "V3_fixed_csl",
+      "metric": "actual",
+      "n": 1,
+      "missing": 0,
+      "mean": 0.9543480681438593,
+      "low": null,
+      "high": null
+    },
+    {
+      "phase": "validation",
+      "case_id": "V3_fixed_csl",
+      "metric": "expected",
+      "n": 1,
+      "missing": 0,
+      "mean": 0.95,
+      "low": null,
+      "high": null
+    },
+    {
+      "phase": "validation",
+      "case_id": "V3_fixed_csl",
+      "metric": "tolerance",
+      "n": 1,
+      "missing": 0,
+      "mean": 0.015,
+      "low": null,
+      "high": null
+    },
+    {
+      "phase": "validation",
+      "case_id": "V3_variable_csl",
+      "metric": "actual",
+      "n": 1,
+      "missing": 0,
+      "mean": 0.946219797349961,
+      "low": null,
+      "high": null
+    },
+    {
+      "phase": "validation",
+      "case_id": "V3_variable_csl",
+      "metric": "expected",
+      "n": 1,
+      "missing": 0,
+      "mean": 0.95,
+      "low": null,
+      "high": null
+    },
+    {
+      "phase": "validation",
+      "case_id": "V3_variable_csl",
+      "metric": "tolerance",
+      "n": 1,
+      "missing": 0,
+      "mean": 0.015,
+      "low": null,
+      "high": null
+    },
+    {
+      "phase": "validation",
+      "case_id": "V4_fill_rate",
+      "metric": "actual",
+      "n": 1,
+      "missing": 0,
+      "mean": 0.953439474997623,
+      "low": null,
+      "high": null
+    },
+    {
+      "phase": "validation",
+      "case_id": "V4_fill_rate",
+      "metric": "expected",
+      "n": 1,
+      "missing": 0,
+      "mean": 0.95,
+      "low": null,
+      "high": null
+    },
+    {
+      "phase": "validation",
+      "case_id": "V4_fill_rate",
+      "metric": "tolerance",
+      "n": 1,
+      "missing": 0,
+      "mean": 0.01,
+      "low": null,
+      "high": null
+    },
+    {
+      "phase": "validation",
+      "case_id": "q_0",
+      "metric": "inventory_cost_inr",
+      "n": 30,
+      "missing": 0,
+      "mean": 949.2024219091342,
+      "low": 948.7458949973894,
+      "high": 949.6589488208789
+    },
+    {
+      "phase": "validation",
+      "case_id": "q_0",
+      "metric": "quantity",
+      "n": 30,
+      "missing": 0,
+      "mean": 50.0,
+      "low": 50.0,
+      "high": 50.0
+    },
+    {
+      "phase": "validation",
+      "case_id": "q_1",
+      "metric": "inventory_cost_inr",
+      "n": 30,
+      "missing": 0,
+      "mean": 797.23787791493,
+      "low": 796.8690810243733,
+      "high": 797.6066748054867
+    },
+    {
+      "phase": "validation",
+      "case_id": "q_1",
+      "metric": "quantity",
+      "n": 30,
+      "missing": 0,
+      "mean": 75.0,
+      "low": 75.0,
+      "high": 75.0
+    },
+    {
+      "phase": "validation",
+      "case_id": "q_2",
+      "metric": "inventory_cost_inr",
+      "n": 30,
+      "missing": 0,
+      "mean": 770.6766970419114,
+      "low": 770.3031918472233,
+      "high": 771.0502022365996
+    },
+    {
+      "phase": "validation",
+      "case_id": "q_2",
+      "metric": "quantity",
+      "n": 30,
+      "missing": 0,
+      "mean": 90.0,
+      "low": 90.0,
+      "high": 90.0
+    },
+    {
+      "phase": "validation",
+      "case_id": "q_3",
+      "metric": "inventory_cost_inr",
+      "n": 30,
+      "missing": 0,
+      "mean": 766.4023944465572,
+      "low": 766.0577002354331,
+      "high": 766.7470886576813
+    },
+    {
+      "phase": "validation",
+      "case_id": "q_3",
+      "metric": "quantity",
+      "n": 30,
+      "missing": 0,
+      "mean": 100.0,
+      "low": 100.0,
+      "high": 100.0
+    },
+    {
+      "phase": "validation",
+      "case_id": "q_4",
+      "metric": "inventory_cost_inr",
+      "n": 30,
+      "missing": 0,
+      "mean": 769.8841200161318,
+      "low": 769.5617256888705,
+      "high": 770.206514343393
+    },
+    {
+      "phase": "validation",
+      "case_id": "q_4",
+      "metric": "quantity",
+      "n": 30,
+      "missing": 0,
+      "mean": 110.00000000000001,
+      "low": 110.00000000000001,
+      "high": 110.00000000000001
+    },
+    {
+      "phase": "validation",
+      "case_id": "q_5",
+      "metric": "inventory_cost_inr",
+      "n": 30,
+      "missing": 0,
+      "mean": 784.9859989995651,
+      "low": 784.688416977066,
+      "high": 785.2835810220643
+    },
+    {
+      "phase": "validation",
+      "case_id": "q_5",
+      "metric": "quantity",
+      "n": 30,
+      "missing": 0,
+      "mean": 125.0,
+      "low": 125.0,
+      "high": 125.0
+    },
+    {
+      "phase": "validation",
+      "case_id": "q_6",
+      "metric": "inventory_cost_inr",
+      "n": 30,
+      "missing": 0,
+      "mean": 827.5710357755086,
+      "low": 827.1998707609275,
+      "high": 827.9422007900896
+    },
+    {
+      "phase": "validation",
+      "case_id": "q_6",
+      "metric": "quantity",
+      "n": 30,
+      "missing": 0,
+      "mean": 150.0,
+      "low": 150.0,
+      "high": 150.0
+    },
+    {
+      "phase": "validation",
+      "case_id": "q_7",
+      "metric": "inventory_cost_inr",
+      "n": 30,
+      "missing": 0,
+      "mean": 948.8520612379834,
+      "low": 948.3188333360848,
+      "high": 949.385289139882
+    },
+    {
+      "phase": "validation",
+      "case_id": "q_7",
+      "metric": "quantity",
+      "n": 30,
+      "missing": 0,
+      "mean": 200.0,
+      "low": 200.0,
+      "high": 200.0
+    }
+  ],
+  "paired_differences": []
+}

@@ -34,6 +34,9 @@ def _seeds(spec: ExperimentSpec, experiment: str, phase: str, count: int) -> lis
 def _run(
     spec: ExperimentSpec, experiment: str, cases: list[Case], phase: str, count: int, workers: int
 ) -> list[ExperimentRow]:
+    if not cases:
+        return []
+    print(f"{experiment}: {phase}, {len(cases)} cases × {count} replications", flush=True)
     seeds = _seeds(spec, experiment, phase, count)
     with parallel_config(backend="loky", inner_max_num_threads=1):
         batches = Parallel(n_jobs=workers)(
@@ -147,16 +150,48 @@ def _summarize(rows: list[ExperimentRow], cases: list[Case], experiment: str) ->
             continue
         for (phase, case_id, metric), values in groups.items():
             ref = groups.get((phase, baseline, metric))
-            if case_id == c.case_id and ref is not None:
+            phase_baseline = baseline
+            if experiment == "E3" and ref is None and case_id == c.case_id:
+                alternatives = [
+                    other
+                    for other in cases
+                    if all(other.factors[k] == v for k, v in c.factors.items() if k != "dc_count")
+                    and (phase, other.case_id, metric) in groups
+                ]
+                if alternatives:
+                    phase_baseline = min(
+                        alternatives, key=lambda other: int(other.factors["dc_count"])
+                    ).case_id
+                    ref = groups.get((phase, phase_baseline, metric))
+            if case_id == c.case_id and ref is not None and phase_baseline != case_id:
                 paired.append(
                     {
                         "phase": phase,
                         "case_id": case_id,
-                        "baseline": baseline,
+                        "baseline": phase_baseline,
                         "metric": metric,
                         **paired_difference(ref, values),
                     }
                 )
+        if experiment == "E4":
+            for factor, base_value in (("pos_sharing", False), ("lead_factor", 1.0)):
+                reference = c.factors | {factor: base_value}
+                control = lookup.get(json.dumps(reference, sort_keys=True))
+                if control is None or control == c.case_id:
+                    continue
+                for (phase, case_id, metric), values in groups.items():
+                    ref = groups.get((phase, control, metric))
+                    if case_id == c.case_id and ref is not None:
+                        paired.append(
+                            {
+                                "phase": phase,
+                                "case_id": case_id,
+                                "baseline": control,
+                                "metric": metric,
+                                "countermeasure": factor,
+                                **paired_difference(ref, values),
+                            }
+                        )
     return {"estimates": summary, "paired_differences": paired}
 
 
@@ -181,14 +216,47 @@ def write_results(output: Path, rows: list[ExperimentRow]) -> str:
     table = pa.Table.from_pylist([r.model_dump() for r in ordered], schema=schema)
     pq.write_table(
         table,
-        output / "results.parquet",
+        output / "results.parquet.tmp",
         compression="NONE",
         use_dictionary=False,
         version="2.6",
         row_group_size=65536,
         write_statistics=True,
     )
+    (output / "results.parquet.tmp").replace(output / "results.parquet")
     return hashlib.sha256((output / "results.parquet").read_bytes()).hexdigest()
+
+
+def marginal_service_cost(cases: list[Case], rows: list[ExperimentRow]) -> list[ExperimentRow]:
+    values = {(r.case_id, r.seed, r.metric): r.value for r in rows}
+    derived: list[ExperimentRow] = []
+    for sku in sorted({str(c.factors["sku"]) for c in cases}):
+        ordered = sorted(
+            [c for c in cases if c.factors["sku"] == sku],
+            key=lambda c: float(c.factors["target_csl"]),
+        )
+        for lower, upper in zip(ordered, ordered[1:]):
+            for row in rows:
+                if row.case_id != upper.case_id or row.metric != "inventory_cost_inr":
+                    continue
+                base_cost = values[lower.case_id, row.seed, "inventory_cost_inr"]
+                base_service = values[lower.case_id, row.seed, "achieved_csl"]
+                service = values[upper.case_id, row.seed, "achieved_csl"]
+                value = None
+                if (
+                    row.value is not None
+                    and base_cost is not None
+                    and service is not None
+                    and base_service is not None
+                    and service > base_service
+                ):
+                    value = (row.value - base_cost) / (100 * (service - base_service))
+                derived.append(
+                    row.model_copy(
+                        update={"metric": "marginal_cost_per_csl_point_inr", "value": value}
+                    )
+                )
+    return derived
 
 
 def run_experiment(
@@ -229,14 +297,20 @@ def run_experiment(
         rows = calibration + _run(spec, experiment, cases, "evaluation", spec.replications, workers)
         evaluation = [r for r in rows if r.phase == "evaluation"]
         details["selected_offset"] = selected.factors["offset"]
+        calibration_gap = _mean(calibration, selected.case_id, "fill_rate") - target
+        details["calibration_service_gap"] = calibration_gap
         service_gap = _mean(evaluation, selected.case_id, "fill_rate") - _mean(
             evaluation, cases[0].case_id, "fill_rate"
         )
         details["service_gap"] = service_gap
-        details["service_matched"] = abs(service_gap) <= spec.e5.service_tolerance
+        details["service_matched"] = (
+            max(abs(service_gap), abs(calibration_gap)) <= spec.e5.service_tolerance
+        )
         cases = candidates
     else:
         rows = _run(spec, experiment, cases, "evaluation", spec.replications, workers)
+    if experiment == "E2":
+        rows += marginal_service_cost(cases, rows)
     digest = write_results(output, rows)
     stored = [
         ExperimentRow.model_validate(row)
@@ -291,9 +365,8 @@ def run_experiment(
         "cases": [c.model_dump() for c in cases],
         "row_count": len(rows),
         "output_sha256": {
-            p.name: hashlib.sha256(p.read_bytes()).hexdigest()
-            for p in output.iterdir()
-            if p.is_file() and p.name != "manifest.json"
+            name: hashlib.sha256((output / name).read_bytes()).hexdigest()
+            for name in ("results.parquet", "summary.json", "summary.png")
         },
     }
     (output / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")

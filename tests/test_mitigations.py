@@ -22,6 +22,15 @@ def test_backup_supplier_conserves_orders_and_respects_capacity() -> None:
     s4_skus = np.array([s.supplier == "S4" for s in net.spec.skus])
     assert result.dispatched[:, s4_skus, 0].sum() > 0
     assert np.all(result.dispatched.sum(axis=1) <= net.capacity + 1e-7)
+    supplier_prices = {s.id: s.price_multiplier for s in study.spec.suppliers}
+    incoming = net.is_supplier[net.source]
+    actual_cost = np.array([s.unit_cost for s in study.spec.skus])[:, None] * np.array(
+        [supplier_prices[net.node_ids[i]] for i in net.source[incoming]]
+    )
+    np.testing.assert_allclose(
+        result.costs["purchase"].sum(),
+        (result.edge_shipped[:, :, incoming] * actual_cost[None]).sum(),
+    )
     np.testing.assert_allclose(
         result.on_order.sum(axis=2),
         result.pending.sum(axis=2) + result.in_transit.sum(axis=2),

@@ -3,12 +3,13 @@
 An FMCG inventory and network study on Indian lanes, with costs in INR.
 The [implementation plan](docs/plan.md) defines milestones M0–M12.
 
-M0–M6 are implemented: scaffold and contracts, analytical inventory formulas,
+M0–M7 are implemented: scaffold and contracts, analytical inventory formulas,
 demand generation, single-node and multi-echelon simulation, DC selection,
 four inventory policies, capacity-constrained FIFO dispatch, FTL/LTL freight,
 forecasting, error metrics, ABC–XYZ replenishment policies, and bullwhip causes
-and countermeasures, disruption calendars and resilience metrics with reproducible evidence.
-M7 (experiment sweeps, manifests and reproducible Parquet outputs) is next.
+and countermeasures, disruption calendars, resilience metrics, and experiment grids
+with paired statistics, manifests and reproducible Parquet outputs.
+M8 (API, DuckDB queries and generated TypeScript client) is next.
 
 See [analytics](docs/analytics.md) for functions, units, assumptions and examples.
 See [simulation](docs/simulation.md) for daily timing, costs and reproducible M2 validation.
@@ -16,6 +17,7 @@ See [network simulation](docs/network.md) for M3 configuration, conventions and 
 See [forecasting and segmentation](docs/forecasting.md) for M4 planning and E5 evidence.
 See [bullwhip](docs/bullwhip.md) for M5 switches, V7 and controlled network comparisons.
 See [resilience](docs/resilience.md) for M6 event semantics, survival and recovery measurements.
+See [experiments](docs/experiments.md) for M7 E1–E6 grids, CLI commands and output contracts.
 
 Requires Python 3.12. From this directory on Windows PowerShell:
 
@@ -73,3 +75,13 @@ Recreate the M6 survival check and repeated paired disruption runs:
 ```powershell
 .\.venv\Scripts\python.exe -m scm.experiments.e6_validate --output docs/evidence/m6
 ```
+
+Run an experiment with the full study settings, or reproduce its smaller acceptance run:
+
+```powershell
+.\.venv\Scripts\python.exe -m scm.experiments.runner E3 --output data/experiments
+.\.venv\Scripts\python.exe -m scm.experiments.runner E3 --config configs/m7_validation.yaml --output docs/evidence/m7
+```
+
+Replace `E3` with any of `E1` through `E6`. Full study grids can require thousands
+of replications; saved M7 acceptance evidence uses reduced replication counts.

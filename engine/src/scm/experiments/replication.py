@@ -184,7 +184,7 @@ def replication(
                 replication=index,
                 seed=seed,
                 metric=metric,
-                value=value if value is not None and np.isfinite(value) else None,
+                value=None if value is None or np.isnan(value) else value,
             )
         )
         for metric, value in metrics.items()

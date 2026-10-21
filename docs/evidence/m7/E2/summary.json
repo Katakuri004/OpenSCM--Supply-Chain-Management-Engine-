@@ -1,0 +1,725 @@
+{
+  "estimates": [
+    {
+      "phase": "evaluation",
+      "case_id": "E2_0507c72a71d3af10",
+      "metric": "achieved_csl",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.766025641025641,
+      "low": -1.148050072436572,
+      "high": 2.680101354487854
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_0507c72a71d3af10",
+      "metric": "fill_rate",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.9809427944784095,
+      "low": 0.7399206529210685,
+      "high": 1.2219649360357505
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_0507c72a71d3af10",
+      "metric": "inventory_cost_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 602.7666528125478,
+      "low": 478.33969697741566,
+      "high": 727.19360864768
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_0507c72a71d3af10",
+      "metric": "inventory_value_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 1512.5756946024894,
+      "low": 369.44386188940507,
+      "high": 2655.7075273155738
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_0596f257a596fdb1",
+      "metric": "achieved_csl",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.9230769230769231,
+      "low": -0.05432344124420718,
+      "high": 1.9004772873980533
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_0596f257a596fdb1",
+      "metric": "fill_rate",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.9955417623647052,
+      "low": 0.9388944822081288,
+      "high": 1.0521890425212814
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_0596f257a596fdb1",
+      "metric": "inventory_cost_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 670.9353400144155,
+      "low": 540.25701680373,
+      "high": 801.6136632251009
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_0596f257a596fdb1",
+      "metric": "inventory_value_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 1822.433363701888,
+      "low": 650.8862247362893,
+      "high": 2993.9805026674867
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_0596f257a596fdb1",
+      "metric": "marginal_cost_per_csl_point_inr",
+      "n": 0,
+      "missing": 2,
+      "mean": null,
+      "low": null,
+      "high": null
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_2290433c1796100e",
+      "metric": "achieved_csl",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.9535984848484849,
+      "low": 0.74904784042143,
+      "high": 1.1581491292755397
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_2290433c1796100e",
+      "metric": "fill_rate",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.9919158354823157,
+      "low": 0.9757930302859094,
+      "high": 1.008038640678722
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_2290433c1796100e",
+      "metric": "inventory_cost_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 1980.4749798955613,
+      "low": 1490.0778881620759,
+      "high": 2470.872071629047
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_2290433c1796100e",
+      "metric": "inventory_value_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 5956.704454070732,
+      "low": 3150.072003637861,
+      "high": 8763.336904503603
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_2290433c1796100e",
+      "metric": "marginal_cost_per_csl_point_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 34.351127941123174,
+      "low": -116.86782489282811,
+      "high": 185.57008077507444
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_361efcd19ce9568d",
+      "metric": "achieved_csl",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.9615384615384616,
+      "low": 0.4728382793778967,
+      "high": 1.4502386436990264
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_361efcd19ce9568d",
+      "metric": "fill_rate",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.9978899253583644,
+      "low": 0.9710788849531313,
+      "high": 1.0247009657635975
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_361efcd19ce9568d",
+      "metric": "inventory_cost_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 687.2515134920927,
+      "low": 555.5697064110084,
+      "high": 818.9333205731771
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_361efcd19ce9568d",
+      "metric": "inventory_value_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 1896.5977886004218,
+      "low": 720.4893593148249,
+      "high": 3072.7062178860187
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_361efcd19ce9568d",
+      "metric": "marginal_cost_per_csl_point_inr",
+      "n": 1,
+      "missing": 1,
+      "mean": 2.1108356859597692,
+      "low": null,
+      "high": null
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_52e599d299cd874c",
+      "metric": "achieved_csl",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.8456439393939394,
+      "low": 0.4245102596911797,
+      "high": 1.266777619096699
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_52e599d299cd874c",
+      "metric": "fill_rate",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.9731650107456297,
+      "low": 0.8826990480728869,
+      "high": 1.0636309734183724
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_52e599d299cd874c",
+      "metric": "inventory_cost_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 1716.618549718425,
+      "low": 1228.787495653392,
+      "high": 2204.449603783458
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_52e599d299cd874c",
+      "metric": "inventory_value_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 4757.357044174658,
+      "low": 1962.388401325652,
+      "high": 7552.325687023664
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_65a5108f341f8840",
+      "metric": "achieved_csl",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.8846153846153846,
+      "low": -0.5814851618663106,
+      "high": 2.3507159310970795
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_65a5108f341f8840",
+      "metric": "fill_rate",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.9885337743125777,
+      "low": 0.8428415631770048,
+      "high": 1.1342259854481507
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_65a5108f341f8840",
+      "metric": "inventory_cost_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 626.4356860894234,
+      "low": 499.39189837531825,
+      "high": 753.4794738035285
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_65a5108f341f8840",
+      "metric": "inventory_value_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 1620.1622094973795,
+      "low": 465.13568642532755,
+      "high": 2775.1887325694315
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_65a5108f341f8840",
+      "metric": "marginal_cost_per_csl_point_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 2.19504917933307,
+      "low": -6.317456294363041,
+      "high": 10.707554653029181
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_8dec24e9ab44af8f",
+      "metric": "achieved_csl",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.9071969696969697,
+      "low": 0.49809568084286,
+      "high": 1.3162982585510794
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_8dec24e9ab44af8f",
+      "metric": "fill_rate",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.9855532806158676,
+      "low": 0.9516405473524473,
+      "high": 1.019466013879288
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_8dec24e9ab44af8f",
+      "metric": "inventory_cost_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 1840.2396537263799,
+      "low": 1348.866879389683,
+      "high": 2331.612428063077
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_8dec24e9ab44af8f",
+      "metric": "inventory_value_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 5319.271153301725,
+      "low": 2508.2037819451725,
+      "high": 8130.338524658277
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_8dec24e9ab44af8f",
+      "metric": "marginal_cost_per_csl_point_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 20.08912624986886,
+      "low": 15.586709062631032,
+      "high": 24.591543437106687
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_9417f9a95ac7db51",
+      "metric": "achieved_csl",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.8433734939759037,
+      "low": 0.8433734939759037,
+      "high": 0.8433734939759037
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_9417f9a95ac7db51",
+      "metric": "fill_rate",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.9874563304184185,
+      "low": 0.9854362957470723,
+      "high": 0.9894763650897648
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_9417f9a95ac7db51",
+      "metric": "inventory_cost_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 3850.783821625866,
+      "low": 3672.0910343694773,
+      "high": 4029.476608882255
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_9417f9a95ac7db51",
+      "metric": "inventory_value_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 9912.653734663025,
+      "low": 9677.968553323706,
+      "high": 10147.338916002343
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_9417f9a95ac7db51",
+      "metric": "marginal_cost_per_csl_point_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 14.292543128822292,
+      "low": -27.49712663176808,
+      "high": 56.08221288941266
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_b456a15bd9aabef8",
+      "metric": "achieved_csl",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.8614457831325302,
+      "low": 0.6318155770570846,
+      "high": 1.0910759892079758
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_b456a15bd9aabef8",
+      "metric": "fill_rate",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.9906526800661086,
+      "low": 0.9866812619791544,
+      "high": 0.9946240981530629
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_b456a15bd9aabef8",
+      "metric": "inventory_cost_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 3921.7517182276565,
+      "low": 3742.72179057142,
+      "high": 4100.781645883893
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_b456a15bd9aabef8",
+      "metric": "inventory_value_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 10235.235082852982,
+      "low": 9999.017445150736,
+      "high": 10471.452720555228
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_b456a15bd9aabef8",
+      "metric": "marginal_cost_per_csl_point_inr",
+      "n": 1,
+      "missing": 1,
+      "mean": 19.641792335053243,
+      "low": null,
+      "high": null
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_b9a8b0653117eabe",
+      "metric": "achieved_csl",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.9230769230769231,
+      "low": -0.05432344124420718,
+      "high": 1.9004772873980533
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_b9a8b0653117eabe",
+      "metric": "fill_rate",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.9929709830792216,
+      "low": 0.903658854989775,
+      "high": 1.0822831111686682
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_b9a8b0653117eabe",
+      "metric": "inventory_cost_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 653.1289467113822,
+      "low": 523.8225000966363,
+      "high": 782.4353933261282
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_b9a8b0653117eabe",
+      "metric": "inventory_value_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 1741.4952123244648,
+      "low": 576.1838760676794,
+      "high": 2906.8065485812504
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_b9a8b0653117eabe",
+      "metric": "marginal_cost_per_csl_point_inr",
+      "n": 1,
+      "missing": 1,
+      "mean": 3.4469741155871576,
+      "low": null,
+      "high": null
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_ce5d9bd28f052664",
+      "metric": "achieved_csl",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.7228915662650602,
+      "low": 0.41671795816446566,
+      "high": 1.029065174365655
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_ce5d9bd28f052664",
+      "metric": "fill_rate",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.9732753354400424,
+      "low": 0.9681681979985975,
+      "high": 0.9783824728814873
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_ce5d9bd28f052664",
+      "metric": "inventory_cost_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 3651.272107067119,
+      "low": 3474.4616128367184,
+      "high": 3828.08260129752
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_ce5d9bd28f052664",
+      "metric": "inventory_value_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 9005.782304850542,
+      "low": 8779.65300090209,
+      "high": 9231.911608798993
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_d1e780fd6d655722",
+      "metric": "achieved_csl",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.9535984848484849,
+      "low": 0.74904784042143,
+      "high": 1.1581491292755397
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_d1e780fd6d655722",
+      "metric": "fill_rate",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.9951340937475524,
+      "low": 0.9929288849907149,
+      "high": 0.9973393025043898
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_d1e780fd6d655722",
+      "metric": "inventory_cost_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 2074.2796594426477,
+      "low": 1584.6324484638012,
+      "high": 2563.926870421494
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_d1e780fd6d655722",
+      "metric": "inventory_value_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 6383.089361102944,
+      "low": 3579.8654595547882,
+      "high": 9186.3132626511
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_d1e780fd6d655722",
+      "metric": "marginal_cost_per_csl_point_inr",
+      "n": 0,
+      "missing": 2,
+      "mean": null,
+      "low": null,
+      "high": null
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_de97f1d1a8e387ee",
+      "metric": "achieved_csl",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.9692234848484849,
+      "low": 0.9632072894241596,
+      "high": 0.9752396802728102
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_de97f1d1a8e387ee",
+      "metric": "fill_rate",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.997730908635655,
+      "low": 0.9916271781835266,
+      "high": 1.0038346390877833
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_de97f1d1a8e387ee",
+      "metric": "inventory_cost_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 2160.3299115868567,
+      "low": 1671.4921692595044,
+      "high": 2649.167653914209
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_de97f1d1a8e387ee",
+      "metric": "inventory_value_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 6774.226870849348,
+      "low": 3974.6823722625277,
+      "high": 9573.77136943617
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_de97f1d1a8e387ee",
+      "metric": "marginal_cost_per_csl_point_inr",
+      "n": 1,
+      "missing": 1,
+      "mean": 27.556466786784803,
+      "low": null,
+      "high": null
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_f2c622019f6f0043",
+      "metric": "achieved_csl",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.8795180722891567,
+      "low": 0.7264312682388594,
+      "high": 1.032604876339454
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_f2c622019f6f0043",
+      "metric": "fill_rate",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.9932293101494144,
+      "low": 0.9835828799411481,
+      "high": 1.0028757403576807
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_f2c622019f6f0043",
+      "metric": "inventory_cost_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 3986.8766379587805,
+      "low": 3807.9190761475165,
+      "high": 4165.8341997700445
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_f2c622019f6f0043",
+      "metric": "inventory_value_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 10531.257445267185,
+      "low": 10295.368743223937,
+      "high": 10767.146147310434
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_f2c622019f6f0043",
+      "metric": "marginal_cost_per_csl_point_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 40.53908075465538,
+      "low": -131.12016343944902,
+      "high": 212.19832494875976
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_f4f98fbcc9528e4f",
+      "metric": "achieved_csl",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.7650602409638554,
+      "low": 0.5354300348884091,
+      "high": 0.9946904470393017
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_f4f98fbcc9528e4f",
+      "metric": "fill_rate",
+      "n": 2,
+      "missing": 0,
+      "mean": 0.9808856706820223,
+      "low": 0.9796387459150006,
+      "high": 0.982132595449044
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_f4f98fbcc9528e4f",
+      "metric": "inventory_cost_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 3744.7980953238757,
+      "low": 3567.036772343748,
+      "high": 3922.5594183040034
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_f4f98fbcc9528e4f",
+      "metric": "inventory_value_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 9430.900433290344,
+      "low": 9200.449180479509,
+      "high": 9661.35168610118
+    },
+    {
+      "phase": "evaluation",
+      "case_id": "E2_f4f98fbcc9528e4f",
+      "metric": "marginal_cost_per_csl_point_inr",
+      "n": 2,
+      "missing": 0,
+      "mean": 22.638495055832966,
+      "low": -18.228787426130477,
+      "high": 63.505777537796405
+    }
+  ],
+  "paired_differences": []
+}

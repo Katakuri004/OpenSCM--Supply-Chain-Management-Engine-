@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "comparison": "Full acceptance grids repeated after figure palette correction; numerical code/settings unchanged.",
+  "experiments": {
+    "E1": {
+      "first_parquet_sha256": "08dcc158dbcbb0d7d107bafe56796b51cb61cacd65c328882ad92389f82d463c",
+      "repeated_parquet_sha256": "08dcc158dbcbb0d7d107bafe56796b51cb61cacd65c328882ad92389f82d463c",
+      "passed": true
+    },
+    "E2": {
+      "first_parquet_sha256": "48dfbd37aae1bc6e8fc2ca23639884201be76690a8bf9844ef4fe1e919b2adf9",
+      "repeated_parquet_sha256": "48dfbd37aae1bc6e8fc2ca23639884201be76690a8bf9844ef4fe1e919b2adf9",
+      "passed": true
+    },
+    "E3": {
+      "first_parquet_sha256": "ad736ceab74c8b7c4968588efe68f55f5c4c32985749b49ab0c402a74e3c9ab1",
+      "repeated_parquet_sha256": "ad736ceab74c8b7c4968588efe68f55f5c4c32985749b49ab0c402a74e3c9ab1",
+      "passed": true
+    },
+    "E4": {
+      "first_parquet_sha256": "ecdd63108d06546529e7a16240594a8b0c8b22d3aabb655044eb2c6455c52904",
+      "repeated_parquet_sha256": "ecdd63108d06546529e7a16240594a8b0c8b22d3aabb655044eb2c6455c52904",
+      "passed": true
+    },
+    "E5": {
+      "first_parquet_sha256": "e4e6345515fa6de0af41953834fda10e820b377fdaefc1d804f7e8cbfb65d35f",
+      "repeated_parquet_sha256": "e4e6345515fa6de0af41953834fda10e820b377fdaefc1d804f7e8cbfb65d35f",
+      "passed": true
+    },
+    "E6": {
+      "first_parquet_sha256": "80bcc1dfe03a32b989506b201b6360934f5b6293d8a6675ab99d6cc569a162da",
+      "repeated_parquet_sha256": "80bcc1dfe03a32b989506b201b6360934f5b6293d8a6675ab99d6cc569a162da",
+      "passed": true
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "experiment": "E2",
+  "parallel_workers": 8,
+  "serial_workers": 1,
+  "parallel_parquet_sha256": "48dfbd37aae1bc6e8fc2ca23639884201be76690a8bf9844ef4fe1e919b2adf9",
+  "serial_parquet_sha256": "48dfbd37aae1bc6e8fc2ca23639884201be76690a8bf9844ef4fe1e919b2adf9",
+  "same_config_hash": true,
+  "passed": true
+}

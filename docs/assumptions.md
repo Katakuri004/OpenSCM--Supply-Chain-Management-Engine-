@@ -67,3 +67,17 @@
   differences are allowed. Multiple simultaneous events are not causally separated.
   Backorder runs have zero lost sales; no observed stockout/recovery is censored.
   Mitigation sweeps and sensitivity analysis remain E6/M7 work. See [resilience](resilience.md).
+- M7 implements all E1–E6 grids with independently seeded phases and paired records.
+  E2 uses one master SKU per A/B/C class; it does not estimate whole-class performance.
+  E3 confirmation uses separate seeds only for DC counts close on screening means.
+  E5's equal-service claim is conditional on both reported matching checks.
+- M7 buffers add nominal coverage to policy targets and starting stock; initial
+  acquisition remains outside measured purchase expense. Expediting is a standing
+  all-lane policy with a per-unit premium. Reactive backup suppliers use remaining
+  throughput after primary commitments and charge their own purchase multiplier.
+  Lateral transshipment is deferred under the plan's descoping provision.
+- M7 acceptance runs cover all factor cells with reduced replication counts.
+  Confidence intervals are descriptive and exclude nulls with missing counts saved.
+  Censored recovery means are conditional on recovery being observed. No multiple
+  comparison adjustment or calibrated operational conclusion is claimed. Exact
+  Parquet byte reproduction is scoped to the pinned environment. See [experiments](experiments.md).

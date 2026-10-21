@@ -1,0 +1,2 @@
+# Preserve recorded evidence checksums across Git newline conversion.
+docs/evidence/** -text whitespace=cr-at-eol

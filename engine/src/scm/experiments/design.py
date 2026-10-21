@@ -2,10 +2,10 @@ import hashlib
 import json
 from itertools import product
 from pathlib import Path
-from typing import Annotated, Literal
+from typing import Annotated, Literal, Self
 
 import yaml
-from pydantic import Field
+from pydantic import Field, model_validator
 
 from scm.config.mitigation import MitigationSettings
 from scm.config.models import Positive, PositiveInt
@@ -45,7 +45,7 @@ class ResilienceGrid(Contract):
     events_config: str
     sensitivities: list[Literal["demand", "capacity", "lead", "holding"]]
     sensitivity_factors: list[Positive]
-    mitigations: dict[str, MitigationSettings]
+    mitigations: dict[str, MitigationSettings] = Field(min_length=1)
 
 
 class ExperimentSpec(Contract):
@@ -60,6 +60,18 @@ class ExperimentSpec(Contract):
     e4: BullwhipGrid
     e5: SegmentationGrid
     e6: ResilienceGrid
+
+    @model_validator(mode="after")
+    def unique_axes(self) -> Self:
+        for section in (self.e2, self.e3, self.e4, self.e5, self.e6):
+            for values in section.model_dump().values():
+                if isinstance(values, list) and len(values) != len(set(values)):
+                    raise ValueError("duplicate experiment factor values")
+        if "none" not in self.e6.mitigations:
+            raise ValueError("E6 requires a none mitigation reference")
+        if self.e6.mitigations["none"] != MitigationSettings():
+            raise ValueError("the none mitigation reference must disable all mitigations")
+        return self
 
 
 class Case(Contract):

@@ -12,6 +12,7 @@ Run `python -m scm.contracts` after an explained model change, then `make check`
 - `timeseries`: one node/SKU with aligned metric columns.
 - `kpis`: network (`node_id: null`) or node estimates with optional 95% intervals.
 - `query`: a single typed filter, with whitelisted metrics and operators.
+- `experiment_row`: one M7 experiment metric, with case, phase, replication and seed.
 
 Days are zero-based from simulation start, including warm-up. In the base scenario,
 days 0–89 are warm-up and 90–454 are measured. Time axes must be increasing and unique.
@@ -50,3 +51,28 @@ accept nonempty event lists. See [event targets and timing](../docs/resilience.m
 for operational semantics; identifiers reference actual selected nodes or lane IDs
 from the network contract. Resilience metrics remain internal until M8 response
 contracts are implemented.
+
+## M7 experiment records
+
+M7 adds `ExperimentRow` in the Pydantic models, its generated
+`experiment_row.schema.json`, and a synthetic fixture. This new contract makes
+Parquet output readable by later experiment consumers without changing existing
+scenario or response payloads. The writer validates records, fixes column order
+from the model, and writes seven fields: experiment, case_id, phase,
+replication, seed, metric and value. Value is nullable.
+Experiment is E1–E6, phase is validation/screen/confirm/calibration/evaluation,
+and replication and seed are nonnegative integers. The Arrow storage types are
+string, string, string, int64, int64, string and float64, respectively.
+
+Records are unique on (phase, case_id, replication, metric) within an experiment
+artifact. Undefined service or resilience observations use null, never zero.
+NaN and infinity are forbidden in serialized records. E2–E6 case IDs resolve through
+the factor mappings saved in each manifest. E1 retains named validation checks and
+`q_<index>` identifiers from the legacy quantity sweep; quantity is an explicit metric
+and the nested validation artifacts provide its benchmark configuration. Metrics with `_inr` use INR;
+`tts_days` and `ttr_days` use elapsed days; service rates are fractions; BWE metrics
+are variance ratios. See [experiment methods](../docs/experiments.md) for horizons,
+cost conventions and derived marginal service costs.
+
+M8 will define experiment API envelopes. M7's `summary.json` and manifests are
+internal analytical artifacts, not substitutes for those response contracts.

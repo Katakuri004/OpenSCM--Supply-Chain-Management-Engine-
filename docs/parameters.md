@@ -338,3 +338,66 @@ price changes; and no automatic forward buying for an event discount. A 1e-8-uni
 shortfall tolerance suppresses floating-point residue. The extra contract fixture
 uses a synthetic S1 outage at day 120 for 21 days with magnitude one; it is not
 experiment evidence. M7 retains mitigation and ±20% sensitivity sweeps.
+
+## M7 experiment design and mitigation assumptions
+
+`configs/experiments.yaml` defines the full executable design. Values attributed to
+the plan below are study-design choices, not fitted operating parameters. All other
+values are explicit **ASSUMPTIONs**. `configs/m7_validation.yaml` copies every factor
+and changes only evaluation replications to 2, screen replications to 2 and
+confirmation replications to 3 for local acceptance. E1 retains the documented M2
+benchmark configuration. [Experiment methods](experiments.md) define units and scope.
+
+| Parameter | Full-design value | Unit / source or ASSUMPTION | Sensitivity exercised |
+| --- | --- | --- | --- |
+| seed | 707 | SeedSequence root; ASSUMPTION | Independent phase branches |
+| replications | 30 | Runs/cell; plan §5.1 | Acceptance uses 2 |
+| workers | 8 | Worker processes; plan performance hardware assumption | Serial versus parallel reproduction |
+| warmup_days / horizon_days | 90 / 365 | Days; plan §5.1, inherited study defaults | Warm-up remains uncalibrated |
+| training_days | 180 | Past days for forecasting/classification; ASSUMPTION | N |
+| e2.targets | 0.9, 0.95, 0.98, 0.99, 0.995 | Target CSL fractions; endpoints from plan E2, interior grid ASSUMPTION | Y |
+| e2.skus | SKU01, SKU07, SKU15 | One representative from each master A/B/C class; ASSUMPTION | Representatives only |
+| e3.dc_counts | 1, 2, 4, 8 | DCs; plan E3 | Y |
+| e3.demand_cvs | 0.2, 0.4, 0.8 | Nominal CV for every SKU; plan E3 | Y |
+| e3.correlations | 0, 0.3, 0.6, 0.9 | Regional latent correlation; plan E3 | Y |
+| e3.outbound_factors | 0.5, 1, 2 | Multiplier for outbound FTL/LTL charges; plan E3 | Y |
+| e3.inbound_days | 3, 7, 14 | Unrounded supplier-to-DC base transit mean; plan E3 | Y |
+| e3.screen_replications / confirm_replications | 10 / 30 | Runs/cell; plan E3 | Acceptance uses 2 / 3 |
+| e3.break_even_fraction | 0.05 | Relative screen cost gap for near-break-even selection; ASSUMPTION | N |
+| e4.sharing | false, true | POS sharing; plan E4 | Y |
+| e4.lead_factors | 1, 0.5 | Transit scaling; plan E4 factor, levels ASSUMPTION | Y |
+| Four E4 cause axes | false, true each | All 16 cells; plan E4 | Y |
+| e5.calibration_replications | 5 | Separate runs/candidate; ASSUMPTION | N |
+| e5.offsets | −1.5, −1, −0.5, 0, 0.5, 1, 1.5, 2 | z adjustments; ASSUMPTION | Y |
+| e5.service_tolerance | 0.005 | Absolute blended fill gap, calibration and evaluation; ASSUMPTION | Matching status reported |
+| e6.events_config | configs/m6_validation.yaml | Existing six-event synthetic study and recovery settings | All six events |
+| e6.sensitivities | demand, capacity, lead, holding | OAT variables; ASSUMPTION | Y |
+| e6.sensitivity_factors | 0.8, 1.2 | Multipliers; ±20% from plan E6 | Y, plus unchanged reference |
+| mitigations.none | empty settings | Zero buffer, no backup, no expedite; ASSUMPTION | Reference |
+| mitigations.stock_buffer.buffer_days | 7 | Nominal demand days added to stock and policy targets; ASSUMPTION | Versus none |
+| mitigations.expedite.expedite_factor | 0.5 | All-lane transit multiplier; ASSUMPTION | Versus none |
+| mitigations.expedite.expedite_unit_cost | 20 | INR per unit dispatched on each lane; ASSUMPTION | Versus none |
+| mitigations.dual_sourcing.backup_suppliers | S1→S2, S2→S1, S3→S1, S4→S1 | Reactive backup mappings; ASSUMPTION | Versus none |
+
+Internal mitigation defaults are buffer_days=0, expedite_factor=1,
+expedite_unit_cost=0 and an empty backup mapping. These neutral defaults are
+ASSUMPTIONs meaning no mitigation. In the backup arm, supplier prices, lane distances,
+lead uncertainty and shared throughput come from the existing documented network
+master; only unfilled supplier orders are redirected. Backup capacity is considered
+after primary commitments. No new backup MOQ, reservation or qualification charge is
+modeled. Buffer initial inventory is not newly charged as purchase expenditure;
+ongoing holding charges still apply. Expedite premiums apply to every dispatched
+lane in both event and undisturbed runs. These are modeling limitations, not free
+operating capabilities proven by the experiment.
+
+Statistical conventions follow plan §7: 95% two-sided Student t intervals and
+matching-seed paired differences. Nulls are omitted with missing counts retained;
+intervals are unavailable for fewer than two valid observations. Marginal service
+costs use adjacent target settings and achieved percentage-point increases; null is
+reported when the achieved increase is nonpositive. No multiplicity adjustment or
+business-decision threshold is assumed.
+
+Parquet conventions are implementation choices: version 2.6, no compression, plain
+encoding, 65536 rows per row group and stable field/row order. They introduce no
+scenario economics. The dependency lock records the versions for exact byte-repeat
+checks. Changes in library versions or hardware require rerunning those checks.
