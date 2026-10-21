@@ -230,3 +230,111 @@ identical demand and lead draws within each paired seed. Training, calibration a
 evaluation seeds are distinct SeedSequence descendants. Selection minimizes the
 calibration service gap, with ties preferring the smallest absolute z adjustment.
 Held-out seeds never influence that selection. No extra runtime dependencies are added.
+
+## M5 bullwhip controls
+
+All values in `configs/bullwhip.yaml` are **ASSUMPTIONs** for controlled mechanism
+checks. They are not fitted buyer behavior or commercial terms. The existing
+scenario booleans select the four causes and POS sharing only when these settings
+are explicitly supplied. M5 uses continuous daily order-up-to replenishment as its
+all-off control and uniform planning when forecasts are enabled.
+
+| Parameter | Value | Unit / ASSUMPTION | Sensitivity tested |
+| --- | --- | --- | --- |
+| batch_days | 7 | days between synchronized reviews | Toggle on/off |
+| batch_multiple | 4 | multiple of pack-rounded MOQ | Toggle on/off |
+| promo_period | 28 | days between promotions | Toggle on/off |
+| promo_days | 2 | days in each promotion | Toggle on/off |
+| promo_start | 0 | first promotion day, including warm-up | N |
+| discount_fraction | 0.1 | supplier discount fraction on dispatch date | EDLP on/off |
+| forward_buy_days | 14 | forecast days added to promotional stock target | EDLP on/off |
+| rationing_threshold | 0.9 | previous dispatch-fill threshold for gaming | Toggle on/off |
+| rationing_gain | 1.5 | order-inflation multiplier per unit fill shortfall | Toggle on/off |
+| smoothing_alpha | 1 | inventory-position adjustment weight | 1 versus 0.3 |
+| lead_time_factor | 1 | transit and nominal lead-moment scaling | 1 versus 0.5 |
+| vmi | false | coordinated POS/daily review/no-gaming package | On/off |
+| edlp | false | remove promotion and purchase discount | On/off |
+
+Post-demand smoothing targets S minus one forecast day. With no waiting orders,
+upstream dispatch fill is one. Inflated orders are retained. VMI does not implicitly
+disable promotions. Lead reductions round transit up to at least one day; nominal
+lead variance scales by the factor squared and omits rounding/capacity waiting.
+Holding valuation stays at base unit cost. See [mechanisms](bullwhip.md).
+
+## M5 validation design
+
+All values in `configs/m5_validation.yaml` are numerical validation **ASSUMPTIONs**.
+The analytical bound comes from Chen et al. (2000), cited in [bullwhip](bullwhip.md).
+Weekly measurement follows plan §5.6; the separate theory reference uses daily units.
+
+| Parameter | Value | Unit / ASSUMPTION | Sensitivity tested |
+| --- | --- | --- | --- |
+| seed | 505 | SeedSequence root; independent theory/network branches | N |
+| theory.daily_mean | 100 | units/day, IID Gaussian reference demand | N |
+| theory.daily_std | 5 | units/day, small CV for the analytical setting | N |
+| theory.lead_periods | 5 | daily review periods | N |
+| theory.windows | 7, 14, 28 | moving-average observations | Y |
+| theory.safety_factor | 1 | estimated lead forecast-error SD multiplier | z=0 identity also unit-tested |
+| theory.warmup_days | 128 | discarded daily observations | N |
+| theory.horizon_days | 16384 | measured daily observations per replication | N |
+| theory.replications | 64 | independent columns of the theory stream | N |
+| theory.relative_tolerance | 0.05 | maximum relative excess above Chen bound | N |
+| theory.control_tolerance | 0.005 | absolute distance of known-demand BWE from one | N |
+| network.training_days | 180 | independent historical days | N |
+| network.replications | 3 | paired evaluation seeds, all cases share inputs | N |
+| network.forecast_window | 14 | MA window; inherited alpha/beta unused by MA | N |
+| network.smoothing_alpha | 0.3 | countermeasure inventory-position weight | Versus 1 |
+| network.lead_time_factor | 0.5 | countermeasure transit scaling | Versus 1 |
+
+The network experiment inherits four DCs and 90 + 365 days from `base_4dc.yaml`.
+Complete measured weeks are anchored at warm-up end, leaving one trailing day out.
+Historical, theory and network evaluation draws are separated; cases use common
+random numbers without selecting seeds for observed outcomes. Direction gates use
+each paired run, not just the average. The large promotion effect reflects synchronized
+forward buying; the three replications do not establish calibrated effect sizes.
+
+## M6 events and validation
+
+All values in `configs/m6_validation.yaml` are **ASSUMPTIONs** for implementation
+validation, not estimates of disruption likelihood or commercial exposure. Event
+timing includes warm-up. Types, fields and target conventions follow plan §5.7;
+operational magnitude semantics are documented in [resilience](resilience.md).
+
+| Parameter | Value | Unit / source or ASSUMPTION | Sensitivity tested |
+| --- | --- | --- | --- |
+| seed | 606 | Root SeedSequence; two independent paired network streams | N |
+| replications | 2 | Distinct seeds, each disturbed run repeated exactly | Reproducibility only |
+| recovery_window | 7 | Days of volume-weighted fill; plan §5.7 | N |
+| service_tolerance | 0.01 | Absolute fill difference, one percentage point; plan §5.7 | N |
+| analytic_stock | 25 | Initial units at one customer/SKU; ASSUMPTION | N |
+| analytic_daily_demand | 10 | Constant units/day; ASSUMPTION | N |
+| analytic_days | 20 | Test horizon; ASSUMPTION | N |
+| all event start_day | 120 | Simulation days from day zero; ASSUMPTION | N |
+| all event duration | 21 | Consecutive active days; ASSUMPTION | N |
+| supplier_outage target / magnitude | S4 / 1.0 | Remove all supplier dispatch capacity; ASSUMPTION | Event versus baseline |
+| lead_time_multiplier target / magnitude | S4 / 2.0 | Double transit for new orders on supplier lanes; ASSUMPTION | Event versus baseline |
+| demand_shock target / magnitude | R01 / 2.0 | Double customer demand across SKUs; ASSUMPTION | Event versus baseline |
+| capacity_cut target / magnitude | DC1 / 0.75 | Remove 75% of DC dispatch capacity; ASSUMPTION | Event versus baseline |
+| moq_change target / magnitude | S4 / 4.0 | Multiply supplied SKU/DC minimum orders by four; ASSUMPTION | Event versus baseline |
+| price_promo target / magnitude | S4 / 0.2 | Discount dispatched purchases by 20%; ASSUMPTION | Event versus baseline |
+
+The network runner inherits base four-DC geography, policy targets, 90 warm-up days
+and 365 measured days. It uses fixed known-demand policies and backorders. Each event
+is tested separately against the same undisturbed input streams; effects are not
+required to have a particular sign. Capacity and MOQ events can be nonbinding.
+Baseline and event runs have identical initial stocks and random draws.
+
+The analytic case uses the first configured SKU/customer, clears other initial
+stock and demand, gives that customer 25 units, and suspends its parent DC's dispatch
+capacity for the whole 20-day test. Transit is fixed to one day, but the stopped DC
+cannot send stock. This isolates the plan's on-hand/demand calculation in the actual
+network engine. Derived node selection, zeroed test state, full cut and deterministic
+transit are validation conventions, not operating parameters.
+
+Additional conventions are ASSUMPTIONs: uniform daily depletion for fractional TTS;
+SKU-specific affected descendants; first rolling recovery after a breach; day-close
+TTR; multiplicative overlapping effects; order-date transit changes; dispatch-date
+price changes; and no automatic forward buying for an event discount. A 1e-8-unit
+shortfall tolerance suppresses floating-point residue. The extra contract fixture
+uses a synthetic S1 outage at day 120 for 21 days with magnitude one; it is not
+experiment evidence. M7 retains mitigation and ±20% sensitivity sweeps.

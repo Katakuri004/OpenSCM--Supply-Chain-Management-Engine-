@@ -30,8 +30,8 @@
   dispatches. Suppliers have unlimited raw material and finite dispatch throughput.
 - The M3 V5 experiment checks independent protection-period demand quantiles at four
   correlations. It does not establish pooling savings under constrained network service.
-- M3 does not interpret forecast/segmentation/bullwhip scenario flags; those belong
-  to M4/M5. Nonempty disruptions are rejected pending M6.
+- The default M3 call retains known-demand policies. Planning and bullwhip settings
+  explicitly enable M4/M5 behavior. M6 applies scenario disruption events automatically.
 - M4 learns fixed global SKU classes from separate historical demand; XYZ uses
   network-total daily demand, so aggregation can move locally variable SKUs into X.
   A/B threshold crossers stay in the class they enter. Zero-demand SKUs are CZ.
@@ -40,3 +40,30 @@
   CSLs remain floors; actual service still depends on capacity and forecast error.
 - E5 dry-run calibration and evaluation use independent seeds. Service matching has
   a 0.5-percentage-point tolerance; two evaluation replications do not establish savings.
+- M5 uses an order-up-to control with daily review and no MOQ/pack constraints.
+  Batching enables a common review calendar and multiple-lot orders. Signal processing
+  recalculates targets from causal forecasts; it requires uniform planning.
+- M5 promotions are synchronized synthetic supplier discounts and forward-buy targets;
+  rationing uses the previous dispatch fraction and does not cancel inflated orders.
+  VMI bundles POS sharing, daily replenishment and removal of rationing gaming.
+  These mechanisms are illustrative, not estimates of buyer behavior.
+- Weekly BWE discards warm-up before aggregation and ignores the final incomplete week.
+  Supplier orders received duplicate DC orders because no upstream purchasing stage exists.
+  The daily Chen benchmark is separate and permits signed orders as cost-free returns.
+- Lead reduction scales and rounds transit days; target lead moments are approximations.
+  Three paired M5 runs check effect directions, not statistical generality. Full E4 and
+  network service/warm-up calibration remain M7 work. See [bullwhip conventions](bullwhip.md).
+- M6 events use half-open intervals from simulation day zero, including warm-up.
+  Multipliers compose by multiplication; capacity cuts and discounts multiply retained
+  fractions. Lead events apply to order-date transit draws, not existing in-transit stock.
+- Event price promotions discount supplier purchases without automatically causing
+  forward buying. M5's separate buyer-behavior controls can be enabled explicitly.
+  Physical targets are not recalibrated from advance knowledge of an event.
+- TTS is the earliest affected SKU/customer shortage, with fractional-day coverage
+  under uniform consumption; it can include shortages also present in the baseline.
+  TTR compares volume-weighted rolling fill with the paired undisturbed run and is
+  measured at day close after the first observed breach. Later relapses are possible.
+- M6 paired costs include the whole network from event start to horizon; negative
+  differences are allowed. Multiple simultaneous events are not causally separated.
+  Backorder runs have zero lost sales; no observed stockout/recovery is censored.
+  Mitigation sweeps and sensitivity analysis remain E6/M7 work. See [resilience](resilience.md).

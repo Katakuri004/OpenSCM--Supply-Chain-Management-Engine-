@@ -30,6 +30,13 @@ def test_base_scenario_matches_fixture() -> None:
     assert scenario.horizon_days + scenario.warmup_days == 455
 
 
+def test_disruption_scenario_fixture_matches_schema() -> None:
+    fixture = json.loads((ROOT / "contracts/fixtures/scenario_disruption.json").read_text())
+    schema = json.loads((ROOT / "contracts/scenario.schema.json").read_text())
+    Draft202012Validator(schema).validate(fixture)
+    assert Scenario.model_validate(fixture).disruptions[0].magnitude == 1
+
+
 @pytest.mark.parametrize(
     "overrides",
     [

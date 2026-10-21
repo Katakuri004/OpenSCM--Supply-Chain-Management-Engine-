@@ -1,0 +1,19 @@
+# ASSUMPTION: controlled numerical validation, not an operating calibration.
+seed: 505
+theory:
+  daily_mean: 100
+  daily_std: 5
+  lead_periods: 5
+  windows: [7, 14, 28]
+  safety_factor: 1
+  warmup_days: 128
+  horizon_days: 16384
+  replications: 64
+  relative_tolerance: 0.05
+  control_tolerance: 0.005
+network:
+  training_days: 180
+  replications: 3
+  forecast_window: 14
+  smoothing_alpha: 0.3
+  lead_time_factor: 0.5

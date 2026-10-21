@@ -31,6 +31,4 @@ def load_study(
         raise ValueError("every SKU primary supplier must be selected")
     if scenario.network.dc_count > len(spec.dcs):
         raise ValueError("not enough DC candidates")
-    if scenario.disruptions:
-        raise ValueError("disruptions are not implemented until M6")
     return Study(scenario, spec, seasonality)

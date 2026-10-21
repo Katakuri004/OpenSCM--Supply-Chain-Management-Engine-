@@ -90,6 +90,7 @@
           "type": "integer"
         },
         "magnitude": {
+          "description": "Removed capacity fraction for outage/cut; discount fraction for promo; multiplier otherwise.",
           "minimum": 0,
           "title": "Magnitude",
           "type": "number"

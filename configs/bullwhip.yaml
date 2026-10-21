@@ -1,0 +1,14 @@
+# ASSUMPTION: illustrative causes/countermeasures; documented in docs/parameters.md.
+batch_days: 7
+batch_multiple: 4
+promo_period: 28
+promo_days: 2
+promo_start: 0
+discount_fraction: 0.1
+forward_buy_days: 14
+rationing_threshold: 0.9
+rationing_gain: 1.5
+smoothing_alpha: 1
+lead_time_factor: 1
+vmi: false
+edlp: false

@@ -1,0 +1,72 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "experiment": {
+      "enum": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6"
+      ],
+      "title": "Experiment",
+      "type": "string"
+    },
+    "case_id": {
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "title": "Case Id",
+      "type": "string"
+    },
+    "phase": {
+      "enum": [
+        "validation",
+        "screen",
+        "confirm",
+        "calibration",
+        "evaluation"
+      ],
+      "title": "Phase",
+      "type": "string"
+    },
+    "replication": {
+      "minimum": 0,
+      "title": "Replication",
+      "type": "integer"
+    },
+    "seed": {
+      "minimum": 0,
+      "title": "Seed",
+      "type": "integer"
+    },
+    "metric": {
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "title": "Metric",
+      "type": "string"
+    },
+    "value": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Value"
+    }
+  },
+  "required": [
+    "experiment",
+    "case_id",
+    "phase",
+    "replication",
+    "seed",
+    "metric",
+    "value"
+  ],
+  "title": "ExperimentRow",
+  "type": "object"
+}

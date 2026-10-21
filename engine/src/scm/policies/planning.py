@@ -76,7 +76,9 @@ class ReplenishmentPlanner:
         self.mean[:, columns] = model.prediction
         self.variance[:, columns] = model.variance
 
-    def targets(self, mask: NDArray[np.bool_]) -> tuple[FloatArray, FloatArray, FloatArray]:
+    def targets(
+        self, mask: NDArray[np.bool_], *, review_days: int | None = None
+    ) -> tuple[FloatArray, FloatArray, FloatArray]:
         net = self.net
         mean, variance, z = self.mean[:, mask], self.variance[:, mask], self.z[:, mask]
         lead, lead_variance = (
@@ -92,7 +94,10 @@ class ReplenishmentPlanner:
             0, mean * lead + z * np.sqrt(lead * variance + mean**2 * lead_variance)
         )
         policy = self.policy[:, mask]
-        review = np.where(policy == "RS", net.spec.inventory.review_days, 1)
+        interval = net.spec.inventory.review_days if review_days is None else review_days
+        if isinstance(interval, bool) or not isinstance(interval, int) or interval < 1:
+            raise ValueError("review_days must be a positive integer")
+        review = np.where(policy == "RS", interval, 1)
         upper = np.maximum(
             reorder,
             mean * (lead + review)

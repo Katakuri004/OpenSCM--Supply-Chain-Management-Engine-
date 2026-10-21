@@ -1,0 +1,9 @@
+{
+  "scenario": "synthetic_m6_outage",
+  "horizon_days": 365,
+  "warmup_days": 90,
+  "disruptions": [
+    {"type": "supplier_outage", "target": "S1", "start_day": 120,
+     "duration": 21, "magnitude": 1.0}
+  ]
+}

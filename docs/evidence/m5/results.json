@@ -1,0 +1,469 @@
+{
+  "milestone": "M5",
+  "passed": true,
+  "theory": [
+    {
+      "window": 7,
+      "bound": 3.4489795918367347,
+      "observed_ratio": 3.617109288243648,
+      "control_ratio": 1.0000219419289635,
+      "relative_gap": 0.048747663455258924,
+      "passed": true
+    },
+    {
+      "window": 14,
+      "bound": 1.969387755102041,
+      "observed_ratio": 2.0029498029555963,
+      "control_ratio": 1.0000219419289635,
+      "relative_gap": 0.017041868858282034,
+      "passed": true
+    },
+    {
+      "window": 28,
+      "bound": 1.4209183673469388,
+      "observed_ratio": 1.4280506888200817,
+      "control_ratio": 1.0000219419289635,
+      "relative_gap": 0.005019515291691241,
+      "passed": true
+    }
+  ],
+  "network": [
+    {
+      "case": "control",
+      "seed": 3762234858,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 0.9999999999999973,
+        "dc_orders": 1.0000000000000004,
+        "supplier_orders_received": 1.0000000000000004
+      }
+    },
+    {
+      "case": "signal_processing",
+      "seed": 3762234858,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 1.9325332024945483,
+        "dc_orders": 10.416482868491151,
+        "supplier_orders_received": 10.416482868491151
+      }
+    },
+    {
+      "case": "batching",
+      "seed": 3762234858,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 0.864392911073745,
+        "dc_orders": 1.6332495676766152,
+        "supplier_orders_received": 1.6332495676766152
+      }
+    },
+    {
+      "case": "price",
+      "seed": 3762234858,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 1551.3505133455726,
+        "dc_orders": 5983.601227771015,
+        "supplier_orders_received": 5983.601227771015
+      }
+    },
+    {
+      "case": "rationing",
+      "seed": 3762234858,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 0.9999999999999973,
+        "dc_orders": 1.147757378661391,
+        "supplier_orders_received": 1.147757378661391
+      }
+    },
+    {
+      "case": "pos_sharing",
+      "seed": 3762234858,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 1.9325332024945467,
+        "dc_orders": 7.725276755072818,
+        "supplier_orders_received": 7.725276755072818
+      }
+    },
+    {
+      "case": "smoothing",
+      "seed": 3762234858,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 1.463616470361815,
+        "dc_orders": 4.9276707655282594,
+        "supplier_orders_received": 4.9276707655282594
+      }
+    },
+    {
+      "case": "lead_reduction",
+      "seed": 3762234858,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 1.758910943270738,
+        "dc_orders": 6.492016645197122,
+        "supplier_orders_received": 6.492016645197122
+      }
+    },
+    {
+      "case": "coordination_baseline",
+      "seed": 3762234858,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 3.7547809795499387,
+        "dc_orders": 65.48574094698813,
+        "supplier_orders_received": 65.48574094698813
+      }
+    },
+    {
+      "case": "vmi",
+      "seed": 3762234858,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 1.9325332024945467,
+        "dc_orders": 7.725276755072818,
+        "supplier_orders_received": 7.725276755072818
+      }
+    },
+    {
+      "case": "edlp",
+      "seed": 3762234858,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 0.9999999999999973,
+        "dc_orders": 1.0000000000000004,
+        "supplier_orders_received": 1.0000000000000004
+      }
+    },
+    {
+      "case": "control",
+      "seed": 1566215008,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 0.9999999999999996,
+        "dc_orders": 1.000000000000001,
+        "supplier_orders_received": 1.000000000000001
+      }
+    },
+    {
+      "case": "signal_processing",
+      "seed": 1566215008,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 1.7508857859259233,
+        "dc_orders": 9.394970576149209,
+        "supplier_orders_received": 9.394970576149209
+      }
+    },
+    {
+      "case": "batching",
+      "seed": 1566215008,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 0.9053888816203234,
+        "dc_orders": 1.5552072807026829,
+        "supplier_orders_received": 1.5552072807026829
+      }
+    },
+    {
+      "case": "price",
+      "seed": 1566215008,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 1258.036645329768,
+        "dc_orders": 4927.757045626769,
+        "supplier_orders_received": 4927.757045626769
+      }
+    },
+    {
+      "case": "rationing",
+      "seed": 1566215008,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 0.9999999999999996,
+        "dc_orders": 1.0013694648176483,
+        "supplier_orders_received": 1.0013694648176483
+      }
+    },
+    {
+      "case": "pos_sharing",
+      "seed": 1566215008,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 1.7508857859259224,
+        "dc_orders": 6.163957886975652,
+        "supplier_orders_received": 6.163957886975652
+      }
+    },
+    {
+      "case": "smoothing",
+      "seed": 1566215008,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 1.2321247042336259,
+        "dc_orders": 4.770590915401893,
+        "supplier_orders_received": 4.770590915401893
+      }
+    },
+    {
+      "case": "lead_reduction",
+      "seed": 1566215008,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 1.6183487793539617,
+        "dc_orders": 5.643403307466204,
+        "supplier_orders_received": 5.643403307466204
+      }
+    },
+    {
+      "case": "coordination_baseline",
+      "seed": 1566215008,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 2.474091586312949,
+        "dc_orders": 35.2034702313797,
+        "supplier_orders_received": 35.2034702313797
+      }
+    },
+    {
+      "case": "vmi",
+      "seed": 1566215008,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 1.7508857859259224,
+        "dc_orders": 6.163957886975652,
+        "supplier_orders_received": 6.163957886975652
+      }
+    },
+    {
+      "case": "edlp",
+      "seed": 1566215008,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 0.9999999999999996,
+        "dc_orders": 1.000000000000001,
+        "supplier_orders_received": 1.000000000000001
+      }
+    },
+    {
+      "case": "control",
+      "seed": 4248655296,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 1.0000000000000004,
+        "dc_orders": 1.0000000000000018,
+        "supplier_orders_received": 1.0000000000000018
+      }
+    },
+    {
+      "case": "signal_processing",
+      "seed": 4248655296,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 1.4165344193346165,
+        "dc_orders": 7.630363112972924,
+        "supplier_orders_received": 7.630363112972924
+      }
+    },
+    {
+      "case": "batching",
+      "seed": 4248655296,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 1.3413200177441513,
+        "dc_orders": 2.2343698371804406,
+        "supplier_orders_received": 2.2343698371804406
+      }
+    },
+    {
+      "case": "price",
+      "seed": 4248655296,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 1204.8938380898103,
+        "dc_orders": 4663.463401833489,
+        "supplier_orders_received": 4663.463401833489
+      }
+    },
+    {
+      "case": "rationing",
+      "seed": 4248655296,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 1.002374527397154,
+        "dc_orders": 1.0484966941651688,
+        "supplier_orders_received": 1.0484966941651688
+      }
+    },
+    {
+      "case": "pos_sharing",
+      "seed": 4248655296,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 1.4165344193346165,
+        "dc_orders": 4.755024777050897,
+        "supplier_orders_received": 4.755024777050897
+      }
+    },
+    {
+      "case": "smoothing",
+      "seed": 4248655296,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 1.1741362674672058,
+        "dc_orders": 4.698782092829181,
+        "supplier_orders_received": 4.698782092829181
+      }
+    },
+    {
+      "case": "lead_reduction",
+      "seed": 4248655296,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 1.3111369458843327,
+        "dc_orders": 4.3580291653988485,
+        "supplier_orders_received": 4.3580291653988485
+      }
+    },
+    {
+      "case": "coordination_baseline",
+      "seed": 4248655296,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 3.6868516808218903,
+        "dc_orders": 61.29582651793011,
+        "supplier_orders_received": 61.29582651793011
+      }
+    },
+    {
+      "case": "vmi",
+      "seed": 4248655296,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 1.4165344193346165,
+        "dc_orders": 4.755024777050897,
+        "supplier_orders_received": 4.755024777050897
+      }
+    },
+    {
+      "case": "edlp",
+      "seed": 4248655296,
+      "ratios": {
+        "customer_demand": 1.0,
+        "customer_orders": 1.0000000000000004,
+        "dc_orders": 1.0000000000000018,
+        "supplier_orders_received": 1.0000000000000018
+      }
+    }
+  ],
+  "comparisons": [
+    {
+      "case": "signal_processing",
+      "baseline": "control",
+      "expected": "increase",
+      "paired_dc_differences": [
+        9.416482868491151,
+        8.394970576149207,
+        6.630363112972923
+      ],
+      "passed": true
+    },
+    {
+      "case": "batching",
+      "baseline": "control",
+      "expected": "increase",
+      "paired_dc_differences": [
+        0.6332495676766148,
+        0.5552072807026818,
+        1.2343698371804388
+      ],
+      "passed": true
+    },
+    {
+      "case": "price",
+      "baseline": "control",
+      "expected": "increase",
+      "paired_dc_differences": [
+        5982.601227771015,
+        4926.757045626769,
+        4662.463401833489
+      ],
+      "passed": true
+    },
+    {
+      "case": "rationing",
+      "baseline": "control",
+      "expected": "increase",
+      "paired_dc_differences": [
+        0.1477573786613906,
+        0.0013694648176472146,
+        0.048496694165167
+      ],
+      "passed": true
+    },
+    {
+      "case": "pos_sharing",
+      "baseline": "signal_processing",
+      "expected": "decrease",
+      "paired_dc_differences": [
+        -2.6912061134183336,
+        -3.231012689173557,
+        -2.8753383359220273
+      ],
+      "passed": true
+    },
+    {
+      "case": "smoothing",
+      "baseline": "signal_processing",
+      "expected": "decrease",
+      "paired_dc_differences": [
+        -5.488812102962892,
+        -4.624379660747316,
+        -2.931581020143743
+      ],
+      "passed": true
+    },
+    {
+      "case": "lead_reduction",
+      "baseline": "signal_processing",
+      "expected": "decrease",
+      "paired_dc_differences": [
+        -3.9244662232940293,
+        -3.7515672686830053,
+        -3.272333947574076
+      ],
+      "passed": true
+    },
+    {
+      "case": "vmi",
+      "baseline": "coordination_baseline",
+      "expected": "decrease",
+      "paired_dc_differences": [
+        -57.76046419191531,
+        -29.039512344404045,
+        -56.54080174087921
+      ],
+      "passed": true
+    },
+    {
+      "case": "edlp",
+      "baseline": "price",
+      "expected": "decrease",
+      "paired_dc_differences": [
+        -5982.601227771015,
+        -4926.757045626769,
+        -4662.463401833489
+      ],
+      "passed": true
+    }
+  ],
+  "limitations": [
+    "Synthetic controlled comparisons, not calibrated operating forecasts.",
+    "Daily Chen benchmark and weekly network ratios have different time aggregation.",
+    "Suppliers receive DC orders; no further upstream purchasing stage is modeled.",
+    "The full E4 factorial experiment and confidence intervals belong to M7."
+  ]
+}

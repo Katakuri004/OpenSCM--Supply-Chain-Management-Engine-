@@ -1,0 +1,258 @@
+{
+  "milestone": "M6",
+  "passed": true,
+  "analytic": {
+    "analytic_tts_days": 2.5,
+    "observed_tts_days": 2.5,
+    "passed": true
+  },
+  "network": [
+    {
+      "event": {
+        "type": "supplier_outage",
+        "target": "S4",
+        "start_day": 120,
+        "duration": 21,
+        "magnitude": 1.0
+      },
+      "seed": 4219232553,
+      "metrics": {
+        "tts_days": 0.9129876250881089,
+        "ttr_days": 149.0,
+        "disruption_cost_inr": 1936394.0616174126,
+        "lost_sales_units": 0.0,
+        "extra_lost_sales_units": 0.0
+      },
+      "reproducible": true,
+      "unrecovered_at_horizon": false,
+      "no_stockout_observed": false
+    },
+    {
+      "event": {
+        "type": "lead_time_multiplier",
+        "target": "S4",
+        "start_day": 120,
+        "duration": 21,
+        "magnitude": 2.0
+      },
+      "seed": 4219232553,
+      "metrics": {
+        "tts_days": 0.9129876250881089,
+        "ttr_days": 32.0,
+        "disruption_cost_inr": 12491.538726177034,
+        "lost_sales_units": 0.0,
+        "extra_lost_sales_units": 0.0
+      },
+      "reproducible": true,
+      "unrecovered_at_horizon": false,
+      "no_stockout_observed": false
+    },
+    {
+      "event": {
+        "type": "demand_shock",
+        "target": "R01",
+        "start_day": 120,
+        "duration": 21,
+        "magnitude": 2.0
+      },
+      "seed": 4219232553,
+      "metrics": {
+        "tts_days": 0.6488821347054607,
+        "ttr_days": 28.0,
+        "disruption_cost_inr": 478553.85687433125,
+        "lost_sales_units": 0.0,
+        "extra_lost_sales_units": 0.0
+      },
+      "reproducible": true,
+      "unrecovered_at_horizon": false,
+      "no_stockout_observed": false
+    },
+    {
+      "event": {
+        "type": "capacity_cut",
+        "target": "DC1",
+        "start_day": 120,
+        "duration": 21,
+        "magnitude": 0.75
+      },
+      "seed": 4219232553,
+      "metrics": {
+        "tts_days": 0.8725330286651656,
+        "ttr_days": 0.0,
+        "disruption_cost_inr": 0.0,
+        "lost_sales_units": 0.0,
+        "extra_lost_sales_units": 0.0
+      },
+      "reproducible": true,
+      "unrecovered_at_horizon": false,
+      "no_stockout_observed": false
+    },
+    {
+      "event": {
+        "type": "moq_change",
+        "target": "S4",
+        "start_day": 120,
+        "duration": 21,
+        "magnitude": 4.0
+      },
+      "seed": 4219232553,
+      "metrics": {
+        "tts_days": 0.9129876250881089,
+        "ttr_days": 0.0,
+        "disruption_cost_inr": 0.0,
+        "lost_sales_units": 0.0,
+        "extra_lost_sales_units": 0.0
+      },
+      "reproducible": true,
+      "unrecovered_at_horizon": false,
+      "no_stockout_observed": false
+    },
+    {
+      "event": {
+        "type": "price_promo",
+        "target": "S4",
+        "start_day": 120,
+        "duration": 21,
+        "magnitude": 0.2
+      },
+      "seed": 4219232553,
+      "metrics": {
+        "tts_days": 0.9129876250881089,
+        "ttr_days": 0.0,
+        "disruption_cost_inr": -452928.0,
+        "lost_sales_units": 0.0,
+        "extra_lost_sales_units": 0.0
+      },
+      "reproducible": true,
+      "unrecovered_at_horizon": false,
+      "no_stockout_observed": false
+    },
+    {
+      "event": {
+        "type": "supplier_outage",
+        "target": "S4",
+        "start_day": 120,
+        "duration": 21,
+        "magnitude": 1.0
+      },
+      "seed": 3353068343,
+      "metrics": {
+        "tts_days": 0.9279727116853436,
+        "ttr_days": 167.0,
+        "disruption_cost_inr": 2076895.1092904115,
+        "lost_sales_units": 0.0,
+        "extra_lost_sales_units": 0.0
+      },
+      "reproducible": true,
+      "unrecovered_at_horizon": false,
+      "no_stockout_observed": false
+    },
+    {
+      "event": {
+        "type": "lead_time_multiplier",
+        "target": "S4",
+        "start_day": 120,
+        "duration": 21,
+        "magnitude": 2.0
+      },
+      "seed": 3353068343,
+      "metrics": {
+        "tts_days": 0.9279727116853436,
+        "ttr_days": 31.0,
+        "disruption_cost_inr": 15970.351894823036,
+        "lost_sales_units": 0.0,
+        "extra_lost_sales_units": 0.0
+      },
+      "reproducible": true,
+      "unrecovered_at_horizon": false,
+      "no_stockout_observed": false
+    },
+    {
+      "event": {
+        "type": "demand_shock",
+        "target": "R01",
+        "start_day": 120,
+        "duration": 21,
+        "magnitude": 2.0
+      },
+      "seed": 3353068343,
+      "metrics": {
+        "tts_days": 1.7782379853774204,
+        "ttr_days": 28.0,
+        "disruption_cost_inr": 491214.3316192289,
+        "lost_sales_units": 0.0,
+        "extra_lost_sales_units": 0.0
+      },
+      "reproducible": true,
+      "unrecovered_at_horizon": false,
+      "no_stockout_observed": false
+    },
+    {
+      "event": {
+        "type": "capacity_cut",
+        "target": "DC1",
+        "start_day": 120,
+        "duration": 21,
+        "magnitude": 0.75
+      },
+      "seed": 3353068343,
+      "metrics": {
+        "tts_days": 2.4439373681904772,
+        "ttr_days": 0.0,
+        "disruption_cost_inr": 0.0,
+        "lost_sales_units": 0.0,
+        "extra_lost_sales_units": 0.0
+      },
+      "reproducible": true,
+      "unrecovered_at_horizon": false,
+      "no_stockout_observed": false
+    },
+    {
+      "event": {
+        "type": "moq_change",
+        "target": "S4",
+        "start_day": 120,
+        "duration": 21,
+        "magnitude": 4.0
+      },
+      "seed": 3353068343,
+      "metrics": {
+        "tts_days": 0.9279727116853436,
+        "ttr_days": 0.0,
+        "disruption_cost_inr": 0.0,
+        "lost_sales_units": 0.0,
+        "extra_lost_sales_units": 0.0
+      },
+      "reproducible": true,
+      "unrecovered_at_horizon": false,
+      "no_stockout_observed": false
+    },
+    {
+      "event": {
+        "type": "price_promo",
+        "target": "S4",
+        "start_day": 120,
+        "duration": 21,
+        "magnitude": 0.2
+      },
+      "seed": 3353068343,
+      "metrics": {
+        "tts_days": 0.9279727116853436,
+        "ttr_days": 0.0,
+        "disruption_cost_inr": -447852.00000000006,
+        "lost_sales_units": 0.0,
+        "extra_lost_sales_units": 0.0
+      },
+      "reproducible": true,
+      "unrecovered_at_horizon": false,
+      "no_stockout_observed": false
+    }
+  ],
+  "limitations": [
+    "Synthetic events and fixed sourcing; mitigation sweeps remain M7 work.",
+    "Overlapping events are not assigned separate causal cost effects.",
+    "TTR is first rolling recovery after an observed breach; later relapses are possible.",
+    "No observed stockout/recovery is censored at the finite horizon.",
+    "Backorder runs report zero lost sales; unmet demand remains backlog."
+  ]
+}

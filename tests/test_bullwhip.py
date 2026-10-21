@@ -1,6 +1,5 @@
 import numpy as np
 import pytest
-
 from scm.config.bullwhip import load_bullwhip
 from scm.contracts import BullwhipConfig
 from scm.metrics.bullwhip import aggregate_periods, bullwhip_ratio, chen_bound
@@ -8,8 +7,12 @@ from scm.policies.bullwhip import replenishment_order
 
 
 def flags(**overrides: bool) -> BullwhipConfig:
-    return BullwhipConfig.model_validate(dict(signal_processing=False, batching=False,
-        price=False, rationing=False, pos_sharing=False) | overrides)
+    return BullwhipConfig.model_validate(
+        dict(
+            signal_processing=False, batching=False, price=False, rationing=False, pos_sharing=False
+        )
+        | overrides
+    )
 
 
 def test_weekly_aggregation_discards_warmup_then_incomplete_tail() -> None:
@@ -21,15 +24,23 @@ def test_weekly_aggregation_discards_warmup_then_incomplete_tail() -> None:
         bullwhip_ratio(np.ones(7), np.ones(7))
     with pytest.raises(ValueError):
         aggregate_periods(values, period_days=0)
-    assert chen_bound(5, 14) == pytest.approx(1 + 10/14 + 50/196)
+    assert chen_bound(5, 14) == pytest.approx(1 + 10 / 14 + 50 / 196)
 
 
 def test_causes_change_orders_and_countermeasures_remove_their_cause() -> None:
     settings = load_bullwhip()
-    args = dict(position=np.array([90.]), target=np.array([100.]), forecast=np.array([10.]),
-                supply_fill=np.array([0.5]), moq=np.array([10.]), pack=np.array([5.]))
+    args = dict(
+        position=np.array([90.0]),
+        target=np.array([100.0]),
+        forecast=np.array([10.0]),
+        supply_fill=np.array([0.5]),
+        moq=np.array([10.0]),
+        pack=np.array([5.0]),
+    )
+
     def order(cause: BullwhipConfig, day: int = 0) -> float:
         return float(replenishment_order(**args, flags=cause, settings=settings, day=day)[0])
+
     assert order(flags()) == 10
     assert order(flags(batching=True), 1) == 0
     assert order(flags(batching=True)) == 40
@@ -45,8 +56,11 @@ def test_causes_change_orders_and_countermeasures_remove_their_cause() -> None:
 def test_smoothing_targets_post_demand_position_and_is_nonnegative() -> None:
     settings = load_bullwhip()
     settings.smoothing_alpha = 0.25
-    actual = replenishment_order([80, 200], [100, 100], [10, 10], [1, 1], [1, 1], [1, 1],
-                                 flags(), settings, 0)
+    actual = replenishment_order(
+        [80, 200], [100, 100], [10, 10], [1, 1], [1, 1], [1, 1], flags(), settings, 0
+    )
     np.testing.assert_array_equal(actual, [12.5, 0])
     with pytest.raises(ValueError):
-        type(settings).model_validate({**settings.model_dump(), "promo_days": settings.promo_period + 1})
+        type(settings).model_validate(
+            {**settings.model_dump(), "promo_days": settings.promo_period + 1}
+        )

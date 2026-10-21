@@ -62,7 +62,20 @@ class Disruption(Contract):
     target: Identifier
     start_day: Annotated[int, Field(ge=0)]
     duration: Annotated[int, Field(gt=0)]
-    magnitude: Nonnegative
+    magnitude: Nonnegative = Field(
+        description=(
+            "Removed capacity fraction for outage/cut; "
+            "discount fraction for promo; multiplier otherwise."
+        )
+    )
+
+    @model_validator(mode="after")
+    def magnitude_for_type(self) -> Self:
+        if self.type in {"supplier_outage", "capacity_cut", "price_promo"} and self.magnitude > 1:
+            raise ValueError("outage, capacity cut and promotion magnitudes must be fractions")
+        if self.type in {"lead_time_multiplier", "moq_change"} and self.magnitude <= 0:
+            raise ValueError("lead-time and MOQ multipliers must be positive")
+        return self
 
 
 class Scenario(Contract):
@@ -226,7 +239,18 @@ class Query(Contract):
     value: Nonnegative
 
 
+class ExperimentRow(Contract):
+    experiment: Literal["E1", "E2", "E3", "E4", "E5", "E6"]
+    case_id: Identifier
+    phase: Literal["validation", "screen", "confirm", "calibration", "evaluation"]
+    replication: Annotated[int, Field(ge=0)]
+    seed: Annotated[int, Field(ge=0)]
+    metric: Identifier
+    value: float | None
+
+
 CONTRACTS: dict[str, type[Contract]] = {
+    "experiment_row": ExperimentRow,
     "scenario": Scenario,
     "network": Network,
     "health": Health,

@@ -8,8 +8,8 @@ the M3 known-demand behavior. No wire contracts, fixtures or dependencies change
 `configs/planning.yaml` supplies validated internal settings. The existing scenario
 `policy.segmentation` identifier names the `abc_xyz_v1` map; `segmented` in the planning
 settings selects whether to apply it. The uniform arm uses the scenario's default
-policy and target CSL. Bullwhip flags do not yet control these behaviors; M5 wires
-those causes and countermeasures together.
+policy and target CSL. M5 adds a separate opt-in [bullwhip configuration](bullwhip.md)
+that activates the scenario cause switches and requires uniform planning.
 
 ## Causal forecasts
 

@@ -118,8 +118,9 @@ paired scenario comparisons.
 
 The default call uses M3's fixed known-demand policies. M4 adds opt-in
 [forecasting and ABC–XYZ policies](forecasting.md), requiring a separate historical
-demand array. Bullwhip switches remain reserved until M5, even though the shared
-scenario schema already carries them. Disruptions are rejected until M6.
+demand array. M5 activates scenario bullwhip switches when an explicit
+[bullwhip configuration](bullwhip.md) is supplied. M6 applies configured
+[disruption events](resilience.md) during simulation, with validated target references.
 No live API or frontend is added here.
 The 90-day warm-up and nominal service targets still require network calibration.
 

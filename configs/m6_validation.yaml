@@ -1,0 +1,15 @@
+# ASSUMPTION: controlled event checks, not calibrated operating risks.
+seed: 606
+replications: 2
+recovery_window: 7
+service_tolerance: 0.01
+analytic_stock: 25
+analytic_daily_demand: 10
+analytic_days: 20
+events:
+  - {type: supplier_outage, target: S4, start_day: 120, duration: 21, magnitude: 1.0}
+  - {type: lead_time_multiplier, target: S4, start_day: 120, duration: 21, magnitude: 2.0}
+  - {type: demand_shock, target: R01, start_day: 120, duration: 21, magnitude: 2.0}
+  - {type: capacity_cut, target: DC1, start_day: 120, duration: 21, magnitude: 0.75}
+  - {type: moq_change, target: S4, start_day: 120, duration: 21, magnitude: 4.0}
+  - {type: price_promo, target: S4, start_day: 120, duration: 21, magnitude: 0.2}

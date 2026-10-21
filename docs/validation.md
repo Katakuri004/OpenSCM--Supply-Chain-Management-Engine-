@@ -139,7 +139,7 @@ The [E5 results](evidence/m4/results.json) and [manifest](evidence/m4/manifest.j
 retain configurations, source/output hashes, all calibration candidates, independent
 training/calibration/evaluation seeds, and forecast diagnostics. Earlier M2/M3
 manifests describe their historical source snapshots; the M4 manifest describes
-the current implementation.
+the implementation at the M4 milestone.
 
 Classification uses 180 separate historical days. The synthetic base case yields
 8 AX, 6 BX and 6 CX SKUs: network aggregation reduces CV below 0.5 for every SKU.
@@ -175,3 +175,134 @@ uses the known-demand control; the E5 evidence exercises forecast-driven policie
 M5 bullwhip causes, countermeasures and V7 are next. The network warm-up and service
 approximations remain uncalibrated, and remote CI has not run. No API, frontend,
 disruption behavior or general-purpose experiment runner was added in M4.
+
+## M5: bullwhip causes and countermeasures
+
+Local result (21 October 2026, Python 3.12.10): `python -m scm.check` passes lint,
+formatting, strict mypy, unchanged consumer schemas and all **146 tests**. New tests
+were written and observed failing before their implementations. They cover weekly
+aggregation and undefined variance, order adjustments, promotion/EDLP/VMI behavior,
+POS signals, future-observation isolation, stock/pipeline conservation, lead reduction,
+discounted purchases, required forecast configuration and the exact Chen order identity.
+
+The [M5 results](evidence/m5/results.json), [manifest](evidence/m5/manifest.json),
+[daily network series](evidence/m5/daily_series.csv) and
+[figure](evidence/m5/bullwhip.png) record the controlled experiment. Manifests preserve
+configuration and engine source hashes, output hashes, package versions and the
+seed root; per-run seeds are in the results. Earlier evidence remains historical.
+The working directory has no Git commit, recorded as null in the manifest.
+
+V7 uses IID Gaussian daily demand, five-day constant lead, z=1, 128 warm-up days,
+16384 measured days and 64 independent replications. The observed ratio is the
+mean replication ratio. The known-demand reference is 1.000022 for all windows.
+
+| MA window | Chen daily lower bound | Observed daily BWE | Relative excess | Gate |
+| --- | --- | --- | --- | --- |
+| 7 days | 3.448980 | 3.617109 | 4.8748% | Pass |
+| 14 days | 1.969388 | 2.002950 | 1.7042% | Pass |
+| 28 days | 1.420918 | 1.428051 | 0.5020% | Pass |
+
+All observed ratios lie between the bound and the configured 5% excess tolerance;
+the fixed-target control meets its 0.005 tolerance around one. The 7-day result is
+close to the configured limit. These finite-sample checks do not prove the bound
+for arbitrary input parameters. The separate z=0 identity test validates the exact
+lagged-demand algebra independently of the Monte Carlo tolerance.
+
+Three paired network seeds each run 455 days, with 90 warm-up and 52 complete
+measured weeks. Each case receives identical physical demand and original transit
+draws within its seed. Values below are means of weekly variance ratios, not ratios
+of averaged series. Supplier orders received equal the DC-order column.
+
+| Case | Customer-order BWE | DC-order BWE | Comparison baseline |
+| --- | --- | --- | --- |
+| All causes off | 1.000000 | 1.000000 | — |
+| Signal processing | 1.699984 | 9.147272 | All causes off |
+| Batching | 1.037034 | 1.807609 | All causes off |
+| Price promotions | 1338.093666 | 5191.607225 | All causes off |
+| Rationing gaming | 1.000792 | 1.065875 | All causes off |
+| POS sharing | 1.699984 | 6.214753 | Signal processing |
+| Order smoothing | 1.289959 | 4.799015 | Signal processing |
+| Lead reduction | 1.562799 | 5.497816 | Signal processing |
+| Signal + batching + rationing | 3.305241 | 53.995013 | VMI comparison baseline |
+| VMI | 1.699984 | 6.214753 | Signal + batching + rationing |
+| EDLP | 1.000000 | 1.000000 | Price promotions |
+
+All four causes increase DC BWE in **every paired replication**; all five
+countermeasures decrease it against their named baseline in every pair. These nine
+direction gates pass. The very large promotion ratio comes from synchronized
+14-day forward-buy targets across the synthetic network, not observed commercial
+behavior. Rationing's small effect is capacity-dependent. This is an implementation
+acceptance run, not the full E4 factorial experiment or a calibrated effect estimate.
+The daily Chen bound must not be overlaid as a lower bound on these weekly ratios.
+
+The [M3 regression results](evidence/m5/network_regression/results.json) and
+[manifest](evidence/m5/network_regression/manifest.json) also pass V5 and the original
+performance budgets: **0.6641 s** for one 455-day/eight-DC replication and **7.8648 s**
+for 30 replications on eight worker processes (limits 3 s and 30 s). The full test
+suite ran concurrently, so these are local acceptance timings, not isolated speed
+comparisons with M4. The benchmark uses the legacy known-demand control; M5's
+separate experiment exercises the new mechanisms.
+
+M6 disruptions and resilience metrics are next. M7 retains the full E4 factorial
+design, confidence intervals, Parquet reproducibility, and network service/warm-up
+calibration. Remote CI, API, frontend and deployment have not been run or added here.
+
+## M6: disruption engine and resilience metrics
+
+Local result (21 October 2026, Python 3.12.10): `python -m scm.check` passes all
+**165 tests**, lint, formatting, strict mypy and schema drift checks. Tests were
+written and observed failing before implementation. Coverage includes all six event
+types, magnitude/target validation, overlapping calendars, exclusive end dates,
+supplier SKU scope, order-date transit on queued orders, MOQ enforcement, discounted
+purchases, unchanged input arrays, inventory/pipeline balances, lost sales, forecast
+integration, delayed service breaches, censored recovery and unaffected-customer exclusion.
+The new disruption scenario fixture passes both JSON Schema and Pydantic validation.
+
+The [M6 results](evidence/m6/results.json), [daily series](evidence/m6/daily_series.csv),
+[figure](evidence/m6/disruptions.png) and [manifest](evidence/m6/manifest.json) contain
+the numerical evidence. The manifest records source/config/schema/output hashes,
+versions and validation settings; results record replication seeds. Earlier milestone
+manifests describe historical source snapshots. No Git commit is available locally.
+
+The network-engine survival check gives **2.5 days**, exactly matching initial
+stock 25 / constant daily demand 10 under a complete downstream supply interruption.
+Fractional depletion uses the engine's uniform-within-day consumption convention.
+
+Each network event starts on day 120 and lasts 21 days. Two independent paired seeds
+run the same 455-day horizon. Each disturbed run is repeated, and all twelve cases
+produce **identical service histories, cost histories, TTS and TTR** on repetition.
+
+| Event | TTR, seed 4219232553 | TTR, seed 3353068343 | Paired cost INR, first seed | Paired cost INR, second seed |
+| --- | --- | --- | --- | --- |
+| Supplier outage | 149 days | 167 days | +1936394.06 | +2076895.11 |
+| Lead-time multiplier | 32 days | 31 days | +12491.54 | +15970.35 |
+| Demand shock | 28 days | 28 days | +478553.86 | +491214.33 |
+| Capacity cut | 0 days | 0 days | 0.00 | 0.00 |
+| MOQ change | 0 days | 0 days | 0.00 | 0.00 |
+| Price promotion | 0 days | 0 days | −452928.00 | −447852.00 |
+
+Zero TTR means no rolling service breach relative to the paired baseline within
+the one-percentage-point tolerance. It does not mean perfect service. The capacity
+cut and MOQ setting are nonbinding in this regime; binding cases are unit-tested.
+The price promotion changes purchase cost only and therefore has no service impact.
+All network runs use backorders, so reported lost-sales units are zero; a separate
+lost-sales test verifies positive event-related lost units.
+
+First-stockout TTS in the stochastic network is often less than a day because some
+affected SKU/customer shortages also occur in the baseline. For example, first-seed
+S4-scoped TTS is 0.912988 days for the outage, lead event, MOQ event and discount.
+This metric is the absolute first observed shortage after event start, not a causal
+estimate of survival attributable only to the event. The isolated deterministic
+case establishes the analytical acceptance check. Recovery is first rolling recovery;
+later relapses and finite-horizon truncation remain possible.
+
+The [network performance regression](evidence/m6/network_regression/results.json)
+also passes V5 and the existing limits: **0.6291 s** for one 455-day/eight-DC run and
+**7.4252 s** for 30 runs on eight worker processes, below 3 s and 30 s respectively.
+These local benchmarks use the unchanged no-event path. The event runner separately
+verifies the new path; no production performance guarantee is implied.
+
+M7 is next: general experiment orchestration, complete E1–E6 sweeps, mitigation and
+sensitivity studies, confidence intervals and reproducible Parquet outputs. M6 does
+not implement dual sourcing, lateral transshipment or a dedicated expedite policy.
+Operational calibration, remote CI, API, frontend and deployment remain unverified.

@@ -69,10 +69,10 @@ class BuiltNetwork:
         )
 
 
-def build_network(spec: NetworkSpec, scenario: Scenario) -> BuiltNetwork:
+def build_network(
+    spec: NetworkSpec, scenario: Scenario, *, inbound_lead_days: float | None = None
+) -> BuiltNetwork:
     """Select DCs by demand-distance, then set fixed policy parameters (forecasts start in M4)."""
-    if scenario.disruptions:
-        raise ValueError("disruptions are not supported until M6")
     known = {s.id for s in spec.suppliers}
     selected = set(scenario.network.suppliers)
     if not selected <= known or not {s.supplier for s in spec.skus} <= selected:
@@ -127,6 +127,10 @@ def build_network(spec: NetworkSpec, scenario: Scenario) -> BuiltNetwork:
     )
     lead_mean += lanes / spec.transport.km_per_day
     lead_mean = np.maximum(lead_mean, np.finfo(float).eps)
+    if inbound_lead_days is not None:
+        if not np.isfinite(inbound_lead_days) or inbound_lead_days <= 0:
+            raise ValueError("inbound lead days must be positive and finite")
+        lead_mean[is_supplier[source]] = inbound_lead_days
     lead_cv = np.concatenate(
         [
             np.repeat([s.lead_cv for s in suppliers], nd),

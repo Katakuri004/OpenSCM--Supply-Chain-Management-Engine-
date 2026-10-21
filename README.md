@@ -3,16 +3,19 @@
 An FMCG inventory and network study on Indian lanes, with costs in INR.
 The [implementation plan](docs/plan.md) defines milestones M0–M12.
 
-M0–M4 are implemented: scaffold and contracts, analytical inventory formulas,
+M0–M6 are implemented: scaffold and contracts, analytical inventory formulas,
 demand generation, single-node and multi-echelon simulation, DC selection,
 four inventory policies, capacity-constrained FIFO dispatch, FTL/LTL freight,
-forecasting, error metrics and ABC–XYZ replenishment policies with an E5 dry run.
-M5 (bullwhip causes and countermeasures) is next.
+forecasting, error metrics, ABC–XYZ replenishment policies, and bullwhip causes
+and countermeasures, disruption calendars and resilience metrics with reproducible evidence.
+M7 (experiment sweeps, manifests and reproducible Parquet outputs) is next.
 
 See [analytics](docs/analytics.md) for functions, units, assumptions and examples.
 See [simulation](docs/simulation.md) for daily timing, costs and reproducible M2 validation.
 See [network simulation](docs/network.md) for M3 configuration, conventions and a runnable example.
 See [forecasting and segmentation](docs/forecasting.md) for M4 planning and E5 evidence.
+See [bullwhip](docs/bullwhip.md) for M5 switches, V7 and controlled network comparisons.
+See [resilience](docs/resilience.md) for M6 event semantics, survival and recovery measurements.
 
 Requires Python 3.12. From this directory on Windows PowerShell:
 
@@ -57,4 +60,16 @@ Recreate the M4 uniform-versus-segmented replenishment dry run:
 
 ```powershell
 .\.venv\Scripts\python.exe -m scm.experiments.e5_dry_run --output docs/evidence/m4
+```
+
+Recreate the M5 Chen benchmark and paired cause/countermeasure evidence:
+
+```powershell
+.\.venv\Scripts\python.exe -m scm.experiments.e4_validate --output docs/evidence/m5
+```
+
+Recreate the M6 survival check and repeated paired disruption runs:
+
+```powershell
+.\.venv\Scripts\python.exe -m scm.experiments.e6_validate --output docs/evidence/m6
 ```

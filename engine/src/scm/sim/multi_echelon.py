@@ -5,11 +5,15 @@ from dataclasses import dataclass
 import numpy as np
 from numpy.typing import ArrayLike
 
+from scm.config.bullwhip import BullwhipSettings
+from scm.config.mitigation import MitigationSettings
 from scm.config.planning import PlanningSettings
 from scm.demand.generator import FloatArray
 from scm.network.builder import BuiltNetwork, IntArray
+from scm.policies.bullwhip import nominal_demand, replenishment_order
 from scm.policies.ordering import order_quantity
 from scm.policies.planning import ReplenishmentPlanner
+from scm.sim.disruptions import compile_disruptions
 from scm.sim.transport import freight
 
 
@@ -84,6 +88,7 @@ class NetworkResult:
     initial_stock: FloatArray | None = None
     forecast: FloatArray | None = None
     observed_demand: FloatArray | None = None
+    supply_fill: FloatArray | None = None
 
     @property
     def total_cost(self) -> FloatArray:
@@ -103,6 +108,9 @@ def simulate_network(
     lost_sales: bool = False,
     planning: PlanningSettings | None = None,
     demand_history: ArrayLike | None = None,
+    bullwhip: BullwhipSettings | None = None,
+    mitigation: MitigationSettings | None = None,
+    outbound_freight_factor: float = 1,
 ) -> NetworkResult:
     """Node histories are day × SKU × node; shipment histories are day × SKU × edge."""
     usage, leads = np.asarray(demand, dtype=float), np.asarray(lead_times)
@@ -117,6 +125,8 @@ def simulate_network(
     ):
         raise ValueError("demand must be finite nonnegative day-by-SKU-by-customer quantities")
     days = usage.shape[0]
+    if not np.isfinite(outbound_freight_factor) or outbound_freight_factor <= 0:
+        raise ValueError("outbound freight factor must be positive and finite")
     if (
         isinstance(warmup_days, bool)
         or not isinstance(warmup_days, int)
@@ -141,6 +151,17 @@ def simulate_network(
         or np.any(net.capacity < 0)
     ):
         raise ValueError("initial stock/capacity must be nonnegative; suppliers hold no stock")
+    disruptions = compile_disruptions(net, days) if net.scenario.disruptions else None
+    if disruptions is not None:
+        usage = usage * disruptions.demand[:, None, :]
+        scaled_leads = np.ceil(leads * disruptions.lead)
+        if (
+            not np.all(np.isfinite(usage))
+            or not np.all(np.isfinite(scaled_leads))
+            or np.any(scaled_leads > np.iinfo(np.int64).max // 2)
+        ):
+            raise ValueError("disruption demand or transit exceeds numeric limits")
+        leads = np.maximum(1, scaled_leads).astype(np.int64)
     history = np.zeros((12, days, skus, nodes))
     shipments = np.zeros((3, days, skus, edges))
     modes = np.zeros((2, days, edges))
@@ -181,11 +202,53 @@ def simulate_network(
     )
     if (planning is None) != (demand_history is None):
         raise ValueError("planning settings and past demand_history must be supplied together")
+    flags = net.scenario.bullwhip
+    if bullwhip is not None and flags.signal_processing and planning is None:
+        raise ValueError("signal processing requires planning settings and demand history")
+    if bullwhip is not None and planning is not None and planning.segmented:
+        raise ValueError("bullwhip experiments require uniform planning (segmented=False)")
     planner = None
-    if planning is not None:
+    if planning is not None and (bullwhip is None or flags.signal_processing):
         assert demand_history is not None
         planner = ReplenishmentPlanner(net, planning, demand_history)
-    stock = net.initial_stock.copy() if planner is None else planner.initial_stock.copy()
+    review = net.spec.inventory.review_days
+    if bullwhip is not None:
+        review = bullwhip.batch_days if flags.batching and not bullwhip.vmi else 1
+        leads = np.maximum(1, np.ceil(leads * bullwhip.lead_time_factor)).astype(np.int64)
+        if planner is not None:
+            planner.policy[:] = "RS" if review > 1 else "order_up_to"
+            planner.lead = np.maximum(1, planner.lead * bullwhip.lead_time_factor)
+            planner.lead_variance *= bullwhip.lead_time_factor**2
+            planner.initial_stock = planner.targets(np.ones(nodes, dtype=bool), review_days=review)[
+                2
+            ]
+            planner.initial_stock *= net.spec.inventory.initial_stock_fraction
+            planner.initial_stock[:, net.is_supplier] = 0
+    buffer = np.zeros_like(net.initial_stock)
+    backup = np.full(nodes, -1, dtype=np.int64)
+    lane_index = np.full((nodes, nodes), -1, dtype=np.int64)
+    lane_index[net.source, net.target] = np.arange(edges)
+    purchase_unit = np.broadcast_to(net.unit_cost[:, None], (skus, edges)).copy()
+    if mitigation is not None:
+        buffer = nominal_demand(net) * mitigation.buffer_days
+        leads = np.maximum(1, np.ceil(leads * mitigation.expedite_factor)).astype(np.int64)
+        for primary, secondary_id in mitigation.backup_suppliers.items():
+            if (
+                primary == secondary_id
+                or primary not in net.node_ids
+                or secondary_id not in net.node_ids
+            ):
+                raise ValueError("backup suppliers must be distinct selected suppliers")
+            a, b = net.node_ids.index(primary), net.node_ids.index(secondary_id)
+            if not net.is_supplier[a] or not net.is_supplier[b]:
+                raise ValueError("backup targets must be suppliers")
+            backup[a] = b
+        supplier_prices = {s.id: s.price_multiplier for s in net.spec.suppliers}
+        inbound_edges = net.is_supplier[net.source]
+        purchase_unit[:, inbound_edges] = np.array([s.unit_cost for s in net.spec.skus])[
+            :, None
+        ] * np.array([supplier_prices[net.node_ids[i]] for i in net.source[inbound_edges]])
+    stock = (net.initial_stock.copy() if planner is None else planner.initial_stock.copy()) + buffer
     result.initial_stock = stock.copy()
     if planner is not None:
         result.forecast = np.zeros_like(result.on_hand)
@@ -196,36 +259,75 @@ def simulate_network(
     arrivals = np.zeros_like(result.edge_received)
     queue = np.zeros((days, nodes, skus))
     sku_axis = np.arange(skus)[:, None]
+    nominal = nominal_demand(net) if bullwhip is not None else np.zeros_like(stock)
+    waiting, supply_fill = np.zeros_like(stock), np.ones_like(stock)
+    if bullwhip is not None:
+        result.supply_fill = np.zeros_like(result.on_hand)
     retailers = ~net.is_supplier & ~net.is_dc
     trip_cost = net.spec.transport.ftl_fixed_cost + net.distance * net.spec.transport.ftl_per_km
 
     def place_orders(day: int, mask: np.ndarray[tuple[int], np.dtype[np.bool_]]) -> None:
         position = stock[:, mask] + on_order[:, mask] - backlog[:, mask] - pending[:, mask]
+        minimum = net.moq[:, mask]
+        if disruptions is not None:
+            minimum = minimum * disruptions.moq[day][:, mask]
         q, reorder, upper = (
             (net.quantity[:, mask], net.reorder[:, mask], net.upper[:, mask])
             if planner is None
-            else planner.targets(mask)
+            else planner.targets(mask, review_days=review)
         )
         policy = (
             np.asarray(net.scenario.policy.default) if planner is None else planner.policy[:, mask]
         )
-        placed = order_quantity(
-            position,
-            policy,
-            q,
-            reorder,
-            upper,
-            net.spec.inventory.review_days,
-            day,
-            net.moq[:, mask],
-            net.pack[:, mask],
-        )
+        reorder = reorder + buffer[:, mask]
+        upper = upper + buffer[:, mask]
+        if bullwhip is None:
+            placed = order_quantity(
+                position,
+                policy,
+                q,
+                reorder,
+                upper,
+                review,
+                day,
+                minimum,
+                net.pack[:, mask],
+            )
+        else:
+            mean = nominal[:, mask] if planner is None else planner.mean[:, mask]
+            if planner is None:
+                upper = np.maximum(
+                    0,
+                    upper
+                    + mean * (review - 1)
+                    - mean * net.lead_mean[net.edge_for[:, mask]] * (1 - bullwhip.lead_time_factor),
+                )
+            placed = replenishment_order(
+                position,
+                upper,
+                mean,
+                supply_fill[:, mask],
+                minimum,
+                net.pack[:, mask],
+                flags,
+                bullwhip,
+                day,
+            )
+            if disruptions is not None:
+                placed = np.where(
+                    (disruptions.moq[day][:, mask] != 1) & (placed > 0),
+                    np.ceil(np.maximum(placed, minimum) / net.pack[:, mask]) * net.pack[:, mask],
+                    placed,
+                )
+            waiting[:, mask] += placed
         result.orders[day][:, mask] = placed
         queue[day, mask] = placed.T
         on_order[:, mask] += placed
         np.add.at(pending, (sku_axis, net.parent[:, mask]), placed)
-        lot = np.ceil(np.maximum(q, net.moq[:, mask]) / net.pack[:, mask]) * net.pack[:, mask]
-        events = np.where(policy == "QR", placed / lot, placed > 0)
+        lot = np.ceil(np.maximum(q, minimum) / net.pack[:, mask]) * net.pack[:, mask]
+        events = (
+            np.where(policy == "QR", placed / lot, placed > 0) if bullwhip is None else placed > 0
+        )
         costs["ordering"][day, mask] = events.sum(axis=0) * net.order_cost[mask]
 
     for day in range(days):
@@ -260,7 +362,9 @@ def simulate_network(
         place_orders(day, retailers)
         if planner is not None and result.observed_demand is not None:
             observed = result.observed_demand[day]
-            np.add.at(observed, (sku_axis, net.parent[:, leaf]), result.orders[day][:, leaf])
+            pos = bullwhip is not None and (flags.pos_sharing or bullwhip.vmi)
+            signal = usage[day] if pos else result.orders[day][:, leaf]
+            np.add.at(observed, (sku_axis, net.parent[:, leaf]), signal)
             planner.update(observed[:, net.is_dc], dc=True)
         place_orders(day, net.is_dc)
 
@@ -270,16 +374,49 @@ def simulate_network(
         source = net.parent[sku, dest]
         available = stock.T.copy()
         available[net.is_supplier] = np.inf
-        allocated = allocate_fifo(queued[indices], source, sku, available, net.capacity)
-        queued[indices] -= allocated
-        np.add.at(pending, (sku, source), -allocated)
+        capacity = net.capacity if disruptions is None else net.capacity * disruptions.capacity[day]
+        allocated = allocate_fifo(queued[indices], source, sku, available, capacity)
+        edge = net.edge_for[sku, dest]
+        if mitigation is not None and mitigation.backup_suppliers:
+            eligible = np.flatnonzero((backup[source] >= 0) & (queued[indices] > allocated))
+            used = np.bincount(source, weights=allocated, minlength=nodes)
+            secondary = backup[source[eligible]]
+            extra = allocate_fifo(
+                queued[indices][eligible] - allocated[eligible],
+                secondary,
+                sku[eligible],
+                available,
+                np.maximum(0, capacity - used),
+            )
+            queued[indices] -= allocated
+            queued[indices[eligible]] -= extra
+            np.add.at(pending, (sku, source), -allocated)
+            np.add.at(pending, (sku[eligible], source[eligible]), -extra)
+            edge = np.r_[edge, lane_index[secondary, dest[eligible]]]
+            source = np.r_[source, secondary]
+            order_day = np.r_[order_day, order_day[eligible]]
+            dest = np.r_[dest, dest[eligible]]
+            sku = np.r_[sku, sku[eligible]]
+            allocated = np.r_[allocated, extra]
+        else:
+            queued[indices] -= allocated
+            np.add.at(pending, (sku, source), -allocated)
+        if bullwhip is not None and result.supply_fill is not None:
+            shipped_to_node = np.zeros_like(stock)
+            np.add.at(shipped_to_node, (sku, dest), allocated)
+            supply_fill = np.clip(
+                np.divide(shipped_to_node, waiting, out=np.ones_like(waiting), where=waiting > 0),
+                0,
+                1,
+            )
+            waiting = np.maximum(0, waiting - shipped_to_node)
+            result.supply_fill[day] = supply_fill
         np.add.at(result.dispatched[day], (sku, source), allocated)
         produced = result.produced[day]
         produced[:, net.is_supplier] = result.dispatched[day][:, net.is_supplier]
         stock += produced - result.dispatched[day]
         # Grouped floating-point sums can overshoot exhausted stock by a few ulps.
         np.maximum(stock, 0, out=stock)
-        edge = net.edge_for[sku, dest]
         np.add.at(result.edge_shipped[day], (sku, edge), allocated)
         transit += result.edge_shipped[day]
         due = day + leads[order_day, edge]
@@ -295,9 +432,16 @@ def simulate_network(
             trip_cost,
         )
         inbound = net.is_supplier[net.source]
+        freight_cost[~inbound] *= outbound_freight_factor
+        if mitigation is not None:
+            freight_cost += volumes * mitigation.expedite_unit_cost
         np.add.at(costs["inbound_freight"][day], net.target[inbound], freight_cost[inbound])
         np.add.at(costs["outbound_freight"][day], net.target[~inbound], freight_cost[~inbound])
-        purchase = (result.edge_shipped[day] * net.unit_cost[:, None]).sum(axis=0)
+        purchase = (result.edge_shipped[day] * purchase_unit).sum(axis=0)
+        if disruptions is not None:
+            purchase *= disruptions.price[day]
+        if bullwhip is not None and flags.price and bullwhip.promotion(day):
+            purchase *= 1 - bullwhip.discount_fraction
         np.add.at(costs["purchase"][day], net.target[inbound], purchase[inbound])
         costs["holding"][day] = (
             (average * net.unit_cost[:, None]).sum(axis=0) * net.holding_rate / 365

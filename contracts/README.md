@@ -29,6 +29,24 @@ simulation outputs, measured Indian geography, or evidence for the report. The
 three-node fixture is intentionally independent of the four-DC scenario preset.
 
 OpenAPI, run lifecycle, comparison and experiment response contracts will be added
-with their implementations in M7–M8. Disruption magnitude semantics and referenced
-target existence must be defined and validated with the engine in M3/M6; M0 only
-checks event shape, nonnegative magnitude and bounds of the simulation window.
+with their implementations in M7–M8.
+
+## M6 disruption semantics
+
+M6 retains the existing event fields and type names, adds a magnitude description
+to the regenerated scenario schema, and validates type-dependent magnitude bounds
+in Pydantic. Fractions for `supplier_outage`, `capacity_cut`, and `price_promo` must
+lie in [0, 1]. Lead and MOQ multipliers must be positive; demand multipliers can be
+zero. Callers that previously passed invalid fractions now receive validation errors.
+No response payload shapes change. JSON Schema still checks the common nonnegative
+bound; consumers must also use the type-dependent rules above, like the existing
+cross-column invariants. The engine validates targets against the selected network
+and event bounds against the actual supplied simulation inputs.
+
+`scenario_disruption.json` is an additional synthetic scenario fixture validated
+against the schema and model. The original base scenario fixture remains aligned
+with `configs/base_4dc.yaml`. The loader, network builder and network simulation now
+accept nonempty event lists. See [event targets and timing](../docs/resilience.md)
+for operational semantics; identifiers reference actual selected nodes or lane IDs
+from the network contract. Resilience metrics remain internal until M8 response
+contracts are implemented.
