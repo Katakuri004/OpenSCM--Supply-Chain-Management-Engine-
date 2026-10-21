@@ -1,0 +1,25 @@
+# ASSUMPTION: synthetic validation benchmarks, not calibrated Indian lane data.
+seed: 20261012
+replications: 30
+warmup_days: 1000
+horizon_days: 10000
+daily_mean: 10.0
+daily_std: 2.0
+order_cost: 10.0
+unit_cost: 3.0
+annual_holding_cost: 7.3
+shortage_cost: 0.0
+lead_mean: 3.0
+q_multipliers: [0.5, 0.75, 0.9, 1.0, 1.1, 1.25, 1.5, 2.0]
+service:
+  horizon_days: 30000
+  daily_std: 4.0
+  lead_mean: 100.0
+  lead_cv: 0.05
+  quantity: 1000.0
+  target_csl: 0.95
+  fill_quantity: 400.0
+  target_fill_rate: 0.95
+crn_quantity_multiplier: 1.1
+welch_window: 201
+base_warmup_days: 90

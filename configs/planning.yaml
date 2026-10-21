@@ -1,0 +1,19 @@
+# ASSUMPTION: illustrative planning choices; not fitted to operating data.
+forecast: {method: ses, window: 28, alpha: 0.2, beta: 0.1}
+segmented: true
+safety_factor_offset: 0
+segmentation:
+  abc_a: 0.8
+  abc_b: 0.95
+  xyz_x: 0.5
+  xyz_y: 1.0
+  cells:
+    AX: {policy: QR, target_csl: 0.98}
+    AY: {policy: QR, target_csl: 0.97}
+    AZ: {policy: sS, target_csl: 0.95}
+    BX: {policy: QR, target_csl: 0.95}
+    BY: {policy: RS, target_csl: 0.95}
+    BZ: {policy: sS, target_csl: 0.92}
+    CX: {policy: RS, target_csl: 0.90}
+    CY: {policy: RS, target_csl: 0.90}
+    CZ: {policy: sS, target_csl: 0.85}

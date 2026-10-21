@@ -1,0 +1,3 @@
+# ASSUMPTION: neutral seasonality until calibrated data are available; plan section 4 preset ID.
+# January through December. Repeats on a non-leap 365-day calendar.
+monthly_index_v1: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]

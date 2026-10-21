@@ -1,0 +1,15 @@
+{
+  "run_id": "synthetic_m0",
+  "nodes": {
+    "id": ["S1", "DC1", "R1"],
+    "label": ["Sample supplier", "Sample DC", "Sample retailer"],
+    "type": ["supplier", "dc", "retailer"],
+    "latitude": [20.0, 21.0, 22.0],
+    "longitude": [75.0, 76.0, 77.0]
+  },
+  "edges": {
+    "id": ["S1_DC1", "DC1_R1"],
+    "source": ["S1", "DC1"], "target": ["DC1", "R1"],
+    "distance_km": [200.0, 200.0], "flow_units": [10.0, 5.0]
+  }
+}

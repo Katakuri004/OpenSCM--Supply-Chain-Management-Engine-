@@ -1,0 +1,8 @@
+{
+  "run_id": "synthetic_m0", "node_id": null, "replications": 1,
+  "metrics": {
+    "fill_rate": {"mean": 0.95, "ci95": null},
+    "total_landed_cost_inr": {"mean": 1000.0, "ci95": null},
+    "bullwhip_ratio": {"mean": null, "ci95": null}
+  }
+}

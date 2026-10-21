@@ -1,0 +1,334 @@
+{
+  "milestone": "M3",
+  "passed": true,
+  "pooling": [
+    {
+      "rho": 0.0,
+      "separate_safety_stock": 131.1691177018729,
+      "pooled_safety_stock": 65.33426594603588,
+      "observed_ratio": 0.4980918305368994,
+      "expected_ratio": 0.5,
+      "absolute_error": 0.001908169463100573,
+      "passed": true
+    },
+    {
+      "rho": 0.3,
+      "separate_safety_stock": 130.98830340759952,
+      "pooled_safety_stock": 89.70102010840787,
+      "observed_ratio": 0.684801755384853,
+      "expected_ratio": 0.689202437604511,
+      "absolute_error": 0.004400682219658059,
+      "passed": true
+    },
+    {
+      "rho": 0.6,
+      "separate_safety_stock": 131.19988514602886,
+      "pooled_safety_stock": 109.41346301629801,
+      "observed_ratio": 0.833944807912888,
+      "expected_ratio": 0.8366600265340756,
+      "absolute_error": 0.0027152186211875096,
+      "passed": true
+    },
+    {
+      "rho": 1.0,
+      "separate_safety_stock": 130.84630289064398,
+      "pooled_safety_stock": 130.84630289064398,
+      "observed_ratio": 1.0,
+      "expected_ratio": 1.0,
+      "absolute_error": 0.0,
+      "passed": true
+    }
+  ],
+  "benchmark": {
+    "single": {
+      "seed": 4004375361,
+      "elapsed_seconds": 0.5089348000474274,
+      "measured_cost_inr": 300446417.4724374,
+      "fill_rate": 0.9858153890047308,
+      "days": 455,
+      "skus": 20,
+      "customers": 28
+    },
+    "parallel_seconds": 4.646457999944687,
+    "workers": 8,
+    "replications": [
+      {
+        "seed": 4004375361,
+        "elapsed_seconds": 0.6678443000419065,
+        "measured_cost_inr": 300446417.4724374,
+        "fill_rate": 0.9858153890047308,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 2965107541,
+        "elapsed_seconds": 0.7287843000376597,
+        "measured_cost_inr": 299445938.95458406,
+        "fill_rate": 0.9859122196616774,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 3630665872,
+        "elapsed_seconds": 0.6630673999898136,
+        "measured_cost_inr": 299305414.67826796,
+        "fill_rate": 0.9856735290327926,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 2401875982,
+        "elapsed_seconds": 0.6846817000769079,
+        "measured_cost_inr": 301515438.14731634,
+        "fill_rate": 0.9847286600358958,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 1439388514,
+        "elapsed_seconds": 0.6969815000193194,
+        "measured_cost_inr": 298931320.44217217,
+        "fill_rate": 0.9858493608426756,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 2446530719,
+        "elapsed_seconds": 0.6483873999677598,
+        "measured_cost_inr": 300187133.81512177,
+        "fill_rate": 0.9864690593333004,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 3953648486,
+        "elapsed_seconds": 0.6824799999594688,
+        "measured_cost_inr": 298211518.8874999,
+        "fill_rate": 0.9865794094767882,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 2214662284,
+        "elapsed_seconds": 0.6817121999338269,
+        "measured_cost_inr": 299519105.35599416,
+        "fill_rate": 0.9863307004653188,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 2852684014,
+        "elapsed_seconds": 0.6889154999516904,
+        "measured_cost_inr": 300417382.74591106,
+        "fill_rate": 0.9846127856703437,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 2311345815,
+        "elapsed_seconds": 0.7225788999348879,
+        "measured_cost_inr": 299423185.0085762,
+        "fill_rate": 0.9866126077740336,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 3308746144,
+        "elapsed_seconds": 0.6423747000517324,
+        "measured_cost_inr": 299558955.6021679,
+        "fill_rate": 0.9869574612823692,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 2018670926,
+        "elapsed_seconds": 0.6572998000774533,
+        "measured_cost_inr": 301578210.92686856,
+        "fill_rate": 0.9842822326410263,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 2418461448,
+        "elapsed_seconds": 0.6751139999832958,
+        "measured_cost_inr": 299050750.794601,
+        "fill_rate": 0.9855557858043476,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 2516328968,
+        "elapsed_seconds": 0.7288340999512002,
+        "measured_cost_inr": 300466548.73868406,
+        "fill_rate": 0.9865413874923425,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 1089689003,
+        "elapsed_seconds": 0.6579903999809176,
+        "measured_cost_inr": 301232214.3199051,
+        "fill_rate": 0.985843691808021,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 2472702950,
+        "elapsed_seconds": 0.6948492000810802,
+        "measured_cost_inr": 301021775.0346955,
+        "fill_rate": 0.9867421142765034,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 3095680842,
+        "elapsed_seconds": 0.6628042999655008,
+        "measured_cost_inr": 301145979.1158986,
+        "fill_rate": 0.9846585868033801,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 766312684,
+        "elapsed_seconds": 0.6700638000620529,
+        "measured_cost_inr": 298295746.2553936,
+        "fill_rate": 0.9863427063860737,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 854364375,
+        "elapsed_seconds": 0.6570792999118567,
+        "measured_cost_inr": 299856323.51032996,
+        "fill_rate": 0.986903837609597,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 2370953030,
+        "elapsed_seconds": 0.6969647000078112,
+        "measured_cost_inr": 299403847.2718159,
+        "fill_rate": 0.9850774561256165,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 4093060682,
+        "elapsed_seconds": 0.7053900000173599,
+        "measured_cost_inr": 300382382.6384978,
+        "fill_rate": 0.9858863099033142,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 954193828,
+        "elapsed_seconds": 0.7156854999484494,
+        "measured_cost_inr": 299549614.3040055,
+        "fill_rate": 0.984787735995888,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 76186259,
+        "elapsed_seconds": 0.6826191999716684,
+        "measured_cost_inr": 300843693.4666263,
+        "fill_rate": 0.9865224612785736,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 3745736991,
+        "elapsed_seconds": 0.6799460999900475,
+        "measured_cost_inr": 300459648.79357266,
+        "fill_rate": 0.9846528314667201,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 685127619,
+        "elapsed_seconds": 0.6168082000222057,
+        "measured_cost_inr": 299494229.32790583,
+        "fill_rate": 0.9867197149618439,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 4182711346,
+        "elapsed_seconds": 0.6074873000616208,
+        "measured_cost_inr": 297713939.9908664,
+        "fill_rate": 0.9864228590928351,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 1875311445,
+        "elapsed_seconds": 0.6150131000904366,
+        "measured_cost_inr": 301567245.6480999,
+        "fill_rate": 0.9877857170473829,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 3528977585,
+        "elapsed_seconds": 0.6259307999862358,
+        "measured_cost_inr": 300859810.2857381,
+        "fill_rate": 0.9853478771927953,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 3185120843,
+        "elapsed_seconds": 0.6140813000965863,
+        "measured_cost_inr": 299538549.7794601,
+        "fill_rate": 0.986492097491038,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      },
+      {
+        "seed": 2492847852,
+        "elapsed_seconds": 0.6064878000179306,
+        "measured_cost_inr": 299241143.53107727,
+        "fill_rate": 0.9861354467132679,
+        "days": 455,
+        "skus": 20,
+        "customers": 28
+      }
+    ],
+    "serial_parallel_reproducible": true
+  },
+  "limitations": [
+    "Synthetic known-demand network; forecasting starts in M4.",
+    "Segmentation and bullwhip flags are reserved for M4/M5; disruptions rejected.",
+    "V5 tests protection-demand tails, not constrained network service levels.",
+    "90-day network warm-up and nominal service targets are not calibrated."
+  ]
+}

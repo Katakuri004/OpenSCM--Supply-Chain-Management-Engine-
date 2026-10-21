@@ -1,0 +1,7 @@
+# ASSUMPTION: small E5 dry run, not a powered inventory-saving experiment.
+seed: 404
+training_days: 180
+calibration_replications: 2
+evaluation_replications: 2
+segmented_safety_offsets: [-1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0]
+service_tolerance: 0.005

@@ -1,0 +1,57 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "node_type": {
+      "anyOf": [
+        {
+          "enum": [
+            "supplier",
+            "dc",
+            "retailer",
+            "b2b"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Node Type"
+    },
+    "metric": {
+      "enum": [
+        "days_of_cover",
+        "fill_rate",
+        "on_hand",
+        "on_order",
+        "backorders"
+      ],
+      "title": "Metric",
+      "type": "string"
+    },
+    "operator": {
+      "enum": [
+        "lt",
+        "le",
+        "eq",
+        "ge",
+        "gt"
+      ],
+      "title": "Operator",
+      "type": "string"
+    },
+    "value": {
+      "minimum": 0,
+      "title": "Value",
+      "type": "number"
+    }
+  },
+  "required": [
+    "metric",
+    "operator",
+    "value"
+  ],
+  "title": "Query",
+  "type": "object"
+}

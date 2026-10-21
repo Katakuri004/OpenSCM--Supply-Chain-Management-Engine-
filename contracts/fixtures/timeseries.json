@@ -1,0 +1,8 @@
+{
+  "run_id": "synthetic_m0", "node_id": "R1", "sku_id": "SKU01",
+  "days": [90, 91, 92],
+  "metrics": {
+    "on_hand": [10.0, 5.0, 0.0], "on_order": [0.0, 0.0, 10.0],
+    "backorders": [0.0, 0.0, 5.0], "fill_rate": [1.0, 1.0, 0.5]
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "days": {
+      "items": {
+        "minimum": 0,
+        "type": "integer"
+      },
+      "minItems": 1,
+      "title": "Days",
+      "type": "array"
+    },
+    "node_ids": {
+      "items": {
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9_-]+$",
+        "type": "string"
+      },
+      "title": "Node Ids",
+      "type": "array"
+    },
+    "days_of_cover": {
+      "items": {
+        "items": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "type": "array"
+      },
+      "title": "Days Of Cover",
+      "type": "array"
+    },
+    "stockout": {
+      "items": {
+        "items": {
+          "type": "boolean"
+        },
+        "type": "array"
+      },
+      "title": "Stockout",
+      "type": "array"
+    }
+  },
+  "required": [
+    "run_id",
+    "days",
+    "node_ids",
+    "days_of_cover",
+    "stockout"
+  ],
+  "title": "Health",
+  "type": "object"
+}

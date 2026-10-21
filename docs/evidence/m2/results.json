@@ -1,0 +1,112 @@
+{
+  "checks": {
+    "V1_cost": {
+      "actual": 11680.0,
+      "expected": 11680.0,
+      "tolerance": 58.4,
+      "passed": true
+    },
+    "V1_stockout_days": {
+      "actual": 0.0,
+      "expected": 0,
+      "tolerance": 0,
+      "passed": true
+    },
+    "V2_optimal_quantity": {
+      "actual": 100.0,
+      "expected": 100.0,
+      "tolerance": 10.0,
+      "passed": true
+    },
+    "V3_fixed_csl": {
+      "actual": 0.9543480681438593,
+      "expected": 0.95,
+      "tolerance": 0.015,
+      "passed": true
+    },
+    "V3_variable_csl": {
+      "actual": 0.946219797349961,
+      "expected": 0.95,
+      "tolerance": 0.015,
+      "passed": true
+    },
+    "V4_fill_rate": {
+      "actual": 0.953439474997623,
+      "expected": 0.95,
+      "tolerance": 0.01,
+      "passed": true
+    },
+    "V6_littles_law": {
+      "actual": 50.0,
+      "expected": 50.0,
+      "tolerance": 1.0,
+      "passed": true
+    },
+    "V8_reproducibility": {
+      "actual": 0.0,
+      "expected": 0,
+      "tolerance": 0,
+      "passed": true
+    },
+    "V8_variance": {
+      "paired": 27.748555403819967,
+      "unpaired": 1248.7202894131317,
+      "reduction_fraction": 0.9777784059095723,
+      "passed": true
+    }
+  },
+  "config": {
+    "seed": 20261012,
+    "replications": 30,
+    "warmup_days": 1000,
+    "horizon_days": 10000,
+    "daily_mean": 10.0,
+    "daily_std": 2.0,
+    "order_cost": 10.0,
+    "unit_cost": 3.0,
+    "annual_holding_cost": 7.3,
+    "shortage_cost": 0.0,
+    "lead_mean": 3.0,
+    "q_multipliers": [
+      0.5,
+      0.75,
+      0.9,
+      1.0,
+      1.1,
+      1.25,
+      1.5,
+      2.0
+    ],
+    "service": {
+      "horizon_days": 30000,
+      "daily_std": 4.0,
+      "lead_mean": 100.0,
+      "lead_cv": 0.05,
+      "quantity": 1000.0,
+      "target_csl": 0.95,
+      "fill_quantity": 400.0,
+      "target_fill_rate": 0.95
+    },
+    "crn_quantity_multiplier": 1.1,
+    "welch_window": 201,
+    "base_warmup_days": 90
+  },
+  "service": {
+    "fixed": {
+      "cycles": 8981,
+      "sigma_l": 40.0,
+      "rounded_lead_mean": 100.0,
+      "rounded_lead_std": 0.0
+    },
+    "variable": {
+      "cycles": 8981,
+      "sigma_l": 64.03124237432849,
+      "rounded_lead_mean": 100.5014935483871,
+      "rounded_lead_std": 5.014172593915299
+    }
+  },
+  "little": {
+    "mean_dwell_days": 5.0,
+    "throughput_units_per_day": 10.0
+  }
+}

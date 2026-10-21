@@ -1,0 +1,1 @@
+"""Validated study inputs."""

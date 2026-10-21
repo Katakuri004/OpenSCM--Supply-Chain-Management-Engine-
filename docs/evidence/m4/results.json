@@ -1,0 +1,668 @@
+{
+  "milestone": "M4",
+  "experiment": "E5 dry run",
+  "passed": true,
+  "seeds": {
+    "training": 3844446154,
+    "calibration": [
+      2322448242,
+      744551064
+    ],
+    "evaluation": [
+      2048610357,
+      2305835404
+    ]
+  },
+  "segments": {
+    "sku_ids": [
+      "SKU01",
+      "SKU02",
+      "SKU03",
+      "SKU04",
+      "SKU05",
+      "SKU06",
+      "SKU07",
+      "SKU08",
+      "SKU09",
+      "SKU10",
+      "SKU11",
+      "SKU12",
+      "SKU13",
+      "SKU14",
+      "SKU15",
+      "SKU16",
+      "SKU17",
+      "SKU18",
+      "SKU19",
+      "SKU20"
+    ],
+    "cell": [
+      "AX",
+      "AX",
+      "AX",
+      "AX",
+      "AX",
+      "AX",
+      "BX",
+      "BX",
+      "AX",
+      "BX",
+      "BX",
+      "BX",
+      "AX",
+      "BX",
+      "CX",
+      "CX",
+      "CX",
+      "CX",
+      "CX",
+      "CX"
+    ],
+    "annual_value_inr": [
+      35836250.91515639,
+      26493460.243999112,
+      24640208.693186294,
+      25797991.729277425,
+      27440057.562408987,
+      19507776.05626433,
+      5667131.720939826,
+      6207803.969149238,
+      7376822.735834173,
+      5760051.6689559035,
+      5652165.2779854275,
+      6473130.953271399,
+      7430721.356863741,
+      5597592.473926383,
+      864952.00858089,
+      914089.1204253866,
+      1104305.5096750464,
+      895924.4220737196,
+      842787.1069209755,
+      953355.5370399697
+    ],
+    "cv": [
+      0.19283592794211216,
+      0.19330406147779466,
+      0.2147652695407097,
+      0.2515681031927044,
+      0.2243596514185865,
+      0.2690683949265912,
+      0.23083796426153197,
+      0.21032987127810393,
+      0.23606765119553602,
+      0.28062075458719304,
+      0.21838264500392895,
+      0.2810262598830671,
+      0.2719689400494006,
+      0.19195293209659883,
+      0.3862242762150843,
+      0.3638931218292246,
+      0.3979435505759046,
+      0.418241222736166,
+      0.4162454944470653,
+      0.4774285514058119
+    ]
+  },
+  "uniform_calibration": [
+    {
+      "seed": 2322448242,
+      "fill_rate": 0.9896975348633358,
+      "average_inventory_value_inr": 11043867.472338416,
+      "measured_cost_inr": 286999836.0074342,
+      "forecast_errors": {
+        "customer_total": {
+          "mad": 340.9494638869155,
+          "bias": -0.20232054543437897,
+          "mape": 0.054036881730822564,
+          "wmape": 0.054165665171857585,
+          "tracking_signal": -0.21659221352534974
+        },
+        "dc_order_total": {
+          "mad": 791.3797212178857,
+          "bias": 0.38029853345906056,
+          "mape": 0.13049740049958425,
+          "wmape": 0.12573957247098505,
+          "tracking_signal": 0.17540121510687495
+        }
+      }
+    },
+    {
+      "seed": 744551064,
+      "fill_rate": 0.9913640839121479,
+      "average_inventory_value_inr": 11120017.29082267,
+      "measured_cost_inr": 286765053.5955934,
+      "forecast_errors": {
+        "customer_total": {
+          "mad": 313.461738659077,
+          "bias": -2.062482265042179,
+          "mape": 0.0499884106908257,
+          "wmape": 0.04987887868913854,
+          "tracking_signal": -2.401588244743171
+        },
+        "dc_order_total": {
+          "mad": 783.0982438892279,
+          "bias": -1.0570343080170073,
+          "mape": 0.128519987255956,
+          "wmape": 0.12464605694356568,
+          "tracking_signal": -0.492680867869221
+        }
+      }
+    }
+  ],
+  "segmented_calibration": [
+    {
+      "safety_factor_offset": -1.5,
+      "mean_fill_rate": 0.9612216574828534,
+      "absolute_service_gap": 0.029309151904888475,
+      "replications": [
+        {
+          "seed": 2322448242,
+          "fill_rate": 0.9606351810384706,
+          "average_inventory_value_inr": 7786471.777193438,
+          "measured_cost_inr": 288698010.4112339,
+          "forecast_errors": {
+            "customer_total": {
+              "mad": 340.9494638869155,
+              "bias": -0.20232054543437897,
+              "mape": 0.054036881730822564,
+              "wmape": 0.054165665171857585,
+              "tracking_signal": -0.21659221352534974
+            },
+            "dc_order_total": {
+              "mad": 1181.4041201262662,
+              "bias": 1.211762743060762,
+              "mape": 0.18409183051402087,
+              "wmape": 0.18779355669292905,
+              "tracking_signal": 0.37437943010551433
+            }
+          }
+        },
+        {
+          "seed": 744551064,
+          "fill_rate": 0.9618081339272361,
+          "average_inventory_value_inr": 7764627.3691947535,
+          "measured_cost_inr": 288882222.8785261,
+          "forecast_errors": {
+            "customer_total": {
+              "mad": 313.461738659077,
+              "bias": -2.062482265042179,
+              "mape": 0.0499884106908257,
+              "wmape": 0.04987887868913854,
+              "tracking_signal": -2.401588244743171
+            },
+            "dc_order_total": {
+              "mad": 1297.5117327615264,
+              "bias": -0.20449735945495465,
+              "mape": 0.20415286290402734,
+              "wmape": 0.20652932800398638,
+              "tracking_signal": -0.05752667534049731
+            }
+          }
+        }
+      ]
+    },
+    {
+      "safety_factor_offset": -1.0,
+      "mean_fill_rate": 0.976698565848102,
+      "absolute_service_gap": 0.013832243539639855,
+      "replications": [
+        {
+          "seed": 2322448242,
+          "fill_rate": 0.9759966471123982,
+          "average_inventory_value_inr": 9107269.883575886,
+          "measured_cost_inr": 288479294.4019368,
+          "forecast_errors": {
+            "customer_total": {
+              "mad": 340.9494638869155,
+              "bias": -0.20232054543437897,
+              "mape": 0.054036881730822564,
+              "wmape": 0.054165665171857585,
+              "tracking_signal": -0.21659221352534974
+            },
+            "dc_order_total": {
+              "mad": 1224.413830542606,
+              "bias": -0.6794098505790316,
+              "mape": 0.1921933575688495,
+              "wmape": 0.1946705614981079,
+              "tracking_signal": -0.20253331780109893
+            }
+          }
+        },
+        {
+          "seed": 744551064,
+          "fill_rate": 0.9774004845838057,
+          "average_inventory_value_inr": 9187856.098565139,
+          "measured_cost_inr": 288258615.8476209,
+          "forecast_errors": {
+            "customer_total": {
+              "mad": 313.461738659077,
+              "bias": -2.062482265042179,
+              "mape": 0.0499884106908257,
+              "wmape": 0.04987887868913854,
+              "tracking_signal": -2.401588244743171
+            },
+            "dc_order_total": {
+              "mad": 1273.6622781558472,
+              "bias": 0.8414086063816658,
+              "mape": 0.20129439384206732,
+              "wmape": 0.20270148379928285,
+              "tracking_signal": 0.24112682505913793
+            }
+          }
+        }
+      ]
+    },
+    {
+      "safety_factor_offset": -0.5,
+      "mean_fill_rate": 0.984598541655848,
+      "absolute_service_gap": 0.005932267731893814,
+      "replications": [
+        {
+          "seed": 2322448242,
+          "fill_rate": 0.9837989190716611,
+          "average_inventory_value_inr": 10472842.149712862,
+          "measured_cost_inr": 286996769.1720046,
+          "forecast_errors": {
+            "customer_total": {
+              "mad": 340.9494638869155,
+              "bias": -0.20232054543437897,
+              "mape": 0.054036881730822564,
+              "wmape": 0.054165665171857585,
+              "tracking_signal": -0.21659221352534974
+            },
+            "dc_order_total": {
+              "mad": 1214.4403920620005,
+              "bias": -1.5775562146087994,
+              "mape": 0.1907109188432693,
+              "wmape": 0.1931052321347923,
+              "tracking_signal": -0.47413444257609577
+            }
+          }
+        },
+        {
+          "seed": 744551064,
+          "fill_rate": 0.985398164240035,
+          "average_inventory_value_inr": 10467923.584281622,
+          "measured_cost_inr": 287238079.2753092,
+          "forecast_errors": {
+            "customer_total": {
+              "mad": 313.461738659077,
+              "bias": -2.062482265042179,
+              "mape": 0.0499884106908257,
+              "wmape": 0.04987887868913854,
+              "tracking_signal": -2.401588244743171
+            },
+            "dc_order_total": {
+              "mad": 1267.2320910905232,
+              "bias": -0.4943932118220115,
+              "mape": 0.19996933319045213,
+              "wmape": 0.2017154208765782,
+              "tracking_signal": -0.14239974159725072
+            }
+          }
+        }
+      ]
+    },
+    {
+      "safety_factor_offset": 0.0,
+      "mean_fill_rate": 0.9889026166591478,
+      "absolute_service_gap": 0.0016281927285940467,
+      "replications": [
+        {
+          "seed": 2322448242,
+          "fill_rate": 0.9883411361730087,
+          "average_inventory_value_inr": 11924348.262047624,
+          "measured_cost_inr": 286819237.06499654,
+          "forecast_errors": {
+            "customer_total": {
+              "mad": 340.9494638869155,
+              "bias": -0.20232054543437897,
+              "mape": 0.054036881730822564,
+              "wmape": 0.054165665171857585,
+              "tracking_signal": -0.21659221352534974
+            },
+            "dc_order_total": {
+              "mad": 1213.6478157400347,
+              "bias": 1.5834019347774775,
+              "mape": 0.18961423855514595,
+              "wmape": 0.19291541926679173,
+              "tracking_signal": 0.4762021557640864
+            }
+          }
+        },
+        {
+          "seed": 744551064,
+          "fill_rate": 0.9894640971452869,
+          "average_inventory_value_inr": 11797129.157375885,
+          "measured_cost_inr": 287008163.6845972,
+          "forecast_errors": {
+            "customer_total": {
+              "mad": 313.461738659077,
+              "bias": -2.062482265042179,
+              "mape": 0.0499884106908257,
+              "wmape": 0.04987887868913854,
+              "tracking_signal": -2.401588244743171
+            },
+            "dc_order_total": {
+              "mad": 1292.1212562398025,
+              "bias": -0.1660123147639004,
+              "mape": 0.20433310716649716,
+              "wmape": 0.20566727159832576,
+              "tracking_signal": -0.046895362642016644
+            }
+          }
+        }
+      ]
+    },
+    {
+      "safety_factor_offset": 0.5,
+      "mean_fill_rate": 0.9925708986234366,
+      "absolute_service_gap": 0.002040089235694764,
+      "replications": [
+        {
+          "seed": 2322448242,
+          "fill_rate": 0.9922781006722651,
+          "average_inventory_value_inr": 13484238.430254107,
+          "measured_cost_inr": 285970176.89473933,
+          "forecast_errors": {
+            "customer_total": {
+              "mad": 340.9494638869155,
+              "bias": -0.20232054543437897,
+              "mape": 0.054036881730822564,
+              "wmape": 0.054165665171857585,
+              "tracking_signal": -0.21659221352534974
+            },
+            "dc_order_total": {
+              "mad": 1231.8169072300689,
+              "bias": 0.513859111002209,
+              "mape": 0.19320948104958446,
+              "wmape": 0.1958511658112841,
+              "tracking_signal": 0.15226173176788166
+            }
+          }
+        },
+        {
+          "seed": 744551064,
+          "fill_rate": 0.9928636965746082,
+          "average_inventory_value_inr": 13298022.769994179,
+          "measured_cost_inr": 286515010.7876267,
+          "forecast_errors": {
+            "customer_total": {
+              "mad": 313.461738659077,
+              "bias": -2.062482265042179,
+              "mape": 0.0499884106908257,
+              "wmape": 0.04987887868913854,
+              "tracking_signal": -2.401588244743171
+            },
+            "dc_order_total": {
+              "mad": 1273.1747329691336,
+              "bias": 0.9018632367145285,
+              "mape": 0.20188559655878036,
+              "wmape": 0.20264059098845652,
+              "tracking_signal": 0.25855059237087724
+            }
+          }
+        }
+      ]
+    },
+    {
+      "safety_factor_offset": 1.0,
+      "mean_fill_rate": 0.9952022466201954,
+      "absolute_service_gap": 0.004671437232453557,
+      "replications": [
+        {
+          "seed": 2322448242,
+          "fill_rate": 0.9947873482316457,
+          "average_inventory_value_inr": 15132532.017424999,
+          "measured_cost_inr": 286686235.2302707,
+          "forecast_errors": {
+            "customer_total": {
+              "mad": 340.9494638869155,
+              "bias": -0.20232054543437897,
+              "mape": 0.054036881730822564,
+              "wmape": 0.054165665171857585,
+              "tracking_signal": -0.21659221352534974
+            },
+            "dc_order_total": {
+              "mad": 1231.0499274877593,
+              "bias": -1.3829829446809452,
+              "mape": 0.19340099530800905,
+              "wmape": 0.19577842794227912,
+              "tracking_signal": -0.41004736163600014
+            }
+          }
+        },
+        {
+          "seed": 744551064,
+          "fill_rate": 0.9956171450087451,
+          "average_inventory_value_inr": 14830038.521586904,
+          "measured_cost_inr": 285530875.55099076,
+          "forecast_errors": {
+            "customer_total": {
+              "mad": 313.461738659077,
+              "bias": -2.062482265042179,
+              "mape": 0.0499884106908257,
+              "wmape": 0.04987887868913854,
+              "tracking_signal": -2.401588244743171
+            },
+            "dc_order_total": {
+              "mad": 1232.0893216262016,
+              "bias": 2.1467838675340216,
+              "mape": 0.19117888837061256,
+              "wmape": 0.19603195810847043,
+              "tracking_signal": 0.6359734622289371
+            }
+          }
+        }
+      ]
+    },
+    {
+      "safety_factor_offset": 1.5,
+      "mean_fill_rate": 0.9967677447660549,
+      "absolute_service_gap": 0.0062369353783130466,
+      "replications": [
+        {
+          "seed": 2322448242,
+          "fill_rate": 0.9964767674477267,
+          "average_inventory_value_inr": 16939343.316045508,
+          "measured_cost_inr": 285225815.03699833,
+          "forecast_errors": {
+            "customer_total": {
+              "mad": 340.9494638869155,
+              "bias": -0.20232054543437897,
+              "mape": 0.054036881730822564,
+              "wmape": 0.054165665171857585,
+              "tracking_signal": -0.21659221352534974
+            },
+            "dc_order_total": {
+              "mad": 1177.6172013147243,
+              "bias": -1.5780909016697953,
+              "mape": 0.1868628320754331,
+              "wmape": 0.1872589574444457,
+              "tracking_signal": -0.48912598972434285
+            }
+          }
+        },
+        {
+          "seed": 744551064,
+          "fill_rate": 0.9970587220843831,
+          "average_inventory_value_inr": 16444196.192588948,
+          "measured_cost_inr": 285911871.2154845,
+          "forecast_errors": {
+            "customer_total": {
+              "mad": 313.461738659077,
+              "bias": -2.062482265042179,
+              "mape": 0.0499884106908257,
+              "wmape": 0.04987887868913854,
+              "tracking_signal": -2.401588244743171
+            },
+            "dc_order_total": {
+              "mad": 1253.0955982912653,
+              "bias": 1.4694810002990866,
+              "mape": 0.1949446033803609,
+              "wmape": 0.19940093966540318,
+              "tracking_signal": 0.4280284487796092
+            }
+          }
+        }
+      ]
+    },
+    {
+      "safety_factor_offset": 2.0,
+      "mean_fill_rate": 0.9979031778055972,
+      "absolute_service_gap": 0.0073723684178553794,
+      "replications": [
+        {
+          "seed": 2322448242,
+          "fill_rate": 0.9977662993976051,
+          "average_inventory_value_inr": 18542288.494338237,
+          "measured_cost_inr": 285304447.5419353,
+          "forecast_errors": {
+            "customer_total": {
+              "mad": 340.9494638869155,
+              "bias": -0.20232054543437897,
+              "mape": 0.054036881730822564,
+              "wmape": 0.054165665171857585,
+              "tracking_signal": -0.21659221352534974
+            },
+            "dc_order_total": {
+              "mad": 1224.567299166896,
+              "bias": -3.192187845504399,
+              "mape": 0.19479852706172,
+              "wmape": 0.1947493383463199,
+              "tracking_signal": -0.9514777704759759
+            }
+          }
+        },
+        {
+          "seed": 744551064,
+          "fill_rate": 0.9980400562135894,
+          "average_inventory_value_inr": 17998348.956985872,
+          "measured_cost_inr": 284953542.0401421,
+          "forecast_errors": {
+            "customer_total": {
+              "mad": 313.461738659077,
+              "bias": -2.062482265042179,
+              "mape": 0.0499884106908257,
+              "wmape": 0.04987887868913854,
+              "tracking_signal": -2.401588244743171
+            },
+            "dc_order_total": {
+              "mad": 1260.4182507317755,
+              "bias": 0.6048162106172229,
+              "mape": 0.1980008785260076,
+              "wmape": 0.2006751778900016,
+              "tracking_signal": 0.1751465569045183
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "calibration_target_fill_rate": 0.9905308093877419,
+  "selected_safety_offset": 0.0,
+  "evaluation": {
+    "uniform": [
+      {
+        "seed": 2048610357,
+        "fill_rate": 0.9900849733283059,
+        "average_inventory_value_inr": 11190159.802304918,
+        "measured_cost_inr": 289459548.8152988,
+        "forecast_errors": {
+          "customer_total": {
+            "mad": 322.8660296913173,
+            "bias": -1.4521689966106126,
+            "mape": 0.05121342239192577,
+            "wmape": 0.05101110561027682,
+            "tracking_signal": -1.6416768412261609
+          },
+          "dc_order_total": {
+            "mad": 781.6325776693054,
+            "bias": -0.1604752035200014,
+            "mape": 0.1276220711128471,
+            "wmape": 0.12346532333592983,
+            "tracking_signal": -0.07493731832347178
+          }
+        }
+      },
+      {
+        "seed": 2305835404,
+        "fill_rate": 0.9895459126694296,
+        "average_inventory_value_inr": 11145380.532340625,
+        "measured_cost_inr": 289722070.50884056,
+        "forecast_errors": {
+          "customer_total": {
+            "mad": 372.4254028612289,
+            "bias": 1.8512598216652942,
+            "mape": 0.058755145076357394,
+            "wmape": 0.0587400902333332,
+            "tracking_signal": 1.8143494770135526
+          },
+          "dc_order_total": {
+            "mad": 803.1830240742942,
+            "bias": 5.97980152022883,
+            "mape": 0.13216141885873472,
+            "wmape": 0.12654371670332137,
+            "tracking_signal": 2.717472219235588
+          }
+        }
+      }
+    ],
+    "segmented": [
+      {
+        "seed": 2048610357,
+        "fill_rate": 0.9878837053058432,
+        "average_inventory_value_inr": 12069868.753617477,
+        "measured_cost_inr": 288812589.1272896,
+        "forecast_errors": {
+          "customer_total": {
+            "mad": 322.8660296913173,
+            "bias": -1.4521689966106126,
+            "mape": 0.05121342239192577,
+            "wmape": 0.05101110561027682,
+            "tracking_signal": -1.6416768412261609
+          },
+          "dc_order_total": {
+            "mad": 1238.188615975444,
+            "bias": -1.340752903220373,
+            "mape": 0.19323593889507712,
+            "wmape": 0.19561632233580056,
+            "tracking_signal": -0.3952344605348411
+          }
+        }
+      },
+      {
+        "seed": 2305835404,
+        "fill_rate": 0.9873279126186826,
+        "average_inventory_value_inr": 11934132.92332251,
+        "measured_cost_inr": 288825352.2758779,
+        "forecast_errors": {
+          "customer_total": {
+            "mad": 372.4254028612289,
+            "bias": 1.8512598216652942,
+            "mape": 0.058755145076357394,
+            "wmape": 0.0587400902333332,
+            "tracking_signal": 1.8143494770135526
+          },
+          "dc_order_total": {
+            "mad": 1254.5917916307208,
+            "bias": 5.765519572050603,
+            "mape": 0.19431730802541577,
+            "wmape": 0.1976318343738215,
+            "tracking_signal": 1.6773700081866054
+          }
+        }
+      }
+    ],
+    "service_matched": true,
+    "fill_rate_difference": -0.002209634036604846,
+    "average_inventory_value_difference_inr": 834230.6711472217
+  },
+  "limitations": [
+    "Synthetic data; few held-out replications test the pipeline, not inventory savings.",
+    "Grid matching has a configured service tolerance, not exact service equality.",
+    "Fixed historical SKU classes; no reclassification during measured days.",
+    "DC forecasts use incoming orders; B2B target CSL floors remain active.",
+    "Network warm-up and service approximations still need M7 calibration."
+  ]
+}

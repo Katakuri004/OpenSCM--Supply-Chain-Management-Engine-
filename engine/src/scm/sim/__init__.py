@@ -1,0 +1,1 @@
+"""Daily-step inventory simulation."""

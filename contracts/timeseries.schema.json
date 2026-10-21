@@ -1,0 +1,69 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "days": {
+      "items": {
+        "minimum": 0,
+        "type": "integer"
+      },
+      "minItems": 1,
+      "title": "Days",
+      "type": "array"
+    },
+    "node_id": {
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "title": "Node Id",
+      "type": "string"
+    },
+    "sku_id": {
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "title": "Sku Id",
+      "type": "string"
+    },
+    "metrics": {
+      "additionalProperties": {
+        "items": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "type": "array"
+      },
+      "minProperties": 1,
+      "propertyNames": {
+        "enum": [
+          "days_of_cover",
+          "fill_rate",
+          "on_hand",
+          "on_order",
+          "backorders"
+        ]
+      },
+      "title": "Metrics",
+      "type": "object"
+    }
+  },
+  "required": [
+    "run_id",
+    "days",
+    "node_id",
+    "sku_id",
+    "metrics"
+  ],
+  "title": "TimeSeries",
+  "type": "object"
+}

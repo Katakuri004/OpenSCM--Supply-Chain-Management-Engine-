@@ -1,0 +1,11 @@
+# ASSUMPTION: study design defaults from docs/plan.md section 4.
+# See docs/parameters.md for units and provenance. Not calibrated operating data.
+scenario: base_4dc
+horizon_days: 365
+warmup_days: 90
+replications: 30
+network: {dc_count: 4, suppliers: [S1, S2, S3, S4]}
+demand: {cv_scale: 1.0, regional_rho: 0.3, seasonality: monthly_index_v1}
+policy: {default: QR, target_csl: 0.95, segmentation: abc_xyz_v1}
+bullwhip: {signal_processing: true, batching: true, price: false, rationing: false, pos_sharing: false}
+disruptions: []

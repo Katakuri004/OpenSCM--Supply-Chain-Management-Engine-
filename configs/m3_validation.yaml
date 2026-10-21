@@ -1,0 +1,17 @@
+# ASSUMPTION: independent normal protection-demand samples for V5; see docs/parameters.md.
+seed: 303
+pooling:
+  sites: 4
+  blocks: 30000
+  lead_days: 4
+  daily_mean: 100
+  daily_std: 10
+  target_csl: 0.95
+  correlations: [0.0, 0.3, 0.6, 1.0]
+  ratio_tolerance: 0.03
+benchmark:
+  dc_count: 8
+  replications: 30
+  workers: 8
+  single_seconds_limit: 3
+  parallel_seconds_limit: 30
