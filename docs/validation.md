@@ -396,3 +396,69 @@ transshipment is deferred under the plan's explicit descoping provision. Network
 warm-up/service calibration, powered comparisons, remote CI and deployment remain
 unverified. Earlier M2–M6 manifests continue to describe their historical source
 snapshots rather than the current engine.
+
+## M8: local API, DuckDB queries and TypeScript client
+
+Local result (22 October 2026, Python 3.12.10 and Node.js 22.17.0):
+`python -m scm.check` passes **197 tests**, Ruff lint/formatting, strict mypy,
+JSON Schema and OpenAPI drift checks, generated TypeScript drift checks and strict
+TypeScript compilation. The API and query tests were written before implementation;
+the redundant-override cache regression was also observed failing before its fix.
+Tests cover synchronous and background runs, cache identity, queue limits,
+restart/failure/retry behavior, response alignment, time-series bounds, paired
+comparisons, policy modes, experiment pagination/checksums and rejected input.
+Hypothesis checks arbitrary query phrases and compares whitelisted DuckDB filters
+against Python predicates across metrics, operators, node types, nulls and thresholds.
+Compile-time client checks reject unknown paths, string seeds and SQL metric names.
+
+The [acceptance settings](../configs/m8_validation.yaml) run the synthetic four-DC
+preset and a two-DC alternative with two paired replications, 90 warm-up days and
+365 measured days. All seven [API checks](evidence/m8/results.json) pass. The saved
+health response has **36 nodes × 455 days**, including warm-up. The final-day query
+matches 24 retailers and gives identical text/structured results. The E2 endpoint
+reports 144 available records and returns the requested three-row page. Responses
+and their source/output checksums are in the [M8 manifest](evidence/m8/manifest.json).
+
+The four-DC [KPI response](evidence/m8/kpis.json) gives these replication means:
+
+| Metric | Mean |
+| --- | --- |
+| Customer fill rate | 98.7417% |
+| Receipt-cycle CSL | 94.3377% |
+| Daily demand-line OTIF proxy | 99.2414% |
+| Inventory turns | 26.9877 per year |
+| Days of inventory / cash-to-cash | 13.5263 days |
+| Days with any customer stockout/backlog | 357 of 365 |
+| Measured landed cost | INR 293950397.45 |
+| Weekly DC-order bullwhip ratio | 6.0133 |
+
+These requests use the classic known-demand policies, not M5's order-up-to control.
+The network stockout metric flags a day when any customer/SKU has a shortage or
+backlog, so it can be high alongside a high volume-weighted fill rate. The
+[paired comparison](evidence/m8/comparison.json) gives two DCs minus four DCs:
+fill rate +0.1060 percentage points and landed cost +INR 1034344.45. All eight cost
+component deltas sum to the total delta within floating-point tolerance. Saved
+responses include 95% t intervals; two replications provide implementation evidence,
+not a powered or calibrated network-design recommendation. Definitions and null
+conventions are in [API methods](api.md).
+
+A separate [live HTTP check](evidence/m8/live/results.json) starts Uvicorn, submits
+the same two-replication request and receives **202 in 0.1061 seconds**, initially
+queued, then observes running and complete. A request through the generated
+TypeScript client receives 200 and the `base_4dc` catalog entry. This distinguishes
+actual background response behavior from TestClient, which waits for background
+tasks before returning. The [live manifest](evidence/m8/live/manifest.json) records
+source hashes and the executed client JavaScript. The server was stopped afterward.
+
+The final [network regression](evidence/m8/network_regression/results.json) and
+[manifest](evidence/m8/network_regression/manifest.json) pass V5 and the original
+performance limits: **0.6777 s** for one 455-day/eight-DC run and **8.1256 s** for
+30 runs on eight worker processes, below 3 s and 30 s. Source-service logging is
+opt-in for API measurements; the existing default simulation path is preserved.
+
+The test run emits one upstream Starlette deprecation warning about its current
+httpx-based TestClient; no test fails. Nine new public response/request schemas and
+fixtures are documented in [contracts](../contracts/README.md). M9 begins the
+frontend shell and Control Tower. Authentication, distributed jobs, deployed API,
+remote CI results, full research replication counts and operational calibration
+remain unverified. Prior milestone manifests retain their historical source scope.

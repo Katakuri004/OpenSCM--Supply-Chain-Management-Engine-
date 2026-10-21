@@ -1,0 +1,19 @@
+{
+  "milestone": "M8",
+  "passed": true,
+  "checks": {
+    "background_completed": true,
+    "cache_hit": true,
+    "different_network_changes_id": true,
+    "text_equals_structured_filter": true,
+    "injection_rejected": true,
+    "cost_stack_aligned": true,
+    "experiment_page_aligned": true
+  },
+  "run_a": "ac4dae83b76d6c991f7e0c2e345d38e4fbd9c526723d24b476ee033f22902bce",
+  "run_b": "dcaebe4f569a74fae33fde6b3b68d64054ff1ba3c405215fdff0b27145a06738",
+  "health_nodes": 36,
+  "health_days": 455,
+  "query_matches": 24,
+  "replications": 2
+}

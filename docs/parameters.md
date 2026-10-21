@@ -401,3 +401,51 @@ Parquet conventions are implementation choices: version 2.6, no compression, pla
 encoding, 65536 rows per row group and stable field/row order. They introduce no
 scenario economics. The dependency lock records the versions for exact byte-repeat
 checks. Changes in library versions or hardware require rerunning those checks.
+
+## M8 API limits, accounting and acceptance requests
+
+`configs/api.yaml` contains local-service limits and the additional accounting
+assumptions. Resource limits are engineering **ASSUMPTIONs**, not operating data.
+They constrain a single server process; they are not a deployment capacity claim.
+
+| Parameter | Value | Unit / source or ASSUMPTION |
+| --- | --- | --- |
+| max_replications | 30 | Runs/request; local limit, aligned with plan §5.1 |
+| max_horizon_days | 730 | Measured days/request; ASSUMPTION |
+| max_warmup_days | 365 | Warm-up days/request; ASSUMPTION |
+| max_pending_runs | 4 | Queued/running jobs; ASSUMPTION |
+| workers | 4 | Maximum replication worker processes/job; ASSUMPTION |
+| training_days | 180 | Historical demand days for optional forecasting; inherited M4 ASSUMPTION |
+| days_sales_outstanding | 30 | Days; synthetic receivables ASSUMPTION, uncalibrated |
+| days_payables_outstanding | 30 | Days; synthetic payables ASSUMPTION, uncalibrated |
+| experiment_page_size | 1000 | Rows/default response; ASSUMPTION |
+| experiment_page_limit | 5000 | Rows/maximum response; ASSUMPTION |
+| cors_origins | localhost:5173, 127.0.0.1:5173 over HTTP | Local browser development origins; engineering ASSUMPTION |
+
+Cash-to-cash is DIO + DSO − DPO, so the configured equal 30-day terms cancel.
+No receivables/payables ledger or customer payment behavior is simulated. The
+365-day annualization and weekly seven-day BWE grouping follow the existing study
+calendar. The existing 1e-8-unit tolerance defines service shortfall/backlog flags.
+Receipt-to-receipt CSL, daily demand-line OTIF, base-value inventory turns and
+customer-only network service are explicit measurement conventions described in
+[API definitions](api.md), not additional fitted parameters.
+
+`configs/m8_validation.yaml` defines the saved acceptance requests. Every value is
+an **ASSUMPTION** for implementation verification, with no operational recommendation.
+
+| Parameter | Value | Purpose |
+| --- | --- | --- |
+| seed | 808 | SeedSequence root for training and paired replications |
+| replications | 2 | Minimum count for a paired interval and background-run check |
+| warmup_days / horizon_days | 90 / 365 | Days; existing plan §5.1 study window, not newly calibrated |
+| alternative_dc_count | 2 | DCs; compare against the existing four-DC preset |
+| node / sku | R01 / SKU01 | Existing customer and SKU for inspector time series |
+| query | retailers with fill rate >= 0% | Match all retailers with defined final-day service |
+| experiment / experiment_limit | E2 / 3 | Existing evidence and small pagination check |
+
+Public request defaults are `preset=base_4dc`, `seed=0`, `replications=1` and all
+four options false: known-demand, uniform, backorder behavior. These are neutral
+API ASSUMPTIONs; operational factors inherit the preset YAML unless overridden.
+Seeds are restricted to unsigned 32-bit integers for the documented seed interface.
+Port 8000 in examples is a local transport convention. Synthetic contract fixture
+values demonstrate serialization only; reported M8 results come from saved runs.

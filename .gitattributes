@@ -1,2 +1,3 @@
 # Preserve recorded evidence checksums across Git newline conversion.
 docs/evidence/** -text whitespace=cr-at-eol
+web/src/lib/api/schema.ts text eol=lf

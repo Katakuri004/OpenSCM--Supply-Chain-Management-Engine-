@@ -10,4 +10,6 @@ check:
 
 contracts:
 	$(PYTHON) -m scm.contracts
+	$(PYTHON) -m scm.openapi
+	npm --prefix web run generate:api
 

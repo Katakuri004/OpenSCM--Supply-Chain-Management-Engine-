@@ -8,14 +8,17 @@ version = "0.1.0"
 description = "Multi-echelon supply chain network and inventory policy study"
 requires-python = ">=3.12,<3.13"
 dependencies = ["pydantic>=2.10,<3", "PyYAML>=6,<7", "numpy>=2,<3", "scipy>=1.14,<2",
-                "pyarrow>=23,<27", "joblib>=1.4,<2", "typer>=0.16,<1"]
+                "pyarrow>=23,<27", "joblib>=1.4,<2", "typer>=0.16,<1",
+                "fastapi>=0.120,<1", "uvicorn>=0.35,<1", "duckdb>=1.4,<2"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8,<10", "jsonschema>=4.23,<5", "ruff>=0.9,<1", "mypy>=1.14,<2",
-       "types-PyYAML>=6", "types-jsonschema>=4", "hypothesis>=6,<7", "matplotlib>=3.9,<4"]
+       "types-PyYAML>=6", "types-jsonschema>=4", "hypothesis>=6,<7", "matplotlib>=3.9,<4",
+       "httpx>=0.28,<1"]
 
 [tool.setuptools.packages.find]
-where = ["engine/src"]
+where = ["engine/src", "."]
+include = ["scm*", "api*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -30,7 +33,7 @@ select = ["E", "F", "I", "UP"]
 [tool.mypy]
 python_version = "3.12"
 strict = true
-files = ["engine/src", "tests"]
+files = ["engine/src", "api", "tests"]
 
 [[tool.mypy.overrides]]
 module = ["scipy.*", "pyarrow.*", "joblib.*"]

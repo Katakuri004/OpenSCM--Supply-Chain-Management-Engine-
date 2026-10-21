@@ -81,3 +81,20 @@
   Censored recovery means are conditional on recovery being observed. No multiple
   comparison adjustment or calibrated operational conclusion is claimed. Exact
   Parquet byte reproduction is scoped to the pinned environment. See [experiments](experiments.md).
+- M8 caches effective scenarios with source/config/package fingerprints. One server
+  process owns the local queue; unfinished jobs become retryable failures after a
+  restart. This is a local study API, without durable distributed scheduling or
+  authentication. YAML changes require restarting the process.
+- API health, flows, node filters and time series represent the first replication.
+  KPI estimates use all replications; paired comparisons require matching seeds
+  and day windows. One run has no confidence interval. Undefined ratios remain null.
+- Source service counts only orders placed and dispatched that day. Node service
+  observes incoming orders, while network service observes external consumption.
+  Receipt-day CSL closes on partial receipts and excludes incomplete cycles; daily
+  SKU/node-line OTIF is a proxy for commercial order-level delivery promises.
+- Inventory turns value flows at base SKU cost; network COGS includes customer
+  fulfillment only. Synthetic 30-day DSO/DPO terms cancel in cash-to-cash days.
+  Weekly BWE requires two complete measured weeks and nonzero consumption variance.
+  Ordinary t intervals are not clipped to physical rate bounds. These accounting
+  and service conventions are documented in [API definitions](api.md), with limits
+  and acceptance settings in [parameters](parameters.md).

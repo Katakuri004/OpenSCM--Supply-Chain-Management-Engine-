@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "run_id": "ac4dae83b76d6c991f7e0c2e345d38e4fbd9c526723d24b476ee033f22902bce",
+  "post_status": 202,
+  "post_elapsed_seconds": 0.10611610009800643,
+  "initial_run_state": "queued",
+  "observed_states": [
+    "running",
+    "complete"
+  ],
+  "replications": 2,
+  "typed_client": {
+    "status": 200,
+    "preset": "base_4dc"
+  }
+}

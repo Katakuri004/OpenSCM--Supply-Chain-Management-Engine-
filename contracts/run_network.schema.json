@@ -1,0 +1,267 @@
+{
+  "$defs": {
+    "Edges": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "type": "string"
+          },
+          "title": "Id",
+          "type": "array"
+        },
+        "source": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "type": "string"
+          },
+          "title": "Source",
+          "type": "array"
+        },
+        "target": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "type": "string"
+          },
+          "title": "Target",
+          "type": "array"
+        },
+        "distance_km": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "title": "Distance Km",
+          "type": "array"
+        },
+        "flow_units": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "title": "Flow Units",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "target",
+        "distance_km",
+        "flow_units"
+      ],
+      "title": "Edges",
+      "type": "object"
+    },
+    "Estimate": {
+      "additionalProperties": false,
+      "properties": {
+        "mean": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Mean"
+        },
+        "ci95": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ci95"
+        }
+      },
+      "required": [
+        "mean"
+      ],
+      "title": "Estimate",
+      "type": "object"
+    },
+    "Kpis": {
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "node_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Node Id"
+        },
+        "replications": {
+          "exclusiveMinimum": 0,
+          "title": "Replications",
+          "type": "integer"
+        },
+        "metrics": {
+          "additionalProperties": {
+            "$ref": "#/$defs/Estimate"
+          },
+          "minProperties": 1,
+          "propertyNames": {
+            "enum": [
+              "fill_rate",
+              "cycle_service_level",
+              "stockout_days",
+              "inventory_turns",
+              "days_of_inventory",
+              "cash_to_cash_days",
+              "otif",
+              "total_landed_cost_inr",
+              "bullwhip_ratio"
+            ]
+          },
+          "title": "Metrics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "run_id",
+        "replications",
+        "metrics"
+      ],
+      "title": "Kpis",
+      "type": "object"
+    },
+    "Network": {
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "nodes": {
+          "$ref": "#/$defs/Nodes"
+        },
+        "edges": {
+          "$ref": "#/$defs/Edges"
+        }
+      },
+      "required": [
+        "run_id",
+        "nodes",
+        "edges"
+      ],
+      "title": "Network",
+      "type": "object"
+    },
+    "Nodes": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "type": "string"
+          },
+          "title": "Id",
+          "type": "array"
+        },
+        "label": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Label",
+          "type": "array"
+        },
+        "type": {
+          "items": {
+            "enum": [
+              "supplier",
+              "dc",
+              "retailer",
+              "b2b"
+            ],
+            "type": "string"
+          },
+          "title": "Type",
+          "type": "array"
+        },
+        "latitude": {
+          "items": {
+            "maximum": 90,
+            "minimum": -90,
+            "type": "number"
+          },
+          "title": "Latitude",
+          "type": "array"
+        },
+        "longitude": {
+          "items": {
+            "maximum": 180,
+            "minimum": -180,
+            "type": "number"
+          },
+          "title": "Longitude",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "type",
+        "latitude",
+        "longitude"
+      ],
+      "title": "Nodes",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "network": {
+      "$ref": "#/$defs/Network"
+    },
+    "kpis": {
+      "$ref": "#/$defs/Kpis"
+    },
+    "sku_ids": {
+      "items": {
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9_-]+$",
+        "type": "string"
+      },
+      "title": "Sku Ids",
+      "type": "array"
+    }
+  },
+  "required": [
+    "network",
+    "kpis",
+    "sku_ids"
+  ],
+  "title": "RunNetwork",
+  "type": "object"
+}

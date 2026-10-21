@@ -13,6 +13,18 @@ Fraction = Annotated[float, Field(ge=0, le=1)]
 Identifier = Annotated[str, Field(min_length=1, pattern=r"^[A-Za-z0-9_-]+$")]
 NodeType = Literal["supplier", "dc", "retailer", "b2b"]
 Metric = Literal["days_of_cover", "fill_rate", "on_hand", "on_order", "backorders"]
+KpiMetric = Literal[
+    "fill_rate",
+    "cycle_service_level",
+    "stockout_days",
+    "inventory_turns",
+    "days_of_inventory",
+    "cash_to_cash_days",
+    "otif",
+    "total_landed_cost_inr",
+    "bullwhip_ratio",
+]
+ExperimentName = Literal["E1", "E2", "E3", "E4", "E5", "E6"]
 
 
 class Contract(BaseModel):
@@ -238,6 +250,139 @@ class Query(Contract):
     operator: Literal["lt", "le", "eq", "ge", "gt"]
     value: Nonnegative
 
+    @model_validator(mode="after")
+    def service_fraction(self) -> Self:
+        if self.metric == "fill_rate" and self.value > 1:
+            raise ValueError("fill-rate filter values must be fractions")
+        return self
+
+
+class ScenarioOverrides(Contract):
+    horizon_days: Annotated[int, Field(gt=0)] | None = None
+    warmup_days: Annotated[int, Field(ge=0)] | None = None
+    network: NetworkConfig | None = None
+    demand: DemandConfig | None = None
+    policy: PolicyConfig | None = None
+    bullwhip: BullwhipConfig | None = None
+    disruptions: list[Disruption] | None = None
+
+
+class RunOptions(Contract):
+    forecasting: bool = False
+    segmented: bool = False
+    bullwhip: bool = False
+    lost_sales: bool = False
+
+
+class RunRequest(Contract):
+    preset: Identifier = "base_4dc"
+    overrides: ScenarioOverrides = Field(default_factory=ScenarioOverrides)
+    seed: Annotated[int, Field(ge=0, le=4294967295)] = 0
+    replications: Annotated[int, Field(gt=0)] = 1
+    options: RunOptions = Field(default_factory=RunOptions)
+
+    @model_validator(mode="after")
+    def compatible_options(self) -> Self:
+        if self.options.segmented and self.options.bullwhip:
+            raise ValueError("bullwhip runs require uniform planning")
+        return self
+
+
+class ApiError(Contract):
+    detail: str
+    issues: list[str] = Field(default_factory=list)
+
+
+class RunStatus(Contract):
+    run_id: Identifier
+    status: Literal["queued", "running", "complete", "failed"]
+    seed: Annotated[int, Field(ge=0)]
+    replications: Annotated[int, Field(gt=0)]
+    representative_seed: Annotated[int, Field(ge=0)]
+    error: str | None = None
+
+
+class ScenarioCatalog(Contract):
+    presets: dict[Identifier, Scenario]
+
+
+class RunNetwork(Contract):
+    network: Network
+    kpis: Kpis
+    sku_ids: list[Identifier]
+
+    @model_validator(mode="after")
+    def aligned_run(self) -> Self:
+        if self.network.run_id != self.kpis.run_id:
+            raise ValueError("network and KPIs must identify the same run")
+        return self
+
+
+class QueryRequest(Contract):
+    filter: Query | None = None
+    text: Annotated[str, Field(min_length=1, max_length=200)] | None = None
+    day: Annotated[int, Field(ge=0)] | None = None
+
+    @model_validator(mode="after")
+    def one_filter(self) -> Self:
+        if (self.filter is None) == (self.text is None):
+            raise ValueError("supply exactly one filter or query phrase")
+        return self
+
+
+class QueryResults(Contract):
+    run_id: Identifier
+    day: Annotated[int, Field(ge=0)]
+    filter: Query
+    node_ids: list[Identifier]
+    node_types: list[NodeType]
+    values: list[Nonnegative]
+
+    @model_validator(mode="after")
+    def aligned(self) -> Self:
+        same_length(self.node_ids, self.node_types, self.values)
+        return self
+
+
+class CostComparison(Contract):
+    component: list[Identifier]
+    a: list[float | None]
+    b: list[float | None]
+    delta: list[float | None]
+    ci95_low: list[float | None]
+    ci95_high: list[float | None]
+
+    @model_validator(mode="after")
+    def aligned(self) -> Self:
+        same_length(self.component, self.a, self.b, self.delta, self.ci95_low, self.ci95_high)
+        return self
+
+
+class Comparison(Contract):
+    run_a: Identifier
+    run_b: Identifier
+    replications: Annotated[int, Field(gt=0)]
+    metrics: dict[KpiMetric, Estimate] = Field(min_length=1)
+    costs: CostComparison
+
+
+class ExperimentResults(Contract):
+    experiment: ExperimentName
+    config_hash: str
+    total: Annotated[int, Field(ge=0)]
+    offset: Annotated[int, Field(ge=0)]
+    case_id: list[Identifier]
+    phase: list[Literal["validation", "screen", "confirm", "calibration", "evaluation"]]
+    replication: list[Annotated[int, Field(ge=0)]]
+    seed: list[Annotated[int, Field(ge=0)]]
+    metric: list[Identifier]
+    value: list[float | None]
+
+    @model_validator(mode="after")
+    def aligned(self) -> Self:
+        same_length(self.case_id, self.phase, self.replication, self.seed, self.metric, self.value)
+        return self
+
 
 class ExperimentRow(Contract):
     experiment: Literal["E1", "E2", "E3", "E4", "E5", "E6"]
@@ -250,6 +395,15 @@ class ExperimentRow(Contract):
 
 
 CONTRACTS: dict[str, type[Contract]] = {
+    "api_error": ApiError,
+    "run_request": RunRequest,
+    "run_status": RunStatus,
+    "scenario_catalog": ScenarioCatalog,
+    "run_network": RunNetwork,
+    "query_request": QueryRequest,
+    "query_results": QueryResults,
+    "comparison": Comparison,
+    "experiment_results": ExperimentResults,
     "experiment_row": ExperimentRow,
     "scenario": Scenario,
     "network": Network,

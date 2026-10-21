@@ -1,0 +1,12 @@
+# ASSUMPTION: local study API resource limits and cash-to-cash assumptions.
+max_replications: 30
+max_horizon_days: 730
+max_warmup_days: 365
+max_pending_runs: 4
+workers: 4
+training_days: 180
+days_sales_outstanding: 30
+days_payables_outstanding: 30
+experiment_page_size: 1000
+experiment_page_limit: 5000
+cors_origins: ["http://localhost:5173", "http://127.0.0.1:5173"]

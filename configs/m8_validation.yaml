@@ -1,0 +1,11 @@
+# ASSUMPTION: API acceptance requests use the documented synthetic base network.
+seed: 808
+replications: 2
+warmup_days: 90
+horizon_days: 365
+alternative_dc_count: 2
+node: R01
+sku: SKU01
+query: "retailers with fill rate >= 0%"
+experiment: E2
+experiment_limit: 3

@@ -1,0 +1,57 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "queued",
+        "running",
+        "complete",
+        "failed"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "seed": {
+      "minimum": 0,
+      "title": "Seed",
+      "type": "integer"
+    },
+    "replications": {
+      "exclusiveMinimum": 0,
+      "title": "Replications",
+      "type": "integer"
+    },
+    "representative_seed": {
+      "minimum": 0,
+      "title": "Representative Seed",
+      "type": "integer"
+    },
+    "error": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Error"
+    }
+  },
+  "required": [
+    "run_id",
+    "status",
+    "seed",
+    "replications",
+    "representative_seed"
+  ],
+  "title": "RunStatus",
+  "type": "object"
+}

@@ -1,0 +1,20 @@
+{
+  "preset": "base_4dc",
+  "overrides": {
+    "horizon_days": null,
+    "warmup_days": null,
+    "network": null,
+    "demand": null,
+    "policy": null,
+    "bullwhip": null,
+    "disruptions": null
+  },
+  "seed": 0,
+  "replications": 1,
+  "options": {
+    "forecasting": false,
+    "segmented": false,
+    "bullwhip": false,
+    "lost_sales": false
+  }
+}

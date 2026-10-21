@@ -76,3 +76,37 @@ cost conventions and derived marginal service costs.
 
 M8 will define experiment API envelopes. M7's `summary.json` and manifests are
 internal analytical artifacts, not substitutes for those response contracts.
+
+## M8 API contracts and generated client
+
+M8 adds nine public models and matching generated schemas/fixtures: `RunRequest`,
+`RunStatus`, `ScenarioCatalog`, `RunNetwork`, `QueryRequest`, `QueryResults`,
+`Comparison`, `ExperimentResults` and `ApiError`. `RunNetwork` wraps the existing
+network payload with aggregate KPIs and SKU identifiers. Existing standalone network,
+health, time-series and KPI payload shapes remain usable. The new catalog is a
+preset mapping; query matches, cost stacks and experiment pages use aligned columns.
+
+`Query` now rejects fill-rate thresholds above one at runtime. Percentages are
+converted by the phrase parser; structured filter values remain fractions. This
+cross-field constraint is enforced by Pydantic, in addition to the common schema
+nonnegative bound. `RunRequest` uses typed, optional override sections, rather than
+an arbitrary dictionary. Explicit fields merge with the preset. Options activate
+forecasting, segmentation, bullwhip behavior or lost sales; segmented bullwhip runs
+are rejected. Seeds must fit an unsigned 32-bit integer. Server resource limits are
+validated against `configs/api.yaml`.
+
+`contracts/openapi.json` is exported from these models and the live FastAPI routes.
+The declared POST responses cover synchronous creation (201), cache hits (200), and
+background jobs (202). A status endpoint supports polling. Validation failures have
+a consistent `ApiError` body. Cross-column constraints remain Pydantic checks.
+
+`web/src/lib/api/schema.ts` is generated from OpenAPI by pinned openapi-typescript;
+`client.ts` uses openapi-fetch with those types. Generator settings preserve optional
+request defaults. Generated TypeScript has fixed LF line endings so Windows checkout
+does not create false drift. No endpoint interfaces are handwritten in the client.
+Both generated artifacts have read-only drift checks, and the TypeScript compiler
+checks valid calls plus deliberately invalid paths, seed types and metric names.
+
+The nine new fixtures are arbitrary synthetic examples, not measured results. M8
+API evidence is separately generated in `docs/evidence/m8`. See [API methods](../docs/api.md)
+for replication, null-value, KPI and comparison conventions.

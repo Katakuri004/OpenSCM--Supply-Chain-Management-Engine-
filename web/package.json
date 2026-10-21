@@ -1,0 +1,12 @@
+{
+  "name": "openscm-web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate:api": "node scripts/generate-client.mjs",
+    "check:api": "node scripts/generate-client.mjs --check",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {"openapi-fetch": "^0.15.0"},
+  "devDependencies": {"openapi-typescript": "^7.10.0", "typescript": "^5.9.0"}
+}

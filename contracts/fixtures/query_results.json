@@ -1,0 +1,19 @@
+{
+  "run_id": "synthetic_m0",
+  "day": 90,
+  "filter": {
+    "node_type": "retailer",
+    "metric": "fill_rate",
+    "operator": "lt",
+    "value": 0.95
+  },
+  "node_ids": [
+    "DC1"
+  ],
+  "node_types": [
+    "dc"
+  ],
+  "values": [
+    3.0
+  ]
+}

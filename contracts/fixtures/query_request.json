@@ -1,0 +1,10 @@
+{
+  "filter": {
+    "node_type": "retailer",
+    "metric": "fill_rate",
+    "operator": "lt",
+    "value": 0.95
+  },
+  "text": null,
+  "day": 90
+}

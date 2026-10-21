@@ -89,6 +89,7 @@ class NetworkResult:
     forecast: FloatArray | None = None
     observed_demand: FloatArray | None = None
     supply_fill: FloatArray | None = None
+    source_immediate: FloatArray | None = None
 
     @property
     def total_cost(self) -> FloatArray:
@@ -111,6 +112,7 @@ def simulate_network(
     bullwhip: BullwhipSettings | None = None,
     mitigation: MitigationSettings | None = None,
     outbound_freight_factor: float = 1,
+    log_source_service: bool = False,
 ) -> NetworkResult:
     """Node histories are day × SKU × node; shipment histories are day × SKU × edge."""
     usage, leads = np.asarray(demand, dtype=float), np.asarray(lead_times)
@@ -200,6 +202,8 @@ def simulate_network(
         costs=costs,
         warmup_days=warmup_days,
     )
+    if log_source_service:
+        result.source_immediate = np.zeros_like(result.on_hand)
     if (planning is None) != (demand_history is None):
         raise ValueError("planning settings and past demand_history must be supplied together")
     flags = net.scenario.bullwhip
@@ -412,6 +416,11 @@ def simulate_network(
             waiting = np.maximum(0, waiting - shipped_to_node)
             result.supply_fill[day] = supply_fill
         np.add.at(result.dispatched[day], (sku, source), allocated)
+        if result.source_immediate is not None:
+            same_day = order_day == day
+            np.add.at(
+                result.source_immediate[day], (sku[same_day], source[same_day]), allocated[same_day]
+            )
         produced = result.produced[day]
         produced[:, net.is_supplier] = result.dispatched[day][:, net.is_supplier]
         stock += produced - result.dispatched[day]

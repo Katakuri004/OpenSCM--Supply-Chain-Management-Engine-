@@ -1,0 +1,318 @@
+{
+  "$defs": {
+    "BullwhipConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "signal_processing": {
+          "default": true,
+          "title": "Signal Processing",
+          "type": "boolean"
+        },
+        "batching": {
+          "default": true,
+          "title": "Batching",
+          "type": "boolean"
+        },
+        "price": {
+          "default": false,
+          "title": "Price",
+          "type": "boolean"
+        },
+        "rationing": {
+          "default": false,
+          "title": "Rationing",
+          "type": "boolean"
+        },
+        "pos_sharing": {
+          "default": false,
+          "title": "Pos Sharing",
+          "type": "boolean"
+        }
+      },
+      "title": "BullwhipConfig",
+      "type": "object"
+    },
+    "DemandConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "cv_scale": {
+          "default": 1.0,
+          "minimum": 0,
+          "title": "Cv Scale",
+          "type": "number"
+        },
+        "regional_rho": {
+          "default": 0.3,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Regional Rho",
+          "type": "number"
+        },
+        "seasonality": {
+          "const": "monthly_index_v1",
+          "default": "monthly_index_v1",
+          "title": "Seasonality",
+          "type": "string"
+        }
+      },
+      "title": "DemandConfig",
+      "type": "object"
+    },
+    "Disruption": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "supplier_outage",
+            "lead_time_multiplier",
+            "demand_shock",
+            "capacity_cut",
+            "moq_change",
+            "price_promo"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "target": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Target",
+          "type": "string"
+        },
+        "start_day": {
+          "minimum": 0,
+          "title": "Start Day",
+          "type": "integer"
+        },
+        "duration": {
+          "exclusiveMinimum": 0,
+          "title": "Duration",
+          "type": "integer"
+        },
+        "magnitude": {
+          "description": "Removed capacity fraction for outage/cut; discount fraction for promo; multiplier otherwise.",
+          "minimum": 0,
+          "title": "Magnitude",
+          "type": "number"
+        }
+      },
+      "required": [
+        "type",
+        "target",
+        "start_day",
+        "duration",
+        "magnitude"
+      ],
+      "title": "Disruption",
+      "type": "object"
+    },
+    "NetworkConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "dc_count": {
+          "default": 4,
+          "enum": [
+            1,
+            2,
+            4,
+            8
+          ],
+          "title": "Dc Count",
+          "type": "integer"
+        },
+        "suppliers": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "type": "string"
+          },
+          "title": "Suppliers",
+          "type": "array"
+        }
+      },
+      "title": "NetworkConfig",
+      "type": "object"
+    },
+    "PolicyConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "default": {
+          "enum": [
+            "QR",
+            "sS",
+            "RS",
+            "order_up_to"
+          ],
+          "type": "string",
+          "default": "QR",
+          "title": "Default"
+        },
+        "target_csl": {
+          "default": 0.95,
+          "exclusiveMaximum": 1,
+          "exclusiveMinimum": 0,
+          "title": "Target Csl",
+          "type": "number"
+        },
+        "segmentation": {
+          "const": "abc_xyz_v1",
+          "default": "abc_xyz_v1",
+          "title": "Segmentation",
+          "type": "string"
+        }
+      },
+      "title": "PolicyConfig",
+      "type": "object"
+    },
+    "RunOptions": {
+      "additionalProperties": false,
+      "properties": {
+        "forecasting": {
+          "default": false,
+          "title": "Forecasting",
+          "type": "boolean"
+        },
+        "segmented": {
+          "default": false,
+          "title": "Segmented",
+          "type": "boolean"
+        },
+        "bullwhip": {
+          "default": false,
+          "title": "Bullwhip",
+          "type": "boolean"
+        },
+        "lost_sales": {
+          "default": false,
+          "title": "Lost Sales",
+          "type": "boolean"
+        }
+      },
+      "title": "RunOptions",
+      "type": "object"
+    },
+    "ScenarioOverrides": {
+      "additionalProperties": false,
+      "properties": {
+        "horizon_days": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Horizon Days"
+        },
+        "warmup_days": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Warmup Days"
+        },
+        "network": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NetworkConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "demand": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DemandConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "policy": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PolicyConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "bullwhip": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BullwhipConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "disruptions": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/Disruption"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Disruptions"
+        }
+      },
+      "title": "ScenarioOverrides",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "preset": {
+      "default": "base_4dc",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "title": "Preset",
+      "type": "string"
+    },
+    "overrides": {
+      "$ref": "#/$defs/ScenarioOverrides"
+    },
+    "seed": {
+      "default": 0,
+      "maximum": 4294967295,
+      "minimum": 0,
+      "title": "Seed",
+      "type": "integer"
+    },
+    "replications": {
+      "default": 1,
+      "exclusiveMinimum": 0,
+      "title": "Replications",
+      "type": "integer"
+    },
+    "options": {
+      "$ref": "#/$defs/RunOptions"
+    }
+  },
+  "title": "RunRequest",
+  "type": "object"
+}

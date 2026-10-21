@@ -1,0 +1,118 @@
+{
+  "$defs": {
+    "Query": {
+      "additionalProperties": false,
+      "properties": {
+        "node_type": {
+          "anyOf": [
+            {
+              "enum": [
+                "supplier",
+                "dc",
+                "retailer",
+                "b2b"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Node Type"
+        },
+        "metric": {
+          "enum": [
+            "days_of_cover",
+            "fill_rate",
+            "on_hand",
+            "on_order",
+            "backorders"
+          ],
+          "title": "Metric",
+          "type": "string"
+        },
+        "operator": {
+          "enum": [
+            "lt",
+            "le",
+            "eq",
+            "ge",
+            "gt"
+          ],
+          "title": "Operator",
+          "type": "string"
+        },
+        "value": {
+          "minimum": 0,
+          "title": "Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "metric",
+        "operator",
+        "value"
+      ],
+      "title": "Query",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "day": {
+      "minimum": 0,
+      "title": "Day",
+      "type": "integer"
+    },
+    "filter": {
+      "$ref": "#/$defs/Query"
+    },
+    "node_ids": {
+      "items": {
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9_-]+$",
+        "type": "string"
+      },
+      "title": "Node Ids",
+      "type": "array"
+    },
+    "node_types": {
+      "items": {
+        "enum": [
+          "supplier",
+          "dc",
+          "retailer",
+          "b2b"
+        ],
+        "type": "string"
+      },
+      "title": "Node Types",
+      "type": "array"
+    },
+    "values": {
+      "items": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "title": "Values",
+      "type": "array"
+    }
+  },
+  "required": [
+    "run_id",
+    "day",
+    "filter",
+    "node_ids",
+    "node_types",
+    "values"
+  ],
+  "title": "QueryResults",
+  "type": "object"
+}

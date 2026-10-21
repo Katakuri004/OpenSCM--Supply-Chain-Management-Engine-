@@ -1,0 +1,24 @@
+{
+  "experiment": "E2",
+  "config_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "total": 1,
+  "offset": 0,
+  "case_id": [
+    "synthetic_m8"
+  ],
+  "phase": [
+    "evaluation"
+  ],
+  "replication": [
+    0
+  ],
+  "seed": [
+    1
+  ],
+  "metric": [
+    "fill_rate"
+  ],
+  "value": [
+    0.95
+  ]
+}

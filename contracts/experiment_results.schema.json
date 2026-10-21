@@ -1,0 +1,107 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "experiment": {
+      "enum": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6"
+      ],
+      "title": "Experiment",
+      "type": "string"
+    },
+    "config_hash": {
+      "title": "Config Hash",
+      "type": "string"
+    },
+    "total": {
+      "minimum": 0,
+      "title": "Total",
+      "type": "integer"
+    },
+    "offset": {
+      "minimum": 0,
+      "title": "Offset",
+      "type": "integer"
+    },
+    "case_id": {
+      "items": {
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9_-]+$",
+        "type": "string"
+      },
+      "title": "Case Id",
+      "type": "array"
+    },
+    "phase": {
+      "items": {
+        "enum": [
+          "validation",
+          "screen",
+          "confirm",
+          "calibration",
+          "evaluation"
+        ],
+        "type": "string"
+      },
+      "title": "Phase",
+      "type": "array"
+    },
+    "replication": {
+      "items": {
+        "minimum": 0,
+        "type": "integer"
+      },
+      "title": "Replication",
+      "type": "array"
+    },
+    "seed": {
+      "items": {
+        "minimum": 0,
+        "type": "integer"
+      },
+      "title": "Seed",
+      "type": "array"
+    },
+    "metric": {
+      "items": {
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9_-]+$",
+        "type": "string"
+      },
+      "title": "Metric",
+      "type": "array"
+    },
+    "value": {
+      "items": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "title": "Value",
+      "type": "array"
+    }
+  },
+  "required": [
+    "experiment",
+    "config_hash",
+    "total",
+    "offset",
+    "case_id",
+    "phase",
+    "replication",
+    "seed",
+    "metric",
+    "value"
+  ],
+  "title": "ExperimentResults",
+  "type": "object"
+}

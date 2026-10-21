@@ -160,6 +160,6 @@ pipeline. The full configuration defaults to 30 evaluation replications, ten scr
 replications and 30 confirmation replications. Broader operating calibration and a
 fully powered study remain unverified.
 
-See [validation](validation.md) for saved counts, hashes and measured results. The
-next milestone adds the API and DuckDB query layer; M7 artifacts are available directly
+See [validation](validation.md) for saved counts, hashes and measured results.
+M8 adds the [API and DuckDB query layer](api.md); M7 artifacts are available directly
 through the documented CLI and Parquet contract.

@@ -1,0 +1,31 @@
+{
+  "run_a": "synthetic_a",
+  "run_b": "synthetic_b",
+  "replications": 1,
+  "metrics": {
+    "fill_rate": {
+      "mean": 0.0,
+      "ci95": null
+    }
+  },
+  "costs": {
+    "component": [
+      "holding"
+    ],
+    "a": [
+      10.0
+    ],
+    "b": [
+      12.0
+    ],
+    "delta": [
+      2.0
+    ],
+    "ci95_low": [
+      null
+    ],
+    "ci95_high": [
+      null
+    ]
+  }
+}
