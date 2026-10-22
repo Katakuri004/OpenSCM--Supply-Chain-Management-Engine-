@@ -1,7 +1,18 @@
 import { create } from "zustand";
+export const viewNames = {
+  tower: "Control Tower",
+  scenario: "Scenario Lab",
+  network: "Network Design",
+  bullwhip: "Bullwhip Lab",
+  inventory: "Inventory Lab",
+  resilience: "Resilience",
+  methodology: "Methodology",
+} as const;
+export type ViewKey = keyof typeof viewNames;
 const params = new URLSearchParams(location.search);
 const initialDay = Number(params.get("day") ?? "90");
 export const useTower = create<{
+  view: ViewKey;
   mode: "fixture" | "live";
   day: number;
   node: string;
@@ -9,6 +20,7 @@ export const useTower = create<{
   dark: boolean;
   set: (
     state: Partial<{
+      view: ViewKey;
       mode: "fixture" | "live";
       day: number;
       node: string;
@@ -17,6 +29,9 @@ export const useTower = create<{
     }>,
   ) => void;
 }>((set) => ({
+  view: Object.hasOwn(viewNames, params.get("view") ?? "")
+    ? (params.get("view") as ViewKey)
+    : "tower",
   mode: params.get("mode") === "live" ? "live" : "fixture",
   day: Number.isInteger(initialDay) && initialDay >= 0 ? initialDay : 90,
   node: params.get("node") ?? "R01",
@@ -27,6 +42,7 @@ export const useTower = create<{
 useTower.subscribe((state) => {
   const next = new URL(location.href);
   for (const [key, value] of Object.entries({
+    view: state.view,
     mode: state.mode,
     day: state.day,
     node: state.node,

@@ -1,0 +1,157 @@
+{
+  "passed": true,
+  "browser": "Playwright Chromium",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "platform": "win32 10.0.26200",
+  "node": "v22.17.0",
+  "tests": [
+    {
+      "name": "Scenario Lab loads recorded evidence",
+      "status": "passed",
+      "duration_ms": 1223
+    },
+    {
+      "name": "Network Design loads recorded evidence",
+      "status": "passed",
+      "duration_ms": 1137
+    },
+    {
+      "name": "Bullwhip Lab loads recorded evidence",
+      "status": "passed",
+      "duration_ms": 1126
+    },
+    {
+      "name": "Inventory Lab loads recorded evidence",
+      "status": "passed",
+      "duration_ms": 1176
+    },
+    {
+      "name": "Resilience loads recorded evidence",
+      "status": "passed",
+      "duration_ms": 1104
+    },
+    {
+      "name": "Methodology loads recorded evidence",
+      "status": "passed",
+      "duration_ms": 1214
+    },
+    {
+      "name": "Scenario Lab paired deltas match the live API",
+      "status": "passed",
+      "duration_ms": 1399
+    },
+    {
+      "name": "study controls select saved cases and export the displayed evidence",
+      "status": "passed",
+      "duration_ms": 3750
+    },
+    {
+      "name": "recorded Control Tower supports inspection, queries and local scrubbing",
+      "status": "passed",
+      "duration_ms": 2970
+    },
+    {
+      "name": "100-node health updates stay local and responsive",
+      "status": "passed",
+      "duration_ms": 2484
+    },
+    {
+      "name": "live mode runs against the API and surfaces a failed request",
+      "status": "passed",
+      "duration_ms": 3203
+    }
+  ],
+  "performance": {
+    "nodes": 100,
+    "times": [
+      34.699999928474426,
+      30,
+      32.60000002384186,
+      33.799999952316284,
+      32.200000047683716,
+      33.39999997615814,
+      34.60000002384186,
+      33.200000047683716,
+      32,
+      37,
+      31.199999928474426,
+      31.700000047683716,
+      33.10000002384186,
+      41,
+      33.299999952316284,
+      27.5,
+      32.89999997615814,
+      33.300000071525574,
+      35.699999928474426,
+      30.700000047683716,
+      34.299999952316284,
+      32,
+      33.39999997615814,
+      32.800000071525574,
+      34,
+      33.89999997615814,
+      32.700000047683716,
+      35.59999990463257,
+      30.700000047683716,
+      34.10000002384186,
+      33.199999928474426,
+      32.5,
+      33.800000071525574,
+      33.5,
+      33.39999997615814,
+      33.10000002384186,
+      34,
+      32.60000002384186,
+      33.59999990463257,
+      33.300000071525574
+    ],
+    "batches": [
+      0.8000000715255737,
+      0.6000000238418579,
+      0.5,
+      0.6000000238418579,
+      0.6000000238418579,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.6000000238418579,
+      0.3999999761581421,
+      0.5,
+      0.5,
+      0.5,
+      0.3999999761581421,
+      0.5,
+      0.3999999761581421,
+      0.2999999523162842,
+      0.3999999761581421,
+      0.3999999761581421,
+      0.40000009536743164,
+      0.3999999761581421,
+      0.3999999761581421,
+      0.30000007152557373,
+      0.5,
+      0.40000009536743164,
+      0.3999999761581421,
+      0.30000007152557373,
+      0.3999999761581421,
+      0.3999999761581421,
+      0.3999999761581421,
+      0.2999999523162842,
+      0.3999999761581421,
+      0.5,
+      0.3999999761581421,
+      0.3999999761581421,
+      0.3999999761581421,
+      0.3999999761581421,
+      0.2999999523162842
+    ],
+    "two_frame_p95_ms": 37,
+    "batch_p95_ms": 0.6000000238418579,
+    "additional_requests": 0
+  }
+}

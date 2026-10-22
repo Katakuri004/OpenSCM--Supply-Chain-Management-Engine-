@@ -517,3 +517,56 @@ The upstream Starlette TestClient deprecation warning remains non-failing. M10's
 other study views, remote CI confirmation, deployed/static demo, Lighthouse and full
 accessibility audits remain unverified. These belong to the subsequent milestones;
 M9 does not establish calibrated supply-chain recommendations.
+
+## M10: six Next.js study views
+
+Local result (22 October 2026, Python 3.12.10, Node.js 22.17.0):
+`python -m scm.check` passes **205 Python tests**, **7 Vitest tests** and
+**11 Playwright tests**, plus Ruff, strict mypy/TypeScript, Prettier,
+contract/OpenAPI/client drift checks and the Next.js production build. The
+first full attempt caught a chart-component formatting issue; it was corrected
+before the final complete run. The existing upstream Starlette deprecation
+warning remains non-failing.
+
+The [fixture manifest](evidence/m10/fixture_manifest.json) records the M10
+exporter's source and output checksums. Export checks reproduce all **64 E4**
+replication-zero trajectories and reconcile their DC bullwhip ratios against
+M7 Parquet observations. All paired metrics for **six M6 events** match the
+saved first-replication results. E2/E3/E4/E6 estimates retain their original
+config hashes, case factors, counts, nulls and unbounded intervals. M7 summary
+and Parquet hashes are checked before import. A separate checksum audit found
+no mismatches in the M10 fixture manifest's inputs or output.
+
+The [browser results](evidence/m10/results.json) and
+[browser manifest](evidence/m10/manifest.json) record:
+
+- Six fixture-backed views loading without uncaught browser errors, with
+  reviewed full-page screenshot baselines and no horizontal page overflow.
+- A live Scenario Lab demand-shock change, matching-seed paired run completion
+  and exact agreement between displayed percentage-point/INR delta data and
+  `GET /compare`. The visible fill delta is also checked after formatting.
+- Bullwhip batching/lead-factor selection and CSV contents matching the selected
+  recorded E4 estimate; keyboard EOQ quantity changes; E2 SKU selection; E3
+  placement/geographic controls; resilience event and mitigation controls.
+- Searchable assumption notes, a real validation Markdown download and a 404
+  for a document outside the fixed allowlist. A Control Tower service failure
+  no longer leaks into another view after navigation.
+- All prior Control Tower flows. The 100-node synthetic load check records
+  **0.6 ms p95** `cy.batch()` time across 40 day updates, below its 16.7 ms
+  regression budget, with no additional requests during scrubbing.
+
+The new `StudyEvidence` contract and `GET /studies` keep recorded/live transports
+aligned. This endpoint serves historical evidence; only Scenario Lab submissions
+compute new A/B runs. Representative trajectories are not experimental means:
+weekly E4 plots show one replication, M6 timelines retain their unmitigated pair,
+and the E6 mitigation tornado is a separate two-run OAT summary. The M5 daily
+Chen benchmark is separate from constrained weekly network BWE. EOQ changes
+analytical cost only; the M2 stock overlay retains its original Q*.
+See [study-view methods](study-views.md), [parameters](parameters.md) and
+[contract changes](../contracts/README.md).
+
+The current evidence demonstrates local implementation and API parity, not a
+calibrated network-design recommendation. Full research replication counts,
+remote CI confirmation, deployment, Docker, Lighthouse and broad accessibility
+audits remain unverified. M11 owns the demo/deployment quality work; M12 owns
+the final case-study report. Prior milestone evidence retains its historical scope.

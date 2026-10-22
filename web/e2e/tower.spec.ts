@@ -157,4 +157,7 @@ test("live mode runs against the API and surfaces a failed request", async ({ pa
   await expect(page.getByRole("alert", { name: "Study service error" })).toContainText(
     "Local run queue is full",
   );
+  await page.getByRole("button", { name: "Methodology", exact: true }).click();
+  await expect(page.getByTestId("study-ready")).toBeVisible();
+  await expect(page.getByRole("alert", { name: "Study service error" })).toHaveCount(0);
 });

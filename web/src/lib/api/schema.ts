@@ -170,6 +170,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/studies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Study Evidence */
+        get: operations["get_study_evidence"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -296,6 +313,21 @@ export interface components {
             /** Mean */
             mean: number | null;
         };
+        /** EventControl */
+        EventControl: {
+            /** Maximum */
+            maximum: number;
+            /** Minimum */
+            minimum: number;
+            /** Neutral */
+            neutral: number;
+            /** Step */
+            step: number;
+            /** Target */
+            target: string;
+            /** Type */
+            type: string;
+        };
         /** ExperimentResults */
         ExperimentResults: {
             /** Case Id */
@@ -334,6 +366,18 @@ export interface components {
             run_id: string;
             /** Stockout */
             stockout: boolean[][];
+        };
+        /** InventoryExample */
+        InventoryExample: {
+            /** Annual Demand */
+            annual_demand: number;
+            /** Holding Cost */
+            holding_cost: number;
+            /** Order Cost */
+            order_cost: number;
+            /** Quantity */
+            quantity: number;
+            series: components["schemas"]["ObservationSeries"];
         };
         /** Kpis */
         Kpis: {
@@ -378,6 +422,30 @@ export interface components {
             longitude: number[];
             /** Type */
             type: ("supplier" | "dc" | "retailer" | "b2b")[];
+        };
+        /** ObservationSeries */
+        ObservationSeries: {
+            /** Columns */
+            columns: {
+                [key: string]: (number | null)[];
+            };
+            /** Days */
+            days: (number)[];
+            /** Label */
+            label: string;
+            /** Seed */
+            seed?: number | null;
+            /** Source */
+            source: string;
+        };
+        /** ParameterNote */
+        ParameterNote: {
+            /** Parameter */
+            parameter: string;
+            /** Source */
+            source: string;
+            /** Value */
+            value: string;
         };
         /** PolicyConfig */
         PolicyConfig: {
@@ -450,6 +518,15 @@ export interface components {
             run_id: string;
             /** Values */
             values: number[];
+        };
+        /** ResilienceExample */
+        ResilienceExample: {
+            event: components["schemas"]["Disruption"];
+            /** Metrics */
+            metrics: {
+                [key: string]: number | null;
+            };
+            series: components["schemas"]["ObservationSeries"];
         };
         /** RunNetwork */
         RunNetwork: {
@@ -567,6 +644,127 @@ export interface components {
             policy?: components["schemas"]["PolicyConfig"] | null;
             /** Warmup Days */
             warmup_days?: number | null;
+        };
+        /** StudyCase */
+        StudyCase: {
+            /** Case Id */
+            case_id: string;
+            /** Factors */
+            factors: {
+                [key: string]: string | number | boolean;
+            };
+        };
+        /** StudyDefaults */
+        StudyDefaults: {
+            /**
+             * Alternative Dcs
+             * @enum {integer}
+             */
+            alternative_dcs: 1 | 2 | 4 | 8;
+            /**
+             * Baseline Dcs
+             * @enum {integer}
+             */
+            baseline_dcs: 1 | 2 | 4 | 8;
+            /** Default Demand Cv */
+            default_demand_cv: number;
+            /** Default Inbound Days */
+            default_inbound_days: number;
+            /** Default Outbound Factor */
+            default_outbound_factor: number;
+            /** Default Rho */
+            default_rho: number;
+            /** Event Duration */
+            event_duration: number;
+            /** Event Start */
+            event_start: number;
+            /** Events */
+            events: components["schemas"]["EventControl"][];
+            /** Horizon Days */
+            horizon_days: number;
+            /** Inventory Display Days */
+            inventory_display_days: number;
+            /** Quantity Range */
+            quantity_range: number[];
+            /** Quantity Step */
+            quantity_step: number;
+            /** Replications */
+            replications: number;
+            /** Seed */
+            seed: number;
+            /** Warmup Days */
+            warmup_days: number;
+        };
+        /** StudyEstimate */
+        StudyEstimate: {
+            /** Baseline */
+            baseline?: string | null;
+            /** Case Id */
+            case_id: string;
+            /** Countermeasure */
+            countermeasure?: string | null;
+            /** High */
+            high: number | null;
+            /** Low */
+            low: number | null;
+            /** Mean */
+            mean: number | null;
+            /** Metric */
+            metric: string;
+            /** Missing */
+            missing: number;
+            /** N */
+            n: number;
+            /** Phase */
+            phase: string;
+        };
+        /** StudyEvidence */
+        StudyEvidence: {
+            /** Bullwhip Series */
+            bullwhip_series: {
+                [key: string]: components["schemas"]["ObservationSeries"];
+            };
+            defaults: components["schemas"]["StudyDefaults"];
+            /** Experiments */
+            experiments: {
+                [key: string]: components["schemas"]["StudyExperiment"];
+            };
+            inventory: components["schemas"]["InventoryExample"];
+            /** Networks */
+            networks: {
+                [key: string]: components["schemas"]["Network"];
+            };
+            pair: components["schemas"]["StudyPair"];
+            /** Parameters */
+            parameters: components["schemas"]["ParameterNote"][];
+            /** Resilience Series */
+            resilience_series: {
+                [key: string]: components["schemas"]["ResilienceExample"];
+            };
+            theory: components["schemas"]["ObservationSeries"];
+            /** Validation */
+            validation: components["schemas"]["ParameterNote"][];
+        };
+        /** StudyExperiment */
+        StudyExperiment: {
+            /** Cases */
+            cases: components["schemas"]["StudyCase"][];
+            /** Config Hash */
+            config_hash: string;
+            /** Estimates */
+            estimates: components["schemas"]["StudyEstimate"][];
+            /** Paired Differences */
+            paired_differences: components["schemas"]["StudyEstimate"][];
+            /** Source */
+            source: string;
+        };
+        /** StudyPair */
+        StudyPair: {
+            a: components["schemas"]["RunStatus"];
+            b: components["schemas"]["RunStatus"];
+            comparison: components["schemas"]["Comparison"];
+            network_a: components["schemas"]["RunNetwork"];
+            network_b: components["schemas"]["RunNetwork"];
         };
         /** TimeSeries */
         TimeSeries: {
@@ -1168,6 +1366,62 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ScenarioCatalog"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    get_study_evidence: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StudyEvidence"];
                 };
             };
             /** @description Not Found */

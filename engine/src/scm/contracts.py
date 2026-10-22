@@ -407,7 +407,125 @@ class ExperimentRow(Contract):
     value: float | None
 
 
+class StudyEstimate(Contract):
+    phase: str
+    case_id: Identifier
+    metric: Identifier
+    n: Annotated[int, Field(ge=0)]
+    missing: Annotated[int, Field(ge=0)]
+    mean: float | None
+    low: float | None
+    high: float | None
+    baseline: Identifier | None = None
+    countermeasure: str | None = None
+
+
+class StudyCase(Contract):
+    case_id: Identifier
+    factors: dict[str, str | int | float | bool]
+
+
+class StudyExperiment(Contract):
+    config_hash: str
+    cases: list[StudyCase]
+    estimates: list[StudyEstimate]
+    paired_differences: list[StudyEstimate]
+    source: str
+
+
+class ObservationSeries(Contract):
+    label: str
+    source: str
+    seed: Annotated[int, Field(ge=0)] | None = None
+    days: list[int | float]
+    columns: dict[Identifier, list[float | None]]
+
+    @model_validator(mode="after")
+    def aligned(self) -> Self:
+        for column in self.columns.values():
+            same_length(self.days, column)
+        return self
+
+
+class EventControl(Contract):
+    type: str
+    target: Identifier
+    neutral: Nonnegative
+    minimum: Nonnegative
+    maximum: Nonnegative
+    step: Annotated[float, Field(gt=0)]
+
+
+class StudyDefaults(Contract):
+    seed: Annotated[int, Field(ge=0)]
+    replications: Annotated[int, Field(ge=1)]
+    warmup_days: Annotated[int, Field(ge=0)]
+    horizon_days: Annotated[int, Field(gt=0)]
+    baseline_dcs: Literal[1, 2, 4, 8]
+    alternative_dcs: Literal[1, 2, 4, 8]
+    event_start: Annotated[int, Field(ge=0)]
+    event_duration: Annotated[int, Field(gt=0)]
+    events: list[EventControl]
+    inventory_display_days: Annotated[int, Field(gt=0)]
+    quantity_range: list[float] = Field(min_length=2, max_length=2)
+    quantity_step: Annotated[float, Field(gt=0)]
+    default_demand_cv: Nonnegative
+    default_rho: Fraction
+    default_outbound_factor: Nonnegative
+    default_inbound_days: Nonnegative
+
+
+class StudyPair(Contract):
+    a: RunStatus
+    b: RunStatus
+    network_a: RunNetwork
+    network_b: RunNetwork
+    comparison: Comparison
+
+    @model_validator(mode="after")
+    def paired(self) -> Self:
+        if self.a.seed != self.b.seed or self.a.replications != self.b.replications:
+            raise ValueError("paired scenarios require matching seeds and replication counts")
+        if (self.a.run_id, self.b.run_id) != (self.comparison.run_a, self.comparison.run_b):
+            raise ValueError("comparison must identify the paired runs")
+        return self
+
+
+class InventoryExample(Contract):
+    annual_demand: Nonnegative
+    order_cost: Annotated[float, Field(gt=0)]
+    holding_cost: Annotated[float, Field(gt=0)]
+    quantity: Annotated[float, Field(gt=0)]
+    series: ObservationSeries
+
+
+class ResilienceExample(Contract):
+    event: Disruption
+    series: ObservationSeries
+    metrics: dict[Identifier, float | None]
+
+
+class ParameterNote(Contract):
+    parameter: str
+    value: str
+    source: str
+
+
+class StudyEvidence(Contract):
+    defaults: StudyDefaults
+    experiments: dict[ExperimentName, StudyExperiment]
+    pair: StudyPair
+    networks: dict[Identifier, Network]
+    inventory: InventoryExample
+    bullwhip_series: dict[Identifier, ObservationSeries]
+    resilience_series: dict[Identifier, ResilienceExample]
+    theory: ObservationSeries
+    parameters: list[ParameterNote]
+    validation: list[ParameterNote]
+
+
 CONTRACTS: dict[str, type[Contract]] = {
+    "study_evidence": StudyEvidence,
     "api_error": ApiError,
     "run_request": RunRequest,
     "run_status": RunStatus,

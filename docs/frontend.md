@@ -40,7 +40,7 @@ This is local development, not a deployed static demo or an authenticated servic
   is explicitly R01/SKU01's representative trajectory, rather than a network mean.
   In live mode, A/B accepts a cached baseline run ID A and displays paired B−A
   deltas for the current run B. Rate deltas are percentage points. The API rejects
-  incompatible seeds or day windows. Full scenario comparison controls belong to M10.
+  incompatible seeds or day windows. The M10 Scenario Lab supplies full paired controls.
 - The time scrubber reads the complete health matrix once. Day changes use
   `cy.batch()` without replacing the network or requesting another health response.
   Playback supports 1/2/4/8 days per second and stops at the final day. Node, day,
@@ -61,7 +61,10 @@ The recorded study includes 36 nodes, 44 lanes, full node observations and each
 node's SKU01 inspector. Live mode exposes all 20 SKU inspectors. Recorded output
 uses `configs/m8_validation.yaml`; generated request defaults come from that YAML
 as well. The new optional network metadata is documented in [contracts](../contracts/README.md).
-The six other navigation items are disabled until M10 implements their views.
+All seven navigation items are enabled. The six M10 study views are loaded on demand
+and persist their selected view in the URL. See [study views](study-views.md) for
+their controls and source limits. The source selector changes transport: saved
+experiment panels remain historical evidence even when loaded through the live API.
 
 ## Checks and evidence
 

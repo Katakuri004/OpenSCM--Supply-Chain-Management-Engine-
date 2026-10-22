@@ -120,3 +120,28 @@ without assuming every cached run uses 90 days. Both fields default to null so
 older M8 run caches remain readable. Missing metadata is not inferred from stock.
 The Pydantic model, network schema, fixture, API serializer, OpenAPI and generated
 TypeScript have been changed together. No time-series metric names have changed.
+
+## M10 study evidence
+
+M10 adds `StudyEvidence`, its generated `study_evidence.schema.json`, a reduced
+contract fixture and `GET /studies`. A typed bundle lets the six study views use
+the same payload from a saved asset or the API. Existing endpoints and cached run
+formats are unchanged. Pydantic, schemas, OpenAPI and generated TypeScript were
+updated together; callers use the generated endpoint type.
+
+The bundle contains YAML control defaults, E2/E3/E4/E6 cases and recorded summary
+estimates, a matching-seed A/B pair with network payloads and API comparison, four
+placement networks, aligned representative trajectories, M5 theory evidence and
+source-labelled parameter/validation notes. Estimate `n` and `missing` retain the
+original counts; `low`/`high` are unbounded 95% t intervals. Optional `baseline`
+and `countermeasure` preserve paired experiment metadata. Nulls stay unavailable.
+Observation columns must align with their day axis. Paired run seeds/counts and
+comparison identifiers must agree. Existing network/estimate validation still applies.
+
+`GET /studies` validates the fixed exported asset and returns it unchanged; it does
+not rerun experiments or resolve arbitrary client paths. A missing export returns
+404. `/runs` and `/compare` still perform Scenario Lab's live computation. Saved
+evidence does not become current experimental evidence by using live transport.
+The public fixture is genuine recorded output; `contracts/fixtures/study_evidence.json`
+is a reduced serialization example with synthetic pair/network identifiers and is
+not report evidence. See [view methods](../docs/study-views.md).

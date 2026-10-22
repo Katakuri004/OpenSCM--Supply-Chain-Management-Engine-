@@ -69,6 +69,7 @@ through run IDs are restricted to 64 hexadecimal characters and the cache root.
 | `POST /runs/{id}/query` | Structured filter or supported phrase, optional day; defaults to the final simulation day |
 | `GET /compare?a=...&b=...` | Paired B−A KPI and eight-component cost deltas |
 | `GET /experiments/E1` through `E6` | Columnar pages from M7 Parquet evidence; supports `offset`, `limit`, `case_id` and `metric` |
+| `GET /studies` | M10 validated historical study bundle; identical to the fixed recorded asset, 404 if not exported |
 
 The first replication is the **representative trajectory** for network flows,
 health, inspector time series and node queries. Its seed is returned in run status.

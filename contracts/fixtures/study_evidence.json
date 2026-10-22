@@ -1,0 +1,677 @@
+{
+  "defaults": {
+    "seed": 1010,
+    "replications": 2,
+    "warmup_days": 90,
+    "horizon_days": 365,
+    "baseline_dcs": 1,
+    "alternative_dcs": 4,
+    "event_start": 120,
+    "event_duration": 21,
+    "events": [
+      {
+        "type": "demand_shock",
+        "target": "R01",
+        "neutral": 1.0,
+        "minimum": 0.5,
+        "maximum": 3.0,
+        "step": 0.1
+      },
+      {
+        "type": "supplier_outage",
+        "target": "S4",
+        "neutral": 0.0,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "step": 0.05
+      },
+      {
+        "type": "lead_time_multiplier",
+        "target": "S4",
+        "neutral": 1.0,
+        "minimum": 1.0,
+        "maximum": 3.0,
+        "step": 0.1
+      },
+      {
+        "type": "capacity_cut",
+        "target": "DC1",
+        "neutral": 0.0,
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "step": 0.05
+      },
+      {
+        "type": "moq_change",
+        "target": "S4",
+        "neutral": 1.0,
+        "minimum": 1.0,
+        "maximum": 4.0,
+        "step": 0.25
+      },
+      {
+        "type": "price_promo",
+        "target": "S4",
+        "neutral": 0.0,
+        "minimum": 0.0,
+        "maximum": 0.4,
+        "step": 0.05
+      }
+    ],
+    "inventory_display_days": 120,
+    "quantity_range": [
+      0.5,
+      2.0
+    ],
+    "quantity_step": 0.05,
+    "default_demand_cv": 0.4,
+    "default_rho": 0.3,
+    "default_outbound_factor": 1.0,
+    "default_inbound_days": 7.0
+  },
+  "experiments": {
+    "E2": {
+      "config_hash": "c47eb15e57c421a4030adb86b7496c818ae1185733519dc98084ec720f94746a",
+      "cases": [
+        {
+          "case_id": "E2_0507c72a71d3af10",
+          "factors": {
+            "sku": "SKU15",
+            "target_csl": 0.9
+          }
+        }
+      ],
+      "estimates": [
+        {
+          "phase": "evaluation",
+          "case_id": "E2_0507c72a71d3af10",
+          "metric": "achieved_csl",
+          "n": 2,
+          "missing": 0,
+          "mean": 0.766025641025641,
+          "low": -1.148050072436572,
+          "high": 2.680101354487854,
+          "baseline": null,
+          "countermeasure": null
+        },
+        {
+          "phase": "evaluation",
+          "case_id": "E2_0507c72a71d3af10",
+          "metric": "fill_rate",
+          "n": 2,
+          "missing": 0,
+          "mean": 0.9809427944784095,
+          "low": 0.7399206529210685,
+          "high": 1.2219649360357505,
+          "baseline": null,
+          "countermeasure": null
+        }
+      ],
+      "paired_differences": [],
+      "source": "docs/evidence/m7/E2/manifest.json"
+    },
+    "E3": {
+      "config_hash": "629123d2b2e93c6cddd3bbd190e47b4142fc429b2859a356054e7152a5c3893e",
+      "cases": [
+        {
+          "case_id": "E3_0149c81cf723f295",
+          "factors": {
+            "dc_count": 1,
+            "demand_cv": 0.8,
+            "rho": 0.9,
+            "outbound_factor": 0.5,
+            "inbound_days": 3.0
+          }
+        }
+      ],
+      "estimates": [
+        {
+          "phase": "confirm",
+          "case_id": "E3_0149c81cf723f295",
+          "metric": "cost_dc_fixed_inr",
+          "n": 3,
+          "missing": 0,
+          "mean": 2400000.0,
+          "low": 2400000.0,
+          "high": 2400000.0,
+          "baseline": null,
+          "countermeasure": null
+        },
+        {
+          "phase": "confirm",
+          "case_id": "E3_0149c81cf723f295",
+          "metric": "cost_handling_inr",
+          "n": 3,
+          "missing": 0,
+          "mean": 1177708.557466616,
+          "low": 1164547.0163427123,
+          "high": 1190870.0985905195,
+          "baseline": null,
+          "countermeasure": null
+        }
+      ],
+      "paired_differences": [],
+      "source": "docs/evidence/m7/E3/manifest.json"
+    },
+    "E4": {
+      "config_hash": "6ad5f40ff2087941352ab2e9431569bc595907a4ecb29ab88985142a7e01a21f",
+      "cases": [
+        {
+          "case_id": "E4_030b3eff5162b92f",
+          "factors": {
+            "signal_processing": true,
+            "batching": true,
+            "price": false,
+            "rationing": true,
+            "pos_sharing": false,
+            "lead_factor": 1.0
+          }
+        }
+      ],
+      "estimates": [
+        {
+          "phase": "evaluation",
+          "case_id": "E4_030b3eff5162b92f",
+          "metric": "bwe_customer_demand",
+          "n": 2,
+          "missing": 0,
+          "mean": 1.0,
+          "low": 1.0,
+          "high": 1.0,
+          "baseline": null,
+          "countermeasure": null
+        },
+        {
+          "phase": "evaluation",
+          "case_id": "E4_030b3eff5162b92f",
+          "metric": "bwe_customer_orders",
+          "n": 2,
+          "missing": 0,
+          "mean": 3.578005813840762,
+          "low": 2.3547341131645707,
+          "high": 4.801277514516953,
+          "baseline": null,
+          "countermeasure": null
+        }
+      ],
+      "paired_differences": [],
+      "source": "docs/evidence/m7/E4/manifest.json"
+    },
+    "E6": {
+      "config_hash": "ba7af3ca55eb49c6c063e5c9ec4eaa0819a8c73ddac49c260906d03f899d5133",
+      "cases": [
+        {
+          "case_id": "E6_001154b3ac1229bf",
+          "factors": {
+            "event": 3,
+            "mitigation": "expedite",
+            "parameter": "holding",
+            "scale": 0.8
+          }
+        }
+      ],
+      "estimates": [
+        {
+          "phase": "evaluation",
+          "case_id": "E6_001154b3ac1229bf",
+          "metric": "cost_dc_fixed_inr",
+          "n": 2,
+          "missing": 0,
+          "mean": 9600000.0,
+          "low": 9600000.0,
+          "high": 9600000.0,
+          "baseline": null,
+          "countermeasure": null
+        },
+        {
+          "phase": "evaluation",
+          "case_id": "E6_001154b3ac1229bf",
+          "metric": "cost_handling_inr",
+          "n": 2,
+          "missing": 0,
+          "mean": 1151489.8835282996,
+          "low": 1129141.1493106391,
+          "high": 1173838.6177459601,
+          "baseline": null,
+          "countermeasure": null
+        }
+      ],
+      "paired_differences": [],
+      "source": "docs/evidence/m7/E6/manifest.json"
+    }
+  },
+  "pair": {
+    "a": {
+      "run_id": "synthetic_a",
+      "status": "complete",
+      "seed": 0,
+      "replications": 1,
+      "representative_seed": 1,
+      "error": null
+    },
+    "network_a": {
+      "network": {
+        "run_id": "synthetic_a",
+        "nodes": {
+          "id": [
+            "S1",
+            "DC1",
+            "R1"
+          ],
+          "label": [
+            "Sample supplier",
+            "Sample DC",
+            "Sample retailer"
+          ],
+          "type": [
+            "supplier",
+            "dc",
+            "retailer"
+          ],
+          "latitude": [
+            20.0,
+            21.0,
+            22.0
+          ],
+          "longitude": [
+            75.0,
+            76.0,
+            77.0
+          ]
+        },
+        "edges": {
+          "id": [
+            "S1_DC1",
+            "DC1_R1"
+          ],
+          "source": [
+            "S1",
+            "DC1"
+          ],
+          "target": [
+            "DC1",
+            "R1"
+          ],
+          "distance_km": [
+            200.0,
+            200.0
+          ],
+          "flow_units": [
+            10.0,
+            5.0
+          ]
+        }
+      },
+      "kpis": {
+        "run_id": "synthetic_a",
+        "node_id": null,
+        "replications": 1,
+        "metrics": {
+          "fill_rate": {
+            "mean": 0.95,
+            "ci95": null
+          },
+          "total_landed_cost_inr": {
+            "mean": 1000.0,
+            "ci95": null
+          },
+          "bullwhip_ratio": {
+            "mean": null,
+            "ci95": null
+          }
+        }
+      },
+      "sku_ids": [
+        "SKU01"
+      ],
+      "policy": {
+        "basis": "nominal_initial_targets",
+        "reorder_point": [
+          [
+            0,
+            7,
+            3
+          ]
+        ],
+        "order_quantity": [
+          [
+            0,
+            10,
+            5
+          ]
+        ]
+      },
+      "warmup_days": 90
+    },
+    "b": {
+      "run_id": "synthetic_b",
+      "status": "complete",
+      "seed": 0,
+      "replications": 1,
+      "representative_seed": 1,
+      "error": null
+    },
+    "network_b": {
+      "network": {
+        "run_id": "synthetic_b",
+        "nodes": {
+          "id": [
+            "S1",
+            "DC1",
+            "R1"
+          ],
+          "label": [
+            "Sample supplier",
+            "Sample DC",
+            "Sample retailer"
+          ],
+          "type": [
+            "supplier",
+            "dc",
+            "retailer"
+          ],
+          "latitude": [
+            20.0,
+            21.0,
+            22.0
+          ],
+          "longitude": [
+            75.0,
+            76.0,
+            77.0
+          ]
+        },
+        "edges": {
+          "id": [
+            "S1_DC1",
+            "DC1_R1"
+          ],
+          "source": [
+            "S1",
+            "DC1"
+          ],
+          "target": [
+            "DC1",
+            "R1"
+          ],
+          "distance_km": [
+            200.0,
+            200.0
+          ],
+          "flow_units": [
+            10.0,
+            5.0
+          ]
+        }
+      },
+      "kpis": {
+        "run_id": "synthetic_b",
+        "node_id": null,
+        "replications": 1,
+        "metrics": {
+          "fill_rate": {
+            "mean": 0.95,
+            "ci95": null
+          },
+          "total_landed_cost_inr": {
+            "mean": 1000.0,
+            "ci95": null
+          },
+          "bullwhip_ratio": {
+            "mean": null,
+            "ci95": null
+          }
+        }
+      },
+      "sku_ids": [
+        "SKU01"
+      ],
+      "policy": {
+        "basis": "nominal_initial_targets",
+        "reorder_point": [
+          [
+            0,
+            7,
+            3
+          ]
+        ],
+        "order_quantity": [
+          [
+            0,
+            10,
+            5
+          ]
+        ]
+      },
+      "warmup_days": 90
+    },
+    "comparison": {
+      "run_a": "synthetic_a",
+      "run_b": "synthetic_b",
+      "replications": 1,
+      "metrics": {
+        "fill_rate": {
+          "mean": 0.0,
+          "ci95": null
+        }
+      },
+      "costs": {
+        "component": [
+          "holding"
+        ],
+        "a": [
+          10.0
+        ],
+        "b": [
+          12.0
+        ],
+        "delta": [
+          2.0
+        ],
+        "ci95_low": [
+          null
+        ],
+        "ci95_high": [
+          null
+        ]
+      }
+    }
+  },
+  "networks": {
+    "1": {
+      "run_id": "synthetic_m0",
+      "nodes": {
+        "id": [
+          "S1",
+          "DC1",
+          "R1"
+        ],
+        "label": [
+          "Sample supplier",
+          "Sample DC",
+          "Sample retailer"
+        ],
+        "type": [
+          "supplier",
+          "dc",
+          "retailer"
+        ],
+        "latitude": [
+          20.0,
+          21.0,
+          22.0
+        ],
+        "longitude": [
+          75.0,
+          76.0,
+          77.0
+        ]
+      },
+      "edges": {
+        "id": [
+          "S1_DC1",
+          "DC1_R1"
+        ],
+        "source": [
+          "S1",
+          "DC1"
+        ],
+        "target": [
+          "DC1",
+          "R1"
+        ],
+        "distance_km": [
+          200.0,
+          200.0
+        ],
+        "flow_units": [
+          10.0,
+          5.0
+        ]
+      }
+    }
+  },
+  "inventory": {
+    "annual_demand": 3650.0,
+    "order_cost": 10.0,
+    "holding_cost": 7.3,
+    "quantity": 100.0,
+    "series": {
+      "label": "M2 QR inventory \u00b7 first seeded replication",
+      "source": "configs/m2_validation.yaml",
+      "seed": 4153203682,
+      "days": [
+        0,
+        1,
+        2
+      ],
+      "columns": {
+        "on_hand": [
+          13.62413727890519,
+          1.7377233398658305,
+          94.18356734929803
+        ],
+        "ideal_sawtooth": [
+          100.0,
+          90.0,
+          80.0
+        ]
+      }
+    }
+  },
+  "bullwhip_series": {
+    "E4_732a2c2c4115683e": {
+      "label": "Representative E4 replication \u00b7 weekly units",
+      "source": "docs/evidence/m7/E4/results.parquet \u00b7 E4_732a2c2c4115683e \u00b7 replication 0",
+      "seed": 3977078722,
+      "days": [
+        96,
+        103,
+        110
+      ],
+      "columns": {
+        "customer_demand": [
+          43653.66946898538,
+          45089.41033721053,
+          45590.60194401803
+        ],
+        "customer_orders": [
+          43653.669468985376,
+          45089.410337210546,
+          45590.60194401803
+        ],
+        "dc_orders": [
+          43653.669468985376,
+          45089.41033721053,
+          45590.601944018024
+        ],
+        "supplier_orders_received": [
+          43653.669468985376,
+          45089.41033721053,
+          45590.601944018024
+        ]
+      }
+    }
+  },
+  "resilience_series": {
+    "0": {
+      "event": {
+        "type": "supplier_outage",
+        "target": "S4",
+        "start_day": 120,
+        "duration": 21,
+        "magnitude": 1.0
+      },
+      "series": {
+        "label": "Affected-customer rolling fill \u00b7 representative M6 pair",
+        "source": "docs/evidence/m6/manifest.json",
+        "seed": 4219232553,
+        "days": [
+          0,
+          1,
+          2
+        ],
+        "columns": {
+          "baseline_fill": [
+            null,
+            null,
+            null
+          ],
+          "event_fill": [
+            null,
+            null,
+            null
+          ]
+        }
+      },
+      "metrics": {
+        "tts_days": 0.9129876250881089,
+        "ttr_days": 149.0,
+        "disruption_cost_inr": 1936394.0616174126,
+        "lost_sales_units": 0.0,
+        "extra_lost_sales_units": 0.0
+      }
+    }
+  },
+  "theory": {
+    "label": "M5 daily MA benchmark; separate from weekly network ratios",
+    "source": "docs/evidence/m5/manifest.json",
+    "seed": null,
+    "days": [
+      7,
+      14,
+      28
+    ],
+    "columns": {
+      "bound": [
+        3.4489795918367347,
+        1.969387755102041,
+        1.4209183673469388
+      ],
+      "observed_ratio": [
+        3.617109288243648,
+        2.0029498029555963,
+        1.4280506888200817
+      ],
+      "control_ratio": [
+        1.0000219419289635,
+        1.0000219419289635,
+        1.0000219419289635
+      ]
+    }
+  },
+  "parameters": [
+    {
+      "parameter": "seed",
+      "value": "1010",
+      "source": "ASSUMPTION \u00b7 configs/m10_views.yaml; docs/parameters.md"
+    }
+  ],
+  "validation": [
+    {
+      "parameter": "V1_cost",
+      "value": "PASS",
+      "source": "docs/evidence/m2/results.json \u00b7 {\"actual\": 11680.0, \"expected\": 11680.0, \"passed\": true, \"tolerance\": 58.4}"
+    }
+  ]
+}

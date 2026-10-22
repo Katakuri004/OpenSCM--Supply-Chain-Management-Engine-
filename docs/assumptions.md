@@ -106,3 +106,22 @@
   queries must be reapplied for another day. The 21-day colour cap is visual only.
   The 100-node load test clones recorded trajectories and adds synthetic lanes;
   it verifies browser updates rather than supply-chain operating behavior.
+- M10 selects actual saved E2/E3/E4/E6 factor cells. The two-run acceptance
+  estimates are descriptive; E3's lowest screening mean is not a confirmed
+  facility-location recommendation. No interpolation or significance claim is made.
+- Weekly E4 plots show replication zero; bars/tables use evaluation means and
+  intervals. The daily single-echelon Chen benchmark is a separate experiment,
+  not a theoretical bound imposed on the constrained weekly network.
+- M6 disruption timelines/cards retain the first unmitigated paired replication.
+  E6 mitigation controls select separate OAT cost evidence, not a resimulated M6
+  timeline. Null survival/recovery observations remain censored. Negative paired
+  costs and unbounded intervals are preserved.
+- M10's EOQ slider changes analytical ordering/holding expense only; the M2 stock
+  trace retains its original Q*. The ideal sawtooth has an explicitly reset phase.
+- Scenario Lab applies active events to B only with common seed/count/day windows.
+  It uses the known-demand base policy unless the underlying preset changes.
+  A visible target replacement is made when DC1 is closed. No event is emitted for
+  neutral slider values. All operations and price-response limitations from M6 apply.
+- Methodology displays recorded checks and downloads the current Markdown technical
+  validation report. The final case-study report remains M12 work. Saved study
+  evidence is historical in both fixture and API transport modes.

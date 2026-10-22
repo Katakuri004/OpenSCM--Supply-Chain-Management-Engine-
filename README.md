@@ -3,15 +3,17 @@
 An FMCG inventory and network study on Indian lanes, with costs in INR.
 The [implementation plan](docs/plan.md) defines milestones M0–M12.
 
-M0–M9 are implemented: scaffold and contracts, analytical inventory formulas,
+M0–M10 are implemented: scaffold and contracts, analytical inventory formulas,
 demand generation, single-node and multi-echelon simulation, DC selection,
 four inventory policies, capacity-constrained FIFO dispatch, FTL/LTL freight,
 forecasting, error metrics, ABC–XYZ replenishment policies, and bullwhip causes
 and countermeasures, disruption calendars, resilience metrics, and experiment grids
 with paired statistics, manifests and reproducible Parquet outputs, plus a cached
 FastAPI service, DuckDB filters and a generated TypeScript client, and a Next.js
-Control Tower with network health, inspection, queries and local day playback.
-M10 (the remaining study views) is next.
+Control Tower with network health, inspection, queries and local day playback,
+plus Scenario Lab, Network Design, Bullwhip Lab, Inventory Lab, Resilience and
+Methodology views backed by recorded experiments and live paired scenarios.
+M11 (static demo, Docker, performance and accessibility) is next.
 
 See [analytics](docs/analytics.md) for functions, units, assumptions and examples.
 See [simulation](docs/simulation.md) for daily timing, costs and reproducible M2 validation.
@@ -22,6 +24,7 @@ See [resilience](docs/resilience.md) for M6 event semantics, survival and recove
 See [experiments](docs/experiments.md) for M7 E1–E6 grids, CLI commands and output contracts.
 See [API and query layer](docs/api.md) for M8 endpoints, caching, KPI conventions and client usage.
 See [Control Tower](docs/frontend.md) for M9 recorded/live modes and browser checks.
+See [study views](docs/study-views.md) for M10 controls, provenance and evidence export.
 
 Requires Python 3.12. From this directory on Windows PowerShell:
 

@@ -371,6 +371,51 @@
         "title": "Estimate",
         "type": "object"
       },
+      "EventControl": {
+        "additionalProperties": false,
+        "properties": {
+          "maximum": {
+            "minimum": 0.0,
+            "title": "Maximum",
+            "type": "number"
+          },
+          "minimum": {
+            "minimum": 0.0,
+            "title": "Minimum",
+            "type": "number"
+          },
+          "neutral": {
+            "minimum": 0.0,
+            "title": "Neutral",
+            "type": "number"
+          },
+          "step": {
+            "exclusiveMinimum": 0.0,
+            "title": "Step",
+            "type": "number"
+          },
+          "target": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "title": "Target",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "target",
+          "neutral",
+          "minimum",
+          "maximum",
+          "step"
+        ],
+        "title": "EventControl",
+        "type": "object"
+      },
       "ExperimentResults": {
         "additionalProperties": false,
         "properties": {
@@ -544,6 +589,43 @@
         "title": "Health",
         "type": "object"
       },
+      "InventoryExample": {
+        "additionalProperties": false,
+        "properties": {
+          "annual_demand": {
+            "minimum": 0.0,
+            "title": "Annual Demand",
+            "type": "number"
+          },
+          "holding_cost": {
+            "exclusiveMinimum": 0.0,
+            "title": "Holding Cost",
+            "type": "number"
+          },
+          "order_cost": {
+            "exclusiveMinimum": 0.0,
+            "title": "Order Cost",
+            "type": "number"
+          },
+          "quantity": {
+            "exclusiveMinimum": 0.0,
+            "title": "Quantity",
+            "type": "number"
+          },
+          "series": {
+            "$ref": "#/components/schemas/ObservationSeries"
+          }
+        },
+        "required": [
+          "annual_demand",
+          "order_cost",
+          "holding_cost",
+          "quantity",
+          "series"
+        ],
+        "title": "InventoryExample",
+        "type": "object"
+      },
       "Kpis": {
         "additionalProperties": false,
         "properties": {
@@ -711,6 +793,99 @@
           "longitude"
         ],
         "title": "Nodes",
+        "type": "object"
+      },
+      "ObservationSeries": {
+        "additionalProperties": false,
+        "properties": {
+          "columns": {
+            "patternProperties": {
+              "^[A-Za-z0-9_-]+$": {
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "type": "array"
+              }
+            },
+            "propertyNames": {
+              "minLength": 1
+            },
+            "title": "Columns",
+            "type": "object"
+          },
+          "days": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                }
+              ]
+            },
+            "title": "Days",
+            "type": "array"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "seed": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seed"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          }
+        },
+        "required": [
+          "label",
+          "source",
+          "days",
+          "columns"
+        ],
+        "title": "ObservationSeries",
+        "type": "object"
+      },
+      "ParameterNote": {
+        "additionalProperties": false,
+        "properties": {
+          "parameter": {
+            "title": "Parameter",
+            "type": "string"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "string"
+          }
+        },
+        "required": [
+          "parameter",
+          "value",
+          "source"
+        ],
+        "title": "ParameterNote",
         "type": "object"
       },
       "PolicyConfig": {
@@ -938,6 +1113,43 @@
           "values"
         ],
         "title": "QueryResults",
+        "type": "object"
+      },
+      "ResilienceExample": {
+        "additionalProperties": false,
+        "properties": {
+          "event": {
+            "$ref": "#/components/schemas/Disruption"
+          },
+          "metrics": {
+            "patternProperties": {
+              "^[A-Za-z0-9_-]+$": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "propertyNames": {
+              "minLength": 1
+            },
+            "title": "Metrics",
+            "type": "object"
+          },
+          "series": {
+            "$ref": "#/components/schemas/ObservationSeries"
+          }
+        },
+        "required": [
+          "event",
+          "series",
+          "metrics"
+        ],
+        "title": "ResilienceExample",
         "type": "object"
       },
       "RunNetwork": {
@@ -1263,6 +1475,435 @@
           }
         },
         "title": "ScenarioOverrides",
+        "type": "object"
+      },
+      "StudyCase": {
+        "additionalProperties": false,
+        "properties": {
+          "case_id": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "title": "Case Id",
+            "type": "string"
+          },
+          "factors": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "boolean"
+                }
+              ]
+            },
+            "title": "Factors",
+            "type": "object"
+          }
+        },
+        "required": [
+          "case_id",
+          "factors"
+        ],
+        "title": "StudyCase",
+        "type": "object"
+      },
+      "StudyDefaults": {
+        "additionalProperties": false,
+        "properties": {
+          "alternative_dcs": {
+            "enum": [
+              1,
+              2,
+              4,
+              8
+            ],
+            "title": "Alternative Dcs",
+            "type": "integer"
+          },
+          "baseline_dcs": {
+            "enum": [
+              1,
+              2,
+              4,
+              8
+            ],
+            "title": "Baseline Dcs",
+            "type": "integer"
+          },
+          "default_demand_cv": {
+            "minimum": 0.0,
+            "title": "Default Demand Cv",
+            "type": "number"
+          },
+          "default_inbound_days": {
+            "minimum": 0.0,
+            "title": "Default Inbound Days",
+            "type": "number"
+          },
+          "default_outbound_factor": {
+            "minimum": 0.0,
+            "title": "Default Outbound Factor",
+            "type": "number"
+          },
+          "default_rho": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Default Rho",
+            "type": "number"
+          },
+          "event_duration": {
+            "exclusiveMinimum": 0.0,
+            "title": "Event Duration",
+            "type": "integer"
+          },
+          "event_start": {
+            "minimum": 0.0,
+            "title": "Event Start",
+            "type": "integer"
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/EventControl"
+            },
+            "title": "Events",
+            "type": "array"
+          },
+          "horizon_days": {
+            "exclusiveMinimum": 0.0,
+            "title": "Horizon Days",
+            "type": "integer"
+          },
+          "inventory_display_days": {
+            "exclusiveMinimum": 0.0,
+            "title": "Inventory Display Days",
+            "type": "integer"
+          },
+          "quantity_range": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 2,
+            "minItems": 2,
+            "title": "Quantity Range",
+            "type": "array"
+          },
+          "quantity_step": {
+            "exclusiveMinimum": 0.0,
+            "title": "Quantity Step",
+            "type": "number"
+          },
+          "replications": {
+            "minimum": 1.0,
+            "title": "Replications",
+            "type": "integer"
+          },
+          "seed": {
+            "minimum": 0.0,
+            "title": "Seed",
+            "type": "integer"
+          },
+          "warmup_days": {
+            "minimum": 0.0,
+            "title": "Warmup Days",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "seed",
+          "replications",
+          "warmup_days",
+          "horizon_days",
+          "baseline_dcs",
+          "alternative_dcs",
+          "event_start",
+          "event_duration",
+          "events",
+          "inventory_display_days",
+          "quantity_range",
+          "quantity_step",
+          "default_demand_cv",
+          "default_rho",
+          "default_outbound_factor",
+          "default_inbound_days"
+        ],
+        "title": "StudyDefaults",
+        "type": "object"
+      },
+      "StudyEstimate": {
+        "additionalProperties": false,
+        "properties": {
+          "baseline": {
+            "anyOf": [
+              {
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9_-]+$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Baseline"
+          },
+          "case_id": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "title": "Case Id",
+            "type": "string"
+          },
+          "countermeasure": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Countermeasure"
+          },
+          "high": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "High"
+          },
+          "low": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Low"
+          },
+          "mean": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mean"
+          },
+          "metric": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "title": "Metric",
+            "type": "string"
+          },
+          "missing": {
+            "minimum": 0.0,
+            "title": "Missing",
+            "type": "integer"
+          },
+          "n": {
+            "minimum": 0.0,
+            "title": "N",
+            "type": "integer"
+          },
+          "phase": {
+            "title": "Phase",
+            "type": "string"
+          }
+        },
+        "required": [
+          "phase",
+          "case_id",
+          "metric",
+          "n",
+          "missing",
+          "mean",
+          "low",
+          "high"
+        ],
+        "title": "StudyEstimate",
+        "type": "object"
+      },
+      "StudyEvidence": {
+        "additionalProperties": false,
+        "properties": {
+          "bullwhip_series": {
+            "patternProperties": {
+              "^[A-Za-z0-9_-]+$": {
+                "$ref": "#/components/schemas/ObservationSeries"
+              }
+            },
+            "propertyNames": {
+              "minLength": 1
+            },
+            "title": "Bullwhip Series",
+            "type": "object"
+          },
+          "defaults": {
+            "$ref": "#/components/schemas/StudyDefaults"
+          },
+          "experiments": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/StudyExperiment"
+            },
+            "propertyNames": {
+              "enum": [
+                "E1",
+                "E2",
+                "E3",
+                "E4",
+                "E5",
+                "E6"
+              ]
+            },
+            "title": "Experiments",
+            "type": "object"
+          },
+          "inventory": {
+            "$ref": "#/components/schemas/InventoryExample"
+          },
+          "networks": {
+            "patternProperties": {
+              "^[A-Za-z0-9_-]+$": {
+                "$ref": "#/components/schemas/Network"
+              }
+            },
+            "propertyNames": {
+              "minLength": 1
+            },
+            "title": "Networks",
+            "type": "object"
+          },
+          "pair": {
+            "$ref": "#/components/schemas/StudyPair"
+          },
+          "parameters": {
+            "items": {
+              "$ref": "#/components/schemas/ParameterNote"
+            },
+            "title": "Parameters",
+            "type": "array"
+          },
+          "resilience_series": {
+            "patternProperties": {
+              "^[A-Za-z0-9_-]+$": {
+                "$ref": "#/components/schemas/ResilienceExample"
+              }
+            },
+            "propertyNames": {
+              "minLength": 1
+            },
+            "title": "Resilience Series",
+            "type": "object"
+          },
+          "theory": {
+            "$ref": "#/components/schemas/ObservationSeries"
+          },
+          "validation": {
+            "items": {
+              "$ref": "#/components/schemas/ParameterNote"
+            },
+            "title": "Validation",
+            "type": "array"
+          }
+        },
+        "required": [
+          "defaults",
+          "experiments",
+          "pair",
+          "networks",
+          "inventory",
+          "bullwhip_series",
+          "resilience_series",
+          "theory",
+          "parameters",
+          "validation"
+        ],
+        "title": "StudyEvidence",
+        "type": "object"
+      },
+      "StudyExperiment": {
+        "additionalProperties": false,
+        "properties": {
+          "cases": {
+            "items": {
+              "$ref": "#/components/schemas/StudyCase"
+            },
+            "title": "Cases",
+            "type": "array"
+          },
+          "config_hash": {
+            "title": "Config Hash",
+            "type": "string"
+          },
+          "estimates": {
+            "items": {
+              "$ref": "#/components/schemas/StudyEstimate"
+            },
+            "title": "Estimates",
+            "type": "array"
+          },
+          "paired_differences": {
+            "items": {
+              "$ref": "#/components/schemas/StudyEstimate"
+            },
+            "title": "Paired Differences",
+            "type": "array"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          }
+        },
+        "required": [
+          "config_hash",
+          "cases",
+          "estimates",
+          "paired_differences",
+          "source"
+        ],
+        "title": "StudyExperiment",
+        "type": "object"
+      },
+      "StudyPair": {
+        "additionalProperties": false,
+        "properties": {
+          "a": {
+            "$ref": "#/components/schemas/RunStatus"
+          },
+          "b": {
+            "$ref": "#/components/schemas/RunStatus"
+          },
+          "comparison": {
+            "$ref": "#/components/schemas/Comparison"
+          },
+          "network_a": {
+            "$ref": "#/components/schemas/RunNetwork"
+          },
+          "network_b": {
+            "$ref": "#/components/schemas/RunNetwork"
+          }
+        },
+        "required": [
+          "a",
+          "b",
+          "network_a",
+          "network_b",
+          "comparison"
+        ],
+        "title": "StudyPair",
         "type": "object"
       },
       "TimeSeries": {
@@ -2221,6 +2862,64 @@
           }
         },
         "summary": "Scenarios"
+      }
+    },
+    "/studies": {
+      "get": {
+        "operationId": "get_study_evidence",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudyEvidence"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Study Evidence"
       }
     }
   }

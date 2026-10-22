@@ -1,0 +1,23 @@
+# ASSUMPTION: UI validation defaults; operating factors inherit the study configurations.
+seed: 1010
+replications: 2
+warmup_days: 90
+horizon_days: 365
+baseline_dcs: 1
+alternative_dcs: 4
+event_start: 120
+event_duration: 21
+events:
+  - {type: demand_shock, target: R01, neutral: 1, minimum: 0.5, maximum: 3, step: 0.1}
+  - {type: supplier_outage, target: S4, neutral: 0, minimum: 0, maximum: 1, step: 0.05}
+  - {type: lead_time_multiplier, target: S4, neutral: 1, minimum: 1, maximum: 3, step: 0.1}
+  - {type: capacity_cut, target: DC1, neutral: 0, minimum: 0, maximum: 1, step: 0.05}
+  - {type: moq_change, target: S4, neutral: 1, minimum: 1, maximum: 4, step: 0.25}
+  - {type: price_promo, target: S4, neutral: 0, minimum: 0, maximum: 0.4, step: 0.05}
+inventory_display_days: 120
+quantity_range: [0.5, 2]
+quantity_step: 0.05
+default_demand_cv: 0.4
+default_rho: 0.3
+default_outbound_factor: 1
+default_inbound_days: 7

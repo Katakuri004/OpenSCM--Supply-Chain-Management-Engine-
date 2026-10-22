@@ -468,3 +468,53 @@ health trajectory and setting synthetic lane distance/flow to zero. These are lo
 test inputs, never reported as operating outcomes. Forty consecutive day updates,
 a 16.7 ms p95 batch budget, a 100 ms two-frame regression ceiling, a 1440×1000
 browser viewport and 2% screenshot pixel tolerance are browser-check ASSUMPTIONs.
+
+## M10 study controls and representative observations
+
+`configs/m10_views.yaml` contains teaching and browser-validation defaults. Every
+value below is an **ASSUMPTION**, not an estimate of Indian operating conditions.
+Operating inputs still inherit the documented network/SKU/planning configurations.
+
+| Parameter | Value | Unit / source or ASSUMPTION |
+| --- | --- | --- |
+| seed / replications | 1010 / 2 | SeedSequence root and minimum paired-interval sample for the Scenario Lab |
+| warmup_days / horizon_days | 90 / 365 | Days; inherited plan §5.1 study window |
+| baseline_dcs / alternative_dcs | 1 / 4 | Open DCs; plan §9.3 illustrative pair, no optimality claim |
+| event_start / event_duration | 120 / 21 | Simulation day / days; inherited M6 teaching interval [120,141) |
+| inventory_display_days | 120 | First measured days shown for the M2 representative stock trace |
+| quantity_range / quantity_step | [0.5,2] / 0.05 | Multiples of analytical Q*; display sweep only |
+| default_demand_cv | 0.4 | Initial E3 slice; one of plan §7's existing factor levels |
+| default_rho | 0.3 | Initial E3 regional correlation; existing factor level |
+| default_outbound_factor | 1 | Initial E3 freight multiplier; existing factor level |
+| default_inbound_days | 7 | Initial E3 lead days; existing factor level |
+
+Each event control below has fields `type`, `target`, `neutral`, `minimum`,
+`maximum` and `step`. Bounds/steps are UI **ASSUMPTIONs**; types and magnitude
+semantics come from M6. Neutral controls omit the event entirely. All active
+events share the configured 21-day interval and affect scenario B only.
+
+| Type | Target | Neutral | Minimum | Maximum | Step | Magnitude unit |
+| --- | --- | --- | --- | --- | --- | --- |
+| demand_shock | R01 | 1 | 0.5 | 3 | 0.1 | Demand multiplier |
+| supplier_outage | S4 | 0 | 0 | 1 | 0.05 | Removed capacity fraction |
+| lead_time_multiplier | S4 | 1 | 1 | 3 | 0.1 | Transit multiplier |
+| capacity_cut | DC1 | 0 | 0 | 1 | 0.05 | Removed capacity fraction |
+| moq_change | S4 | 1 | 1 | 4 | 0.25 | MOQ multiplier |
+| price_promo | S4 | 0 | 0 | 0.4 | 0.05 | Purchase discount fraction |
+
+If DC1 is closed in the selected B network, capacity targets its first open DC;
+the UI displays the actual target. DC choices {1,2,4,8}, E3 selectors and E4
+boolean/lead-factor choices expose existing saved factor levels from plan §7 and
+M7 configurations. They introduce no interpolated experiment cells. Initial E4
+flags are false with original lead; initial resilience event is M6 event zero
+with mitigation `none`; placement initially shows four DCs in echelon columns.
+
+The analytical EOQ curve reuses M2's D=3650 units/year, S=INR 10/order and
+H=INR 7.3/unit/year (Q*=100), without purchase or shortage expense. The simulated
+overlay uses M2's original first SeedSequence replication, warm-up and deterministic
+lead setting. The ideal zero-lead sawtooth resets its phase at display day zero;
+this is a teaching reference. Sliders do not resimulate this stock trace.
+Weekly E4 traces reuse each M7 cell's replication-zero demand/training seeds;
+M6 timelines reuse its first paired seed. Representative selection, a four-process
+export worker limit, and 500 ms live status polling are engineering ASSUMPTIONs.
+The ±20% OAT tornado and mitigation definitions inherit M7's E6 configuration.

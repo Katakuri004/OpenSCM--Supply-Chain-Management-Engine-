@@ -5,7 +5,7 @@ import { platform, release } from "node:os";
 import { resolve, relative } from "node:path";
 
 const root = resolve("..");
-const output = resolve(root, "docs/evidence/m9");
+const output = resolve(root, "docs/evidence/m10");
 const report = JSON.parse(await readFile(resolve(root, "data/m9-playwright/results.json"), "utf8"));
 const tests = [];
 let performance;
@@ -78,6 +78,7 @@ const sources = (
       "web/src",
       "web/scripts",
       "web/e2e",
+      "web/tests",
     ].map(files),
   )
 )
@@ -95,20 +96,26 @@ sources.push(
   "web/.prettierignore",
   "web/components.json",
   "requirements-dev.lock",
+  "docs/parameters.md",
+  "docs/assumptions.md",
+  "docs/validation.md",
+  "docs/study-views.md",
 );
 const versions = Object.fromEntries(
   await Promise.all(
-    ["react", "next", "cytoscape", "echarts", "@playwright/test", "vitest"].map(async (name) => [
-      name,
-      JSON.parse(await readFile(resolve(`node_modules/${name}/package.json`), "utf8")).version,
-    ]),
+    ["react", "next", "cytoscape", "echarts", "katex", "@playwright/test", "vitest"].map(
+      async (name) => [
+        name,
+        JSON.parse(await readFile(resolve(`node_modules/${name}/package.json`), "utf8")).version,
+      ],
+    ),
   ),
 );
-const fixture = JSON.parse(await readFile(resolve(output, "fixture_manifest.json"), "utf8"));
 const artifacts = [
-  "docs/evidence/m9/results.json",
-  "docs/evidence/m9/fixture_manifest.json",
-  fixture.fixture_path,
+  "docs/evidence/m10/results.json",
+  "docs/evidence/m10/fixture_manifest.json",
+  "web/public/fixtures/studies.json",
+  "web/public/fixtures/tower.json",
   "web/src/fixtures/request.json",
   ...(await files("web/e2e/snapshots")),
 ];

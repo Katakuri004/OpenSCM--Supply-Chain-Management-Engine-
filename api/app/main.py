@@ -27,6 +27,7 @@ from scm.contracts import (
     RunRequest,
     RunStatus,
     ScenarioCatalog,
+    StudyEvidence,
     TimeSeries,
 )
 
@@ -75,6 +76,13 @@ def create_app(
     @app.get("/scenarios", response_model=ScenarioCatalog, operation_id="list_scenarios")
     def scenarios() -> ScenarioCatalog:
         return ScenarioCatalog(presets={"base_4dc": store().study.scenario})
+
+    @app.get("/studies", response_model=StudyEvidence, operation_id="get_study_evidence")
+    def study_evidence() -> StudyEvidence:
+        path = Path("web/public/fixtures/studies.json")
+        if not path.is_file():
+            raise HTTPException(404, "Study evidence has not been exported")
+        return StudyEvidence.model_validate_json(path.read_text(encoding="utf-8"))
 
     @app.post(
         "/runs",
