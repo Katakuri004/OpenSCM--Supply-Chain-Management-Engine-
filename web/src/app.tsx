@@ -14,6 +14,7 @@ const StudyPage = lazy(() => import("./features/study-page"));
 const ControlTower = lazy(() => import("./features/control-tower"));
 const OperationsWorkspace = lazy(() => import("./features/operations-workspace"));
 const Playbooks = lazy(() => import("./features/playbooks"));
+const Portfolio = lazy(() => import("./features/portfolio"));
 
 export default function App() {
   const { mode, run, dark, set, view } = useTower();
@@ -100,17 +101,19 @@ export default function App() {
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <WorkspaceSearch network={data?.network.network} />
-            <select
-              aria-label="Data source"
-              value={mode}
-              onChange={(event) => {
-                creation.reset();
-                set({ mode: event.target.value as "fixture" | "live", run: "" });
-              }}
-            >
-              <option value="fixture">Recorded study</option>
-              <option value="live">Live API</option>
-            </select>
+            {view !== "portfolio" && (
+              <select
+                aria-label="Data source"
+                value={mode}
+                onChange={(event) => {
+                  creation.reset();
+                  set({ mode: event.target.value as "fixture" | "live", run: "" });
+                }}
+              >
+                <option value="fixture">Recorded study</option>
+                <option value="live">Live API</option>
+              </select>
+            )}
             {operationsView && (
               <>
                 <select
@@ -227,14 +230,20 @@ export default function App() {
             </div>
             <div className="text-right text-[10px] leading-5 text-[var(--secondary)]">
               <span className="rounded border border-[var(--border)] px-2 py-1">
-                {mode === "fixture" ? "RECORDED SIMULATION" : "LIVE STUDY SERVICE"}
+                {view === "portfolio"
+                  ? "SERVER PLANNING WORKSPACE"
+                  : mode === "fixture"
+                    ? "RECORDED SIMULATION"
+                    : "LIVE STUDY SERVICE"}
               </span>
               <p className="mt-2">
-                {!operationsView
-                  ? "Saved experiments · seeded representative trajectories"
-                  : data
-                    ? `${data.network.kpis.replications} replications · ${data.network.kpis.replications > 1 ? "95% t intervals" : "intervals unavailable"} · representative trajectory`
-                    : "Choose a scenario and run the study"}
+                {view === "portfolio"
+                  ? "Versioned assumptions · immutable launches · current simulation API"
+                  : !operationsView
+                    ? "Saved experiments · seeded representative trajectories"
+                    : data
+                      ? `${data.network.kpis.replications} replications · ${data.network.kpis.replications > 1 ? "95% t intervals" : "intervals unavailable"} · representative trajectory`
+                      : "Choose a scenario and run the study"}
               </p>
             </div>
           </div>
@@ -255,7 +264,11 @@ export default function App() {
               {status.data.error} Submit the run again to retry.
             </div>
           )}
-          {view === "playbooks" ? (
+          {view === "portfolio" ? (
+            <Suspense fallback={<p role="status">Loading planning lab…</p>}>
+              <Portfolio />
+            </Suspense>
+          ) : view === "playbooks" ? (
             <Suspense fallback={<p role="status">Loading scenario playbooks…</p>}>
               <Playbooks />
             </Suspense>

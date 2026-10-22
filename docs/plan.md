@@ -264,6 +264,22 @@ planning exercises, broader sourcing/replenishment policy controls, and richer
 capacity/service trade-offs before external enterprise integrations. Those
 capabilities require their own contracts, tests and evidence.
 
+### E2: configurable planning lab and scenario portfolios
+
+Implement the user's three requested capabilities as one connected milestone:
+server-persisted named configurations/notes/revisions and immutable launch history;
+validated seasonal demand, forecast, supplier reliability, capacity and sourcing
+assumptions applied by the existing engine; and reconciled SKU/facility/lane
+diagnostics with side-by-side service/cost/inventory comparisons. Preserve old
+run readability. State first-replication diagnostics separately from replicated
+means and distinguish observed contributors from causal attribution.
+
+Acceptance: tests first; restart persistence, stale-edit conflicts, rerun snapshots,
+invalid assumptions/targets, CRN reproducibility, paired comparison compatibility
+and diagnostic ledger reconciliations pass. Complete schema/OpenAPI/fixture/client
+updates, browser end-to-end flows, source-labelled exports and the full project
+gate. Document calibration and scope limits before any real-world decision claims.
+
 - **Parallel:** engine (M1–M7); frontend on fixtures (M9–M10, after M0); API (after M3).
 - **Risks:** engine too slow (profile, vectorise); parameter credibility (source table, sensitivity runs); agent drift (schema-diff check in CI, small tasks); scope creep.
 - **Descope order:** plant and BOM, lateral transshipment, geographic layout, dark mode, DuckDB-WASM static queries.

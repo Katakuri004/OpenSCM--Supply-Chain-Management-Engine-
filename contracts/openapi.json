@@ -229,6 +229,187 @@
         "title": "DemandConfig",
         "type": "object"
       },
+      "DiagnosticLane": {
+        "additionalProperties": false,
+        "properties": {
+          "closing_in_transit_units": {
+            "minimum": 0.0,
+            "title": "Closing In Transit Units",
+            "type": "number"
+          },
+          "freight_inr": {
+            "minimum": 0.0,
+            "title": "Freight Inr",
+            "type": "number"
+          },
+          "id": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "title": "Id",
+            "type": "string"
+          },
+          "shipped_units": {
+            "minimum": 0.0,
+            "title": "Shipped Units",
+            "type": "number"
+          },
+          "source": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "title": "Source",
+            "type": "string"
+          },
+          "target": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "title": "Target",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "source",
+          "target",
+          "shipped_units",
+          "freight_inr",
+          "closing_in_transit_units"
+        ],
+        "title": "DiagnosticLane",
+        "type": "object"
+      },
+      "DiagnosticSite": {
+        "additionalProperties": false,
+        "properties": {
+          "cost_inr": {
+            "minimum": 0.0,
+            "title": "Cost Inr",
+            "type": "number"
+          },
+          "demand_units": {
+            "minimum": 0.0,
+            "title": "Demand Units",
+            "type": "number"
+          },
+          "id": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "title": "Id",
+            "type": "string"
+          },
+          "inventory_value_inr": {
+            "minimum": 0.0,
+            "title": "Inventory Value Inr",
+            "type": "number"
+          },
+          "kind": {
+            "enum": [
+              "supplier",
+              "dc",
+              "retailer",
+              "b2b"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "shortage_units": {
+            "minimum": 0.0,
+            "title": "Shortage Units",
+            "type": "number"
+          },
+          "utilization": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Utilization"
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "kind",
+          "demand_units",
+          "shortage_units",
+          "inventory_value_inr",
+          "cost_inr",
+          "utilization"
+        ],
+        "title": "DiagnosticSite",
+        "type": "object"
+      },
+      "DiagnosticSku": {
+        "additionalProperties": false,
+        "properties": {
+          "demand_units": {
+            "minimum": 0.0,
+            "title": "Demand Units",
+            "type": "number"
+          },
+          "forecast_bias": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Forecast Bias"
+          },
+          "forecast_wmape": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Forecast Wmape"
+          },
+          "id": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "title": "Id",
+            "type": "string"
+          },
+          "inventory_value_inr": {
+            "minimum": 0.0,
+            "title": "Inventory Value Inr",
+            "type": "number"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "shortage_units": {
+            "minimum": 0.0,
+            "title": "Shortage Units",
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "demand_units",
+          "shortage_units",
+          "inventory_value_inr",
+          "forecast_wmape",
+          "forecast_bias"
+        ],
+        "title": "DiagnosticSku",
+        "type": "object"
+      },
       "Disruption": {
         "additionalProperties": false,
         "properties": {
@@ -626,6 +807,7 @@
         "title": "InventoryExample",
         "type": "object"
       },
+      "JsonValue": {},
       "Kpis": {
         "additionalProperties": false,
         "properties": {
@@ -681,6 +863,251 @@
           "metrics"
         ],
         "title": "Kpis",
+        "type": "object"
+      },
+      "LabCatalog": {
+        "additionalProperties": false,
+        "properties": {
+          "forecast": {
+            "$ref": "#/components/schemas/LabSettings"
+          },
+          "max_horizon_days": {
+            "exclusiveMinimum": 0.0,
+            "title": "Max Horizon Days",
+            "type": "integer"
+          },
+          "max_replications": {
+            "exclusiveMinimum": 0.0,
+            "title": "Max Replications",
+            "type": "integer"
+          },
+          "max_warmup_days": {
+            "exclusiveMinimum": 0.0,
+            "title": "Max Warmup Days",
+            "type": "integer"
+          },
+          "monthly_index": {
+            "items": {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            "maxItems": 12,
+            "minItems": 12,
+            "title": "Monthly Index",
+            "type": "array"
+          },
+          "request": {
+            "$ref": "#/components/schemas/RunRequest"
+          },
+          "seasonal_example": {
+            "items": {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            "maxItems": 12,
+            "minItems": 12,
+            "title": "Seasonal Example",
+            "type": "array"
+          },
+          "sku_ids": {
+            "items": {
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            },
+            "title": "Sku Ids",
+            "type": "array"
+          },
+          "suppliers": {
+            "items": {
+              "$ref": "#/components/schemas/SupplierProfile"
+            },
+            "title": "Suppliers",
+            "type": "array"
+          }
+        },
+        "required": [
+          "request",
+          "suppliers",
+          "sku_ids",
+          "monthly_index",
+          "seasonal_example",
+          "forecast",
+          "max_replications",
+          "max_horizon_days",
+          "max_warmup_days"
+        ],
+        "title": "LabCatalog",
+        "type": "object"
+      },
+      "LabSettings": {
+        "additionalProperties": false,
+        "properties": {
+          "backup_suppliers": {
+            "patternProperties": {
+              "^[A-Za-z0-9_-]+$": {
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9_-]+$",
+                "type": "string"
+              }
+            },
+            "propertyNames": {
+              "minLength": 1
+            },
+            "title": "Backup Suppliers",
+            "type": "object"
+          },
+          "buffer_days": {
+            "default": 0,
+            "minimum": 0.0,
+            "title": "Buffer Days",
+            "type": "number"
+          },
+          "dc_capacity_factor": {
+            "default": 1,
+            "minimum": 0.0,
+            "title": "Dc Capacity Factor",
+            "type": "number"
+          },
+          "expedite_factor": {
+            "default": 1,
+            "exclusiveMinimum": 0.0,
+            "maximum": 1.0,
+            "title": "Expedite Factor",
+            "type": "number"
+          },
+          "expedite_unit_cost": {
+            "default": 0,
+            "minimum": 0.0,
+            "title": "Expedite Unit Cost",
+            "type": "number"
+          },
+          "forecast_alpha": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "maximum": 1.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Forecast Alpha"
+          },
+          "forecast_beta": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Forecast Beta"
+          },
+          "forecast_method": {
+            "anyOf": [
+              {
+                "enum": [
+                  "moving_average",
+                  "ses",
+                  "holt"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Forecast Method"
+          },
+          "forecast_window": {
+            "anyOf": [
+              {
+                "maximum": 3650.0,
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Forecast Window"
+          },
+          "monthly_index": {
+            "anyOf": [
+              {
+                "items": {
+                  "minimum": 0.0,
+                  "type": "number"
+                },
+                "maxItems": 12,
+                "minItems": 12,
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Monthly Index"
+          },
+          "skus": {
+            "patternProperties": {
+              "^[A-Za-z0-9_-]+$": {
+                "$ref": "#/components/schemas/SkuAssumptions"
+              }
+            },
+            "propertyNames": {
+              "minLength": 1
+            },
+            "title": "Skus",
+            "type": "object"
+          },
+          "suppliers": {
+            "patternProperties": {
+              "^[A-Za-z0-9_-]+$": {
+                "$ref": "#/components/schemas/SupplierAssumptions"
+              }
+            },
+            "propertyNames": {
+              "minLength": 1
+            },
+            "title": "Suppliers",
+            "type": "object"
+          }
+        },
+        "title": "LabSettings",
+        "type": "object"
+      },
+      "LaunchRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "execution_id": {
+            "anyOf": [
+              {
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9_-]+$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Execution Id"
+          },
+          "revision": {
+            "minimum": 1.0,
+            "title": "Revision",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "revision"
+        ],
+        "title": "LaunchRequest",
         "type": "object"
       },
       "Network": {
@@ -958,6 +1385,116 @@
         "title": "PolicyTargets",
         "type": "object"
       },
+      "PortfolioDraft": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "notes": {
+            "default": "",
+            "maxLength": 10000,
+            "title": "Notes",
+            "type": "string"
+          },
+          "request": {
+            "$ref": "#/components/schemas/RunRequest"
+          }
+        },
+        "required": [
+          "name",
+          "request"
+        ],
+        "title": "PortfolioDraft",
+        "type": "object"
+      },
+      "PortfolioExecution": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "title": "Id",
+            "type": "string"
+          },
+          "launched_at": {
+            "title": "Launched At",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "notes": {
+            "title": "Notes",
+            "type": "string"
+          },
+          "request": {
+            "$ref": "#/components/schemas/RunRequest"
+          },
+          "revision": {
+            "minimum": 1.0,
+            "title": "Revision",
+            "type": "integer"
+          },
+          "scenario_id": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "title": "Scenario Id",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RunStatus"
+          }
+        },
+        "required": [
+          "id",
+          "scenario_id",
+          "revision",
+          "name",
+          "notes",
+          "request",
+          "launched_at",
+          "status"
+        ],
+        "title": "PortfolioExecution",
+        "type": "object"
+      },
+      "PortfolioUpdate": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "notes": {
+            "default": "",
+            "maxLength": 10000,
+            "title": "Notes",
+            "type": "string"
+          },
+          "request": {
+            "$ref": "#/components/schemas/RunRequest"
+          },
+          "revision": {
+            "minimum": 1.0,
+            "title": "Revision",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "request",
+          "revision"
+        ],
+        "title": "PortfolioUpdate",
+        "type": "object"
+      },
       "Query": {
         "additionalProperties": false,
         "properties": {
@@ -1152,6 +1689,78 @@
         "title": "ResilienceExample",
         "type": "object"
       },
+      "RunDiagnostics": {
+        "additionalProperties": false,
+        "properties": {
+          "cost_components": {
+            "patternProperties": {
+              "^[A-Za-z0-9_-]+$": {
+                "minimum": 0.0,
+                "type": "number"
+              }
+            },
+            "propertyNames": {
+              "minLength": 1
+            },
+            "title": "Cost Components",
+            "type": "object"
+          },
+          "facilities": {
+            "items": {
+              "$ref": "#/components/schemas/DiagnosticSite"
+            },
+            "title": "Facilities",
+            "type": "array"
+          },
+          "horizon_days": {
+            "exclusiveMinimum": 0.0,
+            "title": "Horizon Days",
+            "type": "integer"
+          },
+          "lanes": {
+            "items": {
+              "$ref": "#/components/schemas/DiagnosticLane"
+            },
+            "title": "Lanes",
+            "type": "array"
+          },
+          "representative_seed": {
+            "minimum": 0.0,
+            "title": "Representative Seed",
+            "type": "integer"
+          },
+          "run_id": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "title": "Run Id",
+            "type": "string"
+          },
+          "skus": {
+            "items": {
+              "$ref": "#/components/schemas/DiagnosticSku"
+            },
+            "title": "Skus",
+            "type": "array"
+          },
+          "warmup_days": {
+            "minimum": 0.0,
+            "title": "Warmup Days",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "run_id",
+          "representative_seed",
+          "warmup_days",
+          "horizon_days",
+          "facilities",
+          "skus",
+          "lanes",
+          "cost_components"
+        ],
+        "title": "RunDiagnostics",
+        "type": "object"
+      },
       "RunNetwork": {
         "additionalProperties": false,
         "properties": {
@@ -1228,9 +1837,89 @@
         "title": "RunOptions",
         "type": "object"
       },
+      "RunProvenance": {
+        "additionalProperties": false,
+        "properties": {
+          "input_sha256": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Input Sha256",
+            "type": "object"
+          },
+          "operating_snapshot": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/JsonValue"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Operating Snapshot"
+          },
+          "replication_seeds": {
+            "items": {
+              "minimum": 0.0,
+              "type": "integer"
+            },
+            "title": "Replication Seeds",
+            "type": "array"
+          },
+          "request": {
+            "$ref": "#/components/schemas/RunRequest"
+          },
+          "run_id": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "title": "Run Id",
+            "type": "string"
+          },
+          "scenario": {
+            "$ref": "#/components/schemas/Scenario"
+          },
+          "settings": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Settings",
+            "type": "object"
+          },
+          "training_seed": {
+            "minimum": 0.0,
+            "title": "Training Seed",
+            "type": "integer"
+          },
+          "versions": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Versions",
+            "type": "object"
+          }
+        },
+        "required": [
+          "run_id",
+          "request",
+          "scenario",
+          "input_sha256",
+          "versions",
+          "settings",
+          "replication_seeds",
+          "training_seed"
+        ],
+        "title": "RunProvenance",
+        "type": "object"
+      },
       "RunRequest": {
         "additionalProperties": false,
         "properties": {
+          "lab": {
+            "$ref": "#/components/schemas/LabSettings"
+          },
           "options": {
             "$ref": "#/components/schemas/RunOptions"
           },
@@ -1315,6 +2004,55 @@
           "representative_seed"
         ],
         "title": "RunStatus",
+        "type": "object"
+      },
+      "SavedScenario": {
+        "additionalProperties": false,
+        "properties": {
+          "created_at": {
+            "title": "Created At",
+            "type": "string"
+          },
+          "id": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "notes": {
+            "default": "",
+            "maxLength": 10000,
+            "title": "Notes",
+            "type": "string"
+          },
+          "request": {
+            "$ref": "#/components/schemas/RunRequest"
+          },
+          "revision": {
+            "minimum": 1.0,
+            "title": "Revision",
+            "type": "integer"
+          },
+          "updated_at": {
+            "title": "Updated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "request",
+          "id",
+          "revision",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "SavedScenario",
         "type": "object"
       },
       "Scenario": {
@@ -1475,6 +2213,86 @@
           }
         },
         "title": "ScenarioOverrides",
+        "type": "object"
+      },
+      "SkuAssumptions": {
+        "additionalProperties": false,
+        "properties": {
+          "cv": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cv"
+          },
+          "daily_mean": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Daily Mean"
+          },
+          "moq": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Moq"
+          },
+          "pack_size": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pack Size"
+          },
+          "supplier": {
+            "anyOf": [
+              {
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9_-]+$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Supplier"
+          },
+          "unit_cost": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit Cost"
+          }
+        },
+        "title": "SkuAssumptions",
         "type": "object"
       },
       "StudyCase": {
@@ -1906,6 +2724,204 @@
         "title": "StudyPair",
         "type": "object"
       },
+      "SupplierAssumptions": {
+        "additionalProperties": false,
+        "properties": {
+          "daily_capacity": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Daily Capacity"
+          },
+          "delay_days": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Delay Days"
+          },
+          "delay_probability": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Delay Probability"
+          },
+          "lead_cv": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lead Cv"
+          },
+          "lead_mean": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lead Mean"
+          },
+          "moq": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Moq"
+          },
+          "price_multiplier": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price Multiplier"
+          }
+        },
+        "title": "SupplierAssumptions",
+        "type": "object"
+      },
+      "SupplierProfile": {
+        "additionalProperties": false,
+        "properties": {
+          "daily_capacity": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Daily Capacity"
+          },
+          "delay_days": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Delay Days"
+          },
+          "delay_probability": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Delay Probability"
+          },
+          "id": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "title": "Id",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "lead_cv": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lead Cv"
+          },
+          "lead_mean": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lead Mean"
+          },
+          "moq": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Moq"
+          },
+          "price_multiplier": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price Multiplier"
+          }
+        },
+        "required": [
+          "id",
+          "label"
+        ],
+        "title": "SupplierProfile",
+        "type": "object"
+      },
       "TimeSeries": {
         "additionalProperties": false,
         "properties": {
@@ -2200,6 +3216,499 @@
         "summary": "Experiment Results"
       }
     },
+    "/lab": {
+      "get": {
+        "operationId": "get_lab_catalog",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LabCatalog"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Lab Catalog"
+      }
+    },
+    "/lab/validate": {
+      "post": {
+        "operationId": "validate_lab_request",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RunRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunRequest"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Validate Lab Request"
+      }
+    },
+    "/portfolio": {
+      "get": {
+        "operationId": "list_portfolio",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SavedScenario"
+                  },
+                  "title": "Response List Portfolio",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "List Portfolio"
+      },
+      "post": {
+        "operationId": "save_scenario",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PortfolioDraft"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SavedScenario"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Save Scenario"
+      }
+    },
+    "/portfolio/{scenario_id}": {
+      "put": {
+        "operationId": "update_scenario",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scenario_id",
+            "required": true,
+            "schema": {
+              "title": "Scenario Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PortfolioUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SavedScenario"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Update Scenario"
+      }
+    },
+    "/portfolio/{scenario_id}/runs": {
+      "get": {
+        "operationId": "scenario_history",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scenario_id",
+            "required": true,
+            "schema": {
+              "title": "Scenario Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/PortfolioExecution"
+                  },
+                  "title": "Response Scenario History",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Scenario History"
+      },
+      "post": {
+        "operationId": "launch_scenario",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scenario_id",
+            "required": true,
+            "schema": {
+              "title": "Scenario Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LaunchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortfolioExecution"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortfolioExecution"
+                }
+              }
+            },
+            "description": "Accepted"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Launch Scenario"
+      }
+    },
     "/runs": {
       "post": {
         "operationId": "create_run",
@@ -2355,6 +3864,75 @@
           }
         },
         "summary": "Get Run"
+      }
+    },
+    "/runs/{run_id}/diagnostics": {
+      "get": {
+        "operationId": "get_diagnostics",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunDiagnostics"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Get Diagnostics"
       }
     },
     "/runs/{run_id}/health": {
@@ -2578,6 +4156,75 @@
           }
         },
         "summary": "Network"
+      }
+    },
+    "/runs/{run_id}/provenance": {
+      "get": {
+        "operationId": "get_provenance",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunProvenance"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Get Provenance"
       }
     },
     "/runs/{run_id}/query": {

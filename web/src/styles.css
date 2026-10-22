@@ -394,3 +394,57 @@ input[type="range"] {
     padding-right: 12px !important;
   }
 }
+
+/* Configurable planning lab */
+.lab-field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 11px;
+  color: var(--secondary);
+}
+.lab-field input,
+.lab-field select {
+  width: 100%;
+  color: inherit;
+}
+.lab-section {
+  margin-top: 24px;
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+}
+.lab-section h3 {
+  font-size: 13px;
+  font-weight: 600;
+}
+.lab-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+.lab-help {
+  margin-top: 10px;
+  font-size: 11px;
+  line-height: 1.8;
+  color: var(--secondary);
+}
+textarea {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel);
+  padding: 9px 10px;
+  color: inherit;
+  font: inherit;
+  font-size: 12px;
+}
+textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+@media (max-width: 640px) {
+  .lab-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

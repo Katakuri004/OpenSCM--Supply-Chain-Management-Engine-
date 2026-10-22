@@ -64,7 +64,7 @@ The recorded study includes 36 nodes, 44 lanes, full node observations and each
 node's SKU01 inspector. Live mode exposes all 20 SKU inspectors. Recorded output
 uses `configs/m8_validation.yaml`; generated request defaults come from that YAML
 as well. The new optional network metadata is documented in [contracts](../contracts/README.md).
-All ten navigation items are enabled. The six M10 study views are loaded on demand
+All eleven navigation items are enabled. The six M10 study views are loaded on demand
 and persist their selected view in the URL. See [study views](study-views.md) for
 their controls and source limits. The source selector changes transport: saved
 experiment panels remain historical evidence even when loaded through the live API.
@@ -83,7 +83,8 @@ The standard check runs Python checks, generated-client checks, Prettier, strict
 TypeScript, Vitest, production build and Playwright. Browser tests start the built
 Next.js production server and Uvicorn when these are not already running.
 Ports 5173 and 8000 must be available
-or already host this project. CI installs Chromium and preserves failure traces.
+for the browser suite. Its API uses `data/browser-workspace/` so scenario/run tests
+do not write to the normal planning portfolio. CI installs Chromium and preserves failure traces.
 
 Separate commands:
 
@@ -128,3 +129,18 @@ Generated fixtures may have a new run ID after source changes.
 M10's labs and Methodology view, and M11's deployment, static export, accessibility
 audit and Lighthouse target remain separate milestones. No deployed demo or
 calibrated operating recommendation is claimed here.
+
+## E2 Planning Lab
+
+Open `/?view=portfolio` with the API running. This module uses the server workspace
+and hides the recorded/live transport selector. Scenario definitions, notes and
+revision history persist in SQLite; transient editor changes remain unsaved until
+explicitly saved. Use Scenario Lab's Save draft B action to continue a configured
+playbook in the Planning Lab. See [planning-lab methods](planning-lab.md) for the
+controls, comparisons, result diagnostics, provenance exports and calibration flow.
+
+The browser suite now uses an isolated API workspace at `data/browser-workspace/`
+and requires port 8000 to be free. It exercises named-scenario persistence,
+two-replication background launches, alternatives, API comparison parity, diagnostic
+tables and graceful reload failures. The evidence recorder writes current results
+to `docs/evidence/planning-lab/`; earlier evidence remains historical.

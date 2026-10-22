@@ -17,7 +17,9 @@ from fastapi import HTTPException
 from joblib import Parallel, delayed, parallel_config
 from scm.config.api import ApiSettings
 from scm.config.bullwhip import BullwhipSettings, load_bullwhip
+from scm.config.lab import configure_planning, configure_study
 from scm.config.loader import Study, load_study
+from scm.config.mitigation import MitigationSettings
 from scm.config.planning import PlanningSettings, load_planning
 from scm.contracts import (
     Comparison,
@@ -26,6 +28,7 @@ from scm.contracts import (
     Kpis,
     Metric,
     Network,
+    RunDiagnostics,
     RunNetwork,
     RunRequest,
     RunStatus,
@@ -34,6 +37,7 @@ from scm.contracts import (
 )
 from scm.demand.generator import FloatArray
 from scm.experiments.stats import estimate, paired_difference
+from scm.metrics.diagnostics import diagnostics
 from scm.metrics.kpis import replication_kpis
 from scm.network.builder import build_network
 from scm.network.inputs import network_inputs
@@ -70,6 +74,7 @@ class Sample:
     arrays: dict[str, FloatArray] | None
     network: Network | None
     sku_ids: list[str]
+    diagnostics: RunDiagnostics | None = None
 
 
 def sample_run(
@@ -84,6 +89,8 @@ def sample_run(
     run_id: str,
     representative: bool,
 ) -> Sample:
+    study = configure_study(Study(scenario, study.spec, study.seasonality), request.lab)
+    planning_settings = configure_planning(planning_settings, request.lab)
     net = build_network(study.spec, scenario)
     usage, leads = network_inputs(
         net, study.seasonality, seed, scenario.warmup_days + scenario.horizon_days
@@ -110,6 +117,11 @@ def sample_run(
         bullwhip=bullwhip_settings if options.bullwhip else None,
         lost_sales=options.lost_sales,
         log_source_service=True,
+        mitigation=MitigationSettings.model_validate(
+            request.lab.model_dump(
+                include={"buffer_days", "expedite_factor", "expedite_unit_cost", "backup_suppliers"}
+            )
+        ),
     )
     metrics, costs, arrays = replication_kpis(net, result, settings)
     network = None
@@ -121,7 +133,14 @@ def sample_run(
             result.edge_shipped[scenario.warmup_days :].sum(axis=(0, 1)).tolist()
         )
     return Sample(
-        metrics, costs, arrays if representative else None, network, [s.id for s in study.spec.skus]
+        metrics,
+        costs,
+        arrays if representative else None,
+        network,
+        [s.id for s in study.spec.skus],
+        diagnostics(net, result, run_id, seed, expedite_unit_cost=request.lab.expedite_unit_cost)
+        if representative
+        else None,
     )
 
 
@@ -176,7 +195,7 @@ class RunStore:
             raise HTTPException(409, f"Run is {status.status}")
         return self.directory(run_id)
 
-    def reserve(self, request: RunRequest) -> tuple[RunStatus, bool]:
+    def resolve(self, request: RunRequest) -> tuple[Scenario, Study]:
         if request.preset != "base_4dc":
             raise HTTPException(404, "Unknown scenario preset")
         data = self.study.scenario.model_dump()
@@ -193,17 +212,37 @@ class RunStore:
                 or scenario.warmup_days > self.settings.max_warmup_days
             ):
                 raise ValueError("Requested replications or horizon exceed the local API limits")
-            net = build_network(self.study.spec, scenario)
+            effective = configure_study(
+                Study(scenario, self.study.spec, self.study.seasonality), request.lab
+            )
+            configure_planning(self.planning, request.lab)
+            net = build_network(effective.spec, scenario)
             if scenario.disruptions:
                 compile_disruptions(net, scenario.warmup_days + scenario.horizon_days)
         except ValueError as exc:
             raise HTTPException(422, str(exc)) from exc
+        return scenario, effective
+
+    def reserve(self, request: RunRequest) -> tuple[RunStatus, bool]:
+        scenario, effective = self.resolve(request)
         payload = {
             "request": request.model_dump(),
             "scenario": scenario.model_dump(),
             "settings": self.settings.model_dump(),
             "input_sha256": self.fingerprint,
             "versions": self.versions,
+            "lab": request.lab.model_dump(),
+            "operating_snapshot": {
+                "network": effective.spec.model_dump(),
+                "seasonality": effective.seasonality.model_dump(),
+                "planning": configure_planning(self.planning, request.lab)
+                .model_copy(update={"segmented": request.options.segmented})
+                .model_dump(),
+                "planning_enabled": request.options.forecasting
+                or request.options.segmented
+                or (request.options.bullwhip and scenario.bullwhip.signal_processing),
+                "bullwhip": self.bullwhip.model_dump(),
+            },
         }
         identity = {key: value for key, value in payload.items() if key != "request"} | {
             "seed": request.seed,
@@ -295,6 +334,7 @@ class RunStore:
                         "network.json",
                         "health.json",
                         "samples.json",
+                        "diagnostics.json",
                     )
                 }
                 write_json(folder / "manifest.json", manifest)
@@ -309,6 +349,8 @@ class RunStore:
                     self.pending.discard(run_id)
 
     def save_representative(self, folder: Path, sample: Sample, scenario: Scenario) -> None:
+        if sample.diagnostics is not None:
+            write_json(folder / "diagnostics.json", sample.diagnostics.model_dump())
         assert sample.arrays is not None and sample.network is not None
         arrays = sample.arrays
         np.savez_compressed(
@@ -407,6 +449,15 @@ class RunStore:
 
     def compare(self, a: str, b: str) -> Comparison:
         folders = [self.ready(run_id) for run_id in (a, b)]
+        manifests = [json.loads((folder / "manifest.json").read_text()) for folder in folders]
+        if (
+            manifests[0]["input_sha256"] != manifests[1]["input_sha256"]
+            or manifests[0]["versions"] != manifests[1]["versions"]
+        ):
+            raise HTTPException(
+                409,
+                "Paired comparison requires the same model/config snapshot. Rerun both requests.",
+            )
         samples = [json.loads((p / "samples.json").read_text()) for p in folders]
         scenarios = [
             Scenario.model_validate_json((p / "scenario.json").read_text()) for p in folders

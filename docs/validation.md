@@ -620,3 +620,65 @@ Apache-2.0 licensing applies to original project code; third-party licenses rema
 their own. Live ERP integration, shared approvals, authentication/SSO, RBAC and
 distributed production operations are not implemented. Deployment, Lighthouse
 and broad accessibility audits remain outside E1 and await M11.
+
+## E2 product expansion: configurable planning lab
+
+Local result (22 October 2026, Python 3.12.10, Node.js 22.17.0):
+`python -m scm.check` passes **222 Python tests**, **11 Vitest tests** and
+**14 Playwright tests**, plus Ruff, strict mypy/TypeScript, Prettier, generated
+schema/OpenAPI/client checks and the Next.js production build. New tests were
+observed failing before implementation. The product expansion is separate from
+the earlier E2 inventory experiment.
+
+The [planning-lab results](evidence/planning-lab/results.json) and
+[manifest](evidence/planning-lab/manifest.json) preserve actual browser comparisons,
+representative diagnostics, model provenance and source/output hashes. The
+recorded browser exercise executes **two paired replications** and exposes
+**20 SKU**, **36 facility** and **44 lane** diagnostic rows. Its short 7-day
+warm-up / 21-day measured window is a software smoke exercise, not a research
+or operating-policy recommendation. The editor defaults remain 90/365 days.
+
+The checks cover:
+
+- Server restart persistence, revision conflicts, stale-launch rejection,
+  immutable historical request/notes, and repeats of the original execution
+  after the scenario definition has changed.
+- Invalid monthly counts, forecast coefficients, capacity factors, supplier
+  probabilities, unknown targets and self-backup rejection. Saved scenarios and
+  advanced validation use the actual network/target checks before execution.
+- Seasonal settings changing actual draws: with zero demand CV and matching
+  seeds, indices 0.5 versus 1.5 produce the expected threefold demand ratio.
+  Applying assumptions does not mutate the source study.
+- Diagnostic facility costs reconciling with the representative network ledger,
+  lane freight with inbound/outbound accounts, SKU shortages with customer-site
+  shortages, and SKU inventory values with facility inventory values, including
+  a run using forecasting, backup sourcing, safety stock and expediting.
+- Pre-demand forecast errors, null-safe diagnostics, repeated-request caching,
+  effective model snapshots, and rejection of comparisons across different
+  model/config/version fingerprints.
+- Browser creation/save-as-new/reload, two-replication background status polling,
+  exact paired-cost parity with the API, all three diagnostic tables, reviewed
+  editor/comparison/diagnostic screenshots and graceful reload-service failure.
+  The first full check caught an ambiguous alert locator matching Next.js's route
+  announcer; the lab alert now has an explicit accessible name and the final gate passes.
+- All prior Control Tower, lab, playbook and exception flows. The 100-node synthetic
+  regression records **1.0 ms p95** health batch time for 40 day updates, below
+  16.7 ms, with no additional scrubber requests.
+
+Browser runs now use `data/browser-workspace/`, independently of the normal
+planning database/cache. Older run artifacts remain readable; absent historical
+diagnostics require a rerun. Earlier evidence retains its original source scope.
+The upstream Starlette deprecation warning remains non-failing.
+
+Six public schemas and the default-neutral RunRequest lab extension are documented
+in [contracts](../contracts/README.md). New controls reuse existing engine
+mechanisms and record effective inputs; contributors are labelled as observed
+first-replication measurements, while comparisons use all paired replications.
+No arbitrary shared-cost allocation or isolated causal effect is claimed.
+
+[Planning-lab methods](planning-lab.md) describe calibration, held-out validation,
+warm-up/horizon selection, independent confirmation seeds and operational pilots.
+These checks establish implementation and reconciliation on synthetic data. They
+do not establish empirical validity for a specific business, distributed deployment,
+access control or production certification. M11 deployment/quality work and M12's
+final case-study report remain separate milestones.

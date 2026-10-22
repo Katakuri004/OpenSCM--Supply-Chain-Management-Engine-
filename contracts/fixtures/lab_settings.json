@@ -1,0 +1,14 @@
+{
+  "monthly_index": null,
+  "suppliers": {},
+  "skus": {},
+  "dc_capacity_factor": 1,
+  "forecast_method": null,
+  "forecast_window": null,
+  "forecast_alpha": null,
+  "forecast_beta": null,
+  "buffer_days": 0,
+  "expedite_factor": 1,
+  "expedite_unit_cost": 0,
+  "backup_suppliers": {}
+}

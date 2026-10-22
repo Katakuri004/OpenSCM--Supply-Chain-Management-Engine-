@@ -556,3 +556,48 @@ maximum and unsigned 32-bit seed bound reuse API limits; events must fit the
 configured simulation window. Policy/planning options apply to both runs so
 disruption comparisons retain common random numbers. These UI controls introduce
 no new economic coefficients. The optional review flags are browser metadata only.
+
+## E2 planning-lab assumptions and bounds
+
+`configs/lab.yaml` defines the initial experiment: SeedSequence root **222**,
+**2** replications, **90** warm-up and **365** measured days. These are software
+exercise **ASSUMPTIONs**, with the window inherited from the plan. The optional
+January–December seasonal example is **[0.85,0.85,0.9,0.95,1,1,1,1,1.1,1.2,1.3,1.35]**,
+an explicitly synthetic year-end uplift. It is not normalized to annual mean one.
+The default monthly indices still inherit the neutral `configs/demand.yaml`.
+
+Default-neutral `LabSettings` fields inherit the existing model whenever unset:
+
+| Field | Default / unit | Source or ASSUMPTION |
+| --- | --- | --- |
+| monthly_index | null; twelve nonnegative multipliers when supplied | Inherits configs/demand.yaml; user-authored seasonality is an ASSUMPTION until calibrated |
+| suppliers / skus | Empty override maps | Original profiles in configs/network.yaml; all source values documented above |
+| dc_capacity_factor | 1 | Neutral multiplier on candidate DC daily throughput; scenario ASSUMPTION |
+| forecast_method/window/alpha/beta | null | Inherits configs/planning.yaml: SES, 28 days, alpha 0.2, beta 0.1 |
+| buffer_days | 0 days | Neutral M7 coverage buffer; synthetic mitigation choice |
+| expedite_factor | 1 | Neutral M7 transit multiplier, valid in (0,1] |
+| expedite_unit_cost | 0 INR/unit | Neutral M7 premium; applied to every dispatched unit when supplied |
+| backup_suppliers | Empty map | Neutral M7 reactive sourcing; distinct selected supplier IDs required |
+
+Supplier overrides accept lead mean (days, positive), lead CV (nonnegative), delay
+probability ([0,1]), delay days (nonnegative integer), capacity (units/day), price
+multiplier (positive) and MOQ (positive integer units). SKU overrides accept daily
+mean (units/day), CV, unit cost (INR), primary supplier ID and positive integer
+MOQ/pack sizes. These inherit the same physical/economic meanings as network.yaml.
+No override value is claimed to be observed without a recorded source and calibration.
+
+UI defaults for four DCs, demand CV multiplier 1, rho 0.3, QR, target CSL 0.95,
+backorders and known-demand control inherit existing preset/API assumptions.
+The editor exposes existing API bounds of 30 runs, 730 measured and 365 warm-up
+days and unsigned 32-bit seeds. The forecast-window cap of 3650 days is an
+engineering ASSUMPTION to bound moving-average storage. Positive field minima
+in the editor are input aids, not calibrated business limits. SQLite's 10-second
+connection timeout, name limit 100 characters and notes limit 10000 characters
+are engineering bounds. Revision/launch IDs and UTC timestamps carry no economic
+meaning. Advanced JSON is validated by the same typed API before application.
+
+Forecast WMAPE and signed bias use pre-demand predictions across customer/SKU
+observations. Facility dispatch utilization divides measured dispatch by the
+available capacity after event cuts. Inventory values are measured-period means
+at base SKU cost. Diagnostic definitions and null handling are in
+[planning-lab methods](planning-lab.md); they are measurements, not new model factors.

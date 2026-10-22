@@ -156,6 +156,21 @@ export default function ScenarioLab({ data }: { data: Study }) {
       !statuses.data?.some((row) => row.status === "failed") &&
       !completed.data);
   const failure = create.error ?? statuses.error ?? completed.error;
+  const saveDraft = useMutation({
+    mutationFn: async () =>
+      read(
+        await client.POST("/portfolio", {
+          body: {
+            name: `${exercise?.title ?? "Custom planning scenario"} · B`.slice(0, 100),
+            notes:
+              exercise?.assumption ??
+              "ASSUMPTION: synthetic scenario configured in Scenario Lab. Review before planning decisions.",
+            request: requests[1]!,
+          },
+        }),
+      ),
+    onSuccess: (saved) => set({ view: "portfolio", portfolio: saved.id }),
+  });
   const c = pair?.comparison;
   const changed = submitted !== null && JSON.stringify(submitted) !== JSON.stringify(requests);
   return (
@@ -174,6 +189,22 @@ export default function ScenarioLab({ data }: { data: Study }) {
         </section>
       )}
       <section className="panel p-5">
+        {live && (
+          <div className="mb-4 flex justify-end">
+            <Button
+              variant="outline"
+              disabled={!valid || busy || saveDraft.isPending}
+              onClick={() => saveDraft.mutate()}
+            >
+              Save draft B to Planning Lab
+            </Button>
+          </div>
+        )}
+        {saveDraft.error && (
+          <p role="alert" className="mb-3 text-xs">
+            {saveDraft.error.message}
+          </p>
+        )}
         <div className="mb-4 flex flex-wrap items-center justify-between gap-4">
           <h2 className="text-sm font-semibold">Paired network scenarios</h2>
           <div className="flex items-center gap-3">

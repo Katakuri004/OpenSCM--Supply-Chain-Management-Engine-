@@ -145,3 +145,31 @@ evidence does not become current experimental evidence by using live transport.
 The public fixture is genuine recorded output; `contracts/fixtures/study_evidence.json`
 is a reduced serialization example with synthetic pair/network identifiers and is
 not report evidence. See [view methods](../docs/study-views.md).
+
+## E2 configurable planning requests, portfolios and diagnostics
+
+`RunRequest` gains a default-neutral `lab` section. `LabSettings` validates twelve
+monthly demand indices, known supplier/SKU field overrides, DC capacity scaling,
+forecast method/coefficients and M7 buffer/expedite/backup sourcing parameters.
+Omitted fields inherit the recorded source configuration. Pydantic checks scalar
+bounds and distinct backups; resolving an actual run also checks SKU/supplier
+references, selected suppliers and event targets. Existing request callers remain
+valid. Models, generated request schema, fixture, OpenAPI and TypeScript changed
+together. These options affect engine inputs, not only presentation.
+
+Six additional public schemas/fixtures cover `LabSettings`, `LabCatalog`,
+`SavedScenario`, `PortfolioExecution`, `RunDiagnostics` and `RunProvenance`.
+Draft/update/launch models are also represented in OpenAPI. Portfolio revisions
+are positive integers; names/notes are bounded. An execution keeps immutable
+request/revision/name/notes metadata with current cache status. Run provenance
+exposes source/version/seed evidence and an optional opaque effective-input JSON
+snapshot; the snapshot is preserved evidence, not another consumer configuration API.
+
+Diagnostic SKU/facility/lane rows are first-replication observations, with explicit
+units and nullable forecast/utilization values. Facility costs sum to all ledger
+accounts; lane freight sums to inbound/outbound freight including expedite premiums.
+SKU and customer-facility shortfalls reconcile, as do SKU/facility inventory values.
+Paired comparisons additionally reject differing model/config fingerprints or
+package versions. Old run artifacts remain readable; absent historical diagnostics
+return 404 and an older manifest can omit the effective-input snapshot.
+See [planning lab](../docs/planning-lab.md) for interpretation and calibration.

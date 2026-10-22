@@ -35,6 +35,7 @@ export const navigation = [
     label: "PLAN & SIMULATE",
     items: [
       ["playbooks", FlaskConical],
+      ["portfolio", SlidersHorizontal],
       ["scenario", SlidersHorizontal],
       ["network", Boxes],
       ["inventory", Package],

@@ -1,7 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { annualInventoryCost, economicQuantity, selectCases } from "../src/lib/labs";
+import { read } from "../src/lib/data";
 
 describe("Study view calculations", () => {
+  it("preserves field-level request validation errors for lab editing", () => {
+    expect(() =>
+      read({
+        error: { detail: "Invalid request", issues: ["body.lab.forecast_alpha: must be positive"] },
+      }),
+    ).toThrow("forecast_alpha");
+  });
   it("has the textbook EOQ minimum without purchase cost", () => {
     const q = economicQuantity(3650, 10, 7.3);
     expect(q).toBeCloseTo(100);

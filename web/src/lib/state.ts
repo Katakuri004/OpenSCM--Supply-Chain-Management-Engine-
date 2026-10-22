@@ -3,6 +3,7 @@ export const viewNames = {
   overview: "Operations overview",
   exceptions: "Exception workbench",
   playbooks: "Scenario playbooks",
+  portfolio: "Planning Lab",
   tower: "Control Tower",
   scenario: "Scenario Lab",
   network: "Network Design",
@@ -21,6 +22,7 @@ export const useTower = create<{
   node: string;
   run: string;
   playbook: string;
+  portfolio: string;
   dark: boolean;
   set: (
     state: Partial<{
@@ -30,6 +32,7 @@ export const useTower = create<{
       node: string;
       run: string;
       playbook: string;
+      portfolio: string;
       dark: boolean;
     }>,
   ) => void;
@@ -42,6 +45,7 @@ export const useTower = create<{
   node: params.get("node") ?? "R01",
   run: params.get("run") ?? "",
   playbook: params.get("playbook") ?? "",
+  portfolio: params.get("portfolio") ?? "",
   dark: localStorage.getItem("theme") === "dark",
   set,
 }));
@@ -54,6 +58,7 @@ useTower.subscribe((state) => {
     node: state.node,
     run: state.run,
     playbook: state.playbook,
+    portfolio: state.portfolio,
   })) {
     if (value === "") next.searchParams.delete(key);
     else next.searchParams.set(key, String(value));

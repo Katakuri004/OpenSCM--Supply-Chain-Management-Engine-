@@ -30,8 +30,9 @@ export default defineConfig({
     {
       command: `"${python}" -m uvicorn api.app.main:app --host 127.0.0.1 --port 8000`,
       cwd: "..",
+      env: { SCM_RUN_ROOT: "data/browser-workspace/runs" },
       url: "http://127.0.0.1:8000/openapi.json",
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer: false,
     },
   ],
 });

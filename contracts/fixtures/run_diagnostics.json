@@ -1,0 +1,10 @@
+{
+  "run_id": "synthetic_m0",
+  "representative_seed": 1,
+  "warmup_days": 0,
+  "horizon_days": 1,
+  "facilities": [],
+  "skus": [],
+  "lanes": [],
+  "cost_components": {}
+}

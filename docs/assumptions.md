@@ -137,3 +137,15 @@
 - E1's additional policy, forecast/segmentation and lost-sales controls use existing
   API options. Segmented planning overrides the uniform policy selector with its
   M4 map. Edited controls do not relabel existing results; a new submission is needed.
+- E2 scenario definitions persist on one API server with revision-conflict checks;
+  immutable launch metadata is not a user-attributed approval or compliance audit.
+  Historical-request repeats use current source/config fingerprints and may use
+  the cache. Independent experiments require independent seeds.
+- E2 monthly indices affect actual demand and are not automatically normalized.
+  Nominal policy targets do not anticipate seasonal peaks. Supplier delays,
+  aggregate daily dispatch capacity, backup sourcing and expediting retain their
+  documented M3/M7 mechanics and require empirical calibration for operational use.
+- E2 diagnostics describe the first replication's measured horizon. SKU shortfalls
+  count new demand once; shared facility expenses are not allocated to SKUs.
+  Utilization and cost rankings identify observed contributors, not isolated causes.
+  Paired intervals require identical source/config/version fingerprints and seeds.

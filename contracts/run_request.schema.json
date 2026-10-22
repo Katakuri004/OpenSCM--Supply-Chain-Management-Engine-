@@ -106,6 +106,153 @@
       "title": "Disruption",
       "type": "object"
     },
+    "LabSettings": {
+      "additionalProperties": false,
+      "properties": {
+        "monthly_index": {
+          "anyOf": [
+            {
+              "items": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "maxItems": 12,
+              "minItems": 12,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Monthly Index"
+        },
+        "suppliers": {
+          "patternProperties": {
+            "^[A-Za-z0-9_-]+$": {
+              "$ref": "#/$defs/SupplierAssumptions"
+            }
+          },
+          "propertyNames": {
+            "minLength": 1
+          },
+          "title": "Suppliers",
+          "type": "object"
+        },
+        "skus": {
+          "patternProperties": {
+            "^[A-Za-z0-9_-]+$": {
+              "$ref": "#/$defs/SkuAssumptions"
+            }
+          },
+          "propertyNames": {
+            "minLength": 1
+          },
+          "title": "Skus",
+          "type": "object"
+        },
+        "dc_capacity_factor": {
+          "default": 1,
+          "minimum": 0,
+          "title": "Dc Capacity Factor",
+          "type": "number"
+        },
+        "forecast_method": {
+          "anyOf": [
+            {
+              "enum": [
+                "moving_average",
+                "ses",
+                "holt"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Forecast Method"
+        },
+        "forecast_window": {
+          "anyOf": [
+            {
+              "maximum": 3650,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Forecast Window"
+        },
+        "forecast_alpha": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "maximum": 1,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Forecast Alpha"
+        },
+        "forecast_beta": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Forecast Beta"
+        },
+        "buffer_days": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Buffer Days",
+          "type": "number"
+        },
+        "expedite_factor": {
+          "default": 1,
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Expedite Factor",
+          "type": "number"
+        },
+        "expedite_unit_cost": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Expedite Unit Cost",
+          "type": "number"
+        },
+        "backup_suppliers": {
+          "patternProperties": {
+            "^[A-Za-z0-9_-]+$": {
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            }
+          },
+          "propertyNames": {
+            "minLength": 1
+          },
+          "title": "Backup Suppliers",
+          "type": "object"
+        }
+      },
+      "title": "LabSettings",
+      "type": "object"
+    },
     "NetworkConfig": {
       "additionalProperties": false,
       "properties": {
@@ -282,6 +429,191 @@
       },
       "title": "ScenarioOverrides",
       "type": "object"
+    },
+    "SkuAssumptions": {
+      "additionalProperties": false,
+      "properties": {
+        "daily_mean": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Daily Mean"
+        },
+        "cv": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cv"
+        },
+        "unit_cost": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit Cost"
+        },
+        "supplier": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Supplier"
+        },
+        "moq": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Moq"
+        },
+        "pack_size": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pack Size"
+        }
+      },
+      "title": "SkuAssumptions",
+      "type": "object"
+    },
+    "SupplierAssumptions": {
+      "additionalProperties": false,
+      "properties": {
+        "lead_mean": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lead Mean"
+        },
+        "lead_cv": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lead Cv"
+        },
+        "delay_probability": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Delay Probability"
+        },
+        "delay_days": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Delay Days"
+        },
+        "daily_capacity": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Daily Capacity"
+        },
+        "price_multiplier": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Price Multiplier"
+        },
+        "moq": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Moq"
+        }
+      },
+      "title": "SupplierAssumptions",
+      "type": "object"
     }
   },
   "additionalProperties": false,
@@ -311,6 +643,9 @@
     },
     "options": {
       "$ref": "#/$defs/RunOptions"
+    },
+    "lab": {
+      "$ref": "#/$defs/LabSettings"
     }
   },
   "title": "RunRequest",

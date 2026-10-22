@@ -1,0 +1,255 @@
+{
+  "$defs": {
+    "DiagnosticLane": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "source": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Source",
+          "type": "string"
+        },
+        "target": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Target",
+          "type": "string"
+        },
+        "shipped_units": {
+          "minimum": 0,
+          "title": "Shipped Units",
+          "type": "number"
+        },
+        "freight_inr": {
+          "minimum": 0,
+          "title": "Freight Inr",
+          "type": "number"
+        },
+        "closing_in_transit_units": {
+          "minimum": 0,
+          "title": "Closing In Transit Units",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "target",
+        "shipped_units",
+        "freight_inr",
+        "closing_in_transit_units"
+      ],
+      "title": "DiagnosticLane",
+      "type": "object"
+    },
+    "DiagnosticSite": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "supplier",
+            "dc",
+            "retailer",
+            "b2b"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "demand_units": {
+          "minimum": 0,
+          "title": "Demand Units",
+          "type": "number"
+        },
+        "shortage_units": {
+          "minimum": 0,
+          "title": "Shortage Units",
+          "type": "number"
+        },
+        "inventory_value_inr": {
+          "minimum": 0,
+          "title": "Inventory Value Inr",
+          "type": "number"
+        },
+        "cost_inr": {
+          "minimum": 0,
+          "title": "Cost Inr",
+          "type": "number"
+        },
+        "utilization": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Utilization"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "kind",
+        "demand_units",
+        "shortage_units",
+        "inventory_value_inr",
+        "cost_inr",
+        "utilization"
+      ],
+      "title": "DiagnosticSite",
+      "type": "object"
+    },
+    "DiagnosticSku": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "demand_units": {
+          "minimum": 0,
+          "title": "Demand Units",
+          "type": "number"
+        },
+        "shortage_units": {
+          "minimum": 0,
+          "title": "Shortage Units",
+          "type": "number"
+        },
+        "inventory_value_inr": {
+          "minimum": 0,
+          "title": "Inventory Value Inr",
+          "type": "number"
+        },
+        "forecast_wmape": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Forecast Wmape"
+        },
+        "forecast_bias": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Forecast Bias"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "demand_units",
+        "shortage_units",
+        "inventory_value_inr",
+        "forecast_wmape",
+        "forecast_bias"
+      ],
+      "title": "DiagnosticSku",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "representative_seed": {
+      "minimum": 0,
+      "title": "Representative Seed",
+      "type": "integer"
+    },
+    "warmup_days": {
+      "minimum": 0,
+      "title": "Warmup Days",
+      "type": "integer"
+    },
+    "horizon_days": {
+      "exclusiveMinimum": 0,
+      "title": "Horizon Days",
+      "type": "integer"
+    },
+    "facilities": {
+      "items": {
+        "$ref": "#/$defs/DiagnosticSite"
+      },
+      "title": "Facilities",
+      "type": "array"
+    },
+    "skus": {
+      "items": {
+        "$ref": "#/$defs/DiagnosticSku"
+      },
+      "title": "Skus",
+      "type": "array"
+    },
+    "lanes": {
+      "items": {
+        "$ref": "#/$defs/DiagnosticLane"
+      },
+      "title": "Lanes",
+      "type": "array"
+    },
+    "cost_components": {
+      "patternProperties": {
+        "^[A-Za-z0-9_-]+$": {
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "propertyNames": {
+        "minLength": 1
+      },
+      "title": "Cost Components",
+      "type": "object"
+    }
+  },
+  "required": [
+    "run_id",
+    "representative_seed",
+    "warmup_days",
+    "horizon_days",
+    "facilities",
+    "skus",
+    "lanes",
+    "cost_components"
+  ],
+  "title": "RunDiagnostics",
+  "type": "object"
+}

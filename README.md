@@ -27,6 +27,15 @@ Methodology views backed by recorded experiments and live paired scenarios.
 The user-requested E1 operations workspace expansion is implemented. M11
 (static demo, Docker, performance and accessibility) remains next.
 
+The E2 [Planning Lab](docs/planning-lab.md) adds server-persisted named scenarios,
+notes/revisions, immutable launch history and historical-request reruns. Configure
+seasonality, demand uncertainty, forecasting, supplier reliability, DC capacity,
+SKU assumptions and sourcing/buffer/expedite alternatives; compare replicated
+cost/service/inventory results and inspect reconciled SKU, facility and lane
+contributors. Export model provenance alongside the results. Open `/?view=portfolio`
+with the local API running. The guide includes a calibration/validation workflow
+for moving from synthetic exercises to operating decisions.
+
 See [analytics](docs/analytics.md) for functions, units, assumptions and examples.
 See [simulation](docs/simulation.md) for daily timing, costs and reproducible M2 validation.
 See [network simulation](docs/network.md) for M3 configuration, conventions and a runnable example.

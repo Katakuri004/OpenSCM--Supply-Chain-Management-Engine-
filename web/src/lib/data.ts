@@ -5,7 +5,10 @@ export function read<T>({ data, error }: { data?: T | undefined; error?: unknown
   if (data === undefined)
     throw new Error(
       typeof error === "object" && error !== null && "detail" in error
-        ? String(error.detail)
+        ? [
+            String(error.detail),
+            ...("issues" in error && Array.isArray(error.issues) ? error.issues.map(String) : []),
+          ].join(" · ")
         : "The study service could not complete this request.",
     );
   return data;

@@ -34,6 +34,93 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/lab": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Lab Catalog */
+        get: operations["get_lab_catalog"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/lab/validate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Validate Lab Request */
+        post: operations["validate_lab_request"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/portfolio": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Portfolio */
+        get: operations["list_portfolio"];
+        put?: never;
+        /** Save Scenario */
+        post: operations["save_scenario"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/portfolio/{scenario_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Update Scenario */
+        put: operations["update_scenario"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/portfolio/{scenario_id}/runs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Scenario History */
+        get: operations["scenario_history"];
+        put?: never;
+        /** Launch Scenario */
+        post: operations["launch_scenario"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/runs": {
         parameters: {
             query?: never;
@@ -60,6 +147,23 @@ export interface paths {
         };
         /** Get Run */
         get: operations["get_run"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/runs/{run_id}/diagnostics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Diagnostics */
+        get: operations["get_diagnostics"];
         put?: never;
         post?: never;
         delete?: never;
@@ -111,6 +215,23 @@ export interface paths {
         };
         /** Network */
         get: operations["get_network"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/runs/{run_id}/provenance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Provenance */
+        get: operations["get_provenance"];
         put?: never;
         post?: never;
         delete?: never;
@@ -274,6 +395,60 @@ export interface components {
              */
             seasonality?: "monthly_index_v1";
         };
+        /** DiagnosticLane */
+        DiagnosticLane: {
+            /** Closing In Transit Units */
+            closing_in_transit_units: number;
+            /** Freight Inr */
+            freight_inr: number;
+            /** Id */
+            id: string;
+            /** Shipped Units */
+            shipped_units: number;
+            /** Source */
+            source: string;
+            /** Target */
+            target: string;
+        };
+        /** DiagnosticSite */
+        DiagnosticSite: {
+            /** Cost Inr */
+            cost_inr: number;
+            /** Demand Units */
+            demand_units: number;
+            /** Id */
+            id: string;
+            /** Inventory Value Inr */
+            inventory_value_inr: number;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "supplier" | "dc" | "retailer" | "b2b";
+            /** Label */
+            label: string;
+            /** Shortage Units */
+            shortage_units: number;
+            /** Utilization */
+            utilization: number | null;
+        };
+        /** DiagnosticSku */
+        DiagnosticSku: {
+            /** Demand Units */
+            demand_units: number;
+            /** Forecast Bias */
+            forecast_bias: number | null;
+            /** Forecast Wmape */
+            forecast_wmape: number | null;
+            /** Id */
+            id: string;
+            /** Inventory Value Inr */
+            inventory_value_inr: number;
+            /** Label */
+            label: string;
+            /** Shortage Units */
+            shortage_units: number;
+        };
         /** Disruption */
         Disruption: {
             /** Duration */
@@ -379,6 +554,7 @@ export interface components {
             quantity: number;
             series: components["schemas"]["ObservationSeries"];
         };
+        JsonValue: unknown;
         /** Kpis */
         Kpis: {
             /** Metrics */
@@ -391,6 +567,77 @@ export interface components {
             replications: number;
             /** Run Id */
             run_id: string;
+        };
+        /** LabCatalog */
+        LabCatalog: {
+            forecast: components["schemas"]["LabSettings"];
+            /** Max Horizon Days */
+            max_horizon_days: number;
+            /** Max Replications */
+            max_replications: number;
+            /** Max Warmup Days */
+            max_warmup_days: number;
+            /** Monthly Index */
+            monthly_index: number[];
+            request: components["schemas"]["RunRequest"];
+            /** Seasonal Example */
+            seasonal_example: number[];
+            /** Sku Ids */
+            sku_ids: string[];
+            /** Suppliers */
+            suppliers: components["schemas"]["SupplierProfile"][];
+        };
+        /** LabSettings */
+        LabSettings: {
+            /** Backup Suppliers */
+            backup_suppliers?: {
+                [key: string]: string;
+            };
+            /**
+             * Buffer Days
+             * @default 0
+             */
+            buffer_days?: number;
+            /**
+             * Dc Capacity Factor
+             * @default 1
+             */
+            dc_capacity_factor?: number;
+            /**
+             * Expedite Factor
+             * @default 1
+             */
+            expedite_factor?: number;
+            /**
+             * Expedite Unit Cost
+             * @default 0
+             */
+            expedite_unit_cost?: number;
+            /** Forecast Alpha */
+            forecast_alpha?: number | null;
+            /** Forecast Beta */
+            forecast_beta?: number | null;
+            /** Forecast Method */
+            forecast_method?: ("moving_average" | "ses" | "holt") | null;
+            /** Forecast Window */
+            forecast_window?: number | null;
+            /** Monthly Index */
+            monthly_index?: number[] | null;
+            /** Skus */
+            skus?: {
+                [key: string]: components["schemas"]["SkuAssumptions"];
+            };
+            /** Suppliers */
+            suppliers?: {
+                [key: string]: components["schemas"]["SupplierAssumptions"];
+            };
+        };
+        /** LaunchRequest */
+        LaunchRequest: {
+            /** Execution Id */
+            execution_id?: string | null;
+            /** Revision */
+            revision: number;
         };
         /** Network */
         Network: {
@@ -480,6 +727,47 @@ export interface components {
             /** Reorder Point */
             reorder_point: number[][];
         };
+        /** PortfolioDraft */
+        PortfolioDraft: {
+            /** Name */
+            name: string;
+            /**
+             * Notes
+             * @default
+             */
+            notes?: string;
+            request: components["schemas"]["RunRequest"];
+        };
+        /** PortfolioExecution */
+        PortfolioExecution: {
+            /** Id */
+            id: string;
+            /** Launched At */
+            launched_at: string;
+            /** Name */
+            name: string;
+            /** Notes */
+            notes: string;
+            request: components["schemas"]["RunRequest"];
+            /** Revision */
+            revision: number;
+            /** Scenario Id */
+            scenario_id: string;
+            status: components["schemas"]["RunStatus"];
+        };
+        /** PortfolioUpdate */
+        PortfolioUpdate: {
+            /** Name */
+            name: string;
+            /**
+             * Notes
+             * @default
+             */
+            notes?: string;
+            request: components["schemas"]["RunRequest"];
+            /** Revision */
+            revision: number;
+        };
         /** Query */
         Query: {
             /**
@@ -528,6 +816,27 @@ export interface components {
             };
             series: components["schemas"]["ObservationSeries"];
         };
+        /** RunDiagnostics */
+        RunDiagnostics: {
+            /** Cost Components */
+            cost_components: {
+                [key: string]: number;
+            };
+            /** Facilities */
+            facilities: components["schemas"]["DiagnosticSite"][];
+            /** Horizon Days */
+            horizon_days: number;
+            /** Lanes */
+            lanes: components["schemas"]["DiagnosticLane"][];
+            /** Representative Seed */
+            representative_seed: number;
+            /** Run Id */
+            run_id: string;
+            /** Skus */
+            skus: components["schemas"]["DiagnosticSku"][];
+            /** Warmup Days */
+            warmup_days: number;
+        };
         /** RunNetwork */
         RunNetwork: {
             kpis: components["schemas"]["Kpis"];
@@ -561,8 +870,36 @@ export interface components {
              */
             segmented?: boolean;
         };
+        /** RunProvenance */
+        RunProvenance: {
+            /** Input Sha256 */
+            input_sha256: {
+                [key: string]: string;
+            };
+            /** Operating Snapshot */
+            operating_snapshot?: {
+                [key: string]: components["schemas"]["JsonValue"];
+            } | null;
+            /** Replication Seeds */
+            replication_seeds: number[];
+            request: components["schemas"]["RunRequest"];
+            /** Run Id */
+            run_id: string;
+            scenario: components["schemas"]["Scenario"];
+            /** Settings */
+            settings: {
+                [key: string]: components["schemas"]["JsonValue"];
+            };
+            /** Training Seed */
+            training_seed: number;
+            /** Versions */
+            versions: {
+                [key: string]: string;
+            };
+        };
         /** RunRequest */
         RunRequest: {
+            lab?: components["schemas"]["LabSettings"];
             options?: components["schemas"]["RunOptions"];
             overrides?: components["schemas"]["ScenarioOverrides"];
             /**
@@ -598,6 +935,25 @@ export interface components {
              * @enum {string}
              */
             status: "queued" | "running" | "complete" | "failed";
+        };
+        /** SavedScenario */
+        SavedScenario: {
+            /** Created At */
+            created_at: string;
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /**
+             * Notes
+             * @default
+             */
+            notes?: string;
+            request: components["schemas"]["RunRequest"];
+            /** Revision */
+            revision: number;
+            /** Updated At */
+            updated_at: string;
         };
         /** Scenario */
         Scenario: {
@@ -644,6 +1000,21 @@ export interface components {
             policy?: components["schemas"]["PolicyConfig"] | null;
             /** Warmup Days */
             warmup_days?: number | null;
+        };
+        /** SkuAssumptions */
+        SkuAssumptions: {
+            /** Cv */
+            cv?: number | null;
+            /** Daily Mean */
+            daily_mean?: number | null;
+            /** Moq */
+            moq?: number | null;
+            /** Pack Size */
+            pack_size?: number | null;
+            /** Supplier */
+            supplier?: string | null;
+            /** Unit Cost */
+            unit_cost?: number | null;
         };
         /** StudyCase */
         StudyCase: {
@@ -766,6 +1137,44 @@ export interface components {
             network_a: components["schemas"]["RunNetwork"];
             network_b: components["schemas"]["RunNetwork"];
         };
+        /** SupplierAssumptions */
+        SupplierAssumptions: {
+            /** Daily Capacity */
+            daily_capacity?: number | null;
+            /** Delay Days */
+            delay_days?: number | null;
+            /** Delay Probability */
+            delay_probability?: number | null;
+            /** Lead Cv */
+            lead_cv?: number | null;
+            /** Lead Mean */
+            lead_mean?: number | null;
+            /** Moq */
+            moq?: number | null;
+            /** Price Multiplier */
+            price_multiplier?: number | null;
+        };
+        /** SupplierProfile */
+        SupplierProfile: {
+            /** Daily Capacity */
+            daily_capacity?: number | null;
+            /** Delay Days */
+            delay_days?: number | null;
+            /** Delay Probability */
+            delay_probability?: number | null;
+            /** Id */
+            id: string;
+            /** Label */
+            label: string;
+            /** Lead Cv */
+            lead_cv?: number | null;
+            /** Lead Mean */
+            lead_mean?: number | null;
+            /** Moq */
+            moq?: number | null;
+            /** Price Multiplier */
+            price_multiplier?: number | null;
+        };
         /** TimeSeries */
         TimeSeries: {
             /** Days */
@@ -872,6 +1281,429 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ExperimentResults"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    get_lab_catalog: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LabCatalog"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    validate_lab_request: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RunRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RunRequest"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    list_portfolio: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SavedScenario"][];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    save_scenario: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PortfolioDraft"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SavedScenario"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    update_scenario: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                scenario_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PortfolioUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SavedScenario"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    scenario_history: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                scenario_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PortfolioExecution"][];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    launch_scenario: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                scenario_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LaunchRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PortfolioExecution"];
+                };
+            };
+            /** @description Accepted */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PortfolioExecution"];
                 };
             };
             /** @description Not Found */
@@ -1048,6 +1880,64 @@ export interface operations {
             };
         };
     };
+    get_diagnostics: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                run_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RunDiagnostics"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
     get_health: {
         parameters: {
             query?: never;
@@ -1184,6 +2074,64 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["RunNetwork"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    get_provenance: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                run_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RunProvenance"];
                 };
             };
             /** @description Not Found */

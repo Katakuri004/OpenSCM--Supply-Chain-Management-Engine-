@@ -6,7 +6,7 @@ from collections.abc import Sequence
 from pathlib import Path
 from typing import Annotated, Literal, Self
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, JsonValue, model_validator
 
 Nonnegative = Annotated[float, Field(ge=0)]
 Fraction = Annotated[float, Field(ge=0, le=1)]
@@ -274,18 +274,87 @@ class RunOptions(Contract):
     lost_sales: bool = False
 
 
+class SupplierAssumptions(Contract):
+    lead_mean: Annotated[float, Field(gt=0)] | None = None
+    lead_cv: Nonnegative | None = None
+    delay_probability: Fraction | None = None
+    delay_days: Annotated[int, Field(ge=0)] | None = None
+    daily_capacity: Nonnegative | None = None
+    price_multiplier: Annotated[float, Field(gt=0)] | None = None
+    moq: Annotated[int, Field(gt=0)] | None = None
+
+
+class SkuAssumptions(Contract):
+    daily_mean: Nonnegative | None = None
+    cv: Nonnegative | None = None
+    unit_cost: Annotated[float, Field(gt=0)] | None = None
+    supplier: Identifier | None = None
+    moq: Annotated[int, Field(gt=0)] | None = None
+    pack_size: Annotated[int, Field(gt=0)] | None = None
+
+
+class LabSettings(Contract):
+    monthly_index: list[Nonnegative] | None = Field(default=None, min_length=12, max_length=12)
+    suppliers: dict[Identifier, SupplierAssumptions] = Field(default_factory=dict)
+    skus: dict[Identifier, SkuAssumptions] = Field(default_factory=dict)
+    dc_capacity_factor: Nonnegative = 1
+    forecast_method: Literal["moving_average", "ses", "holt"] | None = None
+    forecast_window: Annotated[int, Field(ge=1, le=3650)] | None = None
+    forecast_alpha: Annotated[float, Field(gt=0, le=1)] | None = None
+    forecast_beta: Fraction | None = None
+    buffer_days: Nonnegative = 0
+    expedite_factor: Annotated[float, Field(gt=0, le=1)] = 1
+    expedite_unit_cost: Nonnegative = 0
+    backup_suppliers: dict[Identifier, Identifier] = Field(default_factory=dict)
+
+    @model_validator(mode="after")
+    def distinct_backup(self) -> Self:
+        if any(primary == backup for primary, backup in self.backup_suppliers.items()):
+            raise ValueError("backup suppliers must differ from their primary supplier")
+        return self
+
+
 class RunRequest(Contract):
     preset: Identifier = "base_4dc"
     overrides: ScenarioOverrides = Field(default_factory=ScenarioOverrides)
     seed: Annotated[int, Field(ge=0, le=4294967295)] = 0
     replications: Annotated[int, Field(gt=0)] = 1
     options: RunOptions = Field(default_factory=RunOptions)
+    lab: LabSettings = Field(default_factory=LabSettings)
 
     @model_validator(mode="after")
     def compatible_options(self) -> Self:
         if self.options.segmented and self.options.bullwhip:
             raise ValueError("bullwhip runs require uniform planning")
         return self
+
+
+class PortfolioDraft(Contract):
+    name: Annotated[str, Field(min_length=1, max_length=100)]
+    notes: Annotated[str, Field(max_length=10000)] = ""
+    request: RunRequest
+
+    @model_validator(mode="after")
+    def meaningful_name(self) -> Self:
+        if not self.name.strip():
+            raise ValueError("scenario name must not be blank")
+        return self
+
+
+class PortfolioUpdate(PortfolioDraft):
+    revision: Annotated[int, Field(ge=1)]
+
+
+class SavedScenario(PortfolioDraft):
+    id: Identifier
+    revision: Annotated[int, Field(ge=1)]
+    created_at: str
+    updated_at: str
+
+
+class LaunchRequest(Contract):
+    revision: Annotated[int, Field(ge=1)]
+    execution_id: Identifier | None = None
 
 
 class ApiError(Contract):
@@ -304,6 +373,87 @@ class RunStatus(Contract):
 
 class ScenarioCatalog(Contract):
     presets: dict[Identifier, Scenario]
+
+
+class PortfolioExecution(Contract):
+    id: Identifier
+    scenario_id: Identifier
+    revision: Annotated[int, Field(ge=1)]
+    name: str
+    notes: str
+    request: RunRequest
+    launched_at: str
+    status: RunStatus
+
+
+class DiagnosticSite(Contract):
+    id: Identifier
+    label: str
+    kind: NodeType
+    demand_units: Nonnegative
+    shortage_units: Nonnegative
+    inventory_value_inr: Nonnegative
+    cost_inr: Nonnegative
+    utilization: Nonnegative | None
+
+
+class DiagnosticSku(Contract):
+    id: Identifier
+    label: str
+    demand_units: Nonnegative
+    shortage_units: Nonnegative
+    inventory_value_inr: Nonnegative
+    forecast_wmape: Nonnegative | None
+    forecast_bias: float | None
+
+
+class DiagnosticLane(Contract):
+    id: Identifier
+    source: Identifier
+    target: Identifier
+    shipped_units: Nonnegative
+    freight_inr: Nonnegative
+    closing_in_transit_units: Nonnegative
+
+
+class RunDiagnostics(Contract):
+    run_id: Identifier
+    representative_seed: Annotated[int, Field(ge=0)]
+    warmup_days: Annotated[int, Field(ge=0)]
+    horizon_days: Annotated[int, Field(gt=0)]
+    facilities: list[DiagnosticSite]
+    skus: list[DiagnosticSku]
+    lanes: list[DiagnosticLane]
+    cost_components: dict[Identifier, Nonnegative]
+
+
+class RunProvenance(Contract):
+    run_id: Identifier
+    request: RunRequest
+    scenario: Scenario
+    input_sha256: dict[str, str]
+    versions: dict[str, str]
+    settings: dict[str, JsonValue]
+    replication_seeds: list[Annotated[int, Field(ge=0)]]
+    training_seed: Annotated[int, Field(ge=0)]
+    operating_snapshot: dict[str, JsonValue] | None = None
+
+
+class SupplierProfile(SupplierAssumptions):
+    id: Identifier
+    label: str
+
+
+class LabCatalog(Contract):
+    request: RunRequest
+    suppliers: list[SupplierProfile]
+    sku_ids: list[Identifier]
+    monthly_index: list[Nonnegative] = Field(min_length=12, max_length=12)
+    seasonal_example: list[Nonnegative] = Field(min_length=12, max_length=12)
+    forecast: LabSettings
+    max_replications: Annotated[int, Field(gt=0)]
+    max_horizon_days: Annotated[int, Field(gt=0)]
+    max_warmup_days: Annotated[int, Field(gt=0)]
 
 
 class PolicyTargets(Contract):
@@ -525,6 +675,12 @@ class StudyEvidence(Contract):
 
 
 CONTRACTS: dict[str, type[Contract]] = {
+    "lab_settings": LabSettings,
+    "lab_catalog": LabCatalog,
+    "saved_scenario": SavedScenario,
+    "portfolio_execution": PortfolioExecution,
+    "run_diagnostics": RunDiagnostics,
+    "run_provenance": RunProvenance,
     "study_evidence": StudyEvidence,
     "api_error": ApiError,
     "run_request": RunRequest,

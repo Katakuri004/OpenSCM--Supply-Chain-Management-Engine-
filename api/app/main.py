@@ -2,11 +2,13 @@
 
 import hashlib
 import json
+import os
 import threading
 from pathlib import Path
 from typing import Annotated
 
 import duckdb
+import yaml
 from fastapi import BackgroundTasks, FastAPI, HTTPException, Response
 from fastapi import Query as Parameter
 from fastapi.exceptions import RequestValidationError
@@ -20,24 +22,35 @@ from scm.contracts import (
     ExperimentResults,
     Health,
     Kpis,
+    LabCatalog,
+    LabSettings,
+    LaunchRequest,
     Metric,
+    PortfolioDraft,
+    PortfolioExecution,
+    PortfolioUpdate,
     QueryRequest,
     QueryResults,
+    RunDiagnostics,
     RunNetwork,
+    RunProvenance,
     RunRequest,
     RunStatus,
+    SavedScenario,
     ScenarioCatalog,
     StudyEvidence,
     TimeSeries,
 )
 
+from api.app.portfolio import PortfolioStore
 from api.app.query import filter_nodes, parse_filter
 from api.app.service import RunStore
 
 
 def create_app(
-    *, run_root: Path = Path("data/runs"), experiment_root: Path = Path("docs/evidence/m7")
+    *, run_root: Path | None = None, experiment_root: Path = Path("docs/evidence/m7")
 ) -> FastAPI:
+    run_root = run_root or Path(os.environ.get("SCM_RUN_ROOT", "data/runs"))
     settings = load_api_settings()
     app = FastAPI(
         title="OpenSCM operations study",
@@ -60,11 +73,12 @@ def create_app(
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.cors_origins,
-        allow_methods=["GET", "POST"],
+        allow_methods=["GET", "POST", "PUT"],
         allow_headers=["Content-Type"],
     )
     cache: RunStore | None = None
     cache_lock = threading.Lock()
+    portfolios = PortfolioStore(run_root.parent / "portfolio.sqlite3")
 
     def store() -> RunStore:
         nonlocal cache
@@ -113,6 +127,139 @@ def create_app(
     @app.get("/runs/{run_id}", response_model=RunStatus, operation_id="get_run")
     def get_run(run_id: str) -> RunStatus:
         return store().status(run_id)
+
+    @app.get("/lab", response_model=LabCatalog, operation_id="get_lab_catalog")
+    def lab_catalog() -> LabCatalog:
+        source = store()
+        defaults = yaml.safe_load(Path("configs/lab.yaml").read_text(encoding="utf-8"))
+        return LabCatalog.model_validate(
+            {
+                "request": {
+                    "seed": defaults["seed"],
+                    "replications": defaults["replications"],
+                    "overrides": {
+                        "warmup_days": defaults["warmup_days"],
+                        "horizon_days": defaults["horizon_days"],
+                    },
+                },
+                "suppliers": [
+                    {
+                        "id": row.id,
+                        "label": row.label,
+                        **row.model_dump(exclude={"id", "label", "latitude", "longitude"}),
+                    }
+                    for row in source.study.spec.suppliers
+                ],
+                "sku_ids": [row.id for row in source.study.spec.skus],
+                "monthly_index": source.study.seasonality.monthly_index_v1,
+                "seasonal_example": defaults["seasonal_example"],
+                "forecast": LabSettings(
+                    forecast_method=source.planning.forecast.method,
+                    forecast_window=source.planning.forecast.window,
+                    forecast_alpha=source.planning.forecast.alpha,
+                    forecast_beta=source.planning.forecast.beta,
+                ).model_dump(),
+                "max_replications": settings.max_replications,
+                "max_horizon_days": settings.max_horizon_days,
+                "max_warmup_days": settings.max_warmup_days,
+            }
+        )
+
+    @app.get("/portfolio", response_model=list[SavedScenario], operation_id="list_portfolio")
+    def list_portfolio() -> list[SavedScenario]:
+        return portfolios.list_scenarios()
+
+    @app.post("/lab/validate", response_model=RunRequest, operation_id="validate_lab_request")
+    def validate_lab_request(request: RunRequest) -> RunRequest:
+        store().resolve(request)
+        return request
+
+    @app.post(
+        "/portfolio", response_model=SavedScenario, status_code=201, operation_id="save_scenario"
+    )
+    def save_scenario(draft: PortfolioDraft) -> SavedScenario:
+        store().resolve(draft.request)
+        return portfolios.create(draft)
+
+    @app.put(
+        "/portfolio/{scenario_id}", response_model=SavedScenario, operation_id="update_scenario"
+    )
+    def update_scenario(scenario_id: str, change: PortfolioUpdate) -> SavedScenario:
+        store().resolve(change.request)
+        return portfolios.update(scenario_id, change)
+
+    @app.get(
+        "/portfolio/{scenario_id}/runs",
+        response_model=list[PortfolioExecution],
+        operation_id="scenario_history",
+    )
+    def scenario_history(scenario_id: str) -> list[PortfolioExecution]:
+        return portfolios.history(scenario_id, store())
+
+    @app.post(
+        "/portfolio/{scenario_id}/runs",
+        response_model=PortfolioExecution,
+        status_code=201,
+        operation_id="launch_scenario",
+        responses={202: {"model": PortfolioExecution}},
+    )
+    def launch_scenario(
+        scenario_id: str, launch: LaunchRequest, response: Response, tasks: BackgroundTasks
+    ) -> PortfolioExecution:
+        saved = portfolios.get(scenario_id)
+        if saved.revision != launch.revision:
+            raise HTTPException(409, "Scenario changed. Reload before launching.")
+        if launch.execution_id is not None:
+            original = next(
+                (
+                    row
+                    for row in portfolios.history(scenario_id, store())
+                    if row.id == launch.execution_id
+                ),
+                None,
+            )
+            if original is None:
+                raise HTTPException(404, "Unknown historical execution")
+            saved = saved.model_copy(
+                update={
+                    "name": original.name,
+                    "notes": original.notes,
+                    "request": original.request,
+                    "revision": original.revision,
+                }
+            )
+        repository = store()
+        status, created = repository.reserve(saved.request)
+        execution = portfolios.record(saved, status)
+        if created:
+            if saved.request.replications == 1:
+                repository.compute(status.run_id)
+                execution.status = repository.status(status.run_id)
+            else:
+                tasks.add_task(repository.compute, status.run_id)
+        if execution.status.status in {"queued", "running"}:
+            response.status_code = 202
+        return execution
+
+    @app.get(
+        "/runs/{run_id}/diagnostics", response_model=RunDiagnostics, operation_id="get_diagnostics"
+    )
+    def get_diagnostics(run_id: str) -> RunDiagnostics:
+        path = store().ready(run_id) / "diagnostics.json"
+        if not path.is_file():
+            raise HTTPException(
+                404, "Diagnostics are unavailable for this historical run. Rerun its request."
+            )
+        return RunDiagnostics.model_validate_json(path.read_text(encoding="utf-8"))
+
+    @app.get(
+        "/runs/{run_id}/provenance", response_model=RunProvenance, operation_id="get_provenance"
+    )
+    def get_provenance(run_id: str) -> RunProvenance:
+        manifest = json.loads((store().ready(run_id) / "manifest.json").read_text(encoding="utf-8"))
+        return RunProvenance.model_validate(
+            {key: manifest[key] for key in RunProvenance.model_fields if key in manifest}
+        )
 
     @app.get("/runs/{run_id}/network", response_model=RunNetwork, operation_id="get_network")
     def network(run_id: str) -> RunNetwork:

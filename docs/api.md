@@ -60,6 +60,11 @@ through run IDs are restricted to 64 hexadecimal characters and the cache root.
 
 ## Read endpoints
 
+`SCM_RUN_ROOT` can set the run-cache location for a server process; it defaults to
+`data/runs`. The planning SQLite database is placed in that directory's parent.
+Tests pass an explicit temporary root or use the browser workspace. Restart after
+changing this setting. The API remains one local workspace without authentication.
+
 | Endpoint | Result and convention |
 | --- | --- |
 | `GET /runs/{id}/network` | Static network, representative measured lane flows, SKU IDs and aggregate KPI estimates |
@@ -70,6 +75,13 @@ through run IDs are restricted to 64 hexadecimal characters and the cache root.
 | `GET /compare?a=...&b=...` | Paired B−A KPI and eight-component cost deltas |
 | `GET /experiments/E1` through `E6` | Columnar pages from M7 Parquet evidence; supports `offset`, `limit`, `case_id` and `metric` |
 | `GET /studies` | M10 validated historical study bundle; identical to the fixed recorded asset, 404 if not exported |
+| `GET /lab` | YAML-derived planning defaults, supplier profiles and local resource limits |
+| `POST /lab/validate` | Resolve a typed request and physical targets without reserving or executing a run |
+| `GET/POST /portfolio` | List/create server-persisted named configurations with notes |
+| `PUT /portfolio/{id}` | Save a new revision, with optimistic 409 conflict detection |
+| `GET/POST /portfolio/{id}/runs` | Immutable launch history / launch saved revision or repeat an execution's original request |
+| `GET /runs/{id}/diagnostics` | Reconciled first-replication SKU, facility and lane contributors; 404 for older absent artifacts |
+| `GET /runs/{id}/provenance` | Request, effective inputs, versions, source hashes and seeds |
 
 The first replication is the **representative trajectory** for network flows,
 health, inspector time series and node queries. Its seed is returned in run status.
