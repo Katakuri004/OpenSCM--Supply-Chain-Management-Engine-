@@ -202,3 +202,14 @@ The ASGI acceptance client waits for background tasks before returning control;
 the separate live Uvicorn smoke check verifies an actual 202 response followed by
 running/complete status and a request through the TypeScript client. See
 [validation](validation.md) and the [response evidence](evidence/m8/results.json).
+
+## E3 daily evidence extension
+
+`GET /runs/{run_id}/timeseries` additionally accepts `demand`, `immediate`,
+`orders`, `received`, and `forecast` in `metrics`. It retains the same node/SKU,
+range validation, first-replication grain and default five-metric response.
+The query/filter vocabulary is unchanged. New cached runs save the additional
+arrays; absent historical arrays return 409 with a rerun instruction. Undefined
+forecasts are null rather than fabricated values. See
+[learning definitions](learning-sandbox.md) and the updated TimeSeries contract.
+`/reference/learning` downloads the student/instructor guide through Next.js.

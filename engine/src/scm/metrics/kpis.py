@@ -52,6 +52,8 @@ def observation_arrays(
     if result.forecast is not None:
         forecasts[:, :, downstream] = result.forecast[:, :, downstream]
     arrays = {
+        "demand": signal,
+        "immediate": served,
         "on_hand": result.on_hand,
         "on_order": np.maximum(0, result.on_order),
         "backorders": backlog,

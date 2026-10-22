@@ -1,0 +1,456 @@
+# ASSUMPTION: synthetic teaching experiments. No guaranteed outcomes or grading thresholds.
+service_goal: 0.95
+lessons:
+- id: service
+  title: Safety stock and service
+  category: Inventory
+  question: What does a higher cycle service target cost?
+  mechanism: A higher target raises protection stock. Achieved unit fill rate is a
+    different metric from the target cycle service level.
+  assumption: 'ASSUMPTION: A targets 90% CSL; B targets 99%. Neither is a promised
+    fill rate.'
+  watch:
+  - fill_rate
+  - cycle_service_level
+  - days_of_inventory
+  - total_landed_cost_inr
+  reflect: Does the interval support a service gain? Which cost components changed,
+    and why can achieved CSL differ from target?
+  request_a:
+    preset: base_4dc
+    seed: 222
+    replications: 2
+    overrides:
+      warmup_days: 90
+      horizon_days: 365
+      policy:
+        target_csl: 0.9
+    options: {}
+    lab: {}
+  request_b:
+    preset: base_4dc
+    seed: 222
+    replications: 2
+    overrides:
+      warmup_days: 90
+      horizon_days: 365
+      policy:
+        target_csl: 0.99
+    options: {}
+    lab: {}
+  related_view: inventory
+- id: variability
+  title: Demand uncertainty
+  category: Demand
+  question: How does demand variability affect stock and shortages?
+  mechanism: CV scales demand dispersion, not just average volume. Nonnegative truncation
+    can also alter the realised mean. Policies respond to configured uncertainty.
+  assumption: 'ASSUMPTION: Demand CV scale is 0.5 in A and 1.5 in B; shared seeds
+    pair draws, not identical realised demand.'
+  watch:
+  - fill_rate
+  - stockout_days
+  - days_of_inventory
+  reflect: Inspect realised demand as well as fill rate. Is the effect stable with
+    more replications?
+  request_a:
+    preset: base_4dc
+    seed: 222
+    replications: 2
+    overrides:
+      warmup_days: 90
+      horizon_days: 365
+      demand:
+        cv_scale: 0.5
+    options: {}
+    lab: {}
+  request_b:
+    preset: base_4dc
+    seed: 222
+    replications: 2
+    overrides:
+      warmup_days: 90
+      horizon_days: 365
+      demand:
+        cv_scale: 1.5
+    options: {}
+    lab: {}
+  related_view: inventory
+- id: pooling
+  title: Centralise or decentralise
+  category: Distribution
+  question: Can stock pooling offset longer delivery lanes?
+  mechanism: Changing DC count changes locations, assignment, fixed costs, inventory
+    and freight together. This is a network design comparison, not an isolated proof
+    of risk pooling.
+  assumption: 'ASSUMPTION: Compare one DC with four under the same demand settings.'
+  watch:
+  - total_landed_cost_inr
+  - days_of_inventory
+  - fill_rate
+  reflect: Separate fixed, freight, shortage and holding cost changes. What extra
+    experiment would isolate demand correlation?
+  request_a:
+    preset: base_4dc
+    seed: 222
+    replications: 2
+    overrides:
+      warmup_days: 90
+      horizon_days: 365
+      network:
+        dc_count: 1
+    options: {}
+    lab: {}
+  request_b:
+    preset: base_4dc
+    seed: 222
+    replications: 2
+    overrides:
+      warmup_days: 90
+      horizon_days: 365
+      network:
+        dc_count: 4
+    options: {}
+    lab: {}
+  related_view: network
+- id: forecast
+  title: Forecast responsiveness
+  category: Forecasting
+  question: Does a smoother forecast improve replenishment?
+  mechanism: A shorter moving average responds faster but may amplify noise. Pre-demand
+    forecasts are logged before observing that day; DCs observe order signals by default.
+  assumption: 'ASSUMPTION: Moving-average windows are 7 days in A and 28 days in B;
+    both use forecasting.'
+  watch:
+  - fill_rate
+  - bullwhip_ratio
+  - days_of_inventory
+  reflect: Use the relationship chart for forecast versus demand. Compare SKU wMAPE
+    and bias in diagnostics; does lower error guarantee lower cost?
+  request_a:
+    preset: base_4dc
+    seed: 222
+    replications: 2
+    overrides:
+      warmup_days: 90
+      horizon_days: 365
+    options:
+      forecasting: true
+    lab:
+      forecast_method: moving_average
+      forecast_window: 7
+  request_b:
+    preset: base_4dc
+    seed: 222
+    replications: 2
+    overrides:
+      warmup_days: 90
+      horizon_days: 365
+    options:
+      forecasting: true
+    lab:
+      forecast_method: moving_average
+      forecast_window: 28
+  related_view: bullwhip
+- id: capacity
+  title: Find the dispatch bottleneck
+  category: Capacity
+  question: Where does a capacity cut first reduce customer service?
+  mechanism: DC capacity limits daily dispatch shared across SKUs. A constrained facility
+    can hold inventory while downstream customers face shortages.
+  assumption: 'ASSUMPTION: B uses 35% of candidate DC dispatch capacity; A uses 100%.'
+  watch:
+  - fill_rate
+  - stockout_days
+  - total_landed_cost_inr
+  reflect: Check facility utilization and retailer receipts. Is adding stock enough
+    when dispatch throughput is constrained?
+  request_a:
+    preset: base_4dc
+    seed: 222
+    replications: 2
+    overrides:
+      warmup_days: 90
+      horizon_days: 365
+    options: {}
+    lab: {}
+  request_b:
+    preset: base_4dc
+    seed: 222
+    replications: 2
+    overrides:
+      warmup_days: 90
+      horizon_days: 365
+    options: {}
+    lab:
+      dc_capacity_factor: 0.35
+  related_view: tower
+- id: reliability
+  title: Supplier reliability
+  category: Sourcing
+  question: How do uncertain supplier delays propagate downstream?
+  mechanism: Supplier delays add to transit time on affected shipments. Inventory
+    position includes outstanding orders, so more pipeline stock need not mean more
+    stock on the shelf.
+  assumption: 'ASSUMPTION: S1 has no extra delay in A; B adds seven days with probability
+    0.5. Other supplier assumptions are inherited.'
+  watch:
+  - fill_rate
+  - days_of_inventory
+  - total_landed_cost_inr
+  reflect: Trace S1 lanes and the ordering pipeline. Are all SKUs affected equally?
+    Which mitigation would you test next?
+  request_a:
+    preset: base_4dc
+    seed: 222
+    replications: 2
+    overrides:
+      warmup_days: 90
+      horizon_days: 365
+    options: {}
+    lab:
+      suppliers:
+        S1:
+          delay_probability: 0.0
+          delay_days: 7
+  request_b:
+    preset: base_4dc
+    seed: 222
+    replications: 2
+    overrides:
+      warmup_days: 90
+      horizon_days: 365
+    options: {}
+    lab:
+      suppliers:
+        S1:
+          delay_probability: 0.5
+          delay_days: 7
+  related_view: resilience
+- id: outage
+  title: Trace a supplier interruption
+  category: Resilience
+  question: How long does downstream inventory protect service?
+  mechanism: An outage removes dispatch capacity. Existing in-transit shipments can
+    still arrive, so service need not fail on the first event day.
+  assumption: 'ASSUMPTION: B removes all S1 capacity for days 120 to 140 inclusive;
+    A has no event.'
+  watch:
+  - fill_rate
+  - stockout_days
+  - total_landed_cost_inr
+  reflect: Compare receipts, on-order and backorders around the event. Distinguish
+    first shortage from sustained recovery.
+  request_a:
+    preset: base_4dc
+    seed: 222
+    replications: 2
+    overrides:
+      warmup_days: 90
+      horizon_days: 365
+    options: {}
+    lab: {}
+  request_b:
+    preset: base_4dc
+    seed: 222
+    replications: 2
+    overrides:
+      warmup_days: 90
+      horizon_days: 365
+      disruptions:
+      - type: supplier_outage
+        target: S1
+        start_day: 120
+        duration: 21
+        magnitude: 1.0
+    options: {}
+    lab: {}
+  related_view: resilience
+- id: buffer
+  title: Protect service with a buffer
+  category: Mitigation
+  question: Is a seven-day buffer worth its holding cost?
+  mechanism: The buffer adds initial stock at non-supplier nodes. It is not an adaptive
+    safety-stock optimisation; initial acquisition is excluded from the operating
+    ledger.
+  assumption: 'ASSUMPTION: Both runs share the same S1 outage; B adds seven nominal-demand
+    days of initial buffer.'
+  watch:
+  - fill_rate
+  - days_of_inventory
+  - total_landed_cost_inr
+  reflect: Does buffer protection survive the warm-up? Include excluded initial acquisition
+    before recommending a real investment.
+  request_a:
+    preset: base_4dc
+    seed: 222
+    replications: 2
+    overrides:
+      warmup_days: 90
+      horizon_days: 365
+      disruptions:
+      - type: supplier_outage
+        target: S1
+        start_day: 120
+        duration: 21
+        magnitude: 1.0
+    options: {}
+    lab: {}
+  request_b:
+    preset: base_4dc
+    seed: 222
+    replications: 2
+    overrides:
+      warmup_days: 90
+      horizon_days: 365
+      disruptions:
+      - type: supplier_outage
+        target: S1
+        start_day: 120
+        duration: 21
+        magnitude: 1.0
+    options: {}
+    lab:
+      buffer_days: 7
+  related_view: resilience
+- id: seasonality
+  title: Seasonal replenishment
+  category: Demand
+  question: Does the replenishment pipeline cope with seasonal peaks?
+  mechanism: Monthly multipliers alter the synthetic calendar demand. These indices
+    are not normalised; volume and timing both change. Known-demand policies do not
+    anticipate seasonal peaks.
+  assumption: 'ASSUMPTION: A uses a flat index of 1; B uses the documented synthetic
+    twelve-month profile. Day zero is January 1 in the synthetic calendar.'
+  watch:
+  - fill_rate
+  - days_of_inventory
+  - total_landed_cost_inr
+  reflect: Compare a full year, not only the first month. Repeat with equal annual-volume
+    indices to isolate timing.
+  request_a:
+    preset: base_4dc
+    seed: 222
+    replications: 2
+    overrides:
+      warmup_days: 90
+      horizon_days: 365
+    options: {}
+    lab:
+      monthly_index:
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+  request_b:
+    preset: base_4dc
+    seed: 222
+    replications: 2
+    overrides:
+      warmup_days: 90
+      horizon_days: 365
+    options: {}
+    lab:
+      monthly_index:
+      - 0.85
+      - 0.85
+      - 0.9
+      - 0.95
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.1
+      - 1.2
+      - 1.3
+      - 1.35
+  related_view: inventory
+- id: backorders
+  title: Backorders versus lost sales
+  category: Customer service
+  question: What does the treatment of unfilled demand change?
+  mechanism: Backorders remain to be filled later; lost demand disappears. Immediate
+    fill excludes later backlog clearance. A smaller backlog does not by itself mean
+    better service.
+  assumption: 'ASSUMPTION: A backorders unfilled demand; B treats it as lost sales.
+    Revenue and customer abandonment behaviour are not modelled.'
+  watch:
+  - fill_rate
+  - stockout_days
+  - total_landed_cost_inr
+  reflect: Compare demand, immediate service and backlog. What commercial evidence
+    would be needed to choose a real shortage policy?
+  request_a:
+    preset: base_4dc
+    seed: 222
+    replications: 2
+    overrides:
+      warmup_days: 90
+      horizon_days: 365
+    options: {}
+    lab: {}
+  request_b:
+    preset: base_4dc
+    seed: 222
+    replications: 2
+    overrides:
+      warmup_days: 90
+      horizon_days: 365
+    options:
+      lost_sales: true
+    lab: {}
+  related_view: tower
+daily_steps:
+- title: Receive
+  text: Today’s arrivals enter stock and leave the in-transit pipeline.
+- title: Meet demand
+  text: Serve customer demand from stock; remaining demand becomes backlog or lost
+    sales.
+- title: Update forecast
+  text: Observe demand/order signals and update the replenishment estimate after demand.
+- title: Review & order
+  text: Check inventory position, policy and review calendar; apply MOQ and pack rounding.
+- title: Dispatch
+  text: Allocate upstream inventory and capacity; schedule shipments with lane lead
+    times.
+- title: Close the day
+  text: Log ending stock, pipeline and backlog; accrue operating costs.
+glossary:
+- term: Fill rate
+  definition: Immediate units served divided by units demanded. Zero-demand observations
+    are unavailable, not zero service.
+- term: Cycle service level (CSL)
+  definition: Fraction of completed measured replenishment cycles with no shortage.
+    Target CSL is a policy input, not a guaranteed outcome.
+- term: Inventory position
+  definition: On-hand plus on-order minus outstanding backlog; differs from physical
+    on-hand stock.
+- term: Days of cover
+  definition: Closing on-hand divided by the current planning demand estimate. No
+    positive denominator means unavailable.
+- term: Days of inventory (DIO)
+  definition: 365 divided by annualised inventory turns; based on measured time-weighted
+    inventory value. It is not daily cover.
+- term: Bullwhip ratio
+  definition: Variance of weekly orders divided by variance of weekly customer demand.
+    A zero demand variance leaves the ratio unavailable.
+- term: Paired confidence interval
+  definition: A 95% t interval for replication-level B minus A differences. An interval
+    containing zero does not establish a direction.
+- term: Common random numbers
+  definition: The same seed streams pair experimental conditions. Changed demand or
+    network assumptions can still change realised quantities.
+- term: Warm-up
+  definition: Simulated days before measurement, intended to reduce initialization
+    effects. Sufficiency must be checked; a default is not evidence.
+- term: Model versus reality
+  definition: Synthetic results describe this model under its assumptions. Validate
+    units, parameters and held-out behaviour before real planning use.

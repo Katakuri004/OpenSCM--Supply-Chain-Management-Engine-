@@ -50,7 +50,12 @@
           "fill_rate",
           "on_hand",
           "on_order",
-          "backorders"
+          "backorders",
+          "demand",
+          "immediate",
+          "orders",
+          "received",
+          "forecast"
         ]
       },
       "title": "Metrics",

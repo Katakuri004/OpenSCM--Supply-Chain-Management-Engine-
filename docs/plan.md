@@ -280,6 +280,24 @@ and diagnostic ledger reconciliations pass. Complete schema/OpenAPI/fixture/clie
 updates, browser end-to-end flows, source-labelled exports and the full project
 gate. Document calibration and scope limits before any real-world decision claims.
 
+### E3: transparent student simulation workspace
+
+One learning milestone: ten editable guided paired experiments, prediction and
+reflection notebooks, explicit changed-input tables, uncertainty-aware result
+indicators, and a source-labelled visual explorer for every supported daily
+series, facility and SKU. Expose demand, immediate service, orders, receipts and
+pre-demand forecasts from the representative replication. Preserve historical
+reads and explain unavailable evidence rather than inventing it. Connect lessons
+to existing analytical labs, network inspection and persistent Planning Lab.
+
+Acceptance: tests first; paired lesson requests resolve against the engine and
+match canonical YAML; new daily series reconcile with saved arrays; historical
+missing arrays fail clearly; notebook recovery and statistical indicators are
+tested; browser tests run a real paired lesson, explore/export its evidence and
+verify persistence, narrow-screen navigation and error states. Update contracts,
+assumptions, teaching documentation and pass the full gate. Student reflections
+are browser-local, not instructor grades or a multi-user learning platform.
+
 - **Parallel:** engine (M1–M7); frontend on fixtures (M9–M10, after M0); API (after M3).
 - **Risks:** engine too slow (profile, vectorise); parameter credibility (source table, sensitivity runs); agent drift (schema-diff check in CI, small tasks); scope creep.
 - **Descope order:** plant and BOM, lateral transshipment, geographic layout, dark mode, DuckDB-WASM static queries.

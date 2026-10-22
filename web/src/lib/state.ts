@@ -4,6 +4,7 @@ export const viewNames = {
   exceptions: "Exception workbench",
   playbooks: "Scenario playbooks",
   portfolio: "Planning Lab",
+  learning: "Learning sandbox",
   tower: "Control Tower",
   scenario: "Scenario Lab",
   network: "Network Design",
@@ -23,6 +24,7 @@ export const useTower = create<{
   run: string;
   playbook: string;
   portfolio: string;
+  lesson: string;
   dark: boolean;
   set: (
     state: Partial<{
@@ -33,6 +35,7 @@ export const useTower = create<{
       run: string;
       playbook: string;
       portfolio: string;
+      lesson: string;
       dark: boolean;
     }>,
   ) => void;
@@ -46,6 +49,7 @@ export const useTower = create<{
   run: params.get("run") ?? "",
   playbook: params.get("playbook") ?? "",
   portfolio: params.get("portfolio") ?? "",
+  lesson: params.get("lesson") ?? "service",
   dark: localStorage.getItem("theme") === "dark",
   set,
 }));
@@ -59,6 +63,7 @@ useTower.subscribe((state) => {
     run: state.run,
     playbook: state.playbook,
     portfolio: state.portfolio,
+    lesson: state.lesson,
   })) {
     if (value === "") next.searchParams.delete(key);
     else next.searchParams.set(key, String(value));

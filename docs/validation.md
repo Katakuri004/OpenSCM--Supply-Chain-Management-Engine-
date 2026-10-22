@@ -682,3 +682,49 @@ These checks establish implementation and reconciliation on synthetic data. They
 do not establish empirical validity for a specific business, distributed deployment,
 access control or production certification. M11 deployment/quality work and M12's
 final case-study report remain separate milestones.
+
+## E3 student learning workspace
+
+The user-requested **product E3** milestone (distinct from M7's E3 network-sizing
+experiment) passes `python -m scm.check` on Windows/Python 3.12 and Node 22:
+**227 Python tests**, **14 frontend unit tests**, **16 Playwright tests**, generated
+schema/OpenAPI/client drift, Ruff, mypy, strict TypeScript, formatting and the
+Next.js production build. The upstream Starlette deprecation warning is non-failing.
+
+New evidence covers:
+
+- Ten unique, canonical YAML lessons with valid A/B contracts and physical targets,
+  matching seeds/replications/windows and explicit assumptions. The exported browser
+  catalog equals the YAML; no lesson contains a fabricated result.
+- Daily customer demand and immediate service reconciling to SKU demand/shortages,
+  all five extended series matching saved representative arrays, supplier/no-policy
+  forecasts remaining null, and bounded metric names in generated JSON Schema.
+- Older caches retaining original-series reads, absent arrays returning a rerun
+  instruction, and missing historical warm-up metadata recovered from the saved
+  scenario without rewriting the artifact.
+- Interval-based direction/uncertainty indicators, zero/missing observation
+  handling, nested request differences and damaged notebook recovery.
+- An actual two-replication forecast-window exercise with edited 7-day warm-up and
+  21-day measured horizon; displayed cost difference equals the API. The downloaded
+  notebook retains exact submitted requests, prediction at launch, comparison,
+  reflections and both model provenance documents. Current-draft edits mark results
+  stale. A/B selection, all live SKUs, facility changes, relationships/distributions,
+  CSV download, notebook reload and Planning Lab hand-off pass in the browser.
+- Narrow-screen keyboard tabs, reference/recorded exploration with the simulation
+  API unavailable, unknown-run errors, and three reviewed learning screenshots.
+  The initial browser check found a source-ID overflow; the shared chart source
+  caption now wraps on narrow screens.
+
+The first full gate exposed a Windows status-reader/atomic-replacement race in
+the existing run service. Bounded sharing-error retries now have a regression test
+for transient recovery, exhaustion and immediate propagation of other permission
+errors. The complete final gate passes, including portfolio polling. All previous
+lab, Control Tower, playbook, exception and 100-node performance checks remain green.
+
+`npm run record:evidence --prefix web` records browser attachments and source/output
+checksums in [learning evidence](evidence/learning-sandbox/results.json) and its
+[manifest](evidence/learning-sandbox/manifest.json), preserving E1/E2/M9/M10 history.
+The evidence includes the actual student experiment, not an expected-answer key.
+The [student/instructor guide](learning-sandbox.md) defines units, grain, timing,
+inherited assumptions, statistical limits, storage scope and calibration workflow.
+These are synthetic implementation checks, not empirical validation or course grades.

@@ -5,6 +5,7 @@ const documents = {
   validation: "validation.md",
   parameters: "parameters.md",
   assumptions: "assumptions.md",
+  learning: "learning-sandbox.md",
 } as const;
 export async function GET(
   _request: Request,

@@ -5,12 +5,13 @@ import { platform, release } from "node:os";
 import { resolve, relative } from "node:path";
 
 const root = resolve("..");
-const output = resolve(root, "docs/evidence/planning-lab");
+const output = resolve(root, "docs/evidence/learning-sandbox");
 const report = JSON.parse(await readFile(resolve(root, "data/m9-playwright/results.json"), "utf8"));
 const tests = [];
 let performance;
 const exercises = [];
 const portfolios = [];
+const learning = [];
 function visit(suite) {
   for (const spec of suite.specs ?? [])
     for (const test of spec.tests) {
@@ -26,6 +27,9 @@ function visit(suite) {
         if (attachment.name === "planning-portfolio") {
           portfolios.push(JSON.parse(Buffer.from(attachment.body, "base64").toString("utf8")));
         }
+        if (attachment.name === "student-experiment") {
+          learning.push(JSON.parse(Buffer.from(attachment.body, "base64").toString("utf8")));
+        }
       }
     }
   for (const child of suite.suites ?? []) visit(child);
@@ -37,6 +41,7 @@ if (
   !performance ||
   !exercises.length ||
   !portfolios.length ||
+  !learning.length ||
   report.errors.length
 )
   throw new Error("Run passing browser tests before recording evidence");
@@ -54,6 +59,7 @@ await writeFile(
       performance,
       exercises,
       portfolios,
+      learning,
     },
     null,
     2,
@@ -115,6 +121,8 @@ sources.push(
   "docs/study-views.md",
   "docs/operations-workspace.md",
   "docs/planning-lab.md",
+  "docs/learning-sandbox.md",
+  "tests/test_learning_workspace.py",
   "tests/test_planning_lab.py",
   "LICENSE",
   "NOTICE",
@@ -135,7 +143,7 @@ const versions = Object.fromEntries(
   ),
 );
 const artifacts = [
-  "docs/evidence/planning-lab/results.json",
+  "docs/evidence/learning-sandbox/results.json",
   "docs/evidence/m10/fixture_manifest.json",
   "docs/evidence/m9/fixture_manifest.json",
   "web/public/fixtures/studies.json",

@@ -2239,7 +2239,7 @@ export interface operations {
             query: {
                 node: string;
                 sku: string;
-                metrics?: ("days_of_cover" | "fill_rate" | "on_hand" | "on_order" | "backorders")[] | null;
+                metrics?: ("days_of_cover" | "fill_rate" | "on_hand" | "on_order" | "backorders" | "demand" | "immediate" | "orders" | "received" | "forecast")[] | null;
                 start_day?: number | null;
                 end_day?: number | null;
             };

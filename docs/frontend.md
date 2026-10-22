@@ -144,3 +144,22 @@ and requires port 8000 to be free. It exercises named-scenario persistence,
 two-replication background launches, alternatives, API comparison parity, diagnostic
 tables and graceful reload failures. The evidence recorder writes current results
 to `docs/evidence/planning-lab/`; earlier evidence remains historical.
+
+## E3 learning sandbox
+
+The twelfth module, `/?view=learning&lesson=forecast`, supports lesson deep links,
+search, prediction/reflection notebooks, editable A/B assumptions, live paired
+runs and uncertainty-aware results. Its three tabs are keyboard navigable and
+retain the open experiment across tab switches. The Visual explorer can load
+recorded evidence, the current A/B runs or a completed run ID. Source and metric
+definitions distinguish daily first-replication observations from replicated KPIs.
+All four chart forms use ECharts and the shared CSV/PNG exporter. Scenario B can
+be saved into the persistent Planning Lab. Text notebooks remain browser-local.
+
+Catalog generation: `python web/scripts/export-learning.py [--check]`.
+Tests cover schema/physical validation and canonical catalog drift, raw-array
+reconciliation and historical reads, statistical indicators, missing values and
+notebook recovery. Browser checks run a real paired lesson, verify exact comparison
+parity, download its evidence/CSV, explore different nodes/SKUs/chart forms, recover
+notes after reload, and exercise narrow-screen/offline/error/keyboard flows.
+See the [student and instructor guide](learning-sandbox.md).

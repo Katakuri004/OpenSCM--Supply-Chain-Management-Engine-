@@ -3,6 +3,9 @@
   "days": [90, 91, 92],
   "metrics": {
     "on_hand": [10.0, 5.0, 0.0], "on_order": [0.0, 0.0, 10.0],
-    "backorders": [0.0, 0.0, 5.0], "fill_rate": [1.0, 1.0, 0.5]
+    "backorders": [0.0, 0.0, 5.0], "fill_rate": [1.0, 1.0, 0.5],
+    "demand": [5.0, 5.0, 10.0], "immediate": [5.0, 5.0, 5.0],
+    "orders": [0.0, 0.0, 10.0], "received": [0.0, 0.0, 0.0],
+    "forecast": [null, null, null]
   }
 }

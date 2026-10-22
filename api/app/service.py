@@ -5,6 +5,7 @@ import json
 import logging
 import re
 import threading
+import time
 from dataclasses import dataclass
 from importlib.metadata import version
 from pathlib import Path
@@ -26,13 +27,13 @@ from scm.contracts import (
     Estimate,
     Health,
     Kpis,
-    Metric,
     Network,
     RunDiagnostics,
     RunNetwork,
     RunRequest,
     RunStatus,
     Scenario,
+    SeriesMetric,
     TimeSeries,
 )
 from scm.demand.generator import FloatArray
@@ -56,7 +57,15 @@ def nullable(values: FloatArray) -> Any:
 def write_json(path: Path, data: object) -> None:
     temporary = path.with_suffix(path.suffix + ".tmp")
     temporary.write_text(json.dumps(data, sort_keys=True, allow_nan=False) + "\n", encoding="utf-8")
-    temporary.replace(path)
+    for attempt in range(5):
+        try:
+            temporary.replace(path)
+            return
+        except PermissionError as error:
+            if getattr(error, "winerror", None) not in {5, 32, 33} or attempt == 4:
+                raise
+            # Windows readers briefly deny replacement of an otherwise writable file.
+            time.sleep(0.01 * (attempt + 1))
 
 
 def interval(values: list[float | None]) -> Estimate:
@@ -126,6 +135,14 @@ def sample_run(
     metrics, costs, arrays = replication_kpis(net, result, settings)
     network = None
     if representative:
+        arrays.update(
+            orders=result.orders,
+            received=result.received,
+            forecast=result.forecast.copy()
+            if result.forecast is not None
+            else np.full_like(result.on_hand, np.nan),
+        )
+        arrays["forecast"][:, :, net.is_supplier] = np.nan
         arrays["reorder_point"] = net.reorder.copy()
         arrays["order_quantity"] = net.quantity.copy()
         network = net.as_contract(run_id)
@@ -361,6 +378,11 @@ class RunStore:
             backorders=arrays["backorders"],
             fill_rate=arrays["fill_rate"],
             days_of_cover=arrays["days_of_cover"],
+            demand=arrays["demand"],
+            immediate=arrays["immediate"],
+            orders=arrays["orders"],
+            received=arrays["received"],
+            forecast=arrays["forecast"],
         )
         (folder / "arrays.tmp.npz").replace(folder / "arrays.npz")
         network = sample.network
@@ -413,7 +435,12 @@ class RunStore:
         )
 
     def network(self, run_id: str) -> RunNetwork:
-        data = json.loads((self.ready(run_id) / "network.json").read_text())
+        folder = self.ready(run_id)
+        data = json.loads((folder / "network.json").read_text())
+        if data.get("warmup_days") is None:
+            data["warmup_days"] = Scenario.model_validate_json(
+                (folder / "scenario.json").read_text()
+            ).warmup_days
         return RunNetwork.model_validate(data | {"kpis": self.kpis(run_id).model_dump()})
 
     def timeseries(
@@ -421,7 +448,7 @@ class RunStore:
         run_id: str,
         node: str,
         sku: str,
-        metrics: list[Metric],
+        metrics: list[SeriesMetric],
         start_day: int | None,
         end_day: int | None,
     ) -> TimeSeries:
@@ -438,6 +465,12 @@ class RunStore:
             raise HTTPException(422, "Select distinct supported metrics")
         i, j = network.sku_ids.index(sku), network.network.nodes.id.index(node)
         with np.load(folder / "arrays.npz", allow_pickle=False) as arrays:
+            if any(name not in arrays for name in metrics):
+                raise HTTPException(
+                    409,
+                    "This historical run has no selected daily evidence. "
+                    "Rerun the request with the current engine.",
+                )
             values = {name: nullable(arrays[name][start : end + 1, i, j]) for name in metrics}
         return TimeSeries(
             run_id=run_id,

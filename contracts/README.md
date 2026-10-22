@@ -173,3 +173,16 @@ Paired comparisons additionally reject differing model/config fingerprints or
 package versions. Old run artifacts remain readable; absent historical diagnostics
 return 404 and an older manifest can omit the effective-input snapshot.
 See [planning lab](../docs/planning-lab.md) for interpretation and calibration.
+
+## E3 daily teaching evidence
+
+`TimeSeries` now accepts `SeriesMetric`: the original five stock/service metrics
+plus `demand`, `immediate`, `orders`, `received` and `forecast`. `Metric` remains
+the original query/health vocabulary, preserving DuckDB consumers and filters.
+The TimeSeries schema/fixture, OpenAPI and generated TypeScript change together.
+Defaults still return the original five series. New arrays use the same first
+replication and day/SKU/facility alignment as those existing series. Forecasts
+are nullable when no forecast was used or at suppliers. Upstream demand is an
+order signal, not extra customer demand. See [definitions](../docs/learning-sandbox.md).
+Older caches still serve original metrics; requesting absent extended evidence
+returns 409 with a rerun instruction. No historical artifacts are rewritten.

@@ -36,6 +36,13 @@ contributors. Export model provenance alongside the results. Open `/?view=portfo
 with the local API running. The guide includes a calibration/validation workflow
 for moving from synthetic exercises to operating decisions.
 
+The E3 [Learning sandbox](docs/learning-sandbox.md), at `/?view=learning`, adds ten
+guided, editable experiments for students. Predict, simulate paired conditions,
+interpret uncertainty, explore daily facility/SKU evidence in four chart forms,
+and export a reflection notebook with exact model provenance. A concept reference
+explains the daily sequence and connects the existing analytical labs. Recorded
+evidence and teaching material remain usable without the simulation API.
+
 See [analytics](docs/analytics.md) for functions, units, assumptions and examples.
 See [simulation](docs/simulation.md) for daily timing, costs and reproducible M2 validation.
 See [network simulation](docs/network.md) for M3 configuration, conventions and a runnable example.

@@ -43,7 +43,13 @@ export const navigation = [
       ["resilience", ShieldCheck],
     ],
   },
-  { label: "REFERENCE", items: [["methodology", BookOpen]] },
+  {
+    label: "LEARN & REFERENCE",
+    items: [
+      ["learning", BookOpen],
+      ["methodology", BookOpen],
+    ],
+  },
 ] as const;
 function Links({ close }: { close?: () => void }) {
   const { view, set } = useTower();

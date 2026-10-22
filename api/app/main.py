@@ -25,7 +25,6 @@ from scm.contracts import (
     LabCatalog,
     LabSettings,
     LaunchRequest,
-    Metric,
     PortfolioDraft,
     PortfolioExecution,
     PortfolioUpdate,
@@ -38,6 +37,7 @@ from scm.contracts import (
     RunStatus,
     SavedScenario,
     ScenarioCatalog,
+    SeriesMetric,
     StudyEvidence,
     TimeSeries,
 )
@@ -282,7 +282,7 @@ def create_app(
         run_id: str,
         node: str,
         sku: str,
-        metrics: Annotated[list[Metric] | None, Parameter()] = None,
+        metrics: Annotated[list[SeriesMetric] | None, Parameter()] = None,
         start_day: Annotated[int | None, Parameter(ge=0)] = None,
         end_day: Annotated[int | None, Parameter(ge=0)] = None,
     ) -> TimeSeries:

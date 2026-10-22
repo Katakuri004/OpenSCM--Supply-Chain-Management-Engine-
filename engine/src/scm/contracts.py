@@ -13,6 +13,18 @@ Fraction = Annotated[float, Field(ge=0, le=1)]
 Identifier = Annotated[str, Field(min_length=1, pattern=r"^[A-Za-z0-9_-]+$")]
 NodeType = Literal["supplier", "dc", "retailer", "b2b"]
 Metric = Literal["days_of_cover", "fill_rate", "on_hand", "on_order", "backorders"]
+SeriesMetric = Literal[
+    "days_of_cover",
+    "fill_rate",
+    "on_hand",
+    "on_order",
+    "backorders",
+    "demand",
+    "immediate",
+    "orders",
+    "received",
+    "forecast",
+]
 KpiMetric = Literal[
     "fill_rate",
     "cycle_service_level",
@@ -186,7 +198,7 @@ class Health(DailyContract):
 class TimeSeries(DailyContract):
     node_id: Identifier
     sku_id: Identifier
-    metrics: dict[Metric, list[Nonnegative | None]] = Field(min_length=1)
+    metrics: dict[SeriesMetric, list[Nonnegative | None]] = Field(min_length=1)
 
     @model_validator(mode="after")
     def aligned(self) -> Self:

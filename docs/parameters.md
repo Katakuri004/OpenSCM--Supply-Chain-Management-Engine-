@@ -601,3 +601,41 @@ observations. Facility dispatch utilization divides measured dispatch by the
 available capacity after event cuts. Inventory values are measured-period means
 at base SKU cost. Diagnostic definitions and null handling are in
 [planning-lab methods](planning-lab.md); they are measurements, not new model factors.
+
+## E3 student learning assumptions
+
+`configs/learning.yaml` is the canonical, synthetic teaching catalog. Every row
+below is an **ASSUMPTION** for a mechanism exercise, not measured operating data.
+All lessons use root seed 222, two replications, 90 warm-up and 365 measured days
+(same exercise defaults as E2). Unspecified values inherit `base_4dc`, the original
+network/planning/demand/API configurations and neutral LabSettings documented above.
+The inherited four DCs, CV scale 1, rho 0.3, QR, CSL 0.95, known-demand and backorders
+are controls, not estimated best practices. Scenario request defaults are applied
+by Pydantic and the run resolver. Both conditions retain the same seed and window.
+
+| Lesson ID | A / B input choices and units | Source / sensitivity |
+| --- | --- | --- |
+| service | target CSL 0.90 / 0.99 | ASSUMPTION; paired target sensitivity |
+| variability | demand CV scale 0.5 / 1.5 | ASSUMPTION; uncertainty sensitivity |
+| pooling | 1 / 4 open DCs | ASSUMPTION; existing network sizing choices |
+| forecast | forecasting enabled; moving average window 7 / 28 days | ASSUMPTION; response/smoothing sensitivity |
+| capacity | DC dispatch capacity factor 1 / 0.35 | ASSUMPTION; bottleneck sensitivity |
+| reliability | S1 extra-delay probability 0 / 0.5; extra delay 7 days in both | ASSUMPTION; other supplier values inherited |
+| outage | no disruption / S1 removed capacity fraction 1 on days 120–140 inclusive | ASSUMPTION; 21-day interruption |
+| buffer | both have same 21-day S1 outage at day 120; initial buffer 0 / 7 nominal-demand days | ASSUMPTION; buffer sensitivity; initial acquisition excluded |
+| seasonality | A twelve indices of 1; B [0.85,0.85,0.9,0.95,1,1,1,1,1.1,1.2,1.3,1.35] | ASSUMPTION; E2 example, not volume-normalised |
+| backorders | backorders / lost sales | ASSUMPTION; shortage treatment sensitivity |
+
+The editable learning fill-rate goal defaults to **0.95**, solely a teaching
+criterion, not a calibrated service requirement or the target-CSL policy input.
+The ten-bin distribution, single bin for constant data, are display choices, not
+economic parameters. Notebook text limits are 4000 characters per field, so the
+two fields plus lesson notes fit the existing portfolio notes limit. New daily
+series log existing engine arrays; no new stochastic or cost coefficient is added.
+Lesson mechanism/reflection/glossary text is descriptive metadata. It contains
+no synthetic result figures; all result indicators depend on actual API estimates.
+
+Atomic JSON publication attempts replacement at most five times for Windows
+access/sharing/lock errors, with 10/20/30/40 ms waits (100 ms total). These are engineering bounds for
+brief status-reader conflicts, not simulation time or model parameters. Other
+permission errors propagate immediately; persistent Windows errors also propagate.

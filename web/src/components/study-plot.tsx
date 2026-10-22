@@ -103,7 +103,7 @@ export function StudyPlot({
           }
         }}
       />
-      <p className="mt-2 text-[10px] leading-5 text-[var(--secondary)]">{source}</p>
+      <p className="mt-2 break-words text-[10px] leading-5 text-[var(--secondary)]">{source}</p>
     </section>
   );
 }

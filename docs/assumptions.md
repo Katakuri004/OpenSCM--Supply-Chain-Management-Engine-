@@ -149,3 +149,20 @@
   count new demand once; shared facility expenses are not allocated to SKUs.
   Utilization and cost rankings identify observed contributors, not isolated causes.
   Paired intervals require identical source/config/version fingerprints and seeds.
+
+## E3 teaching workspace interpretation
+
+The learning catalog is synthetic and does not prescribe an outcome. Students can
+edit either condition; original lesson text may no longer describe their custom
+setup. The changed-input table and submitted provenance show what was evaluated.
+Multiple input changes can confound attribution. The default two replications
+are a screen, not evidence of sufficient precision. Intervals crossing zero do
+not establish a direction, and no confidence interval captures model misspecification.
+
+Daily exploration is one replication at one node/SKU. Demand at upstream nodes is
+a replenishment order signal and must not be added to customer demand. Forecasts
+are pre-demand estimates; no-forecast policies and suppliers have null forecasts.
+CSV retains underlying observations, missingness and source day ranges. Arithmetic
+daily means are not weighted service KPIs. Student notes are browser-local and
+not shared accounts, instructor assessments or an audit system. See the
+[learning guide](learning-sandbox.md) for teaching and real-world transfer limits.
