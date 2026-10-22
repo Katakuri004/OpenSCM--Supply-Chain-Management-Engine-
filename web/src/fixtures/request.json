@@ -1,0 +1,8 @@
+{
+  "seed": 808,
+  "replications": 2,
+  "overrides": {
+    "warmup_days": 90,
+    "horizon_days": 365
+  }
+}

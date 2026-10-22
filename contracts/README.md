@@ -110,3 +110,13 @@ checks valid calls plus deliberately invalid paths, seed types and metric names.
 The nine new fixtures are arbitrary synthetic examples, not measured results. M8
 API evidence is separately generated in `docs/evidence/m8`. See [API methods](../docs/api.md)
 for replication, null-value, KPI and comparison conventions.
+
+M9 extends `RunNetwork` with optional `policy` and `warmup_days`. Policy targets are
+nonnegative SKU × node matrices aligned with `sku_ids` and `network.nodes.id`:
+`reorder_point` and `order_quantity`, explicitly tagged `nominal_initial_targets`.
+The inspector uses these initial references for ROP/Q lines; they are not adaptive
+daily targets. Suppliers have zero targets. Warm-up metadata labels the scrubber
+without assuming every cached run uses 90 days. Both fields default to null so
+older M8 run caches remain readable. Missing metadata is not inferred from stock.
+The Pydantic model, network schema, fixture, API serializer, OpenAPI and generated
+TypeScript have been changed together. No time-series metric names have changed.

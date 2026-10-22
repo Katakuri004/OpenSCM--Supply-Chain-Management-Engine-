@@ -462,3 +462,58 @@ fixtures are documented in [contracts](../contracts/README.md). M9 begins the
 frontend shell and Control Tower. Authentication, distributed jobs, deployed API,
 remote CI results, full research replication counts and operational calibration
 remain unverified. Prior milestone manifests retain their historical source scope.
+
+## M9: Next.js Control Tower and browser validation
+
+Local result (22 October 2026, Python 3.12.10, Node.js 22.17.0):
+`python -m scm.check` passes **199 Python tests**, **5 Vitest tests** and
+**3 Playwright browser tests**, plus Ruff, strict mypy/TypeScript, Prettier,
+contract/OpenAPI/client drift checks and the Next.js production build. The final
+frontend uses Next.js 16.4.2 App Router and React 19.3.1, as requested for M9.
+Browser tests run the built Next.js server with the actual FastAPI service.
+
+The recorded study contains 36 nodes, 44 lanes, 455 daily health observations per
+node and every node's SKU01 inspector, including warm-up. Its API response payloads
+are validated against Pydantic consumer contracts. The
+[fixture manifest](evidence/m9/fixture_manifest.json) records the source snapshot,
+replication seeds, cache output checksums and exported fixture checksum. Frontend
+request defaults are generated from `configs/m8_validation.yaml`; chart/KPI values
+come from those simulation outputs. No operating parameters are introduced by the UI.
+
+The [browser results](evidence/m9/results.json) and
+[manifest](evidence/m9/manifest.json) record these passing flows:
+
+- Next.js response metadata and page title, recorded network rendering, keyboard
+  node selection, inspector opening/closing with restored focus, inventory CSV
+  export, text queries and local day scrubbing.
+- Light/dark screenshots, theme and URL state surviving reload, and the 1280 px
+  desktop layout without horizontal page overflow. The three reviewed baselines
+  cover the light Control Tower, dark Control Tower and node inspector.
+- A 100-node, 108-lane synthetic browser load fixture, with 40 consecutive day
+  updates and no additional browser requests during scrubbing. The saved p95
+  `cy.batch()` health-update duration is **0.9 ms**, below the 16.7 ms acceptance
+  budget. Separate two-animation-frame timings are saved in the result file.
+- Actual live run creation/polling, health loading, inspector SKU changes through
+  the typed API client, zero paired deltas for a run compared with itself, and a
+  visible service error after a controlled 503 response. Browser flows assert no
+  uncaught page errors; this caught and fixed a stale resize callback after canvas
+  destruction during development remounts.
+
+The load fixture adds explicitly synthetic retailers/lanes and clones a recorded
+health trajectory. It verifies browser updates rather than independent operating
+behavior or a universal frame-rate guarantee. An earlier full check caught a
+formatting failure; the final complete check passes without updating screenshots.
+Next.js's route announcer is distinguished from the study's labelled error alert.
+
+`RunNetwork` now optionally carries nominal initial ROP/Q matrices and warm-up
+length. Models, generated schema/OpenAPI/client, API serializer and fixture changed
+together; older cached runs without these fields remain readable. Initial references
+are labelled and are not presented as adaptive daily targets. Query matches clear
+when the selected day changes. The recorded inspector intentionally includes SKU01;
+live mode supports all 20 SKUs. See [frontend methods](frontend.md) and
+[contract changes](../contracts/README.md).
+
+The upstream Starlette TestClient deprecation warning remains non-failing. M10's
+other study views, remote CI confirmation, deployed/static demo, Lighthouse and full
+accessibility audits remain unverified. These belong to the subsequent milestones;
+M9 does not establish calibrated supply-chain recommendations.

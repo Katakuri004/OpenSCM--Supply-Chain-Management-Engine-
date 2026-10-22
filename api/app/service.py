@@ -114,6 +114,8 @@ def sample_run(
     metrics, costs, arrays = replication_kpis(net, result, settings)
     network = None
     if representative:
+        arrays["reorder_point"] = net.reorder.copy()
+        arrays["order_quantity"] = net.quantity.copy()
         network = net.as_contract(run_id)
         network.edges.flow_units = (
             result.edge_shipped[scenario.warmup_days :].sum(axis=(0, 1)).tolist()
@@ -321,7 +323,17 @@ class RunStore:
         (folder / "arrays.tmp.npz").replace(folder / "arrays.npz")
         network = sample.network
         write_json(
-            folder / "network.json", {"network": network.model_dump(), "sku_ids": sample.sku_ids}
+            folder / "network.json",
+            {
+                "network": network.model_dump(),
+                "sku_ids": sample.sku_ids,
+                "warmup_days": scenario.warmup_days,
+                "policy": {
+                    "basis": "nominal_initial_targets",
+                    "reorder_point": arrays["reorder_point"].tolist(),
+                    "order_quantity": arrays["order_quantity"].tolist(),
+                },
+            },
         )
         count = len(network.nodes.id)
         days = scenario.warmup_days + scenario.horizon_days

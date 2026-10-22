@@ -449,3 +449,22 @@ API ASSUMPTIONs; operational factors inherit the preset YAML unless overridden.
 Seeds are restricted to unsigned 32-bit integers for the documented seed interface.
 Port 8000 in examples is a local transport convention. Synthetic contract fixture
 values demonstrate serialization only; reported M8 results come from saved runs.
+
+## M9 presentation and browser-check conventions
+
+The recorded network and generated frontend request defaults use the existing
+`configs/m8_validation.yaml` values, including seed 808, two runs and the 90/365-day
+windows. They introduce no new demand, transit, inventory or cost parameters.
+The UI permits explicit seed/replication changes and retains the selected preset.
+ROP/Q lines come from the built network's initial targets; no UI target is invented.
+
+Presentation values are engineering **ASSUMPTIONs**, not replenishment policy:
+cover colour saturates at 21 days; query chips use the plan's example of DC cover
+below seven days and retailer fill below 95%; filtered opacity is 0.15 from §9.4.
+Playback defaults to two days/second with choices 1, 2, 4 and 8. Polling uses 500 ms.
+The 100-node acceptance size comes from plan §9.6; the load test adds 64 synthetic
+retailers to the recorded 36-node network, connecting each to DC1, cloning a recorded
+health trajectory and setting synthetic lane distance/flow to zero. These are load
+test inputs, never reported as operating outcomes. Forty consecutive day updates,
+a 16.7 ms p95 batch budget, a 100 ms two-frame regression ceiling, a 1440×1000
+browser viewport and 2% screenshot pixel tolerance are browser-check ASSUMPTIONs.

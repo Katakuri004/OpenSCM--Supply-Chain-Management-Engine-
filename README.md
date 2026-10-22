@@ -3,14 +3,15 @@
 An FMCG inventory and network study on Indian lanes, with costs in INR.
 The [implementation plan](docs/plan.md) defines milestones M0–M12.
 
-M0–M8 are implemented: scaffold and contracts, analytical inventory formulas,
+M0–M9 are implemented: scaffold and contracts, analytical inventory formulas,
 demand generation, single-node and multi-echelon simulation, DC selection,
 four inventory policies, capacity-constrained FIFO dispatch, FTL/LTL freight,
 forecasting, error metrics, ABC–XYZ replenishment policies, and bullwhip causes
 and countermeasures, disruption calendars, resilience metrics, and experiment grids
 with paired statistics, manifests and reproducible Parquet outputs, plus a cached
-FastAPI service, DuckDB filters and a generated TypeScript client.
-M9 (frontend shell and Control Tower) is next.
+FastAPI service, DuckDB filters and a generated TypeScript client, and a Next.js
+Control Tower with network health, inspection, queries and local day playback.
+M10 (the remaining study views) is next.
 
 See [analytics](docs/analytics.md) for functions, units, assumptions and examples.
 See [simulation](docs/simulation.md) for daily timing, costs and reproducible M2 validation.
@@ -20,6 +21,7 @@ See [bullwhip](docs/bullwhip.md) for M5 switches, V7 and controlled network comp
 See [resilience](docs/resilience.md) for M6 event semantics, survival and recovery measurements.
 See [experiments](docs/experiments.md) for M7 E1–E6 grids, CLI commands and output contracts.
 See [API and query layer](docs/api.md) for M8 endpoints, caching, KPI conventions and client usage.
+See [Control Tower](docs/frontend.md) for M9 recorded/live modes and browser checks.
 
 Requires Python 3.12. From this directory on Windows PowerShell:
 
@@ -27,6 +29,7 @@ Requires Python 3.12. From this directory on Windows PowerShell:
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements-dev.lock -e '.[dev]'
 npm ci --prefix web
+.\web\node_modules\.bin\playwright.cmd install chromium
 .\.venv\Scripts\python.exe -m scm.check
 ```
 
@@ -36,16 +39,29 @@ On Linux/macOS:
 python3.12 -m venv .venv
 .venv/bin/python -m pip install -r requirements-dev.lock -e '.[dev]'
 npm ci --prefix web
+./web/node_modules/.bin/playwright install --with-deps chromium
 make check
 ```
 
 `make check` runs Ruff lint and format checks, strict mypy, schema drift checks and
-pytest, OpenAPI/client drift checks and strict TypeScript compilation. Node.js 22+
+pytest, OpenAPI/client drift checks, strict TypeScript, frontend unit/browser tests
+and a production build. Node.js 22+
 and the pinned npm packages are required. On Windows without Make,
 `python -m scm.check` uses the same checks; use
 the virtual environment's Python as above. `make contracts` regenerates schemas,
 OpenAPI and client types. See [regeneration commands](docs/api.md) for Windows.
 Run commands at repo root.
+
+Open the recorded Control Tower (no API needed):
+
+```powershell
+npm run dev --prefix web
+```
+
+Visit [localhost:5173](http://localhost:5173). For Live API mode, also start the
+Uvicorn command below. Next.js proxies `/api` to localhost:8000 in development and
+production. Use `npm run build --prefix web` then `npm run start --prefix web` for
+the production server.
 
 See [contracts](contracts/README.md), [parameters](docs/parameters.md),
 [assumptions](docs/assumptions.md) and [validation status](docs/validation.md).

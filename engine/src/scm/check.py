@@ -22,7 +22,7 @@ def main() -> None:
     npm = shutil.which("npm.cmd" if os.name == "nt" else "npm")
     if npm is None:
         raise SystemExit("Node.js/npm is required for the generated API client checks")
-    for script in ("check:api", "typecheck"):
+    for script in ("check:api", "format:check", "typecheck", "test", "build", "test:e2e"):
         print(f"Checking: npm run {script}", flush=True)
         result = subprocess.run([npm, "run", script], cwd="web", check=False)
         if result.returncode:

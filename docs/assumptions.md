@@ -98,3 +98,11 @@
   Ordinary t intervals are not clipped to physical rate bounds. These accounting
   and service conventions are documented in [API definitions](api.md), with limits
   and acceptance settings in [parameters](parameters.md).
+- M9's recorded Control Tower includes every node's SKU01 inspector; live mode
+  loads all SKU inspectors from the API. Health is an aggregate over SKUs, while
+  inventory charts are SKU-specific. A labelled R01/SKU01 sparkline is not a
+  network KPI trajectory. Initial nominal ROP/Q lines are not adaptive targets.
+- Scrubbing uses the cached health matrix and clears day-specific query matches;
+  queries must be reapplied for another day. The 21-day colour cap is visual only.
+  The 100-node load test clones recorded trajectories and adds synthetic lanes;
+  it verifies browser updates rather than supply-chain operating behavior.

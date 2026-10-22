@@ -27,7 +27,7 @@ Finish by running `make check` and summarising: what passes, what is deferred, a
 | Storage and query | Parquet (pyarrow) + DuckDB | Columnar results; SQL behind the query bar with no database server |
 | Experiments | joblib process pool, Typer CLI | One command per experiment, parallel replications |
 | API | FastAPI + uvicorn | Thin compute/read layer; OpenAPI generates the TypeScript client |
-| Frontend | Vite, React 18, TypeScript | Fast dev loop, static-deployable |
+| Frontend | Next.js App Router, React 19, TypeScript | Shared layouts and metadata, client boundaries for interactive network views |
 | UI kit | Tailwind CSS + shadcn/ui (Radix) | Minimal, accessible, easy monochrome theming |
 | Network view | Cytoscape.js (react-cytoscapejs) | Data-mapped styling (shape, colour, width), preset layouts, handles hundreds of nodes |
 | Charts | Apache ECharts (echarts-for-react) with a custom minimal theme | One library for dense time series, markLines (ROP, Q), heatmaps, stacked bars, CI bands, tornado |
@@ -59,7 +59,8 @@ supply-chain-study/
     experiments/    runner, exp01..exp06, stats
     io/  cli.py
   api/app/          main, routes, services, query
-  web/src/          app, components, features, charts, lib, styles
+  web/app/          Next.js layout, routes and client boundaries
+  web/src/          components, features, charts, lib, styles
   web/e2e/          Playwright tests
   data/             gitignored: runs/, results/
 ```
@@ -235,7 +236,7 @@ Smooth scrubbing at 100 nodes; lazy-loaded views; keyboard navigable; desktop-fi
 | M6 | Disruption engine and resilience metrics | TTS matches analytic check; TTR and cost reproducible |
 | M7 | Experiment runner, E1–E6, manifests, static figures | Re-running an experiment reproduces the same Parquet hash |
 | M8 | API, DuckDB query layer, OpenAPI → TS client | API tests; contract diff clean; query spec fuzz-tested |
-| M9 | Frontend shell, design system, Control Tower (fixtures first, then live API) | Playwright smoke; scrubber smooth with 100 nodes |
+| M9 | Next.js frontend shell, design system, Control Tower (fixtures first, then live API) | Playwright smoke; scrubber smooth with 100 nodes |
 | M10 | Scenario Lab, Network Design, Bullwhip, Inventory, Resilience, Methodology views | Each view loads with fixtures; A/B delta matches the API |
 | M11 | Static demo export, Docker image, performance and accessibility pass | Demo deployed; Lighthouse ≥ 90 |
 | M12 | README case study, 6–8 page report, one-page executive summary, resume bullets filled, interview Q&A sheet | Every number traceable to a manifest |

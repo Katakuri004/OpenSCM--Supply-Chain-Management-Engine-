@@ -744,6 +744,45 @@
         "title": "PolicyConfig",
         "type": "object"
       },
+      "PolicyTargets": {
+        "additionalProperties": false,
+        "properties": {
+          "basis": {
+            "const": "nominal_initial_targets",
+            "default": "nominal_initial_targets",
+            "title": "Basis",
+            "type": "string"
+          },
+          "order_quantity": {
+            "items": {
+              "items": {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "title": "Order Quantity",
+            "type": "array"
+          },
+          "reorder_point": {
+            "items": {
+              "items": {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "title": "Reorder Point",
+            "type": "array"
+          }
+        },
+        "required": [
+          "reorder_point",
+          "order_quantity"
+        ],
+        "title": "PolicyTargets",
+        "type": "object"
+      },
       "Query": {
         "additionalProperties": false,
         "properties": {
@@ -910,6 +949,16 @@
           "network": {
             "$ref": "#/components/schemas/Network"
           },
+          "policy": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PolicyTargets"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "sku_ids": {
             "items": {
               "minLength": 1,
@@ -918,6 +967,18 @@
             },
             "title": "Sku Ids",
             "type": "array"
+          },
+          "warmup_days": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Warmup Days"
           }
         },
         "required": [

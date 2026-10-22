@@ -1,3 +1,6 @@
 # Preserve recorded evidence checksums across Git newline conversion.
 docs/evidence/** -text whitespace=cr-at-eol
 web/src/lib/api/schema.ts text eol=lf
+# Recorded simulation and generated request hashes must survive checkout unchanged.
+web/public/fixtures/*.json -text whitespace=cr-at-eol
+web/src/fixtures/*.json -text whitespace=cr-at-eol

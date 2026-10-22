@@ -72,5 +72,23 @@
   },
   "sku_ids": [
     "SKU01"
-  ]
+  ],
+  "policy": {
+    "basis": "nominal_initial_targets",
+    "reorder_point": [
+      [
+        0,
+        7,
+        3
+      ]
+    ],
+    "order_quantity": [
+      [
+        0,
+        10,
+        5
+      ]
+    ]
+  },
+  "warmup_days": 90
 }

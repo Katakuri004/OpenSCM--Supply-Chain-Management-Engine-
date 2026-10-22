@@ -306,15 +306,28 @@ class ScenarioCatalog(Contract):
     presets: dict[Identifier, Scenario]
 
 
+class PolicyTargets(Contract):
+    basis: Literal["nominal_initial_targets"] = "nominal_initial_targets"
+    reorder_point: list[list[Nonnegative]]
+    order_quantity: list[list[Nonnegative]]
+
+
 class RunNetwork(Contract):
     network: Network
     kpis: Kpis
     sku_ids: list[Identifier]
+    policy: PolicyTargets | None = None
+    warmup_days: Annotated[int, Field(ge=0)] | None = None
 
     @model_validator(mode="after")
     def aligned_run(self) -> Self:
         if self.network.run_id != self.kpis.run_id:
             raise ValueError("network and KPIs must identify the same run")
+        if self.policy is not None:
+            for matrix in (self.policy.reorder_point, self.policy.order_quantity):
+                same_length(self.sku_ids, matrix)
+                for row in matrix:
+                    same_length(self.network.nodes.id, row)
         return self
 
 

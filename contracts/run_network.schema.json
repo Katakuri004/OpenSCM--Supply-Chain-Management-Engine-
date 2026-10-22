@@ -237,6 +237,45 @@
       ],
       "title": "Nodes",
       "type": "object"
+    },
+    "PolicyTargets": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "const": "nominal_initial_targets",
+          "default": "nominal_initial_targets",
+          "title": "Basis",
+          "type": "string"
+        },
+        "reorder_point": {
+          "items": {
+            "items": {
+              "minimum": 0,
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "title": "Reorder Point",
+          "type": "array"
+        },
+        "order_quantity": {
+          "items": {
+            "items": {
+              "minimum": 0,
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "title": "Order Quantity",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reorder_point",
+        "order_quantity"
+      ],
+      "title": "PolicyTargets",
+      "type": "object"
     }
   },
   "additionalProperties": false,
@@ -255,6 +294,30 @@
       },
       "title": "Sku Ids",
       "type": "array"
+    },
+    "policy": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PolicyTargets"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "warmup_days": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Warmup Days"
     }
   },
   "required": [

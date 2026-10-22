@@ -399,6 +399,19 @@ export interface components {
              */
             target_csl?: number;
         };
+        /** PolicyTargets */
+        PolicyTargets: {
+            /**
+             * Basis
+             * @default nominal_initial_targets
+             * @constant
+             */
+            basis?: "nominal_initial_targets";
+            /** Order Quantity */
+            order_quantity: number[][];
+            /** Reorder Point */
+            reorder_point: number[][];
+        };
         /** Query */
         Query: {
             /**
@@ -442,8 +455,11 @@ export interface components {
         RunNetwork: {
             kpis: components["schemas"]["Kpis"];
             network: components["schemas"]["Network"];
+            policy?: components["schemas"]["PolicyTargets"] | null;
             /** Sku Ids */
             sku_ids: string[];
+            /** Warmup Days */
+            warmup_days?: number | null;
         };
         /** RunOptions */
         RunOptions: {

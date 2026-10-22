@@ -1,0 +1,6 @@
+src/lib/api/schema.ts
+public/fixtures/
+dist/
+node_modules/
+.next/
+next-env.d.ts

@@ -1,0 +1,103 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+@theme {
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+:root {
+  font-family: "Inter", sans-serif;
+  color: #27272a;
+  background: #fafafa;
+  --panel: #fff;
+  --muted: #f4f4f5;
+  --border: #e4e4e7;
+  --secondary: #71717a;
+  --accent: #2b5c8a;
+}
+:root.dark {
+  color: #e4e4e7;
+  background: #09090b;
+  --panel: #18181b;
+  --muted: #27272a;
+  --border: #3f3f46;
+  --secondary: #a1a1aa;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  min-width: 360px;
+}
+button:not(:disabled),
+select,
+input[type="range"] {
+  cursor: pointer;
+}
+input,
+select {
+  font: inherit;
+}
+input:not([type="range"]),
+select {
+  min-height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel);
+  padding: 6px 10px;
+  font-size: 12px;
+  color: inherit;
+}
+input:focus-visible,
+select:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+input[type="range"] {
+  accent-color: var(--accent);
+}
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  font-weight: 600;
+  color: var(--secondary);
+}
+.mono {
+  font-family: "IBM Plex Mono", monospace;
+  font-variant-numeric: tabular-nums;
+}
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.field {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 11px;
+  color: var(--secondary);
+}
+.skip {
+  position: fixed;
+  left: 8px;
+  top: 8px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 100;
+  padding: 12px;
+  background: var(--panel);
+}
+.skip:focus {
+  opacity: 1;
+  pointer-events: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0s !important;
+    transition-duration: 0s !important;
+  }
+}
