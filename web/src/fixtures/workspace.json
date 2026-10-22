@@ -1,0 +1,305 @@
+{
+  "low_cover_days": 7,
+  "history_days": 28,
+  "playbooks": [
+    {
+      "id": "demand-surge",
+      "title": "Demand surge with constrained distribution",
+      "category": "Demand planning",
+      "summary": "A retailer demand surge coincides with reduced distribution throughput.",
+      "question": "Can the current DC network protect immediate fill when demand and capacity move together?",
+      "assumption": "ASSUMPTION: R01 demand rises 80% and DC1 dispatch capacity falls 25% for 21 days.",
+      "watch": [
+        "Customer fill rate",
+        "Stockout days",
+        "Shortage cost"
+      ],
+      "baseline_dcs": 4,
+      "request": {
+        "seed": 1010,
+        "replications": 2,
+        "overrides": {
+          "warmup_days": 90,
+          "horizon_days": 365,
+          "network": {
+            "dc_count": 4
+          },
+          "disruptions": [
+            {
+              "type": "demand_shock",
+              "target": "R01",
+              "start_day": 120,
+              "duration": 21,
+              "magnitude": 1.8
+            },
+            {
+              "type": "capacity_cut",
+              "target": "DC1",
+              "start_day": 120,
+              "duration": 21,
+              "magnitude": 0.25
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "supplier-failure",
+      "title": "Critical supplier interruption",
+      "category": "Sourcing",
+      "summary": "A complete interruption tests how long downstream inventory can protect service.",
+      "question": "Which customers exhaust their protection stock, and how long does recovery take?",
+      "assumption": "ASSUMPTION: S4 loses all dispatch capacity for 21 days; no automatic backup source.",
+      "watch": [
+        "Customer fill rate",
+        "Days of inventory",
+        "Shortage cost"
+      ],
+      "baseline_dcs": 4,
+      "request": {
+        "seed": 1010,
+        "replications": 2,
+        "overrides": {
+          "warmup_days": 90,
+          "horizon_days": 365,
+          "network": {
+            "dc_count": 4
+          },
+          "disruptions": [
+            {
+              "type": "supplier_outage",
+              "target": "S4",
+              "start_day": 120,
+              "duration": 21,
+              "magnitude": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "transport-delay",
+      "title": "Weather-related transport delays",
+      "category": "Transportation",
+      "summary": "Longer supplier transit times combine with temporary handling constraints.",
+      "question": "Does the replenishment pipeline hold enough inventory to absorb slower arrivals?",
+      "assumption": "ASSUMPTION: S4 transit times double and DC1 dispatch capacity falls 25% for 21 days. No weather data is used.",
+      "watch": [
+        "Customer fill rate",
+        "Inbound freight",
+        "Days of inventory"
+      ],
+      "baseline_dcs": 4,
+      "request": {
+        "seed": 1010,
+        "replications": 2,
+        "overrides": {
+          "warmup_days": 90,
+          "horizon_days": 365,
+          "network": {
+            "dc_count": 4
+          },
+          "disruptions": [
+            {
+              "type": "lead_time_multiplier",
+              "target": "S4",
+              "start_day": 120,
+              "duration": 21,
+              "magnitude": 2
+            },
+            {
+              "type": "capacity_cut",
+              "target": "DC1",
+              "start_day": 120,
+              "duration": 21,
+              "magnitude": 0.25
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "dc-throughput",
+      "title": "Distribution centre capacity constraint",
+      "category": "Distribution",
+      "summary": "Reduced warehouse dispatch throughput tests local backlogs and customer service.",
+      "question": "How much service exposure is concentrated behind one constrained DC?",
+      "assumption": "ASSUMPTION: DC1 loses 50% of daily dispatch capacity for 21 days; staffing is not explicitly modeled.",
+      "watch": [
+        "Customer fill rate",
+        "Shortage cost",
+        "Landed cost"
+      ],
+      "baseline_dcs": 4,
+      "request": {
+        "seed": 1010,
+        "replications": 2,
+        "overrides": {
+          "warmup_days": 90,
+          "horizon_days": 365,
+          "network": {
+            "dc_count": 4
+          },
+          "disruptions": [
+            {
+              "type": "capacity_cut",
+              "target": "DC1",
+              "start_day": 120,
+              "duration": 21,
+              "magnitude": 0.5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "moq-pressure",
+      "title": "Higher supplier minimum order quantities",
+      "category": "Inventory",
+      "summary": "A supplier doubles its order minimum, changing lot sizes and working inventory.",
+      "question": "What is the inventory and ordering-cost trade-off of larger purchase lots?",
+      "assumption": "ASSUMPTION: S4 MOQ doubles for 21 days; unchanged purchase prices and customer demand.",
+      "watch": [
+        "Days of inventory",
+        "Ordering cost",
+        "Landed cost"
+      ],
+      "baseline_dcs": 4,
+      "request": {
+        "seed": 1010,
+        "replications": 2,
+        "overrides": {
+          "warmup_days": 90,
+          "horizon_days": 365,
+          "network": {
+            "dc_count": 4
+          },
+          "disruptions": [
+            {
+              "type": "moq_change",
+              "target": "S4",
+              "start_day": 120,
+              "duration": 21,
+              "magnitude": 2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "promotional-demand",
+      "title": "Promotion and purchase-price trade-off",
+      "category": "Demand planning",
+      "summary": "A purchase discount runs alongside an explicitly assumed customer demand uplift.",
+      "question": "Do purchase savings offset the service and inventory cost of additional demand?",
+      "assumption": "ASSUMPTION: S4 prices fall 15% and R01 demand rises 50% for 21 days. Demand is an explicit separate shock, not an estimated price response.",
+      "watch": [
+        "Purchase cost",
+        "Customer fill rate",
+        "Landed cost"
+      ],
+      "baseline_dcs": 4,
+      "request": {
+        "seed": 1010,
+        "replications": 2,
+        "overrides": {
+          "warmup_days": 90,
+          "horizon_days": 365,
+          "network": {
+            "dc_count": 4
+          },
+          "disruptions": [
+            {
+              "type": "price_promo",
+              "target": "S4",
+              "start_day": 120,
+              "duration": 21,
+              "magnitude": 0.15
+            },
+            {
+              "type": "demand_shock",
+              "target": "R01",
+              "start_day": 120,
+              "duration": 21,
+              "magnitude": 1.5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "consolidation",
+      "title": "Centralised versus regional distribution",
+      "category": "Network design",
+      "summary": "Compare four regional DCs with a single central facility on the same random streams.",
+      "question": "How do fixed cost, outbound freight and service change with consolidation?",
+      "assumption": "ASSUMPTION: compare four open DCs against one, using existing demand-weighted site selection and unchanged operating inputs.",
+      "watch": [
+        "Outbound freight",
+        "DC fixed cost",
+        "Customer fill rate"
+      ],
+      "baseline_dcs": 4,
+      "request": {
+        "seed": 1010,
+        "replications": 2,
+        "overrides": {
+          "warmup_days": 90,
+          "horizon_days": 365,
+          "network": {
+            "dc_count": 1
+          },
+          "disruptions": []
+        }
+      }
+    },
+    {
+      "id": "compound-disruption",
+      "title": "Combined sourcing and demand stress",
+      "category": "Resilience",
+      "summary": "A partial supplier outage, slower transit and higher demand challenge the network together.",
+      "question": "What changes when several operating stresses occur at the same time?",
+      "assumption": "ASSUMPTION: S4 loses 50% dispatch capacity with 1.5\u00d7 transit, while R01 demand rises 50%, for 21 days. Effects are not causally separated.",
+      "watch": [
+        "Customer fill rate",
+        "Days of inventory",
+        "Shortage cost"
+      ],
+      "baseline_dcs": 4,
+      "request": {
+        "seed": 1010,
+        "replications": 2,
+        "overrides": {
+          "warmup_days": 90,
+          "horizon_days": 365,
+          "network": {
+            "dc_count": 4
+          },
+          "disruptions": [
+            {
+              "type": "supplier_outage",
+              "target": "S4",
+              "start_day": 120,
+              "duration": 21,
+              "magnitude": 0.5
+            },
+            {
+              "type": "lead_time_multiplier",
+              "target": "S4",
+              "start_day": 120,
+              "duration": 21,
+              "magnitude": 1.5
+            },
+            {
+              "type": "demand_shock",
+              "target": "R01",
+              "start_day": 120,
+              "duration": 21,
+              "magnitude": 1.5
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

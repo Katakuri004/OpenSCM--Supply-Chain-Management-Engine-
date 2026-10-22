@@ -13,6 +13,7 @@ const views = {
 };
 export default function StudyPage({ view }: { view: keyof typeof views }) {
   const mode = useTower((state) => state.mode);
+  const playbook = useTower((state) => state.playbook);
   const data = useQuery({ queryKey: ["study-evidence", mode], queryFn: () => loadStudy(mode) });
   const Component = views[view];
   if (data.error)
@@ -25,7 +26,7 @@ export default function StudyPage({ view }: { view: keyof typeof views }) {
   return (
     <Suspense fallback={<p role="status">Loading study view…</p>}>
       <div data-testid="study-ready">
-        <Component data={data.data} />
+        <Component key={`${view}-${mode}-${playbook}`} data={data.data} />
       </div>
     </Suspense>
   );

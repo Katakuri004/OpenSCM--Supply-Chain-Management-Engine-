@@ -125,3 +125,15 @@
 - Methodology displays recorded checks and downloads the current Markdown technical
   validation report. The final case-study report remains M12 work. Saved study
   evidence is historical in both fixture and API transport modes.
+- E1 playbooks are synthetic operating exercises with explicit severity and timing,
+  not data-calibrated scenarios. Weather, labor and promotional language describes
+  the mechanism being tested; no external weather/staffing/elasticity model is used.
+- Site exception counts use the first replication at the selected day and exclude
+  suppliers. Aggregate cover can coexist with a SKU stockout/backlog. Missing cover
+  remains unavailable; review marks do not remove physical exceptions or alter KPIs.
+- Review state is local to this browser and run/day/site. It has no shared identity,
+  approval, reconciliation or audit guarantees. The overview's recent-history plot
+  excludes warm-up, while KPI means retain the original measured horizon.
+- E1's additional policy, forecast/segmentation and lost-sales controls use existing
+  API options. Segmented planning overrides the uniform policy selector with its
+  M4 map. Edited controls do not relabel existing results; a new submission is needed.

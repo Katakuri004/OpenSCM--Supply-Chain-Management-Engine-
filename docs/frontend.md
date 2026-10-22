@@ -3,6 +3,9 @@
 Run `npm ci --prefix web`, then `npm run dev --prefix web`. Open
 [localhost:5173](http://localhost:5173). The default Recorded study works without
 Python running. It uses saved simulation output, not fabricated dashboard values.
+E1 makes Operations overview the default entry point; use `/?view=tower` for the
+original Control Tower. See [operations workspace](operations-workspace.md) for
+the visual overview, exception workbench and synthetic operating playbooks.
 
 For Live API, start the Python service from the repository root:
 
@@ -61,7 +64,7 @@ The recorded study includes 36 nodes, 44 lanes, full node observations and each
 node's SKU01 inspector. Live mode exposes all 20 SKU inspectors. Recorded output
 uses `configs/m8_validation.yaml`; generated request defaults come from that YAML
 as well. The new optional network metadata is documented in [contracts](../contracts/README.md).
-All seven navigation items are enabled. The six M10 study views are loaded on demand
+All ten navigation items are enabled. The six M10 study views are loaded on demand
 and persist their selected view in the URL. See [study views](study-views.md) for
 their controls and source limits. The source selector changes transport: saved
 experiment panels remain historical evidence even when loaded through the live API.

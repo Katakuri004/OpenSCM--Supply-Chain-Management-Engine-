@@ -1,7 +1,18 @@
-# Multi-echelon supply chain study
+# OpenSCM · open-source supply chain simulation
 
-An FMCG inventory and network study on Indian lanes, with costs in INR.
+An Apache-2.0 operations planning workspace for exploring sourcing, inventory,
+distribution, demand and resilience with reproducible synthetic scenarios.
+No proprietary dataset is required. The reference model uses an FMCG network on
+Indian lanes, with costs in INR. Inputs are explicit assumptions, not live ERP data.
 The [implementation plan](docs/plan.md) defines milestones M0–M12.
+
+![OpenSCM operations overview](web/e2e/snapshots/e1-overview.png)
+
+The operations workspace adds a visual network overview, a day-specific exception
+workbench, eight operating playbooks, configurable replenishment/forecast/lost-sales
+assumptions and paired simulation evidence downloads. Start at the overview, review
+service exposure, investigate a site in Control Tower, then test a documented
+scenario. See [workspace guide](docs/operations-workspace.md).
 
 M0–M10 are implemented: scaffold and contracts, analytical inventory formulas,
 demand generation, single-node and multi-echelon simulation, DC selection,
@@ -13,7 +24,8 @@ FastAPI service, DuckDB filters and a generated TypeScript client, and a Next.js
 Control Tower with network health, inspection, queries and local day playback,
 plus Scenario Lab, Network Design, Bullwhip Lab, Inventory Lab, Resilience and
 Methodology views backed by recorded experiments and live paired scenarios.
-M11 (static demo, Docker, performance and accessibility) is next.
+The user-requested E1 operations workspace expansion is implemented. M11
+(static demo, Docker, performance and accessibility) remains next.
 
 See [analytics](docs/analytics.md) for functions, units, assumptions and examples.
 See [simulation](docs/simulation.md) for daily timing, costs and reproducible M2 validation.
@@ -55,7 +67,7 @@ the virtual environment's Python as above. `make contracts` regenerates schemas,
 OpenAPI and client types. See [regeneration commands](docs/api.md) for Windows.
 Run commands at repo root.
 
-Open the recorded Control Tower (no API needed):
+Open the recorded operations overview (no API needed):
 
 ```powershell
 npm run dev --prefix web
@@ -65,6 +77,15 @@ Visit [localhost:5173](http://localhost:5173). For Live API mode, also start the
 Uvicorn command below. Next.js proxies `/api` to localhost:8000 in development and
 production. Use `npm run build --prefix web` then `npm run start --prefix web` for
 the production server.
+
+The original Control Tower is available at `/?view=tower`; playbooks are at
+`/?view=playbooks`. Live paired playbooks require the local Python API. This is a
+simulation and planning application; shared approvals, ERP connectors, SSO/RBAC
+and distributed production job management are not implemented.
+
+Original project code is licensed under [Apache-2.0](LICENSE), with attribution in
+[NOTICE](NOTICE). Third-party dependencies retain their own licenses. See
+[contributing](CONTRIBUTING.md) to add a scenario or improve the software.
 
 See [contracts](contracts/README.md), [parameters](docs/parameters.md),
 [assumptions](docs/assumptions.md) and [validation status](docs/validation.md).

@@ -243,6 +243,27 @@ Smooth scrubbing at 100 nodes; lazy-loaded views; keyboard navigable; desktop-fi
 
 ## 11. Parallel tracks, risks, descoping
 
+### E1: operations simulation workspace (user-requested expansion)
+
+Before M11, implement one product milestone for realistic synthetic operations:
+an operations overview, day-specific exception workbench, and an operational
+playbook library that loads explicit combined shocks into the existing paired
+simulation. Improve navigation, visual hierarchy, keyboard search and narrow-screen
+access. Adopt the user-selected Apache-2.0 license. Keep source/assumption labels
+and distinguish browser-local review state from simulated inventory recovery.
+
+Acceptance: tests first; every playbook validates as an engine request; overview
+and exception figures reconcile to the selected health matrix; review state is
+scoped to run/day/node; playbooks create actual live scenario requests; screenshots,
+keyboard/narrow-screen flows and `python -m scm.check` pass. Do not claim live ERP
+data, shared approvals, SSO, RBAC or production readiness. Research inputs remain
+synthetic. M11 and M12 remain separate tasks.
+
+Later product milestones should prioritize scenario portfolios and repeatable
+planning exercises, broader sourcing/replenishment policy controls, and richer
+capacity/service trade-offs before external enterprise integrations. Those
+capabilities require their own contracts, tests and evidence.
+
 - **Parallel:** engine (M1–M7); frontend on fixtures (M9–M10, after M0); API (after M3).
 - **Risks:** engine too slow (profile, vectorise); parameter credibility (source table, sensitivity runs); agent drift (schema-diff check in CI, small tasks); scope creep.
 - **Descope order:** plant and BOM, lateral transshipment, geographic layout, dark mode, DuckDB-WASM static queries.

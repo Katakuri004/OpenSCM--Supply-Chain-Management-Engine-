@@ -8,8 +8,8 @@ import "../src/styles.css";
 import "katex/dist/katex.min.css";
 
 export const metadata: Metadata = {
-  title: "OpenSCM · Control Tower",
-  description: "Inventory, service and replenishment across a multi-echelon supply network.",
+  description:
+    "Open-source supply chain simulation: realistic operating scenarios, inventory decisions, network design and resilience planning.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

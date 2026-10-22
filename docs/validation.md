@@ -570,3 +570,53 @@ calibrated network-design recommendation. Full research replication counts,
 remote CI confirmation, deployment, Docker, Lighthouse and broad accessibility
 audits remain unverified. M11 owns the demo/deployment quality work; M12 owns
 the final case-study report. Prior milestone evidence retains its historical scope.
+
+## E1: operations simulation workspace
+
+Local result (22 October 2026, Python 3.12.10, Node.js 22.17.0):
+`python -m scm.check` passes **206 Python tests**, **10 Vitest tests** and
+**13 Playwright tests**, with Ruff, strict mypy/TypeScript, Prettier,
+contract/OpenAPI/client drift checks and the Next.js production build. No public
+response schema changes are introduced. Tests were written and observed failing
+before the new observation helper and playbook catalog were implemented.
+
+The [E1 browser results](evidence/e1/results.json) and
+[manifest](evidence/e1/manifest.json) record the current source/artifact hashes and
+the actual combined-playbook requests and paired comparison. Existing M9/M10
+fixtures remain simulation evidence for their recorded source snapshots.
+
+The checks establish:
+
+- All eight playbooks match their canonical YAML, validate as RunRequest payloads
+  and pass actual API reservation, scenario and physical event-target validation.
+  Reservation validation does not claim eight full experiments were executed.
+- The operations overview's selected-day stockout count equals the recorded
+  health matrix with suppliers excluded. Snapshot unit checks cover stockout
+  precedence, missing cover, absent days and scoped local-review identifiers.
+- Exception reviews survive reload for the same run/day/site and do not appear
+  as reviews on another day. Filters, site investigations and existing Control
+  Tower/API flows pass. Review marks do not claim physical recovery.
+- The demand-surge playbook runs through the real API with **periodic (R,S)**,
+  **forecasting** and **lost sales** explicitly selected. Captured A/B requests
+  have the correct shared options and separate B demand/capacity shocks. The
+  actual comparison and requests are saved in the E1 result artifact.
+- Edited inputs mark existing results as belonging to their original submission.
+  B opens as an actual Control Tower run. Keyboard command search and 390 px
+  navigation/overflow checks pass. Overview, playbook and exception screenshots
+  were visually reviewed along with the refreshed desktop/dark shell.
+- The existing 100-node synthetic load regression records **0.6 ms p95** health
+  batch time for 40 day updates, below 16.7 ms, without extra scrubber requests.
+
+Browser validation caught a page-title conflict between static Next.js metadata
+and the selected client module. React now owns the view title; the final checks
+pass for both default overview and explicit Control Tower entry points. The
+upstream Starlette TestClient deprecation warning remains non-failing.
+
+All operating playbooks are synthetic assumptions, documented in
+[parameters](parameters.md) and [workspace methods](operations-workspace.md).
+Forecast, policy and demand-shortfall controls expose existing engine behavior;
+the UI introduces no claimed data-calibrated demand/price/weather/staffing model.
+Apache-2.0 licensing applies to original project code; third-party licenses remain
+their own. Live ERP integration, shared approvals, authentication/SSO, RBAC and
+distributed production operations are not implemented. Deployment, Lighthouse
+and broad accessibility audits remain outside E1 and await M11.

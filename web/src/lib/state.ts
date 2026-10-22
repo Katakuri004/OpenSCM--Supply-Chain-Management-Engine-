@@ -1,5 +1,8 @@
 import { create } from "zustand";
 export const viewNames = {
+  overview: "Operations overview",
+  exceptions: "Exception workbench",
+  playbooks: "Scenario playbooks",
   tower: "Control Tower",
   scenario: "Scenario Lab",
   network: "Network Design",
@@ -17,6 +20,7 @@ export const useTower = create<{
   day: number;
   node: string;
   run: string;
+  playbook: string;
   dark: boolean;
   set: (
     state: Partial<{
@@ -25,17 +29,19 @@ export const useTower = create<{
       day: number;
       node: string;
       run: string;
+      playbook: string;
       dark: boolean;
     }>,
   ) => void;
 }>((set) => ({
   view: Object.hasOwn(viewNames, params.get("view") ?? "")
     ? (params.get("view") as ViewKey)
-    : "tower",
+    : "overview",
   mode: params.get("mode") === "live" ? "live" : "fixture",
   day: Number.isInteger(initialDay) && initialDay >= 0 ? initialDay : 90,
   node: params.get("node") ?? "R01",
   run: params.get("run") ?? "",
+  playbook: params.get("playbook") ?? "",
   dark: localStorage.getItem("theme") === "dark",
   set,
 }));
@@ -47,6 +53,7 @@ useTower.subscribe((state) => {
     day: state.day,
     node: state.node,
     run: state.run,
+    playbook: state.playbook,
   })) {
     if (value === "") next.searchParams.delete(key);
     else next.searchParams.set(key, String(value));

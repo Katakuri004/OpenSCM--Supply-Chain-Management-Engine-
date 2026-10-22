@@ -6,6 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "supply-chain-study"
 version = "0.1.0"
 description = "Multi-echelon supply chain network and inventory policy study"
+license = {file = "LICENSE"}
 requires-python = ">=3.12,<3.13"
 dependencies = ["pydantic>=2.10,<3", "PyYAML>=6,<7", "numpy>=2,<3", "scipy>=1.14,<2",
                 "pyarrow>=23,<27", "joblib>=1.4,<2", "typer>=0.16,<1",

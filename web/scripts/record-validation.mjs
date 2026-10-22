@@ -5,19 +5,24 @@ import { platform, release } from "node:os";
 import { resolve, relative } from "node:path";
 
 const root = resolve("..");
-const output = resolve(root, "docs/evidence/m10");
+const output = resolve(root, "docs/evidence/e1");
 const report = JSON.parse(await readFile(resolve(root, "data/m9-playwright/results.json"), "utf8"));
 const tests = [];
 let performance;
+const exercises = [];
 function visit(suite) {
   for (const spec of suite.specs ?? [])
     for (const test of spec.tests) {
       const result = test.results.at(-1);
       tests.push({ name: spec.title, status: result.status, duration_ms: result.duration });
-      for (const attachment of result.attachments ?? [])
+      for (const attachment of result.attachments ?? []) {
         if (attachment.name === "scrubber-performance") {
           performance = JSON.parse(Buffer.from(attachment.body, "base64").toString("utf8"));
         }
+        if (attachment.name === "operating-playbook") {
+          exercises.push(JSON.parse(Buffer.from(attachment.body, "base64").toString("utf8")));
+        }
+      }
     }
   for (const child of suite.suites ?? []) visit(child);
 }
@@ -26,6 +31,7 @@ if (
   !tests.length ||
   tests.some((test) => test.status !== "passed") ||
   !performance ||
+  !exercises.length ||
   report.errors.length
 )
   throw new Error("Run passing browser tests before recording evidence");
@@ -41,6 +47,7 @@ await writeFile(
       node: process.version,
       tests,
       performance,
+      exercises,
     },
     null,
     2,
@@ -100,6 +107,14 @@ sources.push(
   "docs/assumptions.md",
   "docs/validation.md",
   "docs/study-views.md",
+  "docs/operations-workspace.md",
+  "LICENSE",
+  "NOTICE",
+  "README.md",
+  "CONTRIBUTING.md",
+  "pyproject.toml",
+  "tests/test_workspace.py",
+  "docs/plan.md",
 );
 const versions = Object.fromEntries(
   await Promise.all(
@@ -112,8 +127,9 @@ const versions = Object.fromEntries(
   ),
 );
 const artifacts = [
-  "docs/evidence/m10/results.json",
+  "docs/evidence/e1/results.json",
   "docs/evidence/m10/fixture_manifest.json",
+  "docs/evidence/m9/fixture_manifest.json",
   "web/public/fixtures/studies.json",
   "web/public/fixtures/tower.json",
   "web/src/fixtures/request.json",

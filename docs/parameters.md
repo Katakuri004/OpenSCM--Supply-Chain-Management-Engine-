@@ -518,3 +518,41 @@ Weekly E4 traces reuse each M7 cell's replication-zero demand/training seeds;
 M6 timelines reuse its first paired seed. Representative selection, a four-process
 export worker limit, and 500 ms live status polling are engineering ASSUMPTIONs.
 The ±20% OAT tornado and mitigation definitions inherit M7's E6 configuration.
+
+## E1 operations workspace and synthetic playbooks
+
+All values in `configs/workspace.yaml` are explicit **ASSUMPTIONs** for operating
+exercises; none are company observations or empirically fitted shock severities.
+`low_cover_days=7` reuses the M9 review example. `history_days=28` is a four-week
+presentation window, with measured days only, not a forecasting horizon.
+
+Every playbook has root seed **1010**, **2** paired replications, **90** warm-up
+days and **365** measured days, inherited from M10. Baseline A has **4 DCs**.
+B has **4 DCs**, except consolidation's **1 DC**. Active events start on day
+**120** and last **21 days**, inherited from the M6 teaching interval [120,141).
+Consolidation has an empty event list. Targets R01, S4 and DC1 are existing model
+identifiers, chosen to make customer/supplier/DC stresses inspectable.
+
+| Playbook ID | Assumed B event magnitudes |
+| --- | --- |
+| demand-surge | R01 demand ×1.8; DC1 removed capacity 0.25 |
+| supplier-failure | S4 removed capacity 1.0 |
+| transport-delay | S4 lead ×2; DC1 removed capacity 0.25 |
+| dc-throughput | DC1 removed capacity 0.5 |
+| moq-pressure | S4 MOQ ×2 |
+| promotional-demand | S4 price discount 0.15; separate R01 demand ×1.5 |
+| consolidation | No events; compare B=1 DC against A=4 DCs |
+| compound-disruption | S4 removed capacity 0.5; S4 lead ×1.5; R01 demand ×1.5 |
+
+These scenarios illustrate mechanisms: a weather-named exercise does not consume
+weather data, a warehouse-capacity reduction is not a labor scheduling model and
+a demand uplift is not an estimated price elasticity. Category/question/metric
+labels are descriptive metadata; playbooks contain no outcome figures.
+
+Scenario Lab's initial policy is QR, known-demand control and backorders, matching
+the existing API defaults. Available policies and planning modes expose existing
+engine options, including fixed M4 forecast/segmentation parameters. The 30-run
+maximum and unsigned 32-bit seed bound reuse API limits; events must fit the
+configured simulation window. Policy/planning options apply to both runs so
+disruption comparisons retain common random numbers. These UI controls introduce
+no new economic coefficients. The optional review flags are browser metadata only.

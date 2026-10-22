@@ -3,63 +3,115 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useTower } from "../lib/state";
 import { client, read } from "../lib/data";
 import { type Study, costComponents, colors } from "../lib/labs";
-import { number, type Schema } from "../lib/tower";
+import { download, number, type Schema } from "../lib/tower";
+import catalog from "../fixtures/workspace.json";
 import { Button } from "../components/ui/button";
 import { StudyPlot } from "../components/study-plot";
 import { Placement } from "../components/placement";
 
 type DcCount = 1 | 2 | 4 | 8;
 export default function ScenarioLab({ data }: { data: Study }) {
-  const { mode, set } = useTower();
+  const { mode, set, playbook } = useTower();
   const defaults = data.defaults;
-  const [aCount, setA] = useState<DcCount>(defaults.baseline_dcs);
-  const [bCount, setB] = useState<DcCount>(defaults.alternative_dcs);
-  const [values, setValues] = useState(defaults.events.map((event) => event.neutral));
+  const exercise =
+    mode === "live" ? catalog.playbooks.find((row) => row.id === playbook) : undefined;
+  // The catalog generator and Python tests validate requests against the engine contract.
+  const configured = exercise?.request as Schema["RunRequest"] | undefined;
+  const [aCount, setA] = useState<DcCount>(
+    (exercise?.baseline_dcs ?? defaults.baseline_dcs) as DcCount,
+  );
+  const [bCount, setB] = useState<DcCount>(
+    (configured?.overrides?.network?.dc_count ?? defaults.alternative_dcs) as DcCount,
+  );
+  const [values, setValues] = useState(
+    defaults.events.map(
+      (event) =>
+        configured?.overrides?.disruptions?.find((row) => row.type === event.type)?.magnitude ??
+        event.neutral,
+    ),
+  );
+  const [seed, setSeed] = useState(configured?.seed ?? defaults.seed);
+  const [replications, setReplications] = useState(
+    configured?.replications ?? defaults.replications,
+  );
+  const [eventStart, setEventStart] = useState(
+    configured?.overrides?.disruptions?.[0]?.start_day ?? defaults.event_start,
+  );
+  const [duration, setDuration] = useState(
+    configured?.overrides?.disruptions?.[0]?.duration ?? defaults.event_duration,
+  );
+  const [policy, setPolicy] = useState<NonNullable<Schema["PolicyConfig"]["default"]>>("QR");
+  const [planning, setPlanning] = useState("known");
+  const [shortage, setShortage] = useState("backorders");
+  const [submitted, setSubmitted] = useState<Schema["RunRequest"][] | null>(null);
   const [ids, setIds] = useState<[string, string] | null>(null);
   const live = mode === "live";
+  const valid =
+    Number.isInteger(seed) &&
+    seed >= 0 &&
+    seed <= 4294967295 &&
+    Number.isInteger(replications) &&
+    replications >= 1 &&
+    replications <= 30 &&
+    Number.isInteger(eventStart) &&
+    eventStart >= 0 &&
+    Number.isInteger(duration) &&
+    duration >= 1 &&
+    eventStart + duration <= defaults.warmup_days + defaults.horizon_days;
   const target = (control: (typeof defaults.events)[number]) => {
     const nodes = data.networks[String(bCount)]!.nodes;
     return control.type === "capacity_cut" && !nodes.id.includes(control.target)
       ? nodes.id.find((_, i) => nodes.type[i] === "dc")!
       : control.target;
   };
+  const disruptions: Schema["Disruption"][] = defaults.events.flatMap((control, i) =>
+    values[i] === control.neutral
+      ? []
+      : [
+          {
+            type: control.type as Schema["Disruption"]["type"],
+            target: target(control),
+            magnitude: values[i]!,
+            start_day: eventStart,
+            duration,
+          },
+        ],
+  );
+  const requests: Schema["RunRequest"][] = [aCount, bCount].map((count, i) => ({
+    seed,
+    replications,
+    options: {
+      forecasting: planning !== "known",
+      segmented: planning === "segmented",
+      bullwhip: false,
+      lost_sales: shortage === "lost_sales",
+    },
+    overrides: {
+      network: { dc_count: count },
+      policy: { default: policy },
+      warmup_days: defaults.warmup_days,
+      horizon_days: defaults.horizon_days,
+      disruptions: i === 1 ? disruptions : [],
+    },
+  }));
   const create = useMutation({
     mutationFn: async () => {
       setIds(null);
-      const disruptions: Schema["Disruption"][] = defaults.events.flatMap((control, i) =>
-        values[i] === control.neutral
-          ? []
-          : [
-              {
-                type: control.type as Schema["Disruption"]["type"],
-                target: target(control),
-                magnitude: values[i]!,
-                start_day: defaults.event_start,
-                duration: defaults.event_duration,
-              },
-            ],
-      );
       const results = await Promise.all(
-        [aCount, bCount].map(async (count, i) =>
+        requests.map(async (body) =>
           read(
             await client.POST("/runs", {
-              body: {
-                seed: defaults.seed,
-                replications: defaults.replications,
-                overrides: {
-                  network: { dc_count: count },
-                  warmup_days: defaults.warmup_days,
-                  horizon_days: defaults.horizon_days,
-                  disruptions: i === 1 ? disruptions : [],
-                },
-              },
+              body,
             }),
           ),
         ),
       );
-      return [results[0]!.run_id, results[1]!.run_id] as [string, string];
+      return { ids: [results[0]!.run_id, results[1]!.run_id] as [string, string], requests };
     },
-    onSuccess: setIds,
+    onSuccess: (result) => {
+      setIds(result.ids);
+      setSubmitted(result.requests);
+    },
   });
   const statuses = useQuery({
     queryKey: ["pair-status", ids],
@@ -105,8 +157,22 @@ export default function ScenarioLab({ data }: { data: Study }) {
       !completed.data);
   const failure = create.error ?? statuses.error ?? completed.error;
   const c = pair?.comparison;
+  const changed = submitted !== null && JSON.stringify(submitted) !== JSON.stringify(requests);
   return (
     <div className="space-y-5">
+      {exercise && (
+        <section className="workspace-callout">
+          <div>
+            <p className="eyebrow">LOADED OPERATING PLAYBOOK</p>
+            <h2 className="mt-2 text-lg font-semibold">{exercise.title}</h2>
+            <p className="mt-2 text-xs leading-6 text-[var(--secondary)]">{exercise.assumption}</p>
+            <p className="mt-2 text-xs">{exercise.question}</p>
+          </div>
+          <Button variant="outline" onClick={() => set({ view: "playbooks" })}>
+            Browse playbooks
+          </Button>
+        </section>
+      )}
       <section className="panel p-5">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-4">
           <h2 className="text-sm font-semibold">Paired network scenarios</h2>
@@ -132,7 +198,7 @@ export default function ScenarioLab({ data }: { data: Study }) {
               </label>
             ))}
             <Button
-              disabled={live && busy}
+              disabled={live && (busy || !valid)}
               onClick={() => (live ? create.mutate() : set({ mode: "live" }))}
               aria-label={live ? "Run paired scenarios" : "Use Live API"}
             >
@@ -167,16 +233,105 @@ export default function ScenarioLab({ data }: { data: Study }) {
                 }
               />
               <span className="text-[10px] text-[var(--secondary)]">
-                B target {target(control)} · days {defaults.event_start}–
-                {defaults.event_start + defaults.event_duration - 1}
+                B target {target(control)} · days {eventStart}–{eventStart + duration - 1}
               </span>
             </label>
           ))}
         </div>
+        <div className="mt-4 flex flex-wrap gap-4 border-t border-[var(--border)] pt-4">
+          {(
+            [
+              ["Paired root seed", seed, setSeed, 0, 4294967295],
+              ["Paired replications", replications, setReplications, 1, 30],
+              [
+                "Event start day",
+                eventStart,
+                setEventStart,
+                0,
+                defaults.warmup_days + defaults.horizon_days - 1,
+              ],
+              [
+                "Event duration",
+                duration,
+                setDuration,
+                1,
+                defaults.warmup_days + defaults.horizon_days - eventStart,
+              ],
+            ] as const
+          ).map(([label, value, update, min, max]) => (
+            <label className="field" key={label}>
+              {label}
+              <input
+                className="w-24 mono"
+                type="number"
+                aria-label={label}
+                disabled={!live || busy}
+                min={min}
+                max={max}
+                step={1}
+                value={value}
+                onChange={(event) => update(Number(event.target.value))}
+              />
+            </label>
+          ))}
+        </div>
+        <div className="mt-4 flex flex-wrap gap-4">
+          <label className="field">
+            Planning assumptions
+            <select
+              aria-label="Planning assumptions"
+              disabled={!live || busy}
+              value={planning}
+              onChange={(event) => setPlanning(event.target.value)}
+            >
+              <option value="known">Known demand control</option>
+              <option value="forecast">Forecast-driven replenishment</option>
+              <option value="segmented">ABC–XYZ segmented planning</option>
+            </select>
+          </label>
+          <label className="field">
+            Replenishment policy
+            <select
+              aria-label="Replenishment policy"
+              disabled={!live || busy || planning === "segmented"}
+              value={policy}
+              onChange={(event) =>
+                setPolicy(event.target.value as NonNullable<Schema["PolicyConfig"]["default"]>)
+              }
+            >
+              <option value="QR">Continuous (Q,R)</option>
+              <option value="sS">Min–max (s,S)</option>
+              <option value="RS">Periodic (R,S)</option>
+              <option value="order_up_to">Order-up-to</option>
+            </select>
+          </label>
+          <label className="field">
+            Unfilled demand
+            <select
+              aria-label="Unfilled demand"
+              disabled={!live || busy}
+              value={shortage}
+              onChange={(event) => setShortage(event.target.value)}
+            >
+              <option value="backorders">Backorder</option>
+              <option value="lost_sales">Lost sales</option>
+            </select>
+          </label>
+        </div>
+        <p className="mt-2 text-[10px] leading-5 text-[var(--secondary)]">
+          Planning and demand handling apply to both scenarios. Segmented planning uses the
+          documented ABC–XYZ policy map. These are model assumptions, not observed operating
+          behaviour.
+        </p>
+        {live && !valid && (
+          <p role="alert" className="mt-3 text-xs">
+            Use an unsigned 32-bit integer seed, 1–30 paired runs and an event interval within the{" "}
+            {defaults.warmup_days + defaults.horizon_days}-day simulation.
+          </p>
+        )}
         <p className="mt-4 text-xs text-[var(--secondary)]">
-          A is undisturbed; sliders apply to B. Shared root seed {defaults.seed},{" "}
-          {defaults.replications} paired runs, {defaults.warmup_days} warm-up +{" "}
-          {defaults.horizon_days} measured days.{" "}
+          A is undisturbed; sliders apply to B. Shared root seed {seed}, {replications} paired runs,{" "}
+          {defaults.warmup_days} warm-up + {defaults.horizon_days} measured days.{" "}
           {live
             ? "Submit changed controls to recompute."
             : "Recorded pair: 1 DC versus 4 DCs. Use Live API to change factors."}
@@ -199,6 +354,37 @@ export default function ScenarioLab({ data }: { data: Study }) {
       >
         {pair && c ? (
           <>
+            {live && (
+              <p className="text-xs leading-6 text-[var(--secondary)]" role="status">
+                {changed
+                  ? "Inputs changed. Results below retain the last submitted configuration; run again to update."
+                  : "Results match the submitted inputs."}{" "}
+                Submitted seed {submitted?.[0]?.seed} · {submitted?.[0]?.replications} paired runs.
+              </p>
+            )}
+            {live && (
+              <div className="flex flex-wrap justify-end gap-3">
+                <Button
+                  variant="outline"
+                  onClick={() =>
+                    download(
+                      "paired-comparison.json",
+                      JSON.stringify(
+                        { requests: submitted, a: pair.a, b: pair.b, comparison: c },
+                        null,
+                        2,
+                      ),
+                      "application/json",
+                    )
+                  }
+                >
+                  Download paired evidence
+                </Button>
+                <Button onClick={() => set({ view: "tower", run: pair.b.run_id })}>
+                  Inspect scenario B in Control Tower
+                </Button>
+              </div>
+            )}
             <div className="grid gap-4 md:grid-cols-3">
               {[
                 ["Customer fill Δ B−A", "paired-fill-delta", c.metrics.fill_rate?.mean, true],

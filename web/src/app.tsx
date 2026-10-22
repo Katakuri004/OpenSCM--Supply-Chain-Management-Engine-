@@ -1,30 +1,23 @@
-import { lazy, Suspense, useState, useEffect } from "react";
+import { lazy, Suspense, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import {
-  Network,
-  SlidersHorizontal,
-  Activity,
-  Package,
-  ShieldCheck,
-  BookOpen,
-  Moon,
-  Sun,
-  Play,
-  ArrowRight,
-  GitCompareArrows,
-} from "lucide-react";
+import { Network, Moon, Sun, Play, ArrowRight, GitCompareArrows } from "lucide-react";
 import { Button } from "./components/ui/button";
 import { client, loadFixture, read } from "./lib/data";
 import { useTower, viewNames } from "./lib/state";
 import requestDefaults from "./fixtures/request.json";
+import {
+  WorkspaceSidebar,
+  WorkspaceSearch,
+  MobileNavigation,
+} from "./components/workspace-navigation";
 const StudyPage = lazy(() => import("./features/study-page"));
 const ControlTower = lazy(() => import("./features/control-tower"));
+const OperationsWorkspace = lazy(() => import("./features/operations-workspace"));
+const Playbooks = lazy(() => import("./features/playbooks"));
 
 export default function App() {
   const { mode, run, dark, set, view } = useTower();
-  useEffect(() => {
-    document.title = `OpenSCM · ${viewNames[view]}`;
-  }, [view]);
+  const operationsView = view === "tower" || view === "overview" || view === "exceptions";
   const [preset, setPreset] = useState("base_4dc");
   const [replications, setReplications] = useState(requestDefaults.replications);
   const [seed, setSeed] = useState(requestDefaults.seed);
@@ -33,12 +26,12 @@ export default function App() {
   const fixture = useQuery({
     queryKey: ["fixture"],
     queryFn: loadFixture,
-    enabled: mode === "fixture" && view === "tower",
+    enabled: mode === "fixture" && operationsView,
   });
   const catalog = useQuery({
     queryKey: ["catalog"],
     queryFn: async () => read(await client.GET("/scenarios")),
-    enabled: mode === "live" && view === "tower",
+    enabled: mode === "live" && operationsView,
   });
   const creation = useMutation({
     mutationFn: async () =>
@@ -54,7 +47,7 @@ export default function App() {
     queryKey: ["status", run],
     queryFn: async () =>
       read(await client.GET("/runs/{run_id}", { params: { path: { run_id: run } } })),
-    enabled: mode === "live" && view === "tower" && !!run,
+    enabled: mode === "live" && operationsView && !!run,
     refetchInterval: (query) =>
       ["queued", "running"].includes(query.state.data?.status ?? "queued") ? 500 : false,
   });
@@ -67,7 +60,7 @@ export default function App() {
       ]);
       return { network: read(network), health: read(health) };
     },
-    enabled: mode === "live" && view === "tower" && status.data?.status === "complete",
+    enabled: mode === "live" && operationsView && status.data?.status === "complete",
   });
   const data = mode === "fixture" ? fixture.data : live.data;
   const comparison = useQuery({
@@ -91,60 +84,22 @@ export default function App() {
     (mode === "live" && ["queued", "running"].includes(status.data?.status ?? ""));
   const presets = mode === "fixture" ? fixture.data?.catalog.presets : catalog.data?.presets;
   return (
-    <div className="min-h-screen lg:grid lg:grid-cols-[196px_1fr]">
+    <div className="min-h-screen lg:grid lg:grid-cols-[224px_1fr]">
+      <title>{`OpenSCM · ${viewNames[view]}`}</title>
       <a className="skip" href="#main">
         Skip to study content
       </a>
-      <aside className="flex flex-col border-r border-[var(--border)] bg-[var(--panel)] px-4 py-6 max-lg:hidden">
-        <a href="/" className="mb-1 flex items-center gap-2 px-2 font-semibold tracking-tight">
-          <Network className="size-6 text-[var(--accent)]" />
-          OpenSCM<span className="ml-auto text-[10px] text-[var(--secondary)]">STUDY</span>
-        </a>
-        <p className="mb-10 px-2 text-[10px] text-[var(--secondary)]">Supply chain operations</p>
-        <p className="eyebrow mb-3 px-2">WORKSPACE</p>
-        <nav aria-label="Study views" className="space-y-2">
-          {(
-            [
-              ["tower", Network],
-              ["scenario", SlidersHorizontal],
-              ["network", Network],
-              ["bullwhip", Activity],
-              ["inventory", Package],
-              ["resilience", ShieldCheck],
-              ["methodology", BookOpen],
-            ] as const
-          ).map(([key, Icon]) => (
-            <button
-              key={key}
-              aria-current={view === key ? "page" : undefined}
-              className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-xs ${view === key ? "bg-[var(--muted)] text-[var(--accent)] font-medium" : "text-[var(--secondary)] hover:bg-[var(--muted)]"}`}
-              onClick={() => set({ view: key })}
-            >
-              <Icon size={16} />
-              {viewNames[key]}
-            </button>
-          ))}
-        </nav>
-        <div className="mt-auto border-t border-[var(--border)] px-2 pt-5 text-[10px] leading-5 text-[var(--secondary)]">
-          FMCG · India network
-          <br />
-          INR · daily simulation buckets
-          <br />
-          <span className="mono">
-            {data?.network.warmup_days != null
-              ? `${data.network.warmup_days} warm-up + ${data.health.days.length - data.network.warmup_days} measured`
-              : "Daily study observations"}
-          </span>
-        </div>
-      </aside>
+      <WorkspaceSidebar />
       <div className="min-w-0">
         <header className="flex min-h-20 flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] bg-[var(--panel)] px-6 py-4">
           <div className="flex items-center gap-2 text-xs">
-            <span className="text-[var(--secondary)]">Workspace</span>
+            <MobileNavigation />
+            <span className="hidden text-[var(--secondary)] sm:inline">Planning workspace</span>
             <ArrowRight size={12} />
             <span>{viewNames[view]}</span>
           </div>
           <div className="flex flex-wrap items-center gap-2">
+            <WorkspaceSearch network={data?.network.network} />
             <select
               aria-label="Data source"
               value={mode}
@@ -156,7 +111,7 @@ export default function App() {
               <option value="fixture">Recorded study</option>
               <option value="live">Live API</option>
             </select>
-            {view === "tower" && (
+            {operationsView && (
               <>
                 <select
                   aria-label="Scenario preset"
@@ -212,17 +167,19 @@ export default function App() {
                   <Play />
                   {busy ? "Running…" : mode === "fixture" ? "Reset study" : "Run"}
                 </Button>
-                <Button
-                  variant="outline"
-                  aria-label="Toggle paired deltas"
-                  aria-pressed={compareOpen}
-                  disabled={mode === "fixture" || !live.data}
-                  title="Compare the current run B against a cached baseline A"
-                  onClick={() => setCompareOpen(!compareOpen)}
-                >
-                  <GitCompareArrows />
-                  A/B
-                </Button>
+                {view === "tower" && (
+                  <Button
+                    variant="outline"
+                    aria-label="Toggle paired deltas"
+                    aria-pressed={compareOpen}
+                    disabled={mode === "fixture" || !live.data}
+                    title="Compare the current run B against a cached baseline A"
+                    onClick={() => setCompareOpen(!compareOpen)}
+                  >
+                    <GitCompareArrows />
+                    A/B
+                  </Button>
+                )}
               </>
             )}
             <Button
@@ -235,7 +192,7 @@ export default function App() {
             </Button>
           </div>
         </header>
-        <main id="main" tabIndex={-1} className="p-6">
+        <main id="main" tabIndex={-1} className="workspace-main">
           {view === "tower" && mode === "live" && compareOpen && (
             <label className="field mb-4">
               Baseline run ID (A)
@@ -252,12 +209,20 @@ export default function App() {
           )}
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="eyebrow mb-2">OPERATIONS / NETWORK OVERVIEW</p>
-              <h1 className="text-2xl font-semibold tracking-tight">{viewNames[view]}</h1>
+              <p className="eyebrow mb-2">
+                OPENSCM / {operationsView ? "NETWORK OPERATIONS" : "PLANNING & SIMULATION"}
+              </p>
+              <h1 className="text-[28px] font-semibold tracking-tight">{viewNames[view]}</h1>
               <p className="mt-2 text-xs text-[var(--secondary)]">
-                {view === "tower"
-                  ? "Follow inventory, service and replenishment across every echelon."
-                  : "Explore supply-chain trade-offs with recorded experiments and explicit assumptions."}
+                {view === "overview"
+                  ? "A connected view of inventory, service exposure and your next operating decision."
+                  : view === "exceptions"
+                    ? "Prioritise service exceptions, review local observations and investigate the underlying inventory."
+                    : view === "playbooks"
+                      ? "Turn practical operations questions into transparent, repeatable simulation experiments."
+                      : view === "tower"
+                        ? "Follow inventory, service and replenishment across every echelon."
+                        : "Explore supply-chain trade-offs with recorded experiments and explicit assumptions."}
               </p>
             </div>
             <div className="text-right text-[10px] leading-5 text-[var(--secondary)]">
@@ -265,15 +230,15 @@ export default function App() {
                 {mode === "fixture" ? "RECORDED SIMULATION" : "LIVE STUDY SERVICE"}
               </span>
               <p className="mt-2">
-                {view !== "tower"
+                {!operationsView
                   ? "Saved experiments · seeded representative trajectories"
                   : data
-                    ? `${data.network.kpis.replications} replications · 95% t intervals · representative trajectory`
+                    ? `${data.network.kpis.replications} replications · ${data.network.kpis.replications > 1 ? "95% t intervals" : "intervals unavailable"} · representative trajectory`
                     : "Choose a scenario and run the study"}
               </p>
             </div>
           </div>
-          {view === "tower" && error && (
+          {operationsView && error && (
             <div
               role="alert"
               aria-label="Study service error"
@@ -285,14 +250,22 @@ export default function App() {
               </Button>
             </div>
           )}
-          {view === "tower" && mode === "live" && status.data?.status === "failed" && (
+          {operationsView && mode === "live" && status.data?.status === "failed" && (
             <div role="alert" className="panel mb-4 p-4">
               {status.data.error} Submit the run again to retry.
             </div>
           )}
-          {view !== "tower" ? (
+          {view === "playbooks" ? (
+            <Suspense fallback={<p role="status">Loading scenario playbooks…</p>}>
+              <Playbooks />
+            </Suspense>
+          ) : !operationsView ? (
             <Suspense fallback={<p role="status">Loading study view…</p>}>
               <StudyPage view={view} />
+            </Suspense>
+          ) : data && (view === "overview" || view === "exceptions") ? (
+            <Suspense fallback={<p role="status">Loading operations workspace…</p>}>
+              <OperationsWorkspace network={data.network} health={data.health} view={view} />
             </Suspense>
           ) : data ? (
             <Suspense fallback={<div role="status">Loading network canvas…</div>}>

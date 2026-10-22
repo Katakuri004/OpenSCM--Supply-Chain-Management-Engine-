@@ -1,0 +1,363 @@
+{
+  "passed": true,
+  "browser": "Playwright Chromium",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "platform": "win32 10.0.26200",
+  "node": "v22.17.0",
+  "tests": [
+    {
+      "name": "Scenario Lab loads recorded evidence",
+      "status": "passed",
+      "duration_ms": 1328
+    },
+    {
+      "name": "Network Design loads recorded evidence",
+      "status": "passed",
+      "duration_ms": 1252
+    },
+    {
+      "name": "Bullwhip Lab loads recorded evidence",
+      "status": "passed",
+      "duration_ms": 1259
+    },
+    {
+      "name": "Inventory Lab loads recorded evidence",
+      "status": "passed",
+      "duration_ms": 1473
+    },
+    {
+      "name": "Resilience loads recorded evidence",
+      "status": "passed",
+      "duration_ms": 1306
+    },
+    {
+      "name": "Methodology loads recorded evidence",
+      "status": "passed",
+      "duration_ms": 1471
+    },
+    {
+      "name": "Scenario Lab paired deltas match the live API",
+      "status": "passed",
+      "duration_ms": 2086
+    },
+    {
+      "name": "study controls select saved cases and export the displayed evidence",
+      "status": "passed",
+      "duration_ms": 4147
+    },
+    {
+      "name": "recorded Control Tower supports inspection, queries and local scrubbing",
+      "status": "passed",
+      "duration_ms": 3470
+    },
+    {
+      "name": "100-node health updates stay local and responsive",
+      "status": "passed",
+      "duration_ms": 2576
+    },
+    {
+      "name": "live mode runs against the API and surfaces a failed request",
+      "status": "passed",
+      "duration_ms": 3370
+    },
+    {
+      "name": "operations overview reconciles to recorded health and opens actionable exceptions",
+      "status": "passed",
+      "duration_ms": 3755
+    },
+    {
+      "name": "operational playbooks load explicit combined events and command search is keyboard accessible",
+      "status": "passed",
+      "duration_ms": 4093
+    }
+  ],
+  "performance": {
+    "nodes": 100,
+    "times": [
+      25.799999952316284,
+      28.5,
+      32.60000002384186,
+      33.799999952316284,
+      32,
+      33.700000047683716,
+      33.39999997615814,
+      33.700000047683716,
+      33.89999997615814,
+      31.399999976158142,
+      33.700000047683716,
+      33.799999952316284,
+      32.89999997615814,
+      38.60000002384186,
+      41.700000047683716,
+      24.199999928474426,
+      30,
+      32.90000009536743,
+      34,
+      32.5,
+      34.59999990463257,
+      30.5,
+      34.5,
+      32.700000047683716,
+      33.299999952316284,
+      33.40000009536743,
+      33.59999990463257,
+      34.200000047683716,
+      32.60000002384186,
+      33,
+      33.799999952316284,
+      32.89999997615814,
+      33.800000071525574,
+      32.699999928474426,
+      33.5,
+      33.5,
+      32.90000009536743,
+      33.59999990463257,
+      33.60000002384186,
+      33.10000002384186
+    ],
+    "batches": [
+      0.7000000476837158,
+      0.6000000238418579,
+      0.5,
+      0.5,
+      0.6000000238418579,
+      0.40000009536743164,
+      0.5,
+      0.6000000238418579,
+      0.6000000238418579,
+      0.5,
+      0.5,
+      0.3999999761581421,
+      0.5,
+      0.5,
+      0.5,
+      0.3999999761581421,
+      0.40000009536743164,
+      0.5,
+      0.5,
+      0.2999999523162842,
+      0.3999999761581421,
+      0.3999999761581421,
+      0.3999999761581421,
+      0.5,
+      0.3999999761581421,
+      0.5,
+      0.2999999523162842,
+      0.5,
+      0.40000009536743164,
+      0.2999999523162842,
+      0.40000009536743164,
+      0.30000007152557373,
+      0.5,
+      0.2999999523162842,
+      0.30000007152557373,
+      0.40000009536743164,
+      0.2999999523162842,
+      0.30000007152557373,
+      0.2999999523162842,
+      0.3999999761581421
+    ],
+    "two_frame_p95_ms": 38.60000002384186,
+    "batch_p95_ms": 0.6000000238418579,
+    "additional_requests": 0
+  },
+  "exercises": [
+    {
+      "playbook": "demand-surge",
+      "requests": [
+        {
+          "seed": 1010,
+          "replications": 2,
+          "options": {
+            "forecasting": true,
+            "segmented": false,
+            "bullwhip": false,
+            "lost_sales": true
+          },
+          "overrides": {
+            "network": {
+              "dc_count": 4
+            },
+            "policy": {
+              "default": "RS"
+            },
+            "warmup_days": 90,
+            "horizon_days": 365,
+            "disruptions": []
+          }
+        },
+        {
+          "seed": 1010,
+          "replications": 2,
+          "options": {
+            "forecasting": true,
+            "segmented": false,
+            "bullwhip": false,
+            "lost_sales": true
+          },
+          "overrides": {
+            "network": {
+              "dc_count": 4
+            },
+            "policy": {
+              "default": "RS"
+            },
+            "warmup_days": 90,
+            "horizon_days": 365,
+            "disruptions": [
+              {
+                "type": "demand_shock",
+                "target": "R01",
+                "magnitude": 1.8,
+                "start_day": 120,
+                "duration": 21
+              },
+              {
+                "type": "capacity_cut",
+                "target": "DC1",
+                "magnitude": 0.25,
+                "start_day": 120,
+                "duration": 21
+              }
+            ]
+          }
+        }
+      ],
+      "comparison": {
+        "run_a": "0efac72fd0242a1237eef51f67134ba59205b5995bba4edc15348472a2773d17",
+        "run_b": "dfb74684a94487ebb99c6395b848fdea19cc3afc9ef54fc1652a86af7a75a24c",
+        "replications": 2,
+        "metrics": {
+          "bullwhip_ratio": {
+            "mean": -0.8501545303536808,
+            "ci95": [
+              -10.854257145801855,
+              9.153948085094493
+            ]
+          },
+          "cash_to_cash_days": {
+            "mean": 0.0017381588472460408,
+            "ci95": [
+              -0.18657587406582887,
+              0.19005219176032095
+            ]
+          },
+          "cycle_service_level": {
+            "mean": -0.0006199641817623558,
+            "ci95": [
+              -0.0014182869323930416,
+              0.00017835856886833014
+            ]
+          },
+          "days_of_inventory": {
+            "mean": 0.0017381588472531462,
+            "ci95": [
+              -0.18657587406573153,
+              0.19005219176023783
+            ]
+          },
+          "fill_rate": {
+            "mean": -0.00024867378273629726,
+            "ci95": [
+              -0.0006649581687269714,
+              0.0001676106032543769
+            ]
+          },
+          "inventory_turns": {
+            "mean": -0.00022952695181821525,
+            "ci95": [
+              -0.028213898224698983,
+              0.027754844321062552
+            ]
+          },
+          "otif": {
+            "mean": -0.00016208128151129486,
+            "ci95": [
+              -0.0004150696937377579,
+              0.00009090713071516817
+            ]
+          },
+          "stockout_days": {
+            "mean": 2,
+            "ci95": [
+              2,
+              2
+            ]
+          },
+          "total_landed_cost_inr": {
+            "mean": 331569.5483830273,
+            "ci95": [
+              57734.19800674607,
+              605404.8987593085
+            ]
+          }
+        },
+        "costs": {
+          "component": [
+            "purchase",
+            "inbound_freight",
+            "outbound_freight",
+            "holding",
+            "ordering",
+            "dc_fixed",
+            "shortage",
+            "handling"
+          ],
+          "a": [
+            214900084.25,
+            27387620.636203606,
+            7927753.102516996,
+            6376951.97551543,
+            696620,
+            9600000,
+            722235.9810618919,
+            1140220.222819936
+          ],
+          "b": [
+            215176710,
+            27418278.746186756,
+            7929923.79744035,
+            6385426.286997596,
+            696550,
+            9600000,
+            734437.9130561852,
+            1141728.972819936
+          ],
+          "delta": [
+            276625.75,
+            30658.10998315178,
+            2170.6949233547784,
+            8474.31148216594,
+            -70,
+            0,
+            12201.931994293409,
+            1508.75
+          ],
+          "ci95_low": [
+            227347.9114819305,
+            -258691.9613186434,
+            -4097.240498104229,
+            -14138.631883574511,
+            -959.4343315322285,
+            0,
+            -6845.7484106326265,
+            768.6135741178241
+          ],
+          "ci95_high": [
+            325903.58851806953,
+            320008.181284947,
+            8438.630344813786,
+            31087.25484790639,
+            819.4343315322285,
+            0,
+            31249.612399219444,
+            2248.886425882176
+          ]
+        }
+      }
+    }
+  ]
+}

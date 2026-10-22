@@ -10,7 +10,7 @@ test.afterEach(() => expect(pageErrors).toEqual([]));
 test("recorded Control Tower supports inspection, queries and local scrubbing", async ({
   page,
 }) => {
-  const response = await page.goto("/");
+  const response = await page.goto("/?view=tower");
   expect(response?.headers()["x-powered-by"]).toBe("Next.js");
   await expect(page).toHaveTitle("OpenSCM · Control Tower");
   await expect(page.getByRole("heading", { name: "Control Tower" })).toBeVisible();
@@ -84,7 +84,7 @@ test("100-node health updates stay local and responsive", async ({ page }, testI
     }
     await route.fulfill({ json: data });
   });
-  await page.goto("/");
+  await page.goto("/?view=tower");
   await expect(page.getByTestId("network")).toHaveAttribute("data-node-count", "100");
   await page.evaluate(() => document.fonts.ready);
   let requests = 0;
@@ -130,7 +130,7 @@ test("100-node health updates stay local and responsive", async ({ page }, testI
 });
 
 test("live mode runs against the API and surfaces a failed request", async ({ page }) => {
-  await page.goto("/?mode=live");
+  await page.goto("/?view=tower&mode=live");
   await page.getByRole("button", { name: "Run scenario" }).click();
   await expect(page.getByTestId("network")).toHaveAttribute("data-node-count", "36", {
     timeout: 60000,
