@@ -298,11 +298,34 @@ verify persistence, narrow-screen navigation and error states. Update contracts,
 assumptions, teaching documentation and pass the full gate. Student reflections
 are browser-local, not instructor grades or a multi-user learning platform.
 
+### E6: interactive visual network builder (user-prioritised)
+
+The user explicitly selected E6 ahead of the other proposed upgrades. Implement
+one connected milestone: editable supplier/DC/customer and SKU masters; draggable
+Cytoscape canvas with explicit geographic versus display movement; customer/DC
+connections, open-DC selection, lane assumptions and economics; versioned model
+import/export and server persistence; shared engine validation and actual runs
+carrying immutable model snapshots. E4, E5 and M11 remain separate pending tasks.
+
+Acceptance: tests first; topology/reference/unit/resource validation, custom routing
+and lane semantics, revision conflicts/history, cache/provenance integrity and
+historical compatibility. Browser tests edit/drag/connect/undo, import and reject
+bad models, save/reload revisions and simulate a custom model into Control Tower.
+Update schemas, models, callers, fixtures, assumptions and evidence together;
+finish with the full project gate. Support only executable echelon structures.
+
 - **Parallel:** engine (M1–M7); frontend on fixtures (M9–M10, after M0); API (after M3).
 - **Risks:** engine too slow (profile, vectorise); parameter credibility (source table, sensitivity runs); agent drift (schema-diff check in CI, small tasks); scope creep.
 - **Descope order:** plant and BOM, lateral transshipment, geographic layout, dark mode, DuckDB-WASM static queries.
 
 ## 12. Eight-week schedule
+
+The original schedule below is historical. After E1–E3, follow the proposed
+[upgrade roadmap](upgrade-roadmap.md): E4 persistent workbooks, E5 decision replay,
+M11 delivery/accessibility, E6 visual model builder, E7 experiment sweeps and E8
+ongoing replenishment rules. These are separate implementation tasks; the roadmap
+defines dependencies, test-first acceptance and scope boundaries. It does not
+mark those capabilities complete or assign new delivery dates.
 
 Weeks 1–2: M0–M2. Weeks 3–4: M3–M4, E2–E3. Week 5: M5–M6, E4–E6. Week 6: M7–M8. Week 7: M9–M10. Week 8: M11–M12.
 

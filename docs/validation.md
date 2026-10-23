@@ -728,3 +728,48 @@ The evidence includes the actual student experiment, not an expected-answer key.
 The [student/instructor guide](learning-sandbox.md) defines units, grain, timing,
 inherited assumptions, statistical limits, storage scope and calibration workflow.
 These are synthetic implementation checks, not empirical validation or course grades.
+
+## E6 interactive model builder
+
+The user prioritised this product milestone ahead of E4/E5/M11. The final
+`python -m scm.check` passes on Windows/Python 3.12 with **244 Python tests**,
+**18 frontend unit tests**, **18 Playwright tests**, generated schemas/OpenAPI/client,
+Ruff, mypy, strict TypeScript, formatting and the Next.js production build. The
+upstream Starlette warning is non-failing. Earlier milestone evidence is preserved.
+
+The new checks establish:
+
+- Typed custom-model/catalog/preview/spec fixtures and reference-catalog equality.
+  Default-free custom supplier identities and bounded DC counts resolve from the
+  supplied snapshot, without reference supplier IDs leaking into custom models.
+- Custom three-DC routing, effective distance/lead overrides and a real simulation
+  with provenance and restart persistence. Layout-only changes reuse cached physics.
+  Saved revision history preserves prior inputs; stale updates fail without loss.
+- Invalid sourcing, duplicate IDs, unsupported/cyclic lane directions, closed DC
+  references, explicit count mismatches, versions, regions, negative lane parameters,
+  workload limits and ambiguous generated edge IDs fail before creating a run.
+- Parameter comparisons within the same ordered master are accepted; comparisons
+  across different customer/master identities are rejected. Source/version, seed
+  and window compatibility checks remain in place.
+- Reference-safe facility rename/deletion/duplication, source assignments and
+  diagram-versus-geographic movement, including unchanged coordinates at untouched
+  facilities. All existing engine invariants and prior API tests remain green.
+- Real browser clicks connect an open DC to a customer; real dragging saves diagram
+  positions without altering geography. The browser edits SKU cost and lane inputs,
+  renames a DC, saves/restores two revisions, runs two replications of a custom
+  six-facility/two-SKU model, verifies provenance, exports PNG, reloads and opens the
+  saved model in Planning Lab with its three-DC/custom-supplier context intact.
+- Narrow-screen add/undo/redo, protected referenced-supplier deletion and invalid
+  imports pass. The reviewed diagram screenshot is stored with the browser tests.
+  Validation caught a stale edit message masking import errors; new operations now
+  expose their own error. Canvas geometry is refreshed after surrounding layout
+  changes, and pointer tests scroll the target canvas into the viewport.
+
+The evidence recorder now writes [builder results](evidence/network-builder/results.json)
+and a [source/output manifest](evidence/network-builder/manifest.json), including the
+actual model launch snapshot and run provenance. Existing recorded result bundles
+remain readable; the public RunRequest fixture now explicitly shows default-null
+model support. [Builder methods](network-builder.md) document source assumptions,
+configured-versus-achieved quantities, cache/revision semantics and model limits.
+This does not certify an arbitrary topology, a manufacturing/BOM model or shared
+enterprise deployment. E4, E5, M11 and M12 remain separate work.

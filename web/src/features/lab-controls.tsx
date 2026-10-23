@@ -47,8 +47,10 @@ export default function LabControls({
   const overrides = request.overrides ?? {};
   const lab = request.lab ?? {};
   const options = request.options ?? {};
-  const [supplierId, setSupplier] = useState(catalog.suppliers.at(-1)!.id);
-  const profile = catalog.suppliers.find((row) => row.id === supplierId)!;
+  const profiles = request.model?.spec.suppliers ?? catalog.suppliers;
+  const [selectedSupplier, setSupplier] = useState(profiles.at(-1)!.id);
+  const profile = profiles.find((row) => row.id === selectedSupplier) ?? profiles[0]!;
+  const supplierId = profile.id;
   const supplier = { ...profile, ...lab.suppliers?.[supplierId] };
   const update = (patch: Partial<Overrides>) =>
     change({ ...request, overrides: { ...overrides, ...patch } });
@@ -94,7 +96,12 @@ export default function LabControls({
             <span>Open distribution centres</span>
             <select
               aria-label="Open distribution centres"
-              value={overrides.network?.dc_count ?? 4}
+              disabled={!!request.model?.spec.open_dcs}
+              value={
+                overrides.network?.dc_count ??
+                request.model?.spec.open_dcs?.length ??
+                Math.min(4, request.model?.spec.dcs.length ?? 4)
+              }
               onChange={(event) =>
                 update({
                   network: {
@@ -104,10 +111,18 @@ export default function LabControls({
                 })
               }
             >
-              {[1, 2, 4, 8].map((n) => (
+              {(request.model
+                ? Array.from({ length: request.model.spec.dcs.length }, (_, i) => i + 1)
+                : [1, 2, 4, 8]
+              ).map((n) => (
                 <option key={n}>{n}</option>
               ))}
             </select>
+            {request.model?.spec.open_dcs && (
+              <span className="lab-help">
+                Explicit open set; edit DC membership in Network builder.
+              </span>
+            )}
           </label>
           <Numeric
             label="Target cycle service"
@@ -168,9 +183,17 @@ export default function LabControls({
             <Numeric
               key={month}
               label={`${month} demand index`}
-              value={(lab.monthly_index ?? catalog.monthly_index)[i]}
+              value={
+                (lab.monthly_index ??
+                  request.model?.seasonality.monthly_index_v1 ??
+                  catalog.monthly_index)[i]
+              }
               change={(value) => {
-                const indices = [...(lab.monthly_index ?? catalog.monthly_index)];
+                const indices = [
+                  ...(lab.monthly_index ??
+                    request.model?.seasonality.monthly_index_v1 ??
+                    catalog.monthly_index),
+                ];
                 indices[i] = value;
                 operating({ monthly_index: indices });
               }}
@@ -292,7 +315,7 @@ export default function LabControls({
             value={supplierId}
             onChange={(event) => setSupplier(event.target.value)}
           >
-            {catalog.suppliers.map((row) => (
+            {profiles.map((row) => (
               <option key={row.id} value={row.id}>
                 {row.id} · {row.label}
               </option>
@@ -341,7 +364,7 @@ export default function LabControls({
               }}
             >
               <option value="">No backup</option>
-              {catalog.suppliers
+              {profiles
                 .filter((row) => row.id !== supplierId)
                 .map((row) => (
                   <option key={row.id}>{row.id}</option>

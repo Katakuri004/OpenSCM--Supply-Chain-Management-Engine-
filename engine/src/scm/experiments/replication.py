@@ -77,7 +77,7 @@ def replication(
         planning, bullwhip, mitigation = None, None, None
         inbound, outbound = None, 1.0
         if experiment == "E3":
-            study.scenario.network.dc_count = int(f["dc_count"])  # type: ignore[assignment]
+            study.scenario.network.dc_count = int(f["dc_count"])
             study.scenario.demand.regional_rho = float(f["rho"])
             for sku in study.spec.skus:
                 sku.cv = float(f["demand_cv"])

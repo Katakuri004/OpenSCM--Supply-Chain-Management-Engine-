@@ -43,6 +43,14 @@ and export a reflection notebook with exact model provenance. A concept referenc
 explains the daily sequence and connects the existing analytical labs. Recorded
 evidence and teaching material remain usable without the simulation API.
 
+The E6 [visual network builder](docs/network-builder.md), at `/?view=builder`,
+edits custom facility/SKU masters, sourcing, DC selection, lane assumptions and
+economics. Drag the Cytoscape diagram, connect customers, validate against the
+engine, save/recover model revisions and run the exact versioned snapshot.
+Geographic movement is explicit; diagram layout alone does not alter simulation
+inputs. Import/export and the existing Planning Lab/Control Tower share the same
+public model contracts.
+
 See [analytics](docs/analytics.md) for functions, units, assumptions and examples.
 See [simulation](docs/simulation.md) for daily timing, costs and reproducible M2 validation.
 See [network simulation](docs/network.md) for M3 configuration, conventions and a runnable example.

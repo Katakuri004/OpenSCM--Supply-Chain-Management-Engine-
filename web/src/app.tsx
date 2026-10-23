@@ -16,6 +16,7 @@ const OperationsWorkspace = lazy(() => import("./features/operations-workspace")
 const Playbooks = lazy(() => import("./features/playbooks"));
 const Portfolio = lazy(() => import("./features/portfolio"));
 const LearningWorkspace = lazy(() => import("./features/learning-workspace"));
+const NetworkBuilder = lazy(() => import("./features/network-builder"));
 
 export default function App() {
   const { mode, run, dark, set, view } = useTower();
@@ -102,7 +103,7 @@ export default function App() {
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <WorkspaceSearch network={data?.network.network} />
-            {view !== "portfolio" && view !== "learning" && (
+            {view !== "portfolio" && view !== "learning" && view !== "builder" && (
               <select
                 aria-label="Data source"
                 value={mode}
@@ -218,37 +219,43 @@ export default function App() {
               </p>
               <h1 className="text-[28px] font-semibold tracking-tight">{viewNames[view]}</h1>
               <p className="mt-2 text-xs text-[var(--secondary)]">
-                {view === "overview"
-                  ? "A connected view of inventory, service exposure and your next operating decision."
-                  : view === "exceptions"
-                    ? "Prioritise service exceptions, review local observations and investigate the underlying inventory."
-                    : view === "playbooks"
-                      ? "Turn practical operations questions into transparent, repeatable simulation experiments."
-                      : view === "tower"
-                        ? "Follow inventory, service and replenishment across every echelon."
-                        : "Explore supply-chain trade-offs with recorded experiments and explicit assumptions."}
+                {view === "builder"
+                  ? "Design, validate and simulate your own supply-chain model with explicit operating assumptions."
+                  : view === "overview"
+                    ? "A connected view of inventory, service exposure and your next operating decision."
+                    : view === "exceptions"
+                      ? "Prioritise service exceptions, review local observations and investigate the underlying inventory."
+                      : view === "playbooks"
+                        ? "Turn practical operations questions into transparent, repeatable simulation experiments."
+                        : view === "tower"
+                          ? "Follow inventory, service and replenishment across every echelon."
+                          : "Explore supply-chain trade-offs with recorded experiments and explicit assumptions."}
               </p>
             </div>
             <div className="text-right text-[10px] leading-5 text-[var(--secondary)]">
               <span className="rounded border border-[var(--border)] px-2 py-1">
-                {view === "learning"
-                  ? "STUDENT SIMULATION WORKSPACE"
-                  : view === "portfolio"
-                    ? "SERVER PLANNING WORKSPACE"
-                    : mode === "fixture"
-                      ? "RECORDED SIMULATION"
-                      : "LIVE STUDY SERVICE"}
+                {view === "builder"
+                  ? "INTERACTIVE MODEL WORKSPACE"
+                  : view === "learning"
+                    ? "STUDENT SIMULATION WORKSPACE"
+                    : view === "portfolio"
+                      ? "SERVER PLANNING WORKSPACE"
+                      : mode === "fixture"
+                        ? "RECORDED SIMULATION"
+                        : "LIVE STUDY SERVICE"}
               </span>
               <p className="mt-2">
-                {view === "learning"
-                  ? "Guided experiments · visible assumptions · actual engine evidence"
-                  : view === "portfolio"
-                    ? "Versioned assumptions · immutable launches · current simulation API"
-                    : !operationsView
-                      ? "Saved experiments · seeded representative trajectories"
-                      : data
-                        ? `${data.network.kpis.replications} replications · ${data.network.kpis.replications > 1 ? "95% t intervals" : "intervals unavailable"} · representative trajectory`
-                        : "Choose a scenario and run the study"}
+                {view === "builder"
+                  ? "Versioned model snapshots · engine validation · actual simulation"
+                  : view === "learning"
+                    ? "Guided experiments · visible assumptions · actual engine evidence"
+                    : view === "portfolio"
+                      ? "Versioned assumptions · immutable launches · current simulation API"
+                      : !operationsView
+                        ? "Saved experiments · seeded representative trajectories"
+                        : data
+                          ? `${data.network.kpis.replications} replications · ${data.network.kpis.replications > 1 ? "95% t intervals" : "intervals unavailable"} · representative trajectory`
+                          : "Choose a scenario and run the study"}
               </p>
             </div>
           </div>
@@ -269,7 +276,11 @@ export default function App() {
               {status.data.error} Submit the run again to retry.
             </div>
           )}
-          {view === "learning" ? (
+          {view === "builder" ? (
+            <Suspense fallback={<p role="status">Loading network builder…</p>}>
+              <NetworkBuilder />
+            </Suspense>
+          ) : view === "learning" ? (
             <Suspense fallback={<p role="status">Loading learning sandbox…</p>}>
               <LearningWorkspace />
             </Suspense>

@@ -45,7 +45,7 @@ def test_disruption_scenario_fixture_matches_schema() -> None:
         {"replications": 0},
         {"demand": {"regional_rho": 1.1}},
         {"policy": {"target_csl": 1}},
-        {"network": {"dc_count": 3}},
+        {"network": {"dc_count": 33}},
         {"unknown": True},
         {"horizon_days": True},
     ],

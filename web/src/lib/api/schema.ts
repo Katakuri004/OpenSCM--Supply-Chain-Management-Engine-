@@ -68,6 +68,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/models/catalog": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Builder Catalog */
+        get: operations["get_builder_catalog"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/models/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Preview Model */
+        post: operations["preview_model"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/portfolio": {
         parameters: {
             query?: never;
@@ -96,6 +130,23 @@ export interface paths {
         get?: never;
         /** Update Scenario */
         put: operations["update_scenario"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/portfolio/{scenario_id}/revisions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Scenario Revisions */
+        get: operations["scenario_revisions"];
+        put?: never;
         post?: never;
         delete?: never;
         options?: never;
@@ -319,6 +370,12 @@ export interface components {
             /** Issues */
             issues?: string[];
         };
+        /** BuilderCatalog */
+        BuilderCatalog: {
+            /** Max Observation Cells */
+            max_observation_cells: number;
+            request: components["schemas"]["RunRequest"];
+        };
         /** BullwhipConfig */
         BullwhipConfig: {
             /**
@@ -346,6 +403,13 @@ export interface components {
              * @default true
              */
             signal_processing?: boolean;
+        };
+        /** CanvasPosition */
+        CanvasPosition: {
+            /** X */
+            x: number;
+            /** Y */
+            y: number;
         };
         /** Comparison */
         Comparison: {
@@ -375,6 +439,51 @@ export interface components {
             component: string[];
             /** Delta */
             delta: (number | null)[];
+        };
+        /** Customer */
+        Customer: {
+            /** Arrival Probability */
+            arrival_probability: number;
+            /** Demand Scale */
+            demand_scale: number;
+            /** Id */
+            id: string;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "retailer" | "b2b";
+            /** Label */
+            label: string;
+            /** Latitude */
+            latitude: number;
+            /** Longitude */
+            longitude: number;
+            /** Region */
+            region: number;
+            /** Shortage Penalty */
+            shortage_penalty: number;
+            /** Target Csl */
+            target_csl: number;
+        };
+        /** DC */
+        DC: {
+            /** Annual Fixed Cost */
+            annual_fixed_cost: number;
+            /** Daily Capacity */
+            daily_capacity: number;
+            /** Handling Cost */
+            handling_cost: number;
+            /** Holding Rate */
+            holding_rate: number;
+            /** Id */
+            id: string;
+            /** Label */
+            label: string;
+            /** Latitude */
+            latitude: number;
+            /** Longitude */
+            longitude: number;
         };
         /** DemandConfig */
         DemandConfig: {
@@ -542,6 +651,19 @@ export interface components {
             /** Stockout */
             stockout: boolean[][];
         };
+        /** Inventory */
+        Inventory: {
+            /** Customer Holding Rate */
+            customer_holding_rate: number;
+            /** Customer Order Cost */
+            customer_order_cost: number;
+            /** Dc Order Cost */
+            dc_order_cost: number;
+            /** Initial Stock Fraction */
+            initial_stock_fraction: number;
+            /** Review Days */
+            review_days: number;
+        };
         /** InventoryExample */
         InventoryExample: {
             /** Annual Demand */
@@ -632,12 +754,60 @@ export interface components {
                 [key: string]: components["schemas"]["SupplierAssumptions"];
             };
         };
+        /** LaneAssumptions */
+        LaneAssumptions: {
+            /** Delay Days */
+            delay_days?: number | null;
+            /** Delay Probability */
+            delay_probability?: number | null;
+            /** Distance Km */
+            distance_km?: number | null;
+            /** Lead Cv */
+            lead_cv?: number | null;
+            /** Lead Mean */
+            lead_mean?: number | null;
+            /** Source */
+            source: string;
+            /** Target */
+            target: string;
+        };
         /** LaunchRequest */
         LaunchRequest: {
             /** Execution Id */
             execution_id?: string | null;
             /** Revision */
             revision: number;
+        };
+        /** ModelPreview */
+        ModelPreview: {
+            /** Assignments */
+            assignments: {
+                [key: string]: string;
+            };
+            /** Lanes */
+            lanes: components["schemas"]["LaneAssumptions"][];
+            network: components["schemas"]["Network"];
+            /** Open Dcs */
+            open_dcs: string[];
+            /** Sku Ids */
+            sku_ids: string[];
+            /** Warnings */
+            warnings: string[];
+        };
+        /** ModelSnapshot */
+        ModelSnapshot: {
+            /**
+             * Format Version
+             * @default 1
+             * @constant
+             */
+            format_version?: 1;
+            /** Positions */
+            positions?: {
+                [key: string]: components["schemas"]["CanvasPosition"];
+            };
+            seasonality: components["schemas"]["Seasonality"];
+            spec: components["schemas"]["NetworkSpec"];
         };
         /** Network */
         Network: {
@@ -651,11 +821,31 @@ export interface components {
             /**
              * Dc Count
              * @default 4
-             * @enum {integer}
              */
-            dc_count?: 1 | 2 | 4 | 8;
+            dc_count?: number;
             /** Suppliers */
             suppliers?: string[];
+        };
+        /** NetworkSpec */
+        NetworkSpec: {
+            /** Assignments */
+            assignments?: {
+                [key: string]: string;
+            };
+            /** Customers */
+            customers: components["schemas"]["Customer"][];
+            /** Dcs */
+            dcs: components["schemas"]["DC"][];
+            inventory: components["schemas"]["Inventory"];
+            /** Lanes */
+            lanes?: components["schemas"]["LaneAssumptions"][];
+            /** Open Dcs */
+            open_dcs?: string[] | null;
+            /** Skus */
+            skus: components["schemas"]["SKU"][];
+            /** Suppliers */
+            suppliers: components["schemas"]["Supplier"][];
+            transport: components["schemas"]["Transport"];
         };
         /** Nodes */
         Nodes: {
@@ -900,6 +1090,7 @@ export interface components {
         /** RunRequest */
         RunRequest: {
             lab?: components["schemas"]["LabSettings"];
+            model?: components["schemas"]["ModelSnapshot"] | null;
             options?: components["schemas"]["RunOptions"];
             overrides?: components["schemas"]["ScenarioOverrides"];
             /**
@@ -935,6 +1126,35 @@ export interface components {
              * @enum {string}
              */
             status: "queued" | "running" | "complete" | "failed";
+        };
+        /** SKU */
+        SKU: {
+            /** Cv */
+            cv: number;
+            /** Daily Mean */
+            daily_mean: number;
+            /**
+             * Demand Kind
+             * @enum {string}
+             */
+            demand_kind: "normal" | "gamma";
+            /** Id */
+            id: string;
+            /** Label */
+            label: string;
+            /** Moq */
+            moq: number;
+            /** Pack Size */
+            pack_size: number;
+            /** Supplier */
+            supplier: string;
+            /** Unit Cost */
+            unit_cost: number;
+            /**
+             * Value Class
+             * @enum {string}
+             */
+            value_class: "A" | "B" | "C";
         };
         /** SavedScenario */
         SavedScenario: {
@@ -1000,6 +1220,11 @@ export interface components {
             policy?: components["schemas"]["PolicyConfig"] | null;
             /** Warmup Days */
             warmup_days?: number | null;
+        };
+        /** Seasonality */
+        Seasonality: {
+            /** Monthly Index V1 */
+            monthly_index_v1: number[];
         };
         /** SkuAssumptions */
         SkuAssumptions: {
@@ -1137,6 +1362,31 @@ export interface components {
             network_a: components["schemas"]["RunNetwork"];
             network_b: components["schemas"]["RunNetwork"];
         };
+        /** Supplier */
+        Supplier: {
+            /** Daily Capacity */
+            daily_capacity: number;
+            /** Delay Days */
+            delay_days: number;
+            /** Delay Probability */
+            delay_probability: number;
+            /** Id */
+            id: string;
+            /** Label */
+            label: string;
+            /** Latitude */
+            latitude: number;
+            /** Lead Cv */
+            lead_cv: number;
+            /** Lead Mean */
+            lead_mean: number;
+            /** Longitude */
+            longitude: number;
+            /** Moq */
+            moq: number;
+            /** Price Multiplier */
+            price_multiplier: number;
+        };
         /** SupplierAssumptions */
         SupplierAssumptions: {
             /** Daily Capacity */
@@ -1189,6 +1439,25 @@ export interface components {
             run_id: string;
             /** Sku Id */
             sku_id: string;
+        };
+        /** Transport */
+        Transport: {
+            /** Circuity */
+            circuity: number;
+            /** Ftl Capacity */
+            ftl_capacity: number;
+            /** Ftl Fixed Cost */
+            ftl_fixed_cost: number;
+            /** Ftl Per Km */
+            ftl_per_km: number;
+            /** Km Per Day */
+            km_per_day: number;
+            /** Ltl Per Unit Km */
+            ltl_per_unit_km: number;
+            /** Outbound Handling Days */
+            outbound_handling_days: number;
+            /** Outbound Lead Cv */
+            outbound_lead_cv: number;
         };
     };
     responses: never;
@@ -1437,6 +1706,122 @@ export interface operations {
             };
         };
     };
+    get_builder_catalog: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BuilderCatalog"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    preview_model: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RunRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ModelPreview"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
     list_portfolio: {
         parameters: {
             query?: never;
@@ -1575,6 +1960,64 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["SavedScenario"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    scenario_revisions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                scenario_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SavedScenario"][];
                 };
             };
             /** @description Not Found */

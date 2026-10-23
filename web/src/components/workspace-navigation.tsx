@@ -38,6 +38,7 @@ export const navigation = [
       ["portfolio", SlidersHorizontal],
       ["scenario", SlidersHorizontal],
       ["network", Boxes],
+      ["builder", Network],
       ["inventory", Package],
       ["bullwhip", Activity],
       ["resilience", ShieldCheck],

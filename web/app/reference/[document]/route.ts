@@ -6,6 +6,7 @@ const documents = {
   parameters: "parameters.md",
   assumptions: "assumptions.md",
   learning: "learning-sandbox.md",
+  builder: "network-builder.md",
 } as const;
 export async function GET(
   _request: Request,

@@ -1,0 +1,297 @@
+{
+  "$defs": {
+    "Edges": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "type": "string"
+          },
+          "title": "Id",
+          "type": "array"
+        },
+        "source": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "type": "string"
+          },
+          "title": "Source",
+          "type": "array"
+        },
+        "target": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "type": "string"
+          },
+          "title": "Target",
+          "type": "array"
+        },
+        "distance_km": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "title": "Distance Km",
+          "type": "array"
+        },
+        "flow_units": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "title": "Flow Units",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "target",
+        "distance_km",
+        "flow_units"
+      ],
+      "title": "Edges",
+      "type": "object"
+    },
+    "LaneAssumptions": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Source",
+          "type": "string"
+        },
+        "target": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Target",
+          "type": "string"
+        },
+        "distance_km": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Distance Km"
+        },
+        "lead_mean": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lead Mean"
+        },
+        "lead_cv": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lead Cv"
+        },
+        "delay_probability": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Delay Probability"
+        },
+        "delay_days": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Delay Days"
+        }
+      },
+      "required": [
+        "source",
+        "target"
+      ],
+      "title": "LaneAssumptions",
+      "type": "object"
+    },
+    "Network": {
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "nodes": {
+          "$ref": "#/$defs/Nodes"
+        },
+        "edges": {
+          "$ref": "#/$defs/Edges"
+        }
+      },
+      "required": [
+        "run_id",
+        "nodes",
+        "edges"
+      ],
+      "title": "Network",
+      "type": "object"
+    },
+    "Nodes": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "type": "string"
+          },
+          "title": "Id",
+          "type": "array"
+        },
+        "label": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Label",
+          "type": "array"
+        },
+        "type": {
+          "items": {
+            "enum": [
+              "supplier",
+              "dc",
+              "retailer",
+              "b2b"
+            ],
+            "type": "string"
+          },
+          "title": "Type",
+          "type": "array"
+        },
+        "latitude": {
+          "items": {
+            "maximum": 90,
+            "minimum": -90,
+            "type": "number"
+          },
+          "title": "Latitude",
+          "type": "array"
+        },
+        "longitude": {
+          "items": {
+            "maximum": 180,
+            "minimum": -180,
+            "type": "number"
+          },
+          "title": "Longitude",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "type",
+        "latitude",
+        "longitude"
+      ],
+      "title": "Nodes",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "network": {
+      "$ref": "#/$defs/Network"
+    },
+    "sku_ids": {
+      "items": {
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9_-]+$",
+        "type": "string"
+      },
+      "title": "Sku Ids",
+      "type": "array"
+    },
+    "open_dcs": {
+      "items": {
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9_-]+$",
+        "type": "string"
+      },
+      "title": "Open Dcs",
+      "type": "array"
+    },
+    "assignments": {
+      "patternProperties": {
+        "^[A-Za-z0-9_-]+$": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "type": "string"
+        }
+      },
+      "propertyNames": {
+        "minLength": 1
+      },
+      "title": "Assignments",
+      "type": "object"
+    },
+    "lanes": {
+      "items": {
+        "$ref": "#/$defs/LaneAssumptions"
+      },
+      "title": "Lanes",
+      "type": "array"
+    },
+    "warnings": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "network",
+    "sku_ids",
+    "open_dcs",
+    "assignments",
+    "lanes",
+    "warnings"
+  ],
+  "title": "ModelPreview",
+  "type": "object"
+}

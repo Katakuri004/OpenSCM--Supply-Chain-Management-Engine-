@@ -17,6 +17,7 @@ from fastapi.responses import JSONResponse
 from scm.config.api import load_api_settings
 from scm.contracts import (
     ApiError,
+    BuilderCatalog,
     Comparison,
     ExperimentName,
     ExperimentResults,
@@ -24,7 +25,10 @@ from scm.contracts import (
     Kpis,
     LabCatalog,
     LabSettings,
+    LaneAssumptions,
     LaunchRequest,
+    ModelPreview,
+    ModelSnapshot,
     PortfolioDraft,
     PortfolioExecution,
     PortfolioUpdate,
@@ -37,10 +41,12 @@ from scm.contracts import (
     RunStatus,
     SavedScenario,
     ScenarioCatalog,
+    ScenarioOverrides,
     SeriesMetric,
     StudyEvidence,
     TimeSeries,
 )
+from scm.network.builder import build_network
 
 from api.app.portfolio import PortfolioStore
 from api.app.query import filter_nodes, parse_filter
@@ -90,6 +96,61 @@ def create_app(
     @app.get("/scenarios", response_model=ScenarioCatalog, operation_id="list_scenarios")
     def scenarios() -> ScenarioCatalog:
         return ScenarioCatalog(presets={"base_4dc": store().study.scenario})
+
+    @app.get("/models/catalog", response_model=BuilderCatalog, operation_id="get_builder_catalog")
+    def builder_catalog() -> BuilderCatalog:
+        source = store()
+        defaults = yaml.safe_load(Path("configs/lab.yaml").read_text(encoding="utf-8"))
+        limits = yaml.safe_load(Path("configs/builder.yaml").read_text(encoding="utf-8"))
+        return BuilderCatalog(
+            request=RunRequest(
+                seed=defaults["seed"],
+                replications=defaults["replications"],
+                overrides=ScenarioOverrides(
+                    warmup_days=defaults["warmup_days"], horizon_days=defaults["horizon_days"]
+                ),
+                model=ModelSnapshot(spec=source.study.spec, seasonality=source.study.seasonality),
+            ),
+            max_observation_cells=limits["max_observation_cells"],
+        )
+
+    @app.post("/models/preview", response_model=ModelPreview, operation_id="preview_model")
+    def preview_model(request: RunRequest) -> ModelPreview:
+        scenario, effective = store().resolve(request)
+        net = build_network(effective.spec, scenario)
+        active = set(
+            zip(net.as_contract("preview").edges.source, net.as_contract("preview").edges.target)
+        )
+        warnings = [
+            f"Override {lane.source} → {lane.target} is inactive in this topology."
+            for lane in effective.spec.lanes
+            if (lane.source, lane.target) not in active
+        ]
+        if any(site.daily_capacity == 0 for site in effective.spec.suppliers) or any(
+            dc.daily_capacity == 0 for dc in effective.spec.dcs
+        ):
+            warnings.append("A facility has zero dispatch capacity; service may be constrained.")
+        return ModelPreview(
+            network=net.as_contract("preview"),
+            sku_ids=[sku.id for sku in effective.spec.skus],
+            open_dcs=[net.node_ids[i] for i in net.is_dc.nonzero()[0]],
+            assignments={
+                net.node_ids[i]: net.node_ids[net.parent[0, i]] for i in net.customer_indices
+            },
+            lanes=[
+                LaneAssumptions(
+                    source=net.node_ids[a],
+                    target=net.node_ids[b],
+                    distance_km=float(net.distance[i]),
+                    lead_mean=float(net.lead_mean[i]),
+                    lead_cv=float(net.lead_cv[i]),
+                    delay_probability=float(net.delay_probability[i]),
+                    delay_days=int(net.delay_days[i]),
+                )
+                for i, (a, b) in enumerate(zip(net.source, net.target))
+            ],
+            warnings=warnings,
+        )
 
     @app.get("/studies", response_model=StudyEvidence, operation_id="get_study_evidence")
     def study_evidence() -> StudyEvidence:
@@ -168,6 +229,14 @@ def create_app(
     @app.get("/portfolio", response_model=list[SavedScenario], operation_id="list_portfolio")
     def list_portfolio() -> list[SavedScenario]:
         return portfolios.list_scenarios()
+
+    @app.get(
+        "/portfolio/{scenario_id}/revisions",
+        response_model=list[SavedScenario],
+        operation_id="scenario_revisions",
+    )
+    def scenario_revisions(scenario_id: str) -> list[SavedScenario]:
+        return portfolios.revisions(scenario_id)
 
     @app.post("/lab/validate", response_model=RunRequest, operation_id="validate_lab_request")
     def validate_lab_request(request: RunRequest) -> RunRequest:

@@ -1,0 +1,2 @@
+# ASSUMPTION: local editor/compute resource budget, not an economic parameter.
+max_observation_cells: 2000000

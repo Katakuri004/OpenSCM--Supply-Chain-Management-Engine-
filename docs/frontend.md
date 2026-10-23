@@ -163,3 +163,20 @@ notebook recovery. Browser checks run a real paired lesson, verify exact compari
 parity, download its evidence/CSV, explore different nodes/SKUs/chart forms, recover
 notes after reload, and exercise narrow-screen/offline/error/keyboard flows.
 See the [student and instructor guide](learning-sandbox.md).
+
+## E6 visual model builder
+
+The thirteenth module, `/?view=builder`, provides an interactive Cytoscape canvas,
+facility/SKU masters, open-DC and customer routing controls, lane overrides,
+economics, existing run controls, version history and validated model exchange.
+Diagram drags are nonphysical; geographic sketch drags explicitly edit coordinates.
+Click-to-connect has a keyboard-equivalent customer/DC selector. Tables and forms
+expose all supported model data; ECharts capacity bars are labelled as inputs.
+Saved runs open in the existing Control Tower, Planning Lab and diagnostics.
+The builder uses server-backed persistence and session-local undo state.
+
+`python web/scripts/export-builder.py [--check]` exports the source reference
+catalog and public contract fixtures without running simulations. Browser checks
+exercise actual canvas clicks/drags, model edits, import errors, protected
+deletion, undo/redo, revisions, save/reload, live simulation, PNG export and
+the custom-model Planning Lab hand-off. See [builder guide](network-builder.md).

@@ -43,8 +43,161 @@ class Contract(BaseModel):
     model_config = ConfigDict(extra="forbid", strict=True, allow_inf_nan=False)
 
 
+Positive = Annotated[float, Field(gt=0)]
+PositiveInt = Annotated[int, Field(gt=0)]
+
+
+class Site(Contract):
+    id: Identifier
+    label: str
+    latitude: Annotated[float, Field(ge=-90, le=90)]
+    longitude: Annotated[float, Field(ge=-180, le=180)]
+
+
+class Supplier(Site):
+    price_multiplier: Positive
+    lead_mean: Positive
+    lead_cv: Nonnegative
+    moq: PositiveInt
+    daily_capacity: Nonnegative
+    delay_probability: Fraction
+    delay_days: Annotated[int, Field(ge=0)]
+
+
+class DC(Site):
+    daily_capacity: Nonnegative
+    annual_fixed_cost: Nonnegative
+    holding_rate: Positive
+    handling_cost: Nonnegative
+
+
+class Customer(Site):
+    kind: Literal["retailer", "b2b"]
+    region: Annotated[int, Field(ge=0)]
+    demand_scale: Positive
+    arrival_probability: Fraction
+    target_csl: Annotated[float, Field(gt=0, lt=1)]
+    shortage_penalty: Nonnegative
+
+    @model_validator(mode="after")
+    def retailer_arrivals(self) -> Self:
+        if self.kind == "retailer" and self.arrival_probability != 1:
+            raise ValueError("retailer arrival_probability must be 1")
+        return self
+
+
+class SKU(Contract):
+    id: Identifier
+    label: str
+    unit_cost: Positive
+    daily_mean: Nonnegative
+    cv: Nonnegative
+    pack_size: PositiveInt
+    moq: PositiveInt
+    supplier: Identifier
+    value_class: Literal["A", "B", "C"]
+    demand_kind: Literal["normal", "gamma"]
+
+
+class Transport(Contract):
+    circuity: Annotated[float, Field(ge=1)]
+    km_per_day: Positive
+    outbound_handling_days: Nonnegative
+    outbound_lead_cv: Nonnegative
+    ltl_per_unit_km: Nonnegative
+    ftl_capacity: Positive
+    ftl_fixed_cost: Nonnegative
+    ftl_per_km: Nonnegative
+
+
+class Inventory(Contract):
+    dc_order_cost: Positive
+    customer_order_cost: Positive
+    customer_holding_rate: Positive
+    review_days: PositiveInt
+    initial_stock_fraction: Nonnegative
+
+
+class LaneAssumptions(Contract):
+    source: Identifier
+    target: Identifier
+    distance_km: Nonnegative | None = None
+    lead_mean: Positive | None = None
+    lead_cv: Nonnegative | None = None
+    delay_probability: Fraction | None = None
+    delay_days: Annotated[int, Field(ge=0)] | None = None
+
+
+class NetworkSpec(Contract):
+    suppliers: list[Supplier] = Field(min_length=1, max_length=16)
+    dcs: list[DC] = Field(min_length=1, max_length=32)
+    customers: list[Customer] = Field(min_length=1, max_length=128)
+    skus: list[SKU] = Field(min_length=1, max_length=100)
+    transport: Transport
+    inventory: Inventory
+    open_dcs: list[Identifier] | None = Field(default=None, min_length=1)
+    assignments: dict[Identifier, Identifier] = Field(default_factory=dict)
+    lanes: list[LaneAssumptions] = Field(default_factory=list, max_length=8192)
+
+    @model_validator(mode="after")
+    def references(self) -> Self:
+        sites = [*self.suppliers, *self.dcs, *self.customers]
+        if len({site.id for site in sites}) != len(sites):
+            raise ValueError("node IDs must be globally unique")
+        if len({sku.id for sku in self.skus}) != len(self.skus):
+            raise ValueError("SKU IDs must be unique")
+        if not {sku.supplier for sku in self.skus}.issubset(s.id for s in self.suppliers):
+            raise ValueError("SKU references an unknown supplier")
+        if any(node.region >= len(self.customers) for node in self.customers):
+            raise ValueError("region index must be less than the customer count")
+        candidates = {dc.id for dc in self.dcs}
+        if self.open_dcs is not None and (
+            len(set(self.open_dcs)) != len(self.open_dcs) or not set(self.open_dcs) <= candidates
+        ):
+            raise ValueError("open DCs must be distinct known candidates")
+        if not set(self.assignments) <= {c.id for c in self.customers}:
+            raise ValueError("assignment references an unknown customer")
+        if not set(self.assignments.values()) <= set(self.open_dcs or candidates):
+            raise ValueError("customer assignments must reference open DCs")
+        pairs = [(lane.source, lane.target) for lane in self.lanes]
+        if len(set(pairs)) != len(pairs):
+            raise ValueError("lane overrides must have unique source/target pairs")
+        suppliers = {s.id for s in self.suppliers}
+        customers = {c.id for c in self.customers}
+        if any(
+            not ((a in suppliers and b in candidates) or (a in candidates and b in customers))
+            for a, b in pairs
+        ):
+            raise ValueError("lanes must connect supplier to DC or DC to customer")
+        return self
+
+
+class Seasonality(Contract):
+    monthly_index_v1: list[Nonnegative] = Field(min_length=12, max_length=12)
+
+
+class CanvasPosition(Contract):
+    x: Annotated[float, Field(ge=-10000, le=10000)]
+    y: Annotated[float, Field(ge=-10000, le=10000)]
+
+
+class ModelSnapshot(Contract):
+    format_version: Literal[1] = 1
+    spec: NetworkSpec
+    seasonality: Seasonality
+    positions: dict[Identifier, CanvasPosition] = Field(default_factory=dict)
+
+    @model_validator(mode="after")
+    def valid_positions(self) -> Self:
+        if not set(self.positions) <= {
+            n.id for n in [*self.spec.suppliers, *self.spec.dcs, *self.spec.customers]
+        }:
+            raise ValueError("canvas positions reference unknown facilities")
+        return self
+
+
 class NetworkConfig(Contract):
-    dc_count: Literal[1, 2, 4, 8] = 4
+    dc_count: Annotated[int, Field(ge=1, le=32)] = 4
     suppliers: list[Identifier] = Field(default_factory=lambda: ["S1", "S2", "S3", "S4"])
 
     @model_validator(mode="after")
@@ -333,6 +486,7 @@ class RunRequest(Contract):
     replications: Annotated[int, Field(gt=0)] = 1
     options: RunOptions = Field(default_factory=RunOptions)
     lab: LabSettings = Field(default_factory=LabSettings)
+    model: ModelSnapshot | None = None
 
     @model_validator(mode="after")
     def compatible_options(self) -> Self:
@@ -466,6 +620,20 @@ class LabCatalog(Contract):
     max_replications: Annotated[int, Field(gt=0)]
     max_horizon_days: Annotated[int, Field(gt=0)]
     max_warmup_days: Annotated[int, Field(gt=0)]
+
+
+class BuilderCatalog(Contract):
+    request: RunRequest
+    max_observation_cells: PositiveInt
+
+
+class ModelPreview(Contract):
+    network: Network
+    sku_ids: list[Identifier]
+    open_dcs: list[Identifier]
+    assignments: dict[Identifier, Identifier]
+    lanes: list[LaneAssumptions]
+    warnings: list[str]
 
 
 class PolicyTargets(Contract):
@@ -687,6 +855,10 @@ class StudyEvidence(Contract):
 
 
 CONTRACTS: dict[str, type[Contract]] = {
+    "model_snapshot": ModelSnapshot,
+    "builder_catalog": BuilderCatalog,
+    "model_preview": ModelPreview,
+    "network_spec": NetworkSpec,
     "lab_settings": LabSettings,
     "lab_catalog": LabCatalog,
     "saved_scenario": SavedScenario,

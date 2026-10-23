@@ -166,3 +166,20 @@ CSV retains underlying observations, missingness and source day ranges. Arithmet
 daily means are not weighted service KPIs. Student notes are browser-local and
 not shared accounts, instructor assessments or an audit system. See the
 [learning guide](learning-sandbox.md) for teaching and real-world transfer limits.
+
+## E6 editable network scope
+
+Custom models are explicit snapshots of the supported supplier/DC/customer
+structure. Automatic facility selection and nearest-DC assignment retain their
+existing model assumptions; explicit DC sets, customer assignments and lane
+parameters are user-authored alternatives, not estimated optimal decisions.
+The canvas separates geographic edits from nonphysical diagram positions.
+Capacity charts show master input values before lab factors, not measured output.
+
+Snapshot data are the base and lab overrides apply afterwards. Diagram-only edits
+reuse cached physics; an execution snapshot preserves its current diagram/revision
+while cached provenance preserves the original computation request. Paired
+comparisons require matching ordered master identities to preserve random-stream
+indexing. Valid schema/topology and balanced simulated flows do not establish
+empirical validity; calibration and held-out validation remain necessary.
+See [network builder](network-builder.md) for timing, precedence and limitations.

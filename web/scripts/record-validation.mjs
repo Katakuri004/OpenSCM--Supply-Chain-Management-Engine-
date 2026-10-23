@@ -5,13 +5,14 @@ import { platform, release } from "node:os";
 import { resolve, relative } from "node:path";
 
 const root = resolve("..");
-const output = resolve(root, "docs/evidence/learning-sandbox");
+const output = resolve(root, "docs/evidence/network-builder");
 const report = JSON.parse(await readFile(resolve(root, "data/m9-playwright/results.json"), "utf8"));
 const tests = [];
 let performance;
 const exercises = [];
 const portfolios = [];
 const learning = [];
+const models = [];
 function visit(suite) {
   for (const spec of suite.specs ?? [])
     for (const test of spec.tests) {
@@ -30,6 +31,9 @@ function visit(suite) {
         if (attachment.name === "student-experiment") {
           learning.push(JSON.parse(Buffer.from(attachment.body, "base64").toString("utf8")));
         }
+        if (attachment.name === "network-builder") {
+          models.push(JSON.parse(Buffer.from(attachment.body, "base64").toString("utf8")));
+        }
       }
     }
   for (const child of suite.suites ?? []) visit(child);
@@ -42,6 +46,7 @@ if (
   !exercises.length ||
   !portfolios.length ||
   !learning.length ||
+  !models.length ||
   report.errors.length
 )
   throw new Error("Run passing browser tests before recording evidence");
@@ -60,6 +65,7 @@ await writeFile(
       exercises,
       portfolios,
       learning,
+      models,
     },
     null,
     2,
@@ -123,6 +129,9 @@ sources.push(
   "docs/planning-lab.md",
   "docs/learning-sandbox.md",
   "tests/test_learning_workspace.py",
+  "tests/test_network_builder.py",
+  "docs/network-builder.md",
+  "docs/upgrade-roadmap.md",
   "tests/test_planning_lab.py",
   "LICENSE",
   "NOTICE",
@@ -143,7 +152,7 @@ const versions = Object.fromEntries(
   ),
 );
 const artifacts = [
-  "docs/evidence/learning-sandbox/results.json",
+  "docs/evidence/network-builder/results.json",
   "docs/evidence/m10/fixture_manifest.json",
   "docs/evidence/m9/fixture_manifest.json",
   "web/public/fixtures/studies.json",

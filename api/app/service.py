@@ -14,6 +14,7 @@ from typing import Any
 import numpy as np
 import pyarrow as pa
 import pyarrow.parquet as pq
+import yaml
 from fastapi import HTTPException
 from joblib import Parallel, delayed, parallel_config
 from scm.config.api import ApiSettings
@@ -98,7 +99,14 @@ def sample_run(
     run_id: str,
     representative: bool,
 ) -> Sample:
-    study = configure_study(Study(scenario, study.spec, study.seasonality), request.lab)
+    study = configure_study(
+        Study(
+            scenario,
+            request.model.spec if request.model else study.spec,
+            request.model.seasonality if request.model else study.seasonality,
+        ),
+        request.lab,
+    )
     planning_settings = configure_planning(planning_settings, request.lab)
     net = build_network(study.spec, scenario)
     usage, leads = network_inputs(
@@ -216,6 +224,14 @@ class RunStore:
         if request.preset != "base_4dc":
             raise HTTPException(404, "Unknown scenario preset")
         data = self.study.scenario.model_dump()
+        if request.model:
+            spec = request.model.spec
+            data["network"] = {
+                "suppliers": [supplier.id for supplier in spec.suppliers],
+                "dc_count": len(spec.open_dcs)
+                if spec.open_dcs
+                else min(data["network"]["dc_count"], len(spec.dcs)),
+            }
         for name, value in request.overrides.model_dump(
             exclude_unset=True, exclude_none=True
         ).items():
@@ -230,10 +246,33 @@ class RunStore:
             ):
                 raise ValueError("Requested replications or horizon exceed the local API limits")
             effective = configure_study(
-                Study(scenario, self.study.spec, self.study.seasonality), request.lab
+                Study(
+                    scenario,
+                    request.model.spec if request.model else self.study.spec,
+                    request.model.seasonality if request.model else self.study.seasonality,
+                ),
+                request.lab,
             )
+            if request.model:
+                limits = yaml.safe_load(Path("configs/builder.yaml").read_text(encoding="utf-8"))
+                count = (
+                    len(effective.spec.suppliers)
+                    + scenario.network.dc_count
+                    + len(effective.spec.customers)
+                )
+                if (
+                    count
+                    * len(effective.spec.skus)
+                    * (scenario.warmup_days + scenario.horizon_days)
+                    > limits["max_observation_cells"]
+                ):
+                    raise ValueError(
+                        "Custom model exceeds the daily observation budget; "
+                        "reduce facilities, SKUs or days"
+                    )
             configure_planning(self.planning, request.lab)
             net = build_network(effective.spec, scenario)
+            net.as_contract("preview")
             if scenario.disruptions:
                 compile_disruptions(net, scenario.warmup_days + scenario.horizon_days)
         except ValueError as exc:
@@ -492,6 +531,24 @@ class RunStore:
                 "Paired comparison requires the same model/config snapshot. Rerun both requests.",
             )
         samples = [json.loads((p / "samples.json").read_text()) for p in folders]
+        snapshots = [
+            (manifest.get("operating_snapshot") or {}).get("network") for manifest in manifests
+        ]
+        if all(snapshots):
+            identities = [
+                [
+                    [row["id"] for row in snapshot[kind]]
+                    for kind in ("suppliers", "dcs", "customers", "skus")
+                ]
+                for snapshot in snapshots
+                if snapshot is not None
+            ]
+            if identities[0] != identities[1]:
+                raise HTTPException(
+                    409,
+                    "Paired comparison requires matching ordered facility and SKU identities. "
+                    "Compare parameter or routing changes within the same model.",
+                )
         scenarios = [
             Scenario.model_validate_json((p / "scenario.json").read_text()) for p in folders
         ]

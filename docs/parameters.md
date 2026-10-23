@@ -639,3 +639,44 @@ Atomic JSON publication attempts replacement at most five times for Windows
 access/sharing/lock errors, with 10/20/30/40 ms waits (100 ms total). These are engineering bounds for
 brief status-reader conflicts, not simulation time or model parameters. Other
 permission errors propagate immediately; persistent Windows errors also propagate.
+
+## E6 custom model inputs and engineering bounds
+
+`configs/builder.yaml` sets **max_observation_cells = 2,000,000**: an engineering
+**ASSUMPTION** bounding days × SKU count × (configured suppliers + open DC count +
+customers) for a custom request.
+It is a workload guard, not a measured total-memory limit. Existing API replication,
+warm-up and horizon bounds continue to apply. Public model bounds allow up to
+16 suppliers, 32 DC candidates, 128 customers and 100 SKUs, with at least one row
+in every group. Lane override lists are capped at 8192, with distinct valid endpoint
+pairs required. These are engineering bounds, not recommended operating network sizes.
+
+The starter snapshot copies `configs/network.yaml`, `configs/demand.yaml` and the
+seed/replication/window defaults from `configs/lab.yaml`; no economic default is
+invented by the builder. Add/duplicate actions copy an existing row with a new ID
+and name. Those copied values remain synthetic assumptions until documented and
+calibrated. All editable supplier/DC/customer/SKU/transport/inventory fields keep
+the units, source notes and meanings documented in earlier sections.
+
+Default-null `open_dcs` uses existing k-median facility selection. Default-empty
+assignments use nearest-open-DC sourcing. Explicit assignments and open sets are
+user-authored assumptions, not optimisations. Lane overrides may supply nonnegative
+road km, positive lead mean (days), nonnegative lead CV, extra-delay probability
+in [0,1] and nonnegative integer extra-delay days. Unset fields inherit the
+existing geographic/supplier/outbound rules. These directly feed engine arrays;
+they are not annotations. No per-lane freight rate or capacity is introduced.
+
+With a custom model and no explicit scenario network overrides, the supplier set
+comes from that snapshot, and the open count is the explicit list length or the
+smaller of the reference count and candidate count. Lab overrides apply after
+snapshot values. Retailers use the scenario CSL target and arrive every day;
+customer-specific CSL is for B2B buyers. Mean lead at a supplier is a base component;
+lane mean lead additionally incorporates distance unless explicitly overridden.
+
+The snapshot format version is 1. Canvas positions are finite in ±10000 units;
+these are display units, not km. Geographic sketch uses x=(longitude+180)×6 and
+y=(90−latitude)×6; drag inversion clips to valid geographic bounds. The editor
+allows 100 undo snapshots, a 350 ms validation debounce, 2 MB JSON imports and
+PNG dimensions up to 4096×4096. These are presentation/engineering choices.
+Names/notes and saved revisions reuse existing portfolio limits. Preview input
+charts describe configured assumptions; run result figures come from the engine.

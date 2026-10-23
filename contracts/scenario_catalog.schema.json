@@ -111,12 +111,8 @@
       "properties": {
         "dc_count": {
           "default": 4,
-          "enum": [
-            1,
-            2,
-            4,
-            8
-          ],
+          "maximum": 32,
+          "minimum": 1,
           "title": "Dc Count",
           "type": "integer"
         },

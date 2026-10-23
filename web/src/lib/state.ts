@@ -8,6 +8,7 @@ export const viewNames = {
   tower: "Control Tower",
   scenario: "Scenario Lab",
   network: "Network Design",
+  builder: "Network builder",
   bullwhip: "Bullwhip Lab",
   inventory: "Inventory Lab",
   resilience: "Resilience",

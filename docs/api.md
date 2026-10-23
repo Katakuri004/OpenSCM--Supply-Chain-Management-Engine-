@@ -213,3 +213,19 @@ arrays; absent historical arrays return 409 with a rerun instruction. Undefined
 forecasts are null rather than fabricated values. See
 [learning definitions](learning-sandbox.md) and the updated TimeSeries contract.
 `/reference/learning` downloads the student/instructor guide through Next.js.
+
+## E6 model builder and revision reads
+
+- `GET /models/catalog`: typed reference RunRequest containing a complete model
+  snapshot and the configured custom-workload budget.
+- `POST /models/preview`: validates/resolves a RunRequest and returns the actual
+  directed network, SKU IDs, open DCs, customer assignments, effective lane
+  assumptions and warnings. It does not reserve or compute a simulation.
+- `GET /portfolio/{scenario_id}/revisions`: saved scenario/model definitions in
+  descending revision order. Immutable launch history remains a separate endpoint.
+- `RunRequest.model`: optional full snapshot, embedded in the existing save/run
+  and provenance flows. Requests without it retain reference-model behaviour.
+
+Paired comparisons require compatible ordered facility/SKU masters as well as
+existing seed/window/source compatibility. `/reference/builder` downloads the
+[model editing and simulation guide](network-builder.md).

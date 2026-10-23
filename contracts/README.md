@@ -186,3 +186,31 @@ are nullable when no forecast was used or at suppliers. Upstream demand is an
 order signal, not extra customer demand. See [definitions](../docs/learning-sandbox.md).
 Older caches still serve original metrics; requesting absent extended evidence
 returns 409 with a rerun instruction. No historical artifacts are rewritten.
+
+## E6 custom network snapshots
+
+`RunRequest.model` is optional/default null. `ModelSnapshot` contains version 1,
+a typed `NetworkSpec`, seasonality and bounded diagram positions. Network master
+classes now live in `scm.contracts`; `scm.config.models` re-exports the same classes
+to preserve engine callers. The snapshot/spec/catalog/preview have standalone
+schemas and fixtures; all affected request, scenario, portfolio and provenance
+schemas, OpenAPI and TypeScript are regenerated together. Existing requests with
+no model keep the reference configuration. The public request fixture explicitly
+shows null, while historical browser fixtures remain unchanged and valid.
+
+`NetworkConfig.dc_count` now accepts positive integers through 32, rather than only
+1/2/4/8. The original preset choices remain unchanged. A selected count must fit
+the model's candidates and match an explicit `open_dcs` list when provided.
+`NetworkSpec` gains default-neutral `open_dcs`, customer `assignments` and typed
+lane overrides. Duplicate/dangling/unsupported references and resource limits
+fail validation. Generated lane topology still follows the supported echelon
+structure; overrides do not create arbitrary edges. `/models/preview` resolves
+the actual topology and lane assumptions without creating a run.
+
+Custom snapshots are embedded in saved requests and immutable executions, and
+effective inputs enter cache identity/provenance. Diagram positions are retained
+as editing metadata, but do not change a physical result's cache identity.
+Scenario revision history uses the existing SavedScenario model; its new read
+endpoint returns immutable saved definitions, with optimistic updates unchanged.
+The SQLite migration captures only each pre-existing current revision.
+See [builder methods](../docs/network-builder.md) for precedence and limitations.

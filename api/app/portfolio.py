@@ -34,6 +34,14 @@ class PortfolioStore:
                 "(id TEXT PRIMARY KEY, scenario_id TEXT NOT NULL REFERENCES scenarios(id), "
                 "data TEXT NOT NULL)"
             )
+            connection.execute(
+                "CREATE TABLE IF NOT EXISTS scenario_revisions "
+                "(id TEXT NOT NULL, revision INTEGER NOT NULL, data TEXT NOT NULL, "
+                "PRIMARY KEY(id,revision))"
+            )
+            connection.execute(
+                "INSERT OR IGNORE INTO scenario_revisions SELECT id,revision,data FROM scenarios"
+            )
 
     @contextmanager
     def connection(self) -> Iterator[sqlite3.Connection]:
@@ -73,6 +81,10 @@ class PortfolioStore:
                 "INSERT INTO scenarios VALUES (?,?,?)",
                 (value.id, value.revision, value.model_dump_json()),
             )
+            connection.execute(
+                "INSERT INTO scenario_revisions VALUES (?,?,?)",
+                (value.id, value.revision, value.model_dump_json()),
+            )
         return value
 
     def update(self, identity: str, change: PortfolioUpdate) -> SavedScenario:
@@ -93,7 +105,19 @@ class PortfolioStore:
                 raise HTTPException(
                     409, "Scenario changed. Reload the latest revision before saving."
                 )
+            connection.execute(
+                "INSERT INTO scenario_revisions VALUES (?,?,?)",
+                (value.id, value.revision, value.model_dump_json()),
+            )
         return value
+
+    def revisions(self, identity: str) -> list[SavedScenario]:
+        self.get(identity)
+        with self.connection() as connection:
+            rows = connection.execute(
+                "SELECT data FROM scenario_revisions WHERE id=? ORDER BY revision DESC", (identity,)
+            ).fetchall()
+        return [SavedScenario.model_validate_json(row[0]) for row in rows]
 
     def record(self, saved: SavedScenario, status: RunStatus) -> PortfolioExecution:
         value = PortfolioExecution(

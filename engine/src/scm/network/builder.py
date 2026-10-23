@@ -82,7 +82,12 @@ def build_network(
     customer_coords = [[c.latitude, c.longitude] for c in customers]
     distance = haversine_km([[d.latitude, d.longitude] for d in spec.dcs], customer_coords)
     weights = np.array([c.demand_scale * c.arrival_probability for c in customers])
-    chosen = k_median(distance, weights, scenario.network.dc_count)
+    if spec.open_dcs is not None:
+        if len(spec.open_dcs) != scenario.network.dc_count:
+            raise ValueError("open DC count must match scenario dc_count")
+        chosen = np.array([i for i, dc in enumerate(spec.dcs) if dc.id in spec.open_dcs])
+    else:
+        chosen = k_median(distance, weights, scenario.network.dc_count)
     dcs = [spec.dcs[i] for i in chosen]
     ns, nd, nc, skus = len(suppliers), len(dcs), len(customers), len(spec.skus)
     sites = [*suppliers, *dcs, *customers]
@@ -101,6 +106,12 @@ def build_network(
     is_supplier = np.arange(count) < ns
     is_dc = (np.arange(count) >= ns) & (np.arange(count) < ns + nd)
     assigned = np.argmin(distance[chosen], axis=0)
+    for index, customer in enumerate(customers):
+        if customer.id in spec.assignments:
+            dc = spec.assignments[customer.id]
+            if dc not in [d.id for d in dcs]:
+                raise ValueError("customer assignment points to a closed DC")
+            assigned[index] = [d.id for d in dcs].index(dc)
     source = np.concatenate([np.repeat(np.arange(ns), nd), ns + assigned]).astype(np.int64)
     target = np.concatenate([np.tile(np.arange(ns, ns + nd), ns), leaf]).astype(np.int64)
     supplier_master = np.array([spec.suppliers.index(s) for s in suppliers])
@@ -112,6 +123,13 @@ def build_network(
     ).astype(np.int64)
     coordinates = np.column_stack([nodes.latitude, nodes.longitude])
     lanes = haversine_km(coordinates, coordinates)[source, target] * spec.transport.circuity
+    lane_lookup = {
+        (nodes.id[a], nodes.id[b]): index for index, (a, b) in enumerate(zip(source, target))
+    }
+    for override in spec.lanes:
+        lane_index = lane_lookup.get((override.source, override.target))
+        if lane_index is not None and override.distance_km is not None:
+            lanes[lane_index] = override.distance_km
     primary = np.array([nodes.id.index(s.supplier) for s in spec.skus])
     parent = np.full((skus, count), -1, dtype=np.int64)
     parent[:, is_dc] = primary[:, None]
@@ -143,6 +161,18 @@ def build_network(
     delay_days = np.concatenate(
         [np.repeat([s.delay_days for s in suppliers], nd), np.zeros(nc, dtype=int)]
     ).astype(np.int64)
+    for override in spec.lanes:
+        lane_index = lane_lookup.get((override.source, override.target))
+        if lane_index is not None:
+            for name, vector in (
+                ("lead_mean", lead_mean),
+                ("lead_cv", lead_cv),
+                ("delay_probability", delay_probability),
+                ("delay_days", delay_days),
+            ):
+                value = getattr(override, name)
+                if value is not None:
+                    vector[lane_index] = value
     capacity = np.array(
         [s.daily_capacity for s in suppliers] + [d.daily_capacity for d in dcs] + [0.0] * nc
     )

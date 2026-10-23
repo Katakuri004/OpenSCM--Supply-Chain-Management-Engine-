@@ -32,6 +32,164 @@
       "title": "BullwhipConfig",
       "type": "object"
     },
+    "CanvasPosition": {
+      "additionalProperties": false,
+      "properties": {
+        "x": {
+          "maximum": 10000,
+          "minimum": -10000,
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "maximum": 10000,
+          "minimum": -10000,
+          "title": "Y",
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ],
+      "title": "CanvasPosition",
+      "type": "object"
+    },
+    "Customer": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "latitude": {
+          "maximum": 90,
+          "minimum": -90,
+          "title": "Latitude",
+          "type": "number"
+        },
+        "longitude": {
+          "maximum": 180,
+          "minimum": -180,
+          "title": "Longitude",
+          "type": "number"
+        },
+        "kind": {
+          "enum": [
+            "retailer",
+            "b2b"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "region": {
+          "minimum": 0,
+          "title": "Region",
+          "type": "integer"
+        },
+        "demand_scale": {
+          "exclusiveMinimum": 0,
+          "title": "Demand Scale",
+          "type": "number"
+        },
+        "arrival_probability": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Arrival Probability",
+          "type": "number"
+        },
+        "target_csl": {
+          "exclusiveMaximum": 1,
+          "exclusiveMinimum": 0,
+          "title": "Target Csl",
+          "type": "number"
+        },
+        "shortage_penalty": {
+          "minimum": 0,
+          "title": "Shortage Penalty",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "latitude",
+        "longitude",
+        "kind",
+        "region",
+        "demand_scale",
+        "arrival_probability",
+        "target_csl",
+        "shortage_penalty"
+      ],
+      "title": "Customer",
+      "type": "object"
+    },
+    "DC": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "latitude": {
+          "maximum": 90,
+          "minimum": -90,
+          "title": "Latitude",
+          "type": "number"
+        },
+        "longitude": {
+          "maximum": 180,
+          "minimum": -180,
+          "title": "Longitude",
+          "type": "number"
+        },
+        "daily_capacity": {
+          "minimum": 0,
+          "title": "Daily Capacity",
+          "type": "number"
+        },
+        "annual_fixed_cost": {
+          "minimum": 0,
+          "title": "Annual Fixed Cost",
+          "type": "number"
+        },
+        "holding_rate": {
+          "exclusiveMinimum": 0,
+          "title": "Holding Rate",
+          "type": "number"
+        },
+        "handling_cost": {
+          "minimum": 0,
+          "title": "Handling Cost",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "latitude",
+        "longitude",
+        "daily_capacity",
+        "annual_fixed_cost",
+        "holding_rate",
+        "handling_cost"
+      ],
+      "title": "DC",
+      "type": "object"
+    },
     "DemandConfig": {
       "additionalProperties": false,
       "properties": {
@@ -104,6 +262,45 @@
         "magnitude"
       ],
       "title": "Disruption",
+      "type": "object"
+    },
+    "Inventory": {
+      "additionalProperties": false,
+      "properties": {
+        "dc_order_cost": {
+          "exclusiveMinimum": 0,
+          "title": "Dc Order Cost",
+          "type": "number"
+        },
+        "customer_order_cost": {
+          "exclusiveMinimum": 0,
+          "title": "Customer Order Cost",
+          "type": "number"
+        },
+        "customer_holding_rate": {
+          "exclusiveMinimum": 0,
+          "title": "Customer Holding Rate",
+          "type": "number"
+        },
+        "review_days": {
+          "exclusiveMinimum": 0,
+          "title": "Review Days",
+          "type": "integer"
+        },
+        "initial_stock_fraction": {
+          "minimum": 0,
+          "title": "Initial Stock Fraction",
+          "type": "number"
+        }
+      },
+      "required": [
+        "dc_order_cost",
+        "customer_order_cost",
+        "customer_holding_rate",
+        "review_days",
+        "initial_stock_fraction"
+      ],
+      "title": "Inventory",
       "type": "object"
     },
     "LabSettings": {
@@ -253,17 +450,137 @@
       "title": "LabSettings",
       "type": "object"
     },
+    "LaneAssumptions": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Source",
+          "type": "string"
+        },
+        "target": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Target",
+          "type": "string"
+        },
+        "distance_km": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Distance Km"
+        },
+        "lead_mean": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lead Mean"
+        },
+        "lead_cv": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lead Cv"
+        },
+        "delay_probability": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Delay Probability"
+        },
+        "delay_days": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Delay Days"
+        }
+      },
+      "required": [
+        "source",
+        "target"
+      ],
+      "title": "LaneAssumptions",
+      "type": "object"
+    },
+    "ModelSnapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "format_version": {
+          "const": 1,
+          "default": 1,
+          "title": "Format Version",
+          "type": "integer"
+        },
+        "spec": {
+          "$ref": "#/$defs/NetworkSpec"
+        },
+        "seasonality": {
+          "$ref": "#/$defs/Seasonality"
+        },
+        "positions": {
+          "patternProperties": {
+            "^[A-Za-z0-9_-]+$": {
+              "$ref": "#/$defs/CanvasPosition"
+            }
+          },
+          "propertyNames": {
+            "minLength": 1
+          },
+          "title": "Positions",
+          "type": "object"
+        }
+      },
+      "required": [
+        "spec",
+        "seasonality"
+      ],
+      "title": "ModelSnapshot",
+      "type": "object"
+    },
     "NetworkConfig": {
       "additionalProperties": false,
       "properties": {
         "dc_count": {
           "default": 4,
-          "enum": [
-            1,
-            2,
-            4,
-            8
-          ],
+          "maximum": 32,
+          "minimum": 1,
           "title": "Dc Count",
           "type": "integer"
         },
@@ -278,6 +595,103 @@
         }
       },
       "title": "NetworkConfig",
+      "type": "object"
+    },
+    "NetworkSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "suppliers": {
+          "items": {
+            "$ref": "#/$defs/Supplier"
+          },
+          "maxItems": 16,
+          "minItems": 1,
+          "title": "Suppliers",
+          "type": "array"
+        },
+        "dcs": {
+          "items": {
+            "$ref": "#/$defs/DC"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Dcs",
+          "type": "array"
+        },
+        "customers": {
+          "items": {
+            "$ref": "#/$defs/Customer"
+          },
+          "maxItems": 128,
+          "minItems": 1,
+          "title": "Customers",
+          "type": "array"
+        },
+        "skus": {
+          "items": {
+            "$ref": "#/$defs/SKU"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Skus",
+          "type": "array"
+        },
+        "transport": {
+          "$ref": "#/$defs/Transport"
+        },
+        "inventory": {
+          "$ref": "#/$defs/Inventory"
+        },
+        "open_dcs": {
+          "anyOf": [
+            {
+              "items": {
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9_-]+$",
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Open Dcs"
+        },
+        "assignments": {
+          "patternProperties": {
+            "^[A-Za-z0-9_-]+$": {
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            }
+          },
+          "propertyNames": {
+            "minLength": 1
+          },
+          "title": "Assignments",
+          "type": "object"
+        },
+        "lanes": {
+          "items": {
+            "$ref": "#/$defs/LaneAssumptions"
+          },
+          "maxItems": 8192,
+          "title": "Lanes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "suppliers",
+        "dcs",
+        "customers",
+        "skus",
+        "transport",
+        "inventory"
+      ],
+      "title": "NetworkSpec",
       "type": "object"
     },
     "PolicyConfig": {
@@ -369,9 +783,97 @@
         },
         "lab": {
           "$ref": "#/$defs/LabSettings"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ModelSnapshot"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
         }
       },
       "title": "RunRequest",
+      "type": "object"
+    },
+    "SKU": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "unit_cost": {
+          "exclusiveMinimum": 0,
+          "title": "Unit Cost",
+          "type": "number"
+        },
+        "daily_mean": {
+          "minimum": 0,
+          "title": "Daily Mean",
+          "type": "number"
+        },
+        "cv": {
+          "minimum": 0,
+          "title": "Cv",
+          "type": "number"
+        },
+        "pack_size": {
+          "exclusiveMinimum": 0,
+          "title": "Pack Size",
+          "type": "integer"
+        },
+        "moq": {
+          "exclusiveMinimum": 0,
+          "title": "Moq",
+          "type": "integer"
+        },
+        "supplier": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Supplier",
+          "type": "string"
+        },
+        "value_class": {
+          "enum": [
+            "A",
+            "B",
+            "C"
+          ],
+          "title": "Value Class",
+          "type": "string"
+        },
+        "demand_kind": {
+          "enum": [
+            "normal",
+            "gamma"
+          ],
+          "title": "Demand Kind",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "unit_cost",
+        "daily_mean",
+        "cv",
+        "pack_size",
+        "moq",
+        "supplier",
+        "value_class",
+        "demand_kind"
+      ],
+      "title": "SKU",
       "type": "object"
     },
     "ScenarioOverrides": {
@@ -466,6 +968,26 @@
       "title": "ScenarioOverrides",
       "type": "object"
     },
+    "Seasonality": {
+      "additionalProperties": false,
+      "properties": {
+        "monthly_index_v1": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 12,
+          "minItems": 12,
+          "title": "Monthly Index V1",
+          "type": "array"
+        }
+      },
+      "required": [
+        "monthly_index_v1"
+      ],
+      "title": "Seasonality",
+      "type": "object"
+    },
     "SkuAssumptions": {
       "additionalProperties": false,
       "properties": {
@@ -550,6 +1072,84 @@
         }
       },
       "title": "SkuAssumptions",
+      "type": "object"
+    },
+    "Supplier": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "latitude": {
+          "maximum": 90,
+          "minimum": -90,
+          "title": "Latitude",
+          "type": "number"
+        },
+        "longitude": {
+          "maximum": 180,
+          "minimum": -180,
+          "title": "Longitude",
+          "type": "number"
+        },
+        "price_multiplier": {
+          "exclusiveMinimum": 0,
+          "title": "Price Multiplier",
+          "type": "number"
+        },
+        "lead_mean": {
+          "exclusiveMinimum": 0,
+          "title": "Lead Mean",
+          "type": "number"
+        },
+        "lead_cv": {
+          "minimum": 0,
+          "title": "Lead Cv",
+          "type": "number"
+        },
+        "moq": {
+          "exclusiveMinimum": 0,
+          "title": "Moq",
+          "type": "integer"
+        },
+        "daily_capacity": {
+          "minimum": 0,
+          "title": "Daily Capacity",
+          "type": "number"
+        },
+        "delay_probability": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Delay Probability",
+          "type": "number"
+        },
+        "delay_days": {
+          "minimum": 0,
+          "title": "Delay Days",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "latitude",
+        "longitude",
+        "price_multiplier",
+        "lead_mean",
+        "lead_cv",
+        "moq",
+        "daily_capacity",
+        "delay_probability",
+        "delay_days"
+      ],
+      "title": "Supplier",
       "type": "object"
     },
     "SupplierAssumptions": {
@@ -649,6 +1249,63 @@
         }
       },
       "title": "SupplierAssumptions",
+      "type": "object"
+    },
+    "Transport": {
+      "additionalProperties": false,
+      "properties": {
+        "circuity": {
+          "minimum": 1,
+          "title": "Circuity",
+          "type": "number"
+        },
+        "km_per_day": {
+          "exclusiveMinimum": 0,
+          "title": "Km Per Day",
+          "type": "number"
+        },
+        "outbound_handling_days": {
+          "minimum": 0,
+          "title": "Outbound Handling Days",
+          "type": "number"
+        },
+        "outbound_lead_cv": {
+          "minimum": 0,
+          "title": "Outbound Lead Cv",
+          "type": "number"
+        },
+        "ltl_per_unit_km": {
+          "minimum": 0,
+          "title": "Ltl Per Unit Km",
+          "type": "number"
+        },
+        "ftl_capacity": {
+          "exclusiveMinimum": 0,
+          "title": "Ftl Capacity",
+          "type": "number"
+        },
+        "ftl_fixed_cost": {
+          "minimum": 0,
+          "title": "Ftl Fixed Cost",
+          "type": "number"
+        },
+        "ftl_per_km": {
+          "minimum": 0,
+          "title": "Ftl Per Km",
+          "type": "number"
+        }
+      },
+      "required": [
+        "circuity",
+        "km_per_day",
+        "outbound_handling_days",
+        "outbound_lead_cv",
+        "ltl_per_unit_km",
+        "ftl_capacity",
+        "ftl_fixed_cost",
+        "ftl_per_km"
+      ],
+      "title": "Transport",
       "type": "object"
     }
   },
