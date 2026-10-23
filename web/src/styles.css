@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./motion.css";
 @custom-variant dark (&:where(.dark, .dark *));
 @theme {
   --font-sans: "Inter", sans-serif;
@@ -93,15 +94,6 @@ input[type="range"] {
   opacity: 1;
   pointer-events: auto;
 }
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0s !important;
-    transition-duration: 0s !important;
-  }
-}
-
 /* Operations workspace */
 :root {
   --accent-soft: #eef3f8;
@@ -131,7 +123,10 @@ input[type="range"] {
   color: var(--secondary);
   text-align: left;
   font-size: 12px;
-  transition: background 0.15s;
+  position: relative;
+  transition:
+    background var(--motion-fast),
+    color var(--motion-fast);
 }
 .nav-item:hover {
   background: var(--muted);

@@ -75,6 +75,11 @@ a completed run. Diagram positions do not affect the physics cache identity.
 
 ## Save, revise and simulate
 
+The workspace now includes [interaction and motion controls](interaction-motion.md):
+keyboard-operable data tabs, selected master rows, pending-action feedback, a zoom
+readout and deliberate viewport transitions. Use the header's Motion preferences
+to follow the device or reduce movement. These choices do not alter the model.
+
 Save persists the entire RunRequest, model snapshot, name and notes through the
 existing Planning Lab store. Save-as-new creates a separate model. Saved models
 have optimistic revisions; a stale save returns a conflict instead of replacing

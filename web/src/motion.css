@@ -1,0 +1,487 @@
+/* Interaction motion uses one accent and never interpolates study measurements. */
+:root {
+  --motion-fast: 120ms;
+  --motion-normal: 180ms;
+  --motion-enter: 240ms;
+  --motion-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --surface-shadow: 0 3px 12px rgb(9 9 11 / 5%);
+}
+:root.dark {
+  --surface-shadow: 0 3px 12px rgb(0 0 0 / 20%);
+}
+
+.workspace-button {
+  position: relative;
+  isolation: isolate;
+  transition:
+    transform var(--motion-fast) var(--motion-ease),
+    background-color var(--motion-fast),
+    border-color var(--motion-fast),
+    color var(--motion-fast),
+    box-shadow var(--motion-fast),
+    opacity var(--motion-fast);
+}
+.workspace-button[data-variant="outline"]:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+.workspace-button:active:not(:disabled) {
+  transform: translateY(0) scale(0.97);
+}
+.workspace-button[aria-pressed="true"] {
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.workspace-button[aria-busy="true"] {
+  opacity: 0.75;
+}
+.workspace-button[aria-busy="true"] > svg:not(.motion-spinner) {
+  display: none;
+}
+.workspace-button > svg {
+  transition: transform var(--motion-fast) var(--motion-ease);
+}
+.workspace-button:hover:not(:disabled) > .lucide-arrow-right {
+  transform: translateX(2px);
+}
+.workspace-button:hover:not(:disabled) > .lucide-download {
+  transform: translateY(2px);
+}
+.workspace-button:hover:not(:disabled) > .lucide-plus {
+  transform: rotate(90deg);
+}
+.motion-spinner {
+  animation: motion-spin 900ms linear infinite;
+}
+.loading-surface {
+  position: relative;
+  overflow: hidden;
+}
+.loading-surface::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent, var(--panel), transparent);
+  animation: motion-loading 1400ms ease-in-out infinite;
+}
+.motion-workspace {
+  animation: motion-fade var(--motion-enter) var(--motion-ease);
+}
+.motion-content,
+.motion-inspector {
+  animation: motion-reveal var(--motion-normal) var(--motion-ease);
+}
+.motion-feedback {
+  animation: motion-reveal var(--motion-normal) var(--motion-ease);
+  border-left: 3px solid var(--accent);
+}
+.motion-feedback[data-kind="error"] {
+  border-left-color: var(--secondary);
+}
+.motion-feedback > svg {
+  color: var(--accent);
+}
+.motion-feedback[data-kind="error"] > svg {
+  color: var(--secondary);
+}
+.motion-check {
+  animation: motion-check var(--motion-normal) var(--motion-ease);
+}
+.validation-marker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.validation-marker > svg {
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.model-save-state {
+  transition:
+    background-color var(--motion-normal),
+    color var(--motion-normal);
+}
+.model-save-state::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.model-save-state[data-dirty="true"]::before {
+  background: transparent;
+  border: 1px solid currentColor;
+}
+
+.motion-overlay[data-state="open"] {
+  animation: motion-fade var(--motion-normal) both;
+}
+.motion-overlay[data-state="closed"] {
+  animation: motion-fade-out var(--motion-fast) both;
+}
+.motion-dialog[data-state="open"] {
+  animation: motion-dialog-in var(--motion-enter) var(--motion-ease) both;
+}
+.motion-dialog[data-state="closed"] {
+  animation: motion-dialog-out var(--motion-fast) both;
+}
+.motion-drawer-right[data-state="open"] {
+  animation: motion-drawer-right-in var(--motion-enter) var(--motion-ease) both;
+}
+.motion-drawer-right[data-state="closed"] {
+  animation: motion-drawer-right-out var(--motion-fast) both;
+}
+.motion-drawer-left[data-state="open"] {
+  animation: motion-drawer-left-in var(--motion-enter) var(--motion-ease) both;
+}
+.motion-drawer-left[data-state="closed"] {
+  animation: motion-drawer-left-out var(--motion-fast) both;
+}
+.motion-choice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    border-color var(--motion-fast),
+    background-color var(--motion-fast);
+}
+.motion-choice:hover,
+.motion-choice:focus-within {
+  border-color: var(--accent);
+}
+.motion-choice[data-selected="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.motion-choice input[type="radio"] {
+  min-height: 16px;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  accent-color: var(--accent);
+  flex-shrink: 0;
+}
+
+.nav-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 26%;
+  bottom: 26%;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+  transform: scaleY(0);
+  transition: transform var(--motion-normal) var(--motion-ease);
+}
+.nav-active::before {
+  transform: scaleY(1);
+}
+.nav-item > svg {
+  transition: transform var(--motion-normal) var(--motion-ease);
+}
+.nav-active > svg:last-child {
+  animation: motion-reveal var(--motion-normal) var(--motion-ease);
+}
+.search-result {
+  transition:
+    background-color var(--motion-fast),
+    color var(--motion-fast);
+}
+.search-result > span:last-child {
+  transition: transform var(--motion-fast);
+}
+.search-result:hover > span:last-child {
+  transform: translateX(2px);
+}
+.action-site,
+.playbook-card {
+  transition:
+    border-color var(--motion-normal),
+    box-shadow var(--motion-normal),
+    transform var(--motion-normal) var(--motion-ease);
+}
+.metric-card,
+.hero-stat,
+.panel {
+  transition:
+    border-color var(--motion-fast),
+    box-shadow var(--motion-fast);
+}
+.action-site:focus-visible,
+.playbook-card:focus-within {
+  border-color: var(--accent);
+}
+.site-tile {
+  transition:
+    background-color var(--motion-fast),
+    border-color var(--motion-fast),
+    box-shadow var(--motion-fast);
+}
+.site-tile:hover {
+  box-shadow:
+    0 0 0 2px var(--panel),
+    0 0 0 3px var(--accent);
+}
+input:not([type="range"]),
+select,
+textarea {
+  transition:
+    border-color var(--motion-fast),
+    box-shadow var(--motion-fast),
+    background-color var(--motion-fast);
+}
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.lab-field > span {
+  transition: color var(--motion-fast);
+}
+.lab-field:focus-within > span {
+  color: var(--accent);
+}
+input[type="range"] {
+  transition: filter var(--motion-fast);
+}
+input[type="range"]:hover {
+  filter: brightness(1.12);
+}
+.operations-table tbody tr {
+  transition: background-color var(--motion-fast);
+}
+.operations-table tbody tr:focus-within,
+.operations-table tr[aria-selected="true"] {
+  background: var(--accent-soft);
+}
+.operations-table tr[aria-selected="true"] td:first-child {
+  box-shadow: inset 2px 0 var(--accent);
+}
+details > summary {
+  cursor: pointer;
+  transition: color var(--motion-fast);
+}
+details > summary:hover {
+  color: var(--accent);
+}
+details[open] > :not(summary) {
+  animation: motion-fade var(--motion-normal);
+}
+
+.builder-section-tabs {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--muted);
+}
+.builder-section-tabs [role="tab"] {
+  flex-shrink: 0;
+  color: var(--secondary);
+  background: transparent;
+  font-size: 12px;
+}
+.builder-section-tabs [aria-selected="true"] {
+  color: var(--accent);
+  background: var(--panel);
+  box-shadow: var(--surface-shadow);
+}
+.builder-section-tabs [role="tab"]::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  left: 12px;
+  right: 12px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transition: transform var(--motion-normal) var(--motion-ease);
+}
+.builder-section-tabs [aria-selected="true"]::after {
+  transform: scaleX(1);
+}
+.builder-canvas-grid {
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.builder-canvas-grid[data-connecting="true"] {
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+.canvas-readout {
+  display: inline-flex;
+  min-width: 46px;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--secondary);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .workspace-button:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: var(--surface-shadow);
+  }
+  .workspace-button:active:not(:disabled) {
+    transform: translateY(0) scale(0.97);
+  }
+  .nav-item:hover > svg:first-child {
+    transform: translateX(2px);
+  }
+  .action-site:hover,
+  .playbook-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    box-shadow: var(--surface-shadow);
+  }
+  .metric-card:hover {
+    box-shadow: var(--surface-shadow);
+  }
+}
+
+@keyframes motion-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes motion-loading {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+@keyframes motion-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes motion-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes motion-check {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes motion-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes motion-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes motion-dialog-out {
+  to {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+@keyframes motion-drawer-right-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes motion-drawer-right-out {
+  to {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+@keyframes motion-drawer-left-in {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes motion-drawer-left-out {
+  to {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+}
+
+/* Keep animation names so Radix receives exit completion when a preference changes mid-close. */
+:root[data-motion="reduced"] *,
+:root[data-motion="reduced"] *::before,
+:root[data-motion="reduced"] *::after {
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+  scroll-behavior: auto !important;
+}
+:root[data-motion="reduced"] .workspace-button,
+:root[data-motion="reduced"] .workspace-button > svg,
+:root[data-motion="reduced"] .nav-item > svg,
+:root[data-motion="reduced"] .search-result > span,
+:root[data-motion="reduced"] .action-site,
+:root[data-motion="reduced"] .playbook-card {
+  transform: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+  .workspace-button,
+  .workspace-button > svg,
+  .nav-item > svg,
+  .search-result > span,
+  .action-site,
+  .playbook-card {
+    transform: none !important;
+  }
+}

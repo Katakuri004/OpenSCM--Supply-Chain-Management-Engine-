@@ -773,3 +773,38 @@ model support. [Builder methods](network-builder.md) document source assumptions
 configured-versus-achieved quantities, cache/revision semantics and model limits.
 This does not certify an arbitrary topology, a manufacturing/BOM model or shared
 enterprise deployment. E4, E5, M11 and M12 remain separate work.
+
+## E9 enterprise interaction and motion polish
+
+The final `python -m scm.check` passes on Windows/Python 3.12 and Node 22:
+**244 Python tests**, **18 frontend unit tests**, **22 Playwright tests**, generated
+schema/OpenAPI/client drift, Ruff, mypy, strict TypeScript, formatting and the
+Next.js production build. The existing Starlette deprecation warning is non-failing.
+
+Four new browser journeys establish normal motion, actual server save feedback and
+disabled pending actions; all builder tab keys and wrap-around; selected inspectors;
+explicit/repeated fit and zoom; actual pointer hover and lane-highlight cleanup;
+immediate reduced-motion viewport actions and zero-duration Cytoscape transitions;
+device preference changes, reload persistence, cross-tab synchronisation and denied
+storage; and search/drawer/mobile navigation focus restoration on dark/narrow screens.
+Changing motion preferences preserves the open draft. Device reduced motion and a
+browser-local preference both suppress CSS movement and looping loading indicators.
+
+Validation caught two interaction defects: cancelling a Radix exit animation by
+removing its name could leave a dismissed dialog layer mounted; zero-duration
+animations now retain their completion events. Cytoscape delegated mouseout did not
+always clear hover when leaving the canvas; pointer leave/cancel explicitly cleans
+up the highlight. Both cases are covered by the final passing browser suite.
+
+All previous simulation, paired lesson, model revision/run/provenance, scientific
+export and error flows remain green. The 100-node Control Tower check retains its
+16.7 ms health-batch budget and verifies no additional daily scrubber requests.
+Two reviewed screenshots cover the builder canvas and dark mobile motion settings.
+No animation package or simulation/schema change was needed.
+
+The evidence recorder now writes [interaction results](evidence/interaction-motion/results.json)
+and a [source/output manifest](evidence/interaction-motion/manifest.json), preserving
+the earlier milestone directories. The [motion guide](interaction-motion.md) records
+timings, keyboard behaviour, preference storage and scientific-data boundaries.
+This is a focused Chromium interaction pass; M11's broader accessibility and delivery
+audit, and the remaining planning/teaching modules, remain separate milestones.

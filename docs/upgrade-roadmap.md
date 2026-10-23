@@ -2,7 +2,9 @@
 
 Proposed roadmap after the completed E1–E3 product expansions, dated 23 October
 2026. On 24 October the user prioritised E6, which is now implemented; the other
-modules below remain planned. Product E numbers
+modules below remain planned. The subsequent user-requested E9
+[interaction/motion polish](interaction-motion.md), delivered on 24 October, is a separate frontend milestone;
+it does not complete M11's broader audit. Product E numbers
 are separate from the M7 experiment identifiers. Follow `docs/plan.md` and ship
 one milestone per task, beginning with tests.
 

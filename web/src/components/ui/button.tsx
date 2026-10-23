@@ -2,9 +2,10 @@ import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/utils";
+import { LoaderCircle } from "lucide-react";
 
 const variants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] disabled:pointer-events-none disabled:opacity-40 [&_svg]:size-4",
+  "workspace-button inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] disabled:pointer-events-none disabled:opacity-40 [&_svg]:size-4",
   {
     variants: {
       variant: {
@@ -20,9 +21,43 @@ const variants = cva(
 export const Button = React.forwardRef<
   HTMLButtonElement,
   React.ButtonHTMLAttributes<HTMLButtonElement> &
-    VariantProps<typeof variants> & { asChild?: boolean }
->(({ className, variant, size, asChild = false, ...props }, ref) => {
-  const Component = asChild ? Slot : "button";
-  return <Component ref={ref} className={cn(variants({ variant, size, className }))} {...props} />;
-});
+    VariantProps<typeof variants> & { asChild?: boolean; loading?: boolean }
+>(
+  (
+    {
+      className,
+      variant,
+      size,
+      asChild = false,
+      loading = false,
+      children,
+      disabled,
+      title,
+      ...props
+    },
+    ref,
+  ) => {
+    const Component = asChild ? Slot : "button";
+    return (
+      <Component
+        ref={ref}
+        className={cn(variants({ variant, size, className }))}
+        disabled={disabled || loading}
+        title={title ?? (size === "icon" ? props["aria-label"] : undefined)}
+        aria-busy={loading}
+        data-variant={variant ?? "default"}
+        {...props}
+      >
+        {asChild ? (
+          children
+        ) : (
+          <>
+            {loading && <LoaderCircle className="motion-spinner" aria-hidden="true" />}
+            {children}
+          </>
+        )}
+      </Component>
+    );
+  },
+);
 Button.displayName = "Button";

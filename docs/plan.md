@@ -314,6 +314,22 @@ bad models, save/reload revisions and simulate a custom model into Control Tower
 Update schemas, models, callers, fixtures, assumptions and evidence together;
 finish with the full project gate. Support only executable echelon structures.
 
+### E9: enterprise interaction and motion polish
+
+One frontend milestone requested after E6: a restrained shared motion system for
+controls, navigation, dialogs, drawers, editable tables and builder feedback;
+keyboard-operable builder sections; deliberate animated canvas zoom/fit and lane
+hover feedback. Add a persistent device/reduced-motion preference. Keep inventory
+figures exact, avoid decorative animation during simulation or daily scrubbing,
+and preserve focus, disabled states, drafts and scientific exports.
+
+Acceptance: browser tests first for normal motion, reduced/device preferences,
+keyboard/focus flows, actual save feedback and builder viewport interactions.
+Check narrow screens, dark theme, interrupted motion and existing 100-node
+scrubbing performance; update documentation/evidence and pass the full gate.
+This is interaction polish; M11 deployment and its broader accessibility audit
+remain separate work.
+
 - **Parallel:** engine (M1–M7); frontend on fixtures (M9–M10, after M0); API (after M3).
 - **Risks:** engine too slow (profile, vectorise); parameter credibility (source table, sensitivity runs); agent drift (schema-diff check in CI, small tasks); scope creep.
 - **Descope order:** plant and BOM, lateral transshipment, geographic layout, dark mode, DuckDB-WASM static queries.

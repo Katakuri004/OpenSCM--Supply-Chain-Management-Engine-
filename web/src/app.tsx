@@ -5,6 +5,8 @@ import { Button } from "./components/ui/button";
 import { client, loadFixture, read } from "./lib/data";
 import { useTower, viewNames } from "./lib/state";
 import requestDefaults from "./fixtures/request.json";
+import { MotionPreferences } from "./components/motion-preferences";
+import { WorkspaceLoading } from "./components/workspace-loading";
 import {
   WorkspaceSidebar,
   WorkspaceSearch,
@@ -103,6 +105,7 @@ export default function App() {
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <WorkspaceSearch network={data?.network.network} />
+            <MotionPreferences />
             {view !== "portfolio" && view !== "learning" && view !== "builder" && (
               <select
                 aria-label="Data source"
@@ -159,6 +162,7 @@ export default function App() {
                 )}
                 <Button
                   aria-label="Run scenario"
+                  loading={busy}
                   disabled={busy || (mode === "fixture" && !fixture.data)}
                   onClick={() =>
                     mode === "live"
@@ -197,7 +201,7 @@ export default function App() {
             </Button>
           </div>
         </header>
-        <main id="main" tabIndex={-1} className="workspace-main">
+        <main id="main" key={view} tabIndex={-1} className="workspace-main motion-workspace">
           {view === "tower" && mode === "live" && compareOpen && (
             <label className="field mb-4">
               Baseline run ID (A)
@@ -277,31 +281,31 @@ export default function App() {
             </div>
           )}
           {view === "builder" ? (
-            <Suspense fallback={<p role="status">Loading network builder…</p>}>
+            <Suspense fallback={<WorkspaceLoading label="Loading network builder…" />}>
               <NetworkBuilder />
             </Suspense>
           ) : view === "learning" ? (
-            <Suspense fallback={<p role="status">Loading learning sandbox…</p>}>
+            <Suspense fallback={<WorkspaceLoading label="Loading learning sandbox…" />}>
               <LearningWorkspace />
             </Suspense>
           ) : view === "portfolio" ? (
-            <Suspense fallback={<p role="status">Loading planning lab…</p>}>
+            <Suspense fallback={<WorkspaceLoading label="Loading planning lab…" />}>
               <Portfolio />
             </Suspense>
           ) : view === "playbooks" ? (
-            <Suspense fallback={<p role="status">Loading scenario playbooks…</p>}>
+            <Suspense fallback={<WorkspaceLoading label="Loading scenario playbooks…" />}>
               <Playbooks />
             </Suspense>
           ) : !operationsView ? (
-            <Suspense fallback={<p role="status">Loading study view…</p>}>
+            <Suspense fallback={<WorkspaceLoading label="Loading study view…" />}>
               <StudyPage view={view} />
             </Suspense>
           ) : data && (view === "overview" || view === "exceptions") ? (
-            <Suspense fallback={<p role="status">Loading operations workspace…</p>}>
+            <Suspense fallback={<WorkspaceLoading label="Loading operations workspace…" />}>
               <OperationsWorkspace network={data.network} health={data.health} view={view} />
             </Suspense>
           ) : data ? (
-            <Suspense fallback={<div role="status">Loading network canvas…</div>}>
+            <Suspense fallback={<WorkspaceLoading label="Loading network canvas…" />}>
               <ControlTower
                 key={`${mode}-${data.network.network.run_id}`}
                 network={data.network}

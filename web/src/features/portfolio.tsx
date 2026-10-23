@@ -295,6 +295,7 @@ function Editor({
             className="mt-3"
             variant="outline"
             disabled={!json.trim() || validation.isPending}
+            loading={validation.isPending}
             onClick={() => {
               try {
                 JSON.parse(json);
@@ -316,6 +317,7 @@ function Editor({
         <div className="mt-5 flex flex-wrap items-center gap-3 border-t border-[var(--border)] pt-5">
           <Button
             aria-label="Save scenario"
+            loading={persist.isPending}
             disabled={busy || !name.trim()}
             onClick={() => persist.mutate(false)}
           >
@@ -325,6 +327,7 @@ function Editor({
           <Button
             variant="outline"
             aria-label="Save as new scenario"
+            loading={persist.isPending}
             disabled={busy || !name.trim()}
             onClick={() => persist.mutate(true)}
           >
@@ -333,6 +336,7 @@ function Editor({
           </Button>
           <Button
             aria-label="Run saved scenario"
+            loading={launch.isPending}
             disabled={
               busy || dirty || !saved || ["queued", "running"].includes(latest?.status.status ?? "")
             }
@@ -350,6 +354,7 @@ function Editor({
             className="mt-2"
             variant="ghost"
             disabled={reload.isPending}
+            loading={reload.isPending}
             onClick={() => reload.mutate()}
           >
             Reload saved revision
@@ -463,6 +468,7 @@ function Editor({
               </Button>
               <Button
                 aria-label="Compare selected runs"
+                loading={compare.isPending}
                 disabled={!/^[a-f0-9]{64}$/.test(baseline) || compare.isPending}
                 onClick={() => compare.mutate()}
               >

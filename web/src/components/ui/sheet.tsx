@@ -18,7 +18,7 @@ export function Sheet({
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-40 bg-black/15" />
+        <Dialog.Overlay className="motion-overlay fixed inset-0 z-40 bg-black/15" />
         <Dialog.Content
           onOpenAutoFocus={() => {
             previousFocus.current = document.activeElement as HTMLElement;
@@ -27,7 +27,7 @@ export function Sheet({
             event.preventDefault();
             if (previousFocus.current?.isConnected) previousFocus.current.focus();
           }}
-          className="fixed inset-y-0 right-0 z-50 w-[540px] max-w-full overflow-y-auto border-l border-[var(--border)] bg-[var(--panel)] p-6 shadow-xl"
+          className="motion-drawer-right fixed inset-y-0 right-0 z-50 w-[540px] max-w-full overflow-y-auto border-l border-[var(--border)] bg-[var(--panel)] p-6 shadow-xl"
         >
           <div className="flex items-start justify-between gap-4">
             <div>

@@ -194,6 +194,7 @@ export default function ScenarioLab({ data }: { data: Study }) {
             <Button
               variant="outline"
               disabled={!valid || busy || saveDraft.isPending}
+              loading={saveDraft.isPending}
               onClick={() => saveDraft.mutate()}
             >
               Save draft B to Planning Lab
@@ -232,6 +233,7 @@ export default function ScenarioLab({ data }: { data: Study }) {
               disabled={live && (busy || !valid)}
               onClick={() => (live ? create.mutate() : set({ mode: "live" }))}
               aria-label={live ? "Run paired scenarios" : "Use Live API"}
+              loading={live && busy}
             >
               {live
                 ? busy

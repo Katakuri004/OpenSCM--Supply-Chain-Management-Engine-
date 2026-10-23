@@ -126,8 +126,8 @@ export function MobileNavigation() {
         </Button>
       </Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-40 bg-black/30" />
-        <Dialog.Content className="fixed inset-y-0 left-0 z-50 w-72 overflow-y-auto bg-[var(--panel)] p-4 shadow-xl">
+        <Dialog.Overlay className="motion-overlay fixed inset-0 z-40 bg-black/30" />
+        <Dialog.Content className="motion-drawer-left fixed inset-y-0 left-0 z-50 w-72 overflow-y-auto bg-[var(--panel)] p-4 shadow-xl">
           <div className="mb-6 flex items-center justify-between">
             <Dialog.Title className="font-semibold">Workspace navigation</Dialog.Title>
             <Dialog.Close asChild>
@@ -198,8 +198,8 @@ export function WorkspaceSearch({ network }: { network: SupplyNetwork | undefine
         </Button>
       </Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-40 bg-black/30" />
-        <Dialog.Content className="fixed top-[15%] left-1/2 z-50 w-[min(560px,calc(100%-32px))] -translate-x-1/2 rounded-xl border border-[var(--border)] bg-[var(--panel)] p-5 shadow-xl">
+        <Dialog.Overlay className="motion-overlay fixed inset-0 z-40 bg-black/30" />
+        <Dialog.Content className="motion-dialog fixed top-[15%] left-1/2 z-50 w-[min(560px,calc(100%-32px))] -translate-x-1/2 rounded-xl border border-[var(--border)] bg-[var(--panel)] p-5 shadow-xl">
           <div className="flex items-center justify-between">
             <Dialog.Title className="font-semibold">Search workspace</Dialog.Title>
             <Dialog.Close asChild>

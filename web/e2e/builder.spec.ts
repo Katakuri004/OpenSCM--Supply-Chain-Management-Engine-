@@ -41,7 +41,7 @@ test("visual model builder connects, drags, revises and simulates an imported cu
     horizon_days: 21,
     network: { dc_count: 3, suppliers: ["S1"] },
   };
-  await page.getByRole("button", { name: "Import / export", exact: true }).click();
+  await page.getByRole("tab", { name: "Import / export", exact: true }).click();
   await page.getByLabel("Model import JSON").fill(
     JSON.stringify({
       format: "openscm-model-v1",
@@ -71,19 +71,19 @@ test("visual model builder connects, drags, revises and simulates an imported cu
   await page.getByLabel("Selected identifier").fill("DC_CUSTOM");
   await page.getByRole("button", { name: "Rename", exact: true }).click();
   await expect(page.getByRole("heading", { name: "DC_CUSTOM", exact: true })).toBeVisible();
-  await page.getByRole("button", { name: "Lanes", exact: true }).click();
+  await page.getByRole("tab", { name: "Lanes", exact: true }).click();
   await page
     .getByRole("button", { name: "Inspect model lane DC_CUSTOM to R01", exact: true })
     .click();
   await page.getByLabel("Lane distance_km").fill("17");
   await page.getByLabel("Lane lead_mean").fill("2");
   await page.getByLabel("Lane lead_cv").fill("0");
-  await page.getByRole("button", { name: "SKU master", exact: true }).click();
+  await page.getByRole("tab", { name: "SKU master", exact: true }).click();
   await page.getByRole("button", { name: "Inspect model SKU SKU01", exact: true }).click();
   await page.getByLabel("SKU unit_cost", { exact: true }).fill("42");
   await page.getByRole("button", { name: "Save network model", exact: true }).click();
   await expect(page.getByText("Saved revision 1 on this server.", { exact: true })).toBeVisible();
-  await page.getByRole("button", { name: "Facilities", exact: true }).click();
+  await page.getByRole("tab", { name: "Facilities", exact: true }).click();
   await page.getByRole("button", { name: "Inspect model facility DC_CUSTOM", exact: true }).click();
   await page.getByLabel("Facility daily_capacity", { exact: true }).fill("2000");
   await page.getByRole("button", { name: "Save network model", exact: true }).click();
@@ -153,7 +153,7 @@ test("builder protects references, undoes edits and rejects invalid imports on a
   await expect(page.getByRole("alert", { name: "Builder workspace error" })).toContainText(
     "Reassign every SKU",
   );
-  await page.getByRole("button", { name: "Import / export", exact: true }).click();
+  await page.getByRole("tab", { name: "Import / export", exact: true }).click();
   await page.getByLabel("Model import JSON").fill('{"model":{"format_version":9}}');
   await page.getByRole("button", { name: "Validate and import model" }).click();
   await expect(page.getByRole("alert", { name: "Builder workspace error" })).toContainText(

@@ -468,6 +468,7 @@ function LearningExperiment({
         <div className="flex flex-wrap gap-3">
           <Button
             disabled={busy || !paired || !notebook.prediction.trim() || !api.data}
+            loading={busy}
             onClick={() =>
               launch.mutate({
                 a: structuredClone(a),
@@ -482,6 +483,7 @@ function LearningExperiment({
           <Button
             variant="outline"
             disabled={persist.isPending || !api.data}
+            loading={persist.isPending}
             onClick={() => persist.mutate()}
           >
             Save B in Planning Lab

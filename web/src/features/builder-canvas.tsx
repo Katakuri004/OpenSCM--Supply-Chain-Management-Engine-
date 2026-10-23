@@ -6,6 +6,7 @@ import { Button } from "../components/ui/button";
 import { facilities, type BuilderRequest } from "../lib/builder";
 import type { Schema } from "../lib/tower";
 import { useTower } from "../lib/state";
+import { useMotion } from "../lib/motion";
 
 export default function BuilderCanvas({
   request,
@@ -26,6 +27,8 @@ export default function BuilderCanvas({
 }) {
   const [cy, setCy] = useState<Core>();
   const [geographic, setGeographic] = useState(false);
+  const [zoom, setZoom] = useState(100);
+  const { reduced } = useMotion();
   const dark = useTower((state) => state.dark);
   const callbacks = useRef({ select, move, connect, connecting, geographic });
   callbacks.current = { select, move, connect, connecting, geographic };
@@ -111,6 +114,8 @@ export default function BuilderCanvas({
           "text-wrap": "wrap",
           "text-valign": "bottom",
           "text-margin-y": 6,
+          "transition-property": "border-color, border-width, background-color",
+          "transition-duration": reduced ? 0 : 120,
         },
       },
       {
@@ -129,7 +134,17 @@ export default function BuilderCanvas({
           label: "data(label)",
           "font-size": 9,
           color: dark ? "#e4e4e7" : "#52525b",
+          "transition-property": "line-color, target-arrow-color, opacity",
+          "transition-duration": reduced ? 0 : 120,
         },
+      },
+      {
+        selector: "node.hovered, node:grabbed",
+        css: { "border-color": "#2B5C8A", "border-width": 3 },
+      },
+      {
+        selector: "edge.related",
+        css: { "line-color": "#2B5C8A", "target-arrow-color": "#2B5C8A", opacity: 1 },
       },
       {
         selector: ".inspected, :selected",
@@ -142,7 +157,7 @@ export default function BuilderCanvas({
         },
       },
     ],
-    [dark],
+    [dark, reduced],
   );
   useEffect(() => {
     if (!cy) return;
@@ -156,12 +171,26 @@ export default function BuilderCanvas({
       const positions = Object.fromEntries(cy.nodes().map((row) => [row.id(), row.position()]));
       callbacks.current.move(positions, callbacks.current.geographic);
     };
+    const hover = (event: EventObject) => {
+      event.target.addClass("hovered");
+      event.target.connectedEdges().addClass("related");
+    };
+    const leave = () => cy.elements().removeClass("hovered related");
+    const viewport = () => setZoom(Math.round(cy.zoom() * 100));
     cy.on("tap", "node,edge", tap);
     cy.on("dragfree", "node", drag);
+    cy.on("mouseover", "node", hover);
+    cy.on("mouseout", "node", leave);
+    cy.on("zoom", viewport);
     cy.fit(undefined, 45);
+    viewport();
     return () => {
       cy.off("tap", "node,edge", tap);
       cy.off("dragfree", "node", drag);
+      cy.off("mouseover", "node", hover);
+      cy.off("mouseout", "node", leave);
+      cy.off("zoom", viewport);
+      cy.stop();
     };
   }, [cy]);
   useEffect(() => {
@@ -176,6 +205,32 @@ export default function BuilderCanvas({
   useEffect(() => {
     if (cy) cy.fit(undefined, 45);
   }, [cy, geographic, topologyKey]);
+  useEffect(() => {
+    if (reduced) {
+      cy?.stop();
+      cy?.elements().stop();
+    }
+  }, [cy, reduced]);
+  const viewport = (factor?: number) => {
+    if (!cy) return;
+    cy.stop();
+    const target = factor
+      ? {
+          level: Math.max(cy.minZoom(), Math.min(cy.maxZoom(), cy.zoom() * factor)),
+          renderedPosition: { x: cy.width() / 2, y: cy.height() / 2 },
+        }
+      : undefined;
+    if (reduced) {
+      if (target) cy.zoom(target);
+      else cy.fit(undefined, 45);
+    } else {
+      cy.animate(target ? { zoom: target } : { fit: { eles: cy.elements(), padding: 45 } }, {
+        duration: 180,
+        easing: "ease-out-cubic",
+        queue: false,
+      });
+    }
+  };
   return (
     <section className="panel min-w-0 overflow-hidden" aria-label="Interactive model canvas">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] p-3">
@@ -191,11 +246,14 @@ export default function BuilderCanvas({
           </select>
         </label>
         <div className="flex gap-1">
+          <output aria-label="Canvas zoom" className="canvas-readout">
+            {zoom}%
+          </output>
           <Button
             size="icon"
             variant="ghost"
             aria-label="Fit model canvas"
-            onClick={() => cy?.fit(undefined, 45)}
+            onClick={() => viewport()}
           >
             <Maximize />
           </Button>
@@ -203,7 +261,7 @@ export default function BuilderCanvas({
             size="icon"
             variant="ghost"
             aria-label="Zoom model in"
-            onClick={() => cy?.zoom(cy.zoom() * 1.3)}
+            onClick={() => viewport(1.3)}
           >
             <Plus />
           </Button>
@@ -211,7 +269,7 @@ export default function BuilderCanvas({
             size="icon"
             variant="ghost"
             aria-label="Zoom model out"
-            onClick={() => cy?.zoom(cy.zoom() / 1.3)}
+            onClick={() => viewport(1 / 1.3)}
           >
             <Minus />
           </Button>
@@ -238,8 +296,12 @@ export default function BuilderCanvas({
         </div>
       </div>
       <div
-        className="relative h-[560px]"
+        className="builder-canvas-grid relative h-[560px]"
         data-testid="builder-canvas"
+        data-motion={reduced ? "reduced" : "full"}
+        data-connecting={connecting}
+        onPointerLeave={() => cy?.elements().removeClass("hovered related")}
+        onPointerCancel={() => cy?.elements().removeClass("hovered related")}
         data-node-count={
           request.model.spec.suppliers.length +
           request.model.spec.dcs.length +

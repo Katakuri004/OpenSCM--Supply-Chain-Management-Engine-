@@ -111,6 +111,10 @@ Original project code is licensed under [Apache-2.0](LICENSE), with attribution 
 [NOTICE](NOTICE). Third-party dependencies retain their own licenses. See
 [contributing](CONTRIBUTING.md) to add a scenario or improve the software.
 
+The frontend includes restrained [interaction motion](docs/interaction-motion.md),
+keyboard-operable builder sections, animated canvas controls and a browser-local
+reduced-motion preference in the header. Scientific values remain exact.
+
 See [contracts](contracts/README.md), [parameters](docs/parameters.md),
 [assumptions](docs/assumptions.md) and [validation status](docs/validation.md).
 Dependencies are introduced as each milestone needs them. API and frontend stack

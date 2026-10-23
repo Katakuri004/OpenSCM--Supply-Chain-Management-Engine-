@@ -5,7 +5,7 @@ import { platform, release } from "node:os";
 import { resolve, relative } from "node:path";
 
 const root = resolve("..");
-const output = resolve(root, "docs/evidence/network-builder");
+const output = resolve(root, "docs/evidence/interaction-motion");
 const report = JSON.parse(await readFile(resolve(root, "data/m9-playwright/results.json"), "utf8"));
 const tests = [];
 let performance;
@@ -13,6 +13,7 @@ const exercises = [];
 const portfolios = [];
 const learning = [];
 const models = [];
+const interactions = [];
 function visit(suite) {
   for (const spec of suite.specs ?? [])
     for (const test of spec.tests) {
@@ -34,6 +35,9 @@ function visit(suite) {
         if (attachment.name === "network-builder") {
           models.push(JSON.parse(Buffer.from(attachment.body, "base64").toString("utf8")));
         }
+        if (attachment.name === "interaction-motion") {
+          interactions.push(JSON.parse(Buffer.from(attachment.body, "base64").toString("utf8")));
+        }
       }
     }
   for (const child of suite.suites ?? []) visit(child);
@@ -47,6 +51,7 @@ if (
   !portfolios.length ||
   !learning.length ||
   !models.length ||
+  !interactions.length ||
   report.errors.length
 )
   throw new Error("Run passing browser tests before recording evidence");
@@ -66,6 +71,7 @@ await writeFile(
       portfolios,
       learning,
       models,
+      interactions,
     },
     null,
     2,
@@ -131,6 +137,7 @@ sources.push(
   "tests/test_learning_workspace.py",
   "tests/test_network_builder.py",
   "docs/network-builder.md",
+  "docs/interaction-motion.md",
   "docs/upgrade-roadmap.md",
   "tests/test_planning_lab.py",
   "LICENSE",
@@ -152,7 +159,7 @@ const versions = Object.fromEntries(
   ),
 );
 const artifacts = [
-  "docs/evidence/network-builder/results.json",
+  "docs/evidence/interaction-motion/results.json",
   "docs/evidence/m10/fixture_manifest.json",
   "docs/evidence/m9/fixture_manifest.json",
   "web/public/fixtures/studies.json",
