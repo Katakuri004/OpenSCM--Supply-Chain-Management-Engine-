@@ -1,0 +1,221 @@
+{
+  "ui_revision": "b211297c60473c307979abce2b5101e1de574fb4",
+  "captured_at": "2026-10-23T21:03:44.809Z",
+  "command": "npm run capture:walkthrough --prefix web",
+  "viewport": {
+    "width": 1440,
+    "height": 1080
+  },
+  "note": "Real Chromium screenshots. Live results use the unchanged canonical forecast lesson: synthetic assumptions and two replications, not empirical business findings. Motion settings use a 390×844 viewport.",
+  "modules": [
+    "overview",
+    "exceptions",
+    "tower",
+    "playbooks",
+    "portfolio",
+    "learning",
+    "scenario",
+    "network",
+    "builder",
+    "inventory",
+    "bullwhip",
+    "resilience",
+    "methodology"
+  ],
+  "captures": [
+    {
+      "file": "docs/images/walkthrough/operations-overview.png",
+      "module": "overview",
+      "source": "recorded",
+      "route": "?view=overview&mode=fixture&day=120",
+      "width": 1440,
+      "height": 1080,
+      "sha256": "5acfbd839e10917bac1b17df248a571360fb8730371989f7a6ada10bbbb16683"
+    },
+    {
+      "file": "docs/images/walkthrough/exception-workbench.png",
+      "module": "exceptions",
+      "source": "recorded",
+      "route": "?view=exceptions&mode=fixture&day=120",
+      "width": 1440,
+      "height": 1080,
+      "sha256": "09a560005929cf9d81b9f06058a23453262094ac3733207cf87906c31532217c"
+    },
+    {
+      "file": "docs/images/walkthrough/control-tower.png",
+      "module": "tower",
+      "source": "recorded",
+      "route": "?view=tower&mode=fixture&day=120",
+      "width": 1440,
+      "height": 1080,
+      "sha256": "e5569cef61a1ca333670f933eefa2ccb46442866a58d9d4c1521586eebf15b07"
+    },
+    {
+      "file": "docs/images/walkthrough/facility-inspector.png",
+      "module": "tower",
+      "source": "recorded",
+      "route": "?view=tower&mode=fixture&day=120&node=R01&lesson=service",
+      "width": 540,
+      "height": 1080,
+      "sha256": "5a7610685e6af305debcccee5564eb4ddbf61c66fc23fed1320915d55e16813b"
+    },
+    {
+      "file": "docs/images/walkthrough/scenario-playbooks.png",
+      "module": "playbooks",
+      "source": "interface",
+      "route": "?view=playbooks&mode=fixture&day=120",
+      "width": 1440,
+      "height": 1080,
+      "sha256": "ee5b13b0c750c1555a5a8a12f462240a71895c179d61705e48e06e2e8c00c112"
+    },
+    {
+      "file": "docs/images/walkthrough/scenario.png",
+      "module": "scenario",
+      "source": "recorded",
+      "route": "?view=scenario&mode=fixture&day=120",
+      "width": 1440,
+      "height": 1080,
+      "sha256": "6db5b95bf78205b2c761c4426ef8a33217767fc00e1940ab88911170717ca059"
+    },
+    {
+      "file": "docs/images/walkthrough/network.png",
+      "module": "network",
+      "source": "recorded",
+      "route": "?view=network&mode=fixture&day=120",
+      "width": 1440,
+      "height": 1080,
+      "sha256": "e1bba750565a3abd3b30ccb34360091d3e6e5d71aaab0b89f5df5854ce1be2d1"
+    },
+    {
+      "file": "docs/images/walkthrough/inventory.png",
+      "module": "inventory",
+      "source": "analytical",
+      "route": "?view=inventory&mode=fixture&day=120",
+      "width": 1440,
+      "height": 1080,
+      "sha256": "1de977914359a0ceceaeb2dba5edf8c8df06ccace488070ac1ea5d83f719c338"
+    },
+    {
+      "file": "docs/images/walkthrough/bullwhip.png",
+      "module": "bullwhip",
+      "source": "recorded",
+      "route": "?view=bullwhip&mode=fixture&day=120",
+      "width": 1440,
+      "height": 1080,
+      "sha256": "7b30cd00b234c95a4c4c869617cbb36c9d7c6a45ca70d406e49e5858c192a4d3"
+    },
+    {
+      "file": "docs/images/walkthrough/resilience.png",
+      "module": "resilience",
+      "source": "recorded",
+      "route": "?view=resilience&mode=fixture&day=120",
+      "width": 1440,
+      "height": 1080,
+      "sha256": "d8545761681e200a84071747c2a7759d7e551c613d023373594fc7aaa34face4"
+    },
+    {
+      "file": "docs/images/walkthrough/methodology.png",
+      "module": "methodology",
+      "source": "recorded",
+      "route": "?view=methodology&mode=fixture&day=120",
+      "width": 1440,
+      "height": 1080,
+      "sha256": "cfb53ea1af7df1c61bb6e46c2dcc845b64fbd7ec42b53a9f29686eb45a5b1b90"
+    },
+    {
+      "file": "docs/images/walkthrough/network-builder.png",
+      "module": "builder",
+      "source": "interface",
+      "route": "?view=builder&mode=fixture&day=120&node=R01&portfolio=12bc44c3ffb445f2aa406d61a8a359bb&lesson=service",
+      "width": 1160,
+      "height": 689,
+      "sha256": "8980bbe421ebee91173cb12d9581d65b40a6a5535bb05be679ed46f9a723ec1e"
+    },
+    {
+      "file": "docs/images/walkthrough/learning-sandbox.png",
+      "module": "learning",
+      "source": "interface",
+      "route": "?view=learning&mode=fixture&day=120&lesson=forecast",
+      "width": 1440,
+      "height": 1080,
+      "sha256": "1700c8411cd846156b592819a9c67767e27d1b4c88e94f0e19d0d5e2030a7d8d"
+    },
+    {
+      "file": "docs/images/walkthrough/learning-reference.png",
+      "module": "learning",
+      "source": "interface",
+      "route": "?view=learning&mode=fixture&day=120&lesson=forecast",
+      "width": 1440,
+      "height": 1080,
+      "sha256": "3b16e530e5dda416f44ccf43e3cccc0c1c54d2006604ad989ad5b5c7609f079b"
+    },
+    {
+      "file": "docs/images/walkthrough/learning-results.png",
+      "module": "learning",
+      "source": "live",
+      "route": "?view=learning&mode=fixture&day=120&lesson=forecast",
+      "width": 1158,
+      "height": 603,
+      "sha256": "16275bca199e03b3dea55b1da7cf34bdfc7fc5d870873c1d8457b92579ec2b4d"
+    },
+    {
+      "file": "docs/images/walkthrough/visual-explorer.png",
+      "module": "learning",
+      "source": "live",
+      "route": "?view=learning&mode=fixture&day=120&lesson=forecast",
+      "width": 1160,
+      "height": 918,
+      "sha256": "cd7ec101353edb6f40f0c251f6558ba85657b7f19b0e64de81e666d4436279eb"
+    },
+    {
+      "file": "docs/images/walkthrough/planning-lab.png",
+      "module": "portfolio",
+      "source": "interface",
+      "route": "?view=portfolio&mode=fixture&day=120&portfolio=fc1cfb8f208d4af789276bca034bf0b1",
+      "width": 1160,
+      "height": 1792,
+      "sha256": "4dca883c34d6c3c0a7c49bbd420ebdddef2c2299284ffe0f6b9542e2a2604ec2"
+    },
+    {
+      "file": "docs/images/walkthrough/planning-comparison.png",
+      "module": "portfolio",
+      "source": "live",
+      "route": "?view=portfolio&mode=fixture&day=120&portfolio=fc1cfb8f208d4af789276bca034bf0b1",
+      "width": 1118,
+      "height": 285,
+      "sha256": "e698dbae4fa7bc3c54993a2b1879ff869c8573f4796f76c524c215d8c441eb2f"
+    },
+    {
+      "file": "docs/images/walkthrough/run-diagnostics.png",
+      "module": "portfolio",
+      "source": "live",
+      "route": "?view=portfolio&mode=fixture&day=120&portfolio=fc1cfb8f208d4af789276bca034bf0b1",
+      "width": 1160,
+      "height": 1962,
+      "sha256": "39e2411ba831004f5e3b7059f2e127afb132b5c839ed6af4cbd7b8b42ca1fb51"
+    },
+    {
+      "file": "docs/images/walkthrough/motion-mobile.png",
+      "module": "portfolio",
+      "source": "interface",
+      "route": "?view=portfolio&mode=fixture&day=120&portfolio=fc1cfb8f208d4af789276bca034bf0b1&node=R01&lesson=service",
+      "width": 358,
+      "height": 399,
+      "sha256": "25b476c483b7c67b82c750bd957e8fbc8690100ae71da2772ecc25f69dcc3521"
+    }
+  ],
+  "source_sha256": {
+    "web/public/fixtures/tower.json": "32f1cb55edb280f6700bb91db0b6a6435bfef2270273f37640cfac97926a19ef",
+    "web/public/fixtures/studies.json": "f499cc73c6a9a70816ba19f3deb6fa769f3c58bdde98b9079915c42acc652d3c",
+    "web/src/fixtures/learning.json": "5693d61445ce4bd54da62022c2086a4c86fd6a15491478043439328628d3a610",
+    "web/src/fixtures/workspace.json": "18a8a0222ee1b2216cb4541906326b15644fe526021797412fe7523ce43bf45c",
+    "web/src/fixtures/builder.json": "aaa0aaef98fd733c53d59f1964852d977f8e579ab23387ba416159f6afb88f1b",
+    "configs/learning.yaml": "587c34732a0bc33c555e50a31bf05bec54454c5ded1db11baa13c9ab404f9d23",
+    "configs/lab.yaml": "02fd3b90a2db139850b8ee3cf5f87585133430cb81260a3dccb6ec1930ae7209"
+  },
+  "evidence_sha256": {
+    "docs/images/walkthrough/builder-evidence.json": "38404c9d1734c6158b0cd85f3bdc4684ce7baf4fc8e185bf5054c9033dd5a6eb",
+    "docs/images/walkthrough/learning-evidence.json": "d0c0d0415141e542b5579695b2af5c20a96a1bf72528d0987c8b9095a95575f5",
+    "docs/images/walkthrough/planning-evidence.json": "f7d307f767e50462cad5dd7d013ac1dbfbf02e8fc53aac1a06aa2e4794ddc3c8"
+  }
+}

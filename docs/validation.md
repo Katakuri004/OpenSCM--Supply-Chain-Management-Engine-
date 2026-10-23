@@ -808,3 +808,32 @@ the earlier milestone directories. The [motion guide](interaction-motion.md) rec
 timings, keyboard behaviour, preference storage and scientific-data boundaries.
 This is a focused Chromium interaction pass; M11's broader accessibility and delivery
 audit, and the remaining planning/teaching modules, remain separate milestones.
+
+## M12 README walkthrough subtask
+
+The README portion requested independently of the remaining M12 deliverables now
+passes the full `python -m scm.check` gate: **246 Python tests**, **18 frontend unit
+tests**, **22 Playwright tests**, schema/OpenAPI/client drift, Ruff, mypy, strict
+TypeScript, formatting and the Next.js production build. The existing upstream
+Starlette warning remains non-failing. No application or simulation behaviour changed.
+
+Two new documentation checks verify all 13 workspace modules, relative links and
+in-document navigation, descriptive image text, PNG signatures/dimensions and
+screenshot/run-evidence hashes. The walkthrough embeds 20 real Chromium captures;
+a local Markdown rendering loaded all 20 images without horizontal page overflow.
+The overview, specialist gallery and capture contact sheet were visually reviewed.
+
+`npm run capture:walkthrough --prefix web` completes actual website journeys against
+an isolated documentation API/run root. Learning and planning results use the
+unchanged canonical forecast lesson, with API cost deltas checked before capture.
+Model validation/save, screenshot sources, UI revision and output checksums are
+retained in the [capture manifest](images/walkthrough/manifest.json) and its three
+linked evidence bundles. The user's normal portfolio is separate. JSON evidence
+bytes are protected from Git newline conversion; earlier milestone evidence and
+browser baselines are preserved.
+
+The [screenshot guide](images/walkthrough/README.md) explains recreation and scope.
+The README distinguishes recorded, analytical, input-preview and newly simulated
+evidence, browser/session state versus server persistence, and supported versus
+planned capabilities. This completes the feature-tour subtask, not M12's final
+case study/report, executive summary, resume or interview deliverables.

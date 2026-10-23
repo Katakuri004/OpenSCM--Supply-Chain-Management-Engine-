@@ -1,0 +1,1244 @@
+{
+  "definitions": [
+    {
+      "name": "Forecast responsiveness · condition A",
+      "notes": "ASSUMPTION: unmodified forecast lesson from configs/learning.yaml; synthetic demonstration, not a recommendation.",
+      "request": {
+        "preset": "base_4dc",
+        "overrides": {
+          "horizon_days": 365,
+          "warmup_days": 90,
+          "network": null,
+          "demand": null,
+          "policy": null,
+          "bullwhip": null,
+          "disruptions": null
+        },
+        "seed": 222,
+        "replications": 2,
+        "options": {
+          "forecasting": true,
+          "segmented": false,
+          "bullwhip": false,
+          "lost_sales": false
+        },
+        "lab": {
+          "monthly_index": null,
+          "suppliers": {},
+          "skus": {},
+          "dc_capacity_factor": 1,
+          "forecast_method": "moving_average",
+          "forecast_window": 7,
+          "forecast_alpha": null,
+          "forecast_beta": null,
+          "buffer_days": 0,
+          "expedite_factor": 1,
+          "expedite_unit_cost": 0,
+          "backup_suppliers": {}
+        },
+        "model": null
+      },
+      "id": "a79a5de5274048c4b96b59efdce7df53",
+      "revision": 1,
+      "created_at": "2026-10-23T21:03:41.784333+00:00",
+      "updated_at": "2026-10-23T21:03:41.784333+00:00"
+    },
+    {
+      "name": "Forecast responsiveness · condition B",
+      "notes": "ASSUMPTION: unmodified forecast lesson from configs/learning.yaml; synthetic demonstration, not a recommendation.",
+      "request": {
+        "preset": "base_4dc",
+        "overrides": {
+          "horizon_days": 365,
+          "warmup_days": 90,
+          "network": null,
+          "demand": null,
+          "policy": null,
+          "bullwhip": null,
+          "disruptions": null
+        },
+        "seed": 222,
+        "replications": 2,
+        "options": {
+          "forecasting": true,
+          "segmented": false,
+          "bullwhip": false,
+          "lost_sales": false
+        },
+        "lab": {
+          "monthly_index": null,
+          "suppliers": {},
+          "skus": {},
+          "dc_capacity_factor": 1,
+          "forecast_method": "moving_average",
+          "forecast_window": 28,
+          "forecast_alpha": null,
+          "forecast_beta": null,
+          "buffer_days": 0,
+          "expedite_factor": 1,
+          "expedite_unit_cost": 0,
+          "backup_suppliers": {}
+        },
+        "model": null
+      },
+      "id": "fc1cfb8f208d4af789276bca034bf0b1",
+      "revision": 1,
+      "created_at": "2026-10-23T21:03:41.834444+00:00",
+      "updated_at": "2026-10-23T21:03:41.834444+00:00"
+    }
+  ],
+  "comparison": {
+    "run_a": "370454def138b9baffa0bf92b7fd1b6c9e28b8636df66bf7ab32ae3ee64d94de",
+    "run_b": "30716e4cf35ada41a05d72163d40fa83cab8dced19f6c529c760b369544ad4eb",
+    "replications": 2,
+    "metrics": {
+      "bullwhip_ratio": {
+        "mean": -13.433839164407495,
+        "ci95": [
+          -67.32818639965848,
+          40.46050807084349
+        ]
+      },
+      "cash_to_cash_days": {
+        "mean": -3.544524491935988,
+        "ci95": [
+          -4.104327551546645,
+          -2.9847214323253306
+        ]
+      },
+      "cycle_service_level": {
+        "mean": 0.011110598833428076,
+        "ci95": [
+          0.009924022352470516,
+          0.012297175314385636
+        ]
+      },
+      "days_of_inventory": {
+        "mean": -3.544524491935989,
+        "ci95": [
+          -4.1043275515466355,
+          -2.9847214323253426
+        ]
+      },
+      "fill_rate": {
+        "mean": -0.0035680740380771847,
+        "ci95": [
+          -0.00518074454125383,
+          -0.0019554035349005393
+        ]
+      },
+      "inventory_turns": {
+        "mean": 4.300206184827241,
+        "ci95": [
+          3.7151951554622094,
+          4.885217214192272
+        ]
+      },
+      "otif": {
+        "mean": 0.001223227110231151,
+        "ci95": [
+          0.00043075979742531845,
+          0.002015694423036983
+        ]
+      },
+      "stockout_days": {
+        "mean": 0.5,
+        "ci95": [
+          -18.55930710426204,
+          19.55930710426204
+        ]
+      },
+      "total_landed_cost_inr": {
+        "mean": 4262338.797177911,
+        "ci95": [
+          -7803568.061736679,
+          16328245.6560925
+        ]
+      }
+    },
+    "costs": {
+      "component": [
+        "purchase",
+        "inbound_freight",
+        "outbound_freight",
+        "holding",
+        "ordering",
+        "dc_fixed",
+        "shortage",
+        "handling"
+      ],
+      "a": [
+        214754382.25,
+        49875435.64876749,
+        9300726.69116263,
+        2484015.813097692,
+        711950,
+        9600000,
+        1048224.8512543507,
+        1154139.9204104685
+      ],
+      "b": [
+        214681527.5,
+        54080151.42522758,
+        9301259.863642588,
+        2025638.6485418165,
+        778370,
+        9600000,
+        1570381.5375953368,
+        1153884.9968631552
+      ],
+      "delta": [
+        -72854.75,
+        4204715.7764600925,
+        533.1724799582735,
+        -458377.1645558756,
+        66420,
+        0,
+        522156.6863409861,
+        -254.9235473134322
+      ],
+      "ci95_low": [
+        -6566446.447304047,
+        -1106000.8473250857,
+        -105259.23901255178,
+        -513719.1784432605,
+        51426.67841131386,
+        0,
+        344381.6575675383,
+        -18634.71340449383
+      ],
+      "ci95_high": [
+        6420736.947304047,
+        9515432.400245272,
+        106325.58397246833,
+        -403035.1506684907,
+        81413.32158868614,
+        0,
+        699931.7151144339,
+        18124.866309866964
+      ]
+    }
+  },
+  "diagnostics": {
+    "run_id": "30716e4cf35ada41a05d72163d40fa83cab8dced19f6c529c760b369544ad4eb",
+    "representative_seed": 1105418498,
+    "warmup_days": 90,
+    "horizon_days": 365,
+    "facilities": [
+      {
+        "id": "S1",
+        "label": "Reliable premium supplier",
+        "kind": "supplier",
+        "demand_units": 0,
+        "shortage_units": 0,
+        "inventory_value_inr": 0,
+        "cost_inr": 0,
+        "utilization": 0.15367305936073059
+      },
+      {
+        "id": "S2",
+        "label": "Low cost slow supplier",
+        "kind": "supplier",
+        "demand_units": 0,
+        "shortage_units": 0,
+        "inventory_value_inr": 0,
+        "cost_inr": 0,
+        "utilization": 0.1534865296803653
+      },
+      {
+        "id": "S3",
+        "label": "Low cost variable supplier",
+        "kind": "supplier",
+        "demand_units": 0,
+        "shortage_units": 0,
+        "inventory_value_inr": 0,
+        "cost_inr": 0,
+        "utilization": 0.11019634703196347
+      },
+      {
+        "id": "S4",
+        "label": "Local small supplier",
+        "kind": "supplier",
+        "demand_units": 0,
+        "shortage_units": 0,
+        "inventory_value_inr": 0,
+        "cost_inr": 0,
+        "utilization": 0.8954611872146119
+      },
+      {
+        "id": "DC1",
+        "label": "Delhi NCR",
+        "kind": "dc",
+        "demand_units": 0,
+        "shortage_units": 0,
+        "inventory_value_inr": 1054422.8963201968,
+        "cost_inr": 42852748.0588147,
+        "utilization": 0.0465672602739726
+      },
+      {
+        "id": "DC2",
+        "label": "Mumbai",
+        "kind": "dc",
+        "demand_units": 0,
+        "shortage_units": 0,
+        "inventory_value_inr": 1765103.7096154713,
+        "cost_inr": 95803535.03446113,
+        "utilization": 0.11192835616438356
+      },
+      {
+        "id": "DC3",
+        "label": "Bengaluru",
+        "kind": "dc",
+        "demand_units": 0,
+        "shortage_units": 0,
+        "inventory_value_inr": 1752049.9148459032,
+        "cost_inr": 99117809.95282154,
+        "utilization": 0.1118497947019533
+      },
+      {
+        "id": "DC5",
+        "label": "Kolkata",
+        "kind": "dc",
+        "demand_units": 0,
+        "shortage_units": 0,
+        "inventory_value_inr": 1011576.4085095121,
+        "cost_inr": 44278680.79374392,
+        "utilization": 0.04643905931642769
+      },
+      {
+        "id": "R01",
+        "label": "Delhi north retail",
+        "kind": "retailer",
+        "demand_units": 80556.71516585375,
+        "shortage_units": 200.52713805108232,
+        "inventory_value_inr": 102069.55092225366,
+        "cost_inr": 88155.40627872117,
+        "utilization": null
+      },
+      {
+        "id": "R02",
+        "label": "Delhi east retail",
+        "kind": "retailer",
+        "demand_units": 79674.15582897495,
+        "shortage_units": 241.93499850977884,
+        "inventory_value_inr": 101963.31861770069,
+        "cost_inr": 82795.43046890134,
+        "utilization": null
+      },
+      {
+        "id": "R03",
+        "label": "Delhi south retail",
+        "kind": "retailer",
+        "demand_units": 80634.74920110716,
+        "shortage_units": 283.75682114464166,
+        "inventory_value_inr": 102183.90122621105,
+        "cost_inr": 89873.48947477277,
+        "utilization": null
+      },
+      {
+        "id": "R04",
+        "label": "Mumbai north retail",
+        "kind": "retailer",
+        "demand_units": 81010.34593664948,
+        "shortage_units": 274.4395869100717,
+        "inventory_value_inr": 103014.75217130258,
+        "cost_inr": 90287.26801426569,
+        "utilization": null
+      },
+      {
+        "id": "R05",
+        "label": "Mumbai east retail",
+        "kind": "retailer",
+        "demand_units": 80909.50197526671,
+        "shortage_units": 247.27864253900125,
+        "inventory_value_inr": 103844.35306106943,
+        "cost_inr": 87258.01762517788,
+        "utilization": null
+      },
+      {
+        "id": "R06",
+        "label": "Mumbai south retail",
+        "kind": "retailer",
+        "demand_units": 80773.96277755109,
+        "shortage_units": 302.6637071358267,
+        "inventory_value_inr": 102278.86557859955,
+        "cost_inr": 90464.35205715176,
+        "utilization": null
+      },
+      {
+        "id": "R07",
+        "label": "Bengaluru north retail",
+        "kind": "retailer",
+        "demand_units": 80404.81595880447,
+        "shortage_units": 190.7675230689755,
+        "inventory_value_inr": 102429.96429527538,
+        "cost_inr": 87979.13322816482,
+        "utilization": null
+      },
+      {
+        "id": "R08",
+        "label": "Bengaluru east retail",
+        "kind": "retailer",
+        "demand_units": 79840.63087826224,
+        "shortage_units": 226.20538158821668,
+        "inventory_value_inr": 101175.2918338444,
+        "cost_inr": 86593.02119542893,
+        "utilization": null
+      },
+      {
+        "id": "R09",
+        "label": "Bengaluru south retail",
+        "kind": "retailer",
+        "demand_units": 80706.42374396259,
+        "shortage_units": 286.5366379513055,
+        "inventory_value_inr": 102689.95361369422,
+        "cost_inr": 89981.72941957365,
+        "utilization": null
+      },
+      {
+        "id": "R10",
+        "label": "Chennai north retail",
+        "kind": "retailer",
+        "demand_units": 79960.88226395634,
+        "shortage_units": 216.13971839612566,
+        "inventory_value_inr": 108796.01636964244,
+        "cost_inr": 659705.4670678957,
+        "utilization": null
+      },
+      {
+        "id": "R11",
+        "label": "Chennai east retail",
+        "kind": "retailer",
+        "demand_units": 80004.43286011636,
+        "shortage_units": 231.54921954137455,
+        "inventory_value_inr": 109439.58008339792,
+        "cost_inr": 695158.7259991273,
+        "utilization": null
+      },
+      {
+        "id": "R12",
+        "label": "Chennai south retail",
+        "kind": "retailer",
+        "demand_units": 79987.64025696315,
+        "shortage_units": 225.15728663736587,
+        "inventory_value_inr": 107842.41081732532,
+        "cost_inr": 651797.6517055988,
+        "utilization": null
+      },
+      {
+        "id": "R13",
+        "label": "Kolkata north retail",
+        "kind": "retailer",
+        "demand_units": 79830.55197592301,
+        "shortage_units": 509.80982488477594,
+        "inventory_value_inr": 101819.43559557557,
+        "cost_inr": 93862.33827745603,
+        "utilization": null
+      },
+      {
+        "id": "R14",
+        "label": "Kolkata east retail",
+        "kind": "retailer",
+        "demand_units": 80496.44938372126,
+        "shortage_units": 375.5266528753885,
+        "inventory_value_inr": 102411.75127154135,
+        "cost_inr": 87877.94854198064,
+        "utilization": null
+      },
+      {
+        "id": "R15",
+        "label": "Kolkata south retail",
+        "kind": "retailer",
+        "demand_units": 79557.49334910479,
+        "shortage_units": 477.8324060540115,
+        "inventory_value_inr": 101113.4996130226,
+        "cost_inr": 92912.59964305718,
+        "utilization": null
+      },
+      {
+        "id": "R16",
+        "label": "Hyderabad north retail",
+        "kind": "retailer",
+        "demand_units": 79551.49777218918,
+        "shortage_units": 211.4276711853615,
+        "inventory_value_inr": 111953.41567377595,
+        "cost_inr": 1146027.957736716,
+        "utilization": null
+      },
+      {
+        "id": "R17",
+        "label": "Hyderabad east retail",
+        "kind": "retailer",
+        "demand_units": 80193.84286060208,
+        "shortage_units": 274.01597499782014,
+        "inventory_value_inr": 111539.5412984043,
+        "cost_inr": 1118173.9412817077,
+        "utilization": null
+      },
+      {
+        "id": "R18",
+        "label": "Hyderabad south retail",
+        "kind": "retailer",
+        "demand_units": 80270.01988187354,
+        "shortage_units": 204.2765740517328,
+        "inventory_value_inr": 112899.0508326352,
+        "cost_inr": 1055766.2294486053,
+        "utilization": null
+      },
+      {
+        "id": "R19",
+        "label": "Ahmedabad north retail",
+        "kind": "retailer",
+        "demand_units": 80067.66416570348,
+        "shortage_units": 177.3578947299157,
+        "inventory_value_inr": 111746.4644742976,
+        "cost_inr": 995424.1902274534,
+        "utilization": null
+      },
+      {
+        "id": "R20",
+        "label": "Ahmedabad east retail",
+        "kind": "retailer",
+        "demand_units": 80355.52415415987,
+        "shortage_units": 184.24887048040915,
+        "inventory_value_inr": 112542.72554028983,
+        "cost_inr": 950882.2607725664,
+        "utilization": null
+      },
+      {
+        "id": "R21",
+        "label": "Ahmedabad south retail",
+        "kind": "retailer",
+        "demand_units": 80482.05004414287,
+        "shortage_units": 284.65903854209125,
+        "inventory_value_inr": 110826.22203132618,
+        "cost_inr": 907385.4326619266,
+        "utilization": null
+      },
+      {
+        "id": "R22",
+        "label": "Pune north retail",
+        "kind": "retailer",
+        "demand_units": 80282.45328958174,
+        "shortage_units": 90.9769045179729,
+        "inventory_value_inr": 103752.91468730412,
+        "cost_inr": 278102.2719978311,
+        "utilization": null
+      },
+      {
+        "id": "R23",
+        "label": "Pune east retail",
+        "kind": "retailer",
+        "demand_units": 80441.11908833457,
+        "shortage_units": 129.27694578687448,
+        "inventory_value_inr": 104564.14631044098,
+        "cost_inr": 339110.7807996243,
+        "utilization": null
+      },
+      {
+        "id": "R24",
+        "label": "Pune south retail",
+        "kind": "retailer",
+        "demand_units": 80008.75379501139,
+        "shortage_units": 217.8678374496347,
+        "inventory_value_inr": 103913.79865239325,
+        "cost_inr": 328059.6448445826,
+        "utilization": null
+      },
+      {
+        "id": "B1",
+        "label": "Delhi contract buyer",
+        "kind": "b2b",
+        "demand_units": 99422.82506197538,
+        "shortage_units": 6464.807903584082,
+        "inventory_value_inr": 288038.12141746655,
+        "cost_inr": 440051.2886410802,
+        "utilization": null
+      },
+      {
+        "id": "B2",
+        "label": "Mumbai contract buyer",
+        "kind": "b2b",
+        "demand_units": 93037.57517192425,
+        "shortage_units": 6895.359739460981,
+        "inventory_value_inr": 277497.11064615106,
+        "cost_inr": 457479.9776515747,
+        "utilization": null
+      },
+      {
+        "id": "B3",
+        "label": "Bengaluru contract buyer",
+        "kind": "b2b",
+        "demand_units": 96037.19190346096,
+        "shortage_units": 6572.015780566693,
+        "inventory_value_inr": 274665.8229644452,
+        "cost_inr": 443384.83334970364,
+        "utilization": null
+      },
+      {
+        "id": "B4",
+        "label": "Kolkata contract buyer",
+        "kind": "b2b",
+        "demand_units": 99028.90941718598,
+        "shortage_units": 8669.487093791118,
+        "inventory_value_inr": 277834.51110499003,
+        "cost_inr": 548967.5698403761,
+        "utilization": null
+      }
+    ],
+    "skus": [
+      {
+        "id": "SKU01",
+        "label": "Basmati rice",
+        "demand_units": 210195.1133424375,
+        "shortage_units": 2047.879249555061,
+        "inventory_value_inr": 1048803.222501908,
+        "forecast_wmape": 0.4140416328644209,
+        "forecast_bias": 0.000010325649126051263
+      },
+      {
+        "id": "SKU02",
+        "label": "Cooking oil",
+        "demand_units": 206798.13427731354,
+        "shortage_units": 2379.5044974788334,
+        "inventory_value_inr": 984770.0650960684,
+        "forecast_wmape": 0.4067750989776571,
+        "forecast_bias": -0.0003640794163594478
+      },
+      {
+        "id": "SKU03",
+        "label": "Milk powder",
+        "demand_units": 208999.02785763374,
+        "shortage_units": 3167.7555696119643,
+        "inventory_value_inr": 1249287.7345853874,
+        "forecast_wmape": 0.5406388024115443,
+        "forecast_bias": -0.0014223308281157514
+      },
+      {
+        "id": "SKU04",
+        "label": "Breakfast cereal",
+        "demand_units": 216190.5730741354,
+        "shortage_units": 5403.482727904206,
+        "inventory_value_inr": 792626.4895104365,
+        "forecast_wmape": 0.6946265142454883,
+        "forecast_bias": 0.0028642034967506463
+      },
+      {
+        "id": "SKU05",
+        "label": "Instant coffee",
+        "demand_units": 214011.13035645976,
+        "shortage_units": 3201.076315951964,
+        "inventory_value_inr": 859226.1780007612,
+        "forecast_wmape": 0.5534521176372978,
+        "forecast_bias": 0.0011948675351903157
+      },
+      {
+        "id": "SKU06",
+        "label": "Tea",
+        "demand_units": 213990.15907966022,
+        "shortage_units": 3135.5370882086568,
+        "inventory_value_inr": 843517.3767883511,
+        "forecast_wmape": 0.680091815870489,
+        "forecast_bias": -0.000029055583489837544
+      },
+      {
+        "id": "SKU07",
+        "label": "Wheat flour",
+        "demand_units": 106233.09850651701,
+        "shortage_units": 909.9188486883047,
+        "inventory_value_inr": 393010.06398342946,
+        "forecast_wmape": 0.5556527738420096,
+        "forecast_bias": 0.00042706076277793483
+      },
+      {
+        "id": "SKU08",
+        "label": "Lentils",
+        "demand_units": 104732.24288767032,
+        "shortage_units": 765.657743568134,
+        "inventory_value_inr": 282592.8088692001,
+        "forecast_wmape": 0.41912968552222024,
+        "forecast_bias": 0.00024188894866181165
+      },
+      {
+        "id": "SKU09",
+        "label": "Biscuits",
+        "demand_units": 109041.62845180769,
+        "shortage_units": 1682.7728295864167,
+        "inventory_value_inr": 357994.6769355468,
+        "forecast_wmape": 0.6998256950755616,
+        "forecast_bias": -0.002361036432672616
+      },
+      {
+        "id": "SKU10",
+        "label": "Noodles",
+        "demand_units": 111404.3878907459,
+        "shortage_units": 2325.9843510820033,
+        "inventory_value_inr": 362457.902475156,
+        "forecast_wmape": 0.7712566303442792,
+        "forecast_bias": -0.004271687586453128
+      },
+      {
+        "id": "SKU11",
+        "label": "Pasta",
+        "demand_units": 105512.46364602618,
+        "shortage_units": 906.4657852445914,
+        "inventory_value_inr": 394698.5697554009,
+        "forecast_wmape": 0.5498257146952081,
+        "forecast_bias": -0.000019737400769861814
+      },
+      {
+        "id": "SKU12",
+        "label": "Tomato sauce",
+        "demand_units": 104879.84241503265,
+        "shortage_units": 1344.083964872042,
+        "inventory_value_inr": 294316.7356854941,
+        "forecast_wmape": 0.6651049557865719,
+        "forecast_bias": 0.0003593398179364479
+      },
+      {
+        "id": "SKU13",
+        "label": "Jam",
+        "demand_units": 107271.13479117435,
+        "shortage_units": 2036.5473231313886,
+        "inventory_value_inr": 369857.27473026974,
+        "forecast_wmape": 0.7709905900288675,
+        "forecast_bias": 0.0005587792320396865
+      },
+      {
+        "id": "SKU14",
+        "label": "Peanut butter",
+        "demand_units": 104879.888114174,
+        "shortage_units": 400.6963671015706,
+        "inventory_value_inr": 363751.5847828653,
+        "forecast_wmape": 0.41148103693930405,
+        "forecast_bias": -0.001540980993855437
+      },
+      {
+        "id": "SKU15",
+        "label": "Specialty spice",
+        "demand_units": 31267.941712370306,
+        "shortage_units": 891.6799810991523,
+        "inventory_value_inr": 111573.94106610188,
+        "forecast_wmape": 1.0064815303206205,
+        "forecast_bias": -0.016253179599491355
+      },
+      {
+        "id": "SKU16",
+        "label": "Pickle",
+        "demand_units": 32273.514860669755,
+        "shortage_units": 211.77825990167298,
+        "inventory_value_inr": 95651.60889753605,
+        "forecast_wmape": 0.7924589393157079,
+        "forecast_bias": 0.0036910355564298857
+      },
+      {
+        "id": "SKU17",
+        "label": "Soup mix",
+        "demand_units": 32386.97579725108,
+        "shortage_units": 700.3034918178439,
+        "inventory_value_inr": 111220.45132305773,
+        "forecast_wmape": 1.0070963786814358,
+        "forecast_bias": -0.0018339150727676862
+      },
+      {
+        "id": "SKU18",
+        "label": "Baking powder",
+        "demand_units": 32025.920490769557,
+        "shortage_units": 1371.757362200508,
+        "inventory_value_inr": 113588.5206798208,
+        "forecast_wmape": 1.1440170155261957,
+        "forecast_bias": 0.00006427587681646811
+      },
+      {
+        "id": "SKU19",
+        "label": "Custard mix",
+        "demand_units": 30737.422251783453,
+        "shortage_units": 789.9391893662347,
+        "inventory_value_inr": 108426.52177838756,
+        "forecast_wmape": 0.9972927188331469,
+        "forecast_bias": -0.008897720395518956
+      },
+      {
+        "id": "SKU20",
+        "label": "Dessert topping",
+        "demand_units": 30697.57835873006,
+        "shortage_units": 993.0828280620824,
+        "inventory_value_inr": 100627.69255028093,
+        "forecast_wmape": 1.1508092559813308,
+        "forecast_bias": 0.009460820774726032
+      }
+    ],
+    "lanes": [
+      {
+        "id": "S1_DC1",
+        "source": "S1",
+        "target": "DC1",
+        "shipped_units": 97949,
+        "freight_inr": 0,
+        "closing_in_transit_units": 0
+      },
+      {
+        "id": "S1_DC2",
+        "source": "S1",
+        "target": "DC2",
+        "shipped_units": 237607,
+        "freight_inr": 5792234.078073336,
+        "closing_in_transit_units": 3435
+      },
+      {
+        "id": "S1_DC3",
+        "source": "S1",
+        "target": "DC3",
+        "shipped_units": 238032,
+        "freight_inr": 9035717.308131479,
+        "closing_in_transit_units": 4688
+      },
+      {
+        "id": "S1_DC5",
+        "source": "S1",
+        "target": "DC5",
+        "shipped_units": 99500,
+        "freight_inr": 3326785.6375753456,
+        "closing_in_transit_units": 860
+      },
+      {
+        "id": "S2_DC1",
+        "source": "S2",
+        "target": "DC1",
+        "shipped_units": 96513,
+        "freight_inr": 2740767.462894432,
+        "closing_in_transit_units": 3070
+      },
+      {
+        "id": "S2_DC2",
+        "source": "S2",
+        "target": "DC2",
+        "shipped_units": 236033,
+        "freight_inr": 0,
+        "closing_in_transit_units": 4890
+      },
+      {
+        "id": "S2_DC3",
+        "source": "S2",
+        "target": "DC3",
+        "shipped_units": 240833,
+        "freight_inr": 4310593.090723505,
+        "closing_in_transit_units": 7624
+      },
+      {
+        "id": "S2_DC5",
+        "source": "S2",
+        "target": "DC5",
+        "shipped_units": 98892,
+        "freight_inr": 4004854.1254543345,
+        "closing_in_transit_units": 2390
+      },
+      {
+        "id": "S3_DC1",
+        "source": "S3",
+        "target": "DC1",
+        "shipped_units": 70884,
+        "freight_inr": 2348135.9169843816,
+        "closing_in_transit_units": 1018
+      },
+      {
+        "id": "S3_DC2",
+        "source": "S3",
+        "target": "DC2",
+        "shipped_units": 175430,
+        "freight_inr": 6567559.535172116,
+        "closing_in_transit_units": 3165
+      },
+      {
+        "id": "S3_DC3",
+        "source": "S3",
+        "target": "DC3",
+        "shipped_units": 167382,
+        "freight_inr": 6154620.322038407,
+        "closing_in_transit_units": 5420
+      },
+      {
+        "id": "S3_DC5",
+        "source": "S3",
+        "target": "DC5",
+        "shipped_units": 68964,
+        "freight_inr": 0,
+        "closing_in_transit_units": 2611
+      },
+      {
+        "id": "S4_DC1",
+        "source": "S4",
+        "target": "DC1",
+        "shipped_units": 73411,
+        "freight_inr": 3302321.6417454435,
+        "closing_in_transit_units": 1505
+      },
+      {
+        "id": "S4_DC2",
+        "source": "S4",
+        "target": "DC2",
+        "shipped_units": 173095,
+        "freight_inr": 3705375.105100289,
+        "closing_in_transit_units": 2864
+      },
+      {
+        "id": "S4_DC3",
+        "source": "S4",
+        "target": "DC3",
+        "shipped_units": 172619,
+        "freight_inr": 0,
+        "closing_in_transit_units": 1455
+      },
+      {
+        "id": "S4_DC5",
+        "source": "S4",
+        "target": "DC5",
+        "shipped_units": 71140,
+        "freight_inr": 2863267.1543371934,
+        "closing_in_transit_units": 0
+      },
+      {
+        "id": "DC1_R01",
+        "source": "DC1",
+        "target": "R01",
+        "shipped_units": 80575,
+        "freight_inr": 46589.56231480373,
+        "closing_in_transit_units": 415
+      },
+      {
+        "id": "DC1_R02",
+        "source": "DC1",
+        "target": "R02",
+        "shipped_units": 79787,
+        "freight_inr": 40504.8004028116,
+        "closing_in_transit_units": 340
+      },
+      {
+        "id": "DC1_R03",
+        "source": "DC1",
+        "target": "R03",
+        "shipped_units": 80624,
+        "freight_inr": 46617.89478211351,
+        "closing_in_transit_units": 89
+      },
+      {
+        "id": "DC2_R04",
+        "source": "DC2",
+        "target": "R04",
+        "shipped_units": 81242,
+        "freight_inr": 46975.230798377714,
+        "closing_in_transit_units": 675
+      },
+      {
+        "id": "DC2_R05",
+        "source": "DC2",
+        "target": "R05",
+        "shipped_units": 81091,
+        "freight_inr": 44306.687100962634,
+        "closing_in_transit_units": 523
+      },
+      {
+        "id": "DC2_R06",
+        "source": "DC2",
+        "target": "R06",
+        "shipped_units": 80852,
+        "freight_inr": 46749.7274871433,
+        "closing_in_transit_units": 220
+      },
+      {
+        "id": "DC3_R07",
+        "source": "DC3",
+        "target": "R07",
+        "shipped_units": 80436,
+        "freight_inr": 46509.190621824666,
+        "closing_in_transit_units": 315
+      },
+      {
+        "id": "DC3_R08",
+        "source": "DC3",
+        "target": "R08",
+        "shipped_units": 79540,
+        "freight_inr": 44830.34936021878,
+        "closing_in_transit_units": 220
+      },
+      {
+        "id": "DC3_R09",
+        "source": "DC3",
+        "target": "R09",
+        "shipped_units": 80522.50132425917,
+        "freight_inr": 46559.20686553482,
+        "closing_in_transit_units": 440
+      },
+      {
+        "id": "DC3_R10",
+        "source": "DC3",
+        "target": "R10",
+        "shipped_units": 80153,
+        "freight_inr": 616387.5490986514,
+        "closing_in_transit_units": 515
+      },
+      {
+        "id": "DC3_R11",
+        "source": "DC3",
+        "target": "R11",
+        "shipped_units": 79551,
+        "freight_inr": 651491.0339899524,
+        "closing_in_transit_units": 415
+      },
+      {
+        "id": "DC3_R12",
+        "source": "DC3",
+        "target": "R12",
+        "shipped_units": 79974,
+        "freight_inr": 608509.1755930398,
+        "closing_in_transit_units": 775
+      },
+      {
+        "id": "DC5_R13",
+        "source": "DC5",
+        "target": "R13",
+        "shipped_units": 79946,
+        "freight_inr": 46225.865948733976,
+        "closing_in_transit_units": 88
+      },
+      {
+        "id": "DC5_R14",
+        "source": "DC5",
+        "target": "R14",
+        "shipped_units": 80172,
+        "freight_inr": 42796.83020473372,
+        "closing_in_transit_units": 120
+      },
+      {
+        "id": "DC5_R15",
+        "source": "DC5",
+        "target": "R15",
+        "shipped_units": 79678.13300992212,
+        "freight_inr": 46070.98160711196,
+        "closing_in_transit_units": 510.1330099221195
+      },
+      {
+        "id": "DC3_R16",
+        "source": "DC3",
+        "target": "R16",
+        "shipped_units": 79763,
+        "freight_inr": 1102149.652864777,
+        "closing_in_transit_units": 1105
+      },
+      {
+        "id": "DC3_R17",
+        "source": "DC3",
+        "target": "R17",
+        "shipped_units": 80279,
+        "freight_inr": 1073074.9226961029,
+        "closing_in_transit_units": 439
+      },
+      {
+        "id": "DC3_R18",
+        "source": "DC3",
+        "target": "R18",
+        "shipped_units": 79782,
+        "freight_inr": 1011862.9067843909,
+        "closing_in_transit_units": 445
+      },
+      {
+        "id": "DC2_R19",
+        "source": "DC2",
+        "target": "R19",
+        "shipped_units": 80148,
+        "freight_inr": 952232.810148509,
+        "closing_in_transit_units": 631
+      },
+      {
+        "id": "DC2_R20",
+        "source": "DC2",
+        "target": "R20",
+        "shipped_units": 80451,
+        "freight_inr": 907357.883744094,
+        "closing_in_transit_units": 530
+      },
+      {
+        "id": "DC2_R21",
+        "source": "DC2",
+        "target": "R21",
+        "shipped_units": 80379,
+        "freight_inr": 862270.4830441929,
+        "closing_in_transit_units": 230
+      },
+      {
+        "id": "DC2_R22",
+        "source": "DC2",
+        "target": "R22",
+        "shipped_units": 80279,
+        "freight_inr": 238397.09267626485,
+        "closing_in_transit_units": 670
+      },
+      {
+        "id": "DC2_R23",
+        "source": "DC2",
+        "target": "R23",
+        "shipped_units": 80353,
+        "freight_inr": 298441.1296955899,
+        "closing_in_transit_units": 110
+      },
+      {
+        "id": "DC2_R24",
+        "source": "DC2",
+        "target": "R24",
+        "shipped_units": 79745,
+        "freight_inr": 285841.2523920636,
+        "closing_in_transit_units": 90
+      },
+      {
+        "id": "DC1_B1",
+        "source": "DC1",
+        "target": "B1",
+        "shipped_units": 98955,
+        "freight_inr": 38062.50675003355,
+        "closing_in_transit_units": 295
+      },
+      {
+        "id": "DC2_B2",
+        "source": "DC2",
+        "target": "B2",
+        "shipped_units": 92537,
+        "freight_inr": 36802.626336372094,
+        "closing_in_transit_units": 0
+      },
+      {
+        "id": "DC3_B3",
+        "source": "DC3",
+        "target": "B3",
+        "shipped_units": 96503,
+        "freight_inr": 38957.56326919105,
+        "closing_in_transit_units": 120
+      },
+      {
+        "id": "DC5_B4",
+        "source": "DC5",
+        "target": "B4",
+        "shipped_units": 99209,
+        "freight_inr": 39029.622707722476,
+        "closing_in_transit_units": 166
+      }
+    ],
+    "cost_components": {
+      "dc_fixed": 9600000,
+      "handling": 1156263.3171670907,
+      "holding": 2032359.8723990018,
+      "inbound_freight": 54152231.37823026,
+      "ordering": 779280,
+      "outbound_freight": 9305604.539285319,
+      "purchase": 215559185.5,
+      "shortage": 1551368.191010739
+    }
+  },
+  "executions": [
+    [
+      {
+        "id": "8f7e7d7ba7594612a520cc9ed474fa33",
+        "scenario_id": "a79a5de5274048c4b96b59efdce7df53",
+        "revision": 1,
+        "name": "Forecast responsiveness · condition A",
+        "notes": "ASSUMPTION: unmodified forecast lesson from configs/learning.yaml; synthetic demonstration, not a recommendation.",
+        "request": {
+          "preset": "base_4dc",
+          "overrides": {
+            "horizon_days": 365,
+            "warmup_days": 90,
+            "network": null,
+            "demand": null,
+            "policy": null,
+            "bullwhip": null,
+            "disruptions": null
+          },
+          "seed": 222,
+          "replications": 2,
+          "options": {
+            "forecasting": true,
+            "segmented": false,
+            "bullwhip": false,
+            "lost_sales": false
+          },
+          "lab": {
+            "monthly_index": null,
+            "suppliers": {},
+            "skus": {},
+            "dc_capacity_factor": 1,
+            "forecast_method": "moving_average",
+            "forecast_window": 7,
+            "forecast_alpha": null,
+            "forecast_beta": null,
+            "buffer_days": 0,
+            "expedite_factor": 1,
+            "expedite_unit_cost": 0,
+            "backup_suppliers": {}
+          },
+          "model": null
+        },
+        "launched_at": "2026-10-23T21:03:41.813958+00:00",
+        "status": {
+          "run_id": "370454def138b9baffa0bf92b7fd1b6c9e28b8636df66bf7ab32ae3ee64d94de",
+          "status": "complete",
+          "seed": 222,
+          "replications": 2,
+          "representative_seed": 1105418498,
+          "error": null
+        }
+      }
+    ],
+    [
+      {
+        "id": "876b23fd59e34e8fbe421ef6fd24b5ea",
+        "scenario_id": "fc1cfb8f208d4af789276bca034bf0b1",
+        "revision": 1,
+        "name": "Forecast responsiveness · condition B",
+        "notes": "ASSUMPTION: unmodified forecast lesson from configs/learning.yaml; synthetic demonstration, not a recommendation.",
+        "request": {
+          "preset": "base_4dc",
+          "overrides": {
+            "horizon_days": 365,
+            "warmup_days": 90,
+            "network": null,
+            "demand": null,
+            "policy": null,
+            "bullwhip": null,
+            "disruptions": null
+          },
+          "seed": 222,
+          "replications": 2,
+          "options": {
+            "forecasting": true,
+            "segmented": false,
+            "bullwhip": false,
+            "lost_sales": false
+          },
+          "lab": {
+            "monthly_index": null,
+            "suppliers": {},
+            "skus": {},
+            "dc_capacity_factor": 1,
+            "forecast_method": "moving_average",
+            "forecast_window": 28,
+            "forecast_alpha": null,
+            "forecast_beta": null,
+            "buffer_days": 0,
+            "expedite_factor": 1,
+            "expedite_unit_cost": 0,
+            "backup_suppliers": {}
+          },
+          "model": null
+        },
+        "launched_at": "2026-10-23T21:03:41.859460+00:00",
+        "status": {
+          "run_id": "30716e4cf35ada41a05d72163d40fa83cab8dced19f6c529c760b369544ad4eb",
+          "status": "complete",
+          "seed": 222,
+          "replications": 2,
+          "representative_seed": 1105418498,
+          "error": null
+        }
+      }
+    ]
+  ]
+}

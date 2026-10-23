@@ -334,6 +334,16 @@ remain separate work.
 - **Risks:** engine too slow (profile, vectorise); parameter credibility (source table, sensitivity runs); agent drift (schema-diff check in CI, small tasks); scope creep.
 - **Descope order:** plant and BOM, lateral transshipment, geographic layout, dark mode, DuckDB-WASM static queries.
 
+### M12 README walkthrough subtask
+
+The user requested the README portion independently of the final case study.
+Document every implemented workspace with real website screenshots, task-oriented
+walkthroughs, recorded/live availability, storage boundaries and setup instructions.
+Capture live result panels from actual seeded runs in an isolated documentation
+workspace; retain screenshot checksums and run evidence. Start with image/link
+integrity checks, review the screenshots and pass the full project gate. This
+does not complete M12's report, executive summary, resume or interview deliverables.
+
 ## 12. Eight-week schedule
 
 The original schedule below is historical. After E1–E3, follow the proposed

@@ -14,6 +14,7 @@
     "test:e2e:update": "playwright test --update-snapshots",
     "format:check": "prettier --check \"app/**/*.{ts,tsx}\" \"src/**/*.{ts,tsx,css}\" \"tests/*.ts\" \"e2e/*.ts\" \"*.ts\" \"*.json\"",
     "record:evidence": "node scripts/record-validation.mjs",
+    "capture:walkthrough": "node scripts/capture-walkthrough.mjs",
     "start": "next start --hostname 127.0.0.1 --port 5173"
   },
   "dependencies": {
