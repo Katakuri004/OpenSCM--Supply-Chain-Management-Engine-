@@ -12,6 +12,8 @@ import {
   WorkspaceSearch,
   MobileNavigation,
 } from "./components/workspace-navigation";
+import { CaseContext } from "./components/case-handoff";
+const DecisionCases = lazy(() => import("./features/decision-cases"));
 const StudyPage = lazy(() => import("./features/study-page"));
 const ControlTower = lazy(() => import("./features/control-tower"));
 const OperationsWorkspace = lazy(() => import("./features/operations-workspace"));
@@ -106,19 +108,22 @@ export default function App() {
           <div className="flex flex-wrap items-center gap-2">
             <WorkspaceSearch network={data?.network.network} />
             <MotionPreferences />
-            {view !== "portfolio" && view !== "learning" && view !== "builder" && (
-              <select
-                aria-label="Data source"
-                value={mode}
-                onChange={(event) => {
-                  creation.reset();
-                  set({ mode: event.target.value as "fixture" | "live", run: "" });
-                }}
-              >
-                <option value="fixture">Recorded study</option>
-                <option value="live">Live API</option>
-              </select>
-            )}
+            {view !== "cases" &&
+              view !== "portfolio" &&
+              view !== "learning" &&
+              view !== "builder" && (
+                <select
+                  aria-label="Data source"
+                  value={mode}
+                  onChange={(event) => {
+                    creation.reset();
+                    set({ mode: event.target.value as "fixture" | "live", run: "" });
+                  }}
+                >
+                  <option value="fixture">Recorded study</option>
+                  <option value="live">Live API</option>
+                </select>
+              )}
             {operationsView && (
               <>
                 <select
@@ -201,6 +206,7 @@ export default function App() {
             </Button>
           </div>
         </header>
+        <CaseContext />
         <main id="main" key={view} tabIndex={-1} className="workspace-main motion-workspace">
           {view === "tower" && mode === "live" && compareOpen && (
             <label className="field mb-4">
@@ -223,43 +229,49 @@ export default function App() {
               </p>
               <h1 className="text-[28px] font-semibold tracking-tight">{viewNames[view]}</h1>
               <p className="mt-2 text-xs text-[var(--secondary)]">
-                {view === "builder"
-                  ? "Design, validate and simulate your own supply-chain model with explicit operating assumptions."
-                  : view === "overview"
-                    ? "A connected view of inventory, service exposure and your next operating decision."
-                    : view === "exceptions"
-                      ? "Prioritise service exceptions, review local observations and investigate the underlying inventory."
-                      : view === "playbooks"
-                        ? "Turn practical operations questions into transparent, repeatable simulation experiments."
-                        : view === "tower"
-                          ? "Follow inventory, service and replenishment across every echelon."
-                          : "Explore supply-chain trade-offs with recorded experiments and explicit assumptions."}
+                {view === "cases"
+                  ? "One investigation from operating question to defensible decision, with reproducible simulation evidence."
+                  : view === "builder"
+                    ? "Design, validate and simulate your own supply-chain model with explicit operating assumptions."
+                    : view === "overview"
+                      ? "A connected view of inventory, service exposure and your next operating decision."
+                      : view === "exceptions"
+                        ? "Prioritise service exceptions, review local observations and investigate the underlying inventory."
+                        : view === "playbooks"
+                          ? "Turn practical operations questions into transparent, repeatable simulation experiments."
+                          : view === "tower"
+                            ? "Follow inventory, service and replenishment across every echelon."
+                            : "Explore supply-chain trade-offs with recorded experiments and explicit assumptions."}
               </p>
             </div>
             <div className="text-right text-[10px] leading-5 text-[var(--secondary)]">
               <span className="rounded border border-[var(--border)] px-2 py-1">
-                {view === "builder"
-                  ? "INTERACTIVE MODEL WORKSPACE"
-                  : view === "learning"
-                    ? "STUDENT SIMULATION WORKSPACE"
-                    : view === "portfolio"
-                      ? "SERVER PLANNING WORKSPACE"
-                      : mode === "fixture"
-                        ? "RECORDED SIMULATION"
-                        : "LIVE STUDY SERVICE"}
+                {view === "cases"
+                  ? "DECISION CASE WORKSPACE"
+                  : view === "builder"
+                    ? "INTERACTIVE MODEL WORKSPACE"
+                    : view === "learning"
+                      ? "STUDENT SIMULATION WORKSPACE"
+                      : view === "portfolio"
+                        ? "SERVER PLANNING WORKSPACE"
+                        : mode === "fixture"
+                          ? "RECORDED SIMULATION"
+                          : "LIVE STUDY SERVICE"}
               </span>
               <p className="mt-2">
-                {view === "builder"
-                  ? "Versioned model snapshots · engine validation · actual simulation"
-                  : view === "learning"
-                    ? "Guided experiments · visible assumptions · actual engine evidence"
-                    : view === "portfolio"
-                      ? "Versioned assumptions · immutable launches · current simulation API"
-                      : !operationsView
-                        ? "Saved experiments · seeded representative trajectories"
-                        : data
-                          ? `${data.network.kpis.replications} replications · ${data.network.kpis.replications > 1 ? "95% t intervals" : "intervals unavailable"} · representative trajectory`
-                          : "Choose a scenario and run the study"}
+                {view === "cases"
+                  ? "Revisioned briefs · paired conditions · durable evidence"
+                  : view === "builder"
+                    ? "Versioned model snapshots · engine validation · actual simulation"
+                    : view === "learning"
+                      ? "Guided experiments · visible assumptions · actual engine evidence"
+                      : view === "portfolio"
+                        ? "Versioned assumptions · immutable launches · current simulation API"
+                        : !operationsView
+                          ? "Saved experiments · seeded representative trajectories"
+                          : data
+                            ? `${data.network.kpis.replications} replications · ${data.network.kpis.replications > 1 ? "95% t intervals" : "intervals unavailable"} · representative trajectory`
+                            : "Choose a scenario and run the study"}
               </p>
             </div>
           </div>
@@ -280,7 +292,11 @@ export default function App() {
               {status.data.error} Submit the run again to retry.
             </div>
           )}
-          {view === "builder" ? (
+          {view === "cases" ? (
+            <Suspense fallback={<WorkspaceLoading label="Loading decision cases…" />}>
+              <DecisionCases />
+            </Suspense>
+          ) : view === "builder" ? (
             <Suspense fallback={<WorkspaceLoading label="Loading network builder…" />}>
               <NetworkBuilder />
             </Suspense>

@@ -1,5 +1,6 @@
 import { create } from "zustand";
 export const viewNames = {
+  cases: "Decision cases",
   overview: "Operations overview",
   exceptions: "Exception workbench",
   playbooks: "Scenario playbooks",
@@ -24,6 +25,9 @@ export const useTower = create<{
   node: string;
   run: string;
   playbook: string;
+  decisionCase: string;
+  caseExecution: string;
+  caseSide: "a" | "b";
   portfolio: string;
   lesson: string;
   dark: boolean;
@@ -35,6 +39,9 @@ export const useTower = create<{
       node: string;
       run: string;
       playbook: string;
+      decisionCase: string;
+      caseExecution: string;
+      caseSide: "a" | "b";
       portfolio: string;
       lesson: string;
       dark: boolean;
@@ -43,12 +50,15 @@ export const useTower = create<{
 }>((set) => ({
   view: Object.hasOwn(viewNames, params.get("view") ?? "")
     ? (params.get("view") as ViewKey)
-    : "overview",
+    : "cases",
   mode: params.get("mode") === "live" ? "live" : "fixture",
   day: Number.isInteger(initialDay) && initialDay >= 0 ? initialDay : 90,
   node: params.get("node") ?? "R01",
   run: params.get("run") ?? "",
   playbook: params.get("playbook") ?? "",
+  decisionCase: params.get("case") ?? "",
+  caseExecution: params.get("caseRun") ?? "",
+  caseSide: params.get("condition") === "a" ? "a" : "b",
   portfolio: params.get("portfolio") ?? "",
   lesson: params.get("lesson") ?? "service",
   dark: localStorage.getItem("theme") === "dark",
@@ -63,6 +73,9 @@ useTower.subscribe((state) => {
     node: state.node,
     run: state.run,
     playbook: state.playbook,
+    case: state.decisionCase,
+    caseRun: state.caseExecution,
+    condition: state.caseSide,
     portfolio: state.portfolio,
     lesson: state.lesson,
   })) {

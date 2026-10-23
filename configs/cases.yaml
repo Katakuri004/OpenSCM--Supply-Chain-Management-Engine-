@@ -1,0 +1,4 @@
+# ASSUMPTION: local workspace engineering limits, not simulation parameters.
+max_package_bytes: 2000000
+history_limit: 50
+initial_lesson: capacity

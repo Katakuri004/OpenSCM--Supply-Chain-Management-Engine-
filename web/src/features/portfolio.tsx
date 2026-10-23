@@ -1,3 +1,4 @@
+import { CaseHandoff } from "../components/case-handoff";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArrowRight, Copy, FlaskConical, Plus, Save } from "lucide-react";
@@ -258,6 +259,7 @@ function Editor({
             />
           </label>
         </div>
+        <CaseHandoff request={request} name={name} load={setRequest} />
         <LabControls request={request} change={setRequest} catalog={catalog} />
         <details className="mt-5 rounded-lg border border-[var(--border)] p-4">
           <summary className="cursor-pointer text-sm font-medium">

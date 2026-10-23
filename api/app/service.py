@@ -1,9 +1,11 @@
 """Local, single-server run cache; completed artifacts are immutable."""
 
+import errno
 import hashlib
 import json
 import logging
 import re
+import sys
 import threading
 import time
 from dataclasses import dataclass
@@ -188,7 +190,7 @@ class RunStore:
             name: version(name)
             for name in ("numpy", "scipy", "pydantic", "pyarrow", "duckdb", "fastapi")
         }
-        self.lock = threading.Lock()
+        self.lock = threading.RLock()
         self.execution = threading.Lock()
         self.pending: set[str] = set()
         for path in self.root.glob("*/status.json"):
@@ -212,7 +214,19 @@ class RunStore:
         path = self.directory(run_id) / "status.json"
         if not path.is_file():
             raise HTTPException(404, "Unknown run")
-        return RunStatus.model_validate_json(path.read_text())
+        attempt = 0
+        while True:
+            try:
+                return RunStatus.model_validate_json(path.read_text(encoding="utf-8"))
+            except PermissionError as error:
+                attempt += 1
+                windows_lock = getattr(error, "winerror", None) in {5, 32, 33} or (
+                    sys.platform == "win32" and error.errno == errno.EACCES
+                )
+                if not windows_lock or attempt >= 5:
+                    raise
+                # Windows CRT can expose a sharing violation as EACCES without winerror.
+                time.sleep(0.01 * attempt)
 
     def ready(self, run_id: str) -> Path:
         status = self.status(run_id)
@@ -279,7 +293,9 @@ class RunStore:
             raise HTTPException(422, str(exc)) from exc
         return scenario, effective
 
-    def reserve(self, request: RunRequest) -> tuple[RunStatus, bool]:
+    def manifest(self, request: RunRequest) -> dict[str, Any]:
+        # Normalize numeric defaults identically before and after a JSON round trip.
+        request = RunRequest.model_validate(request.model_dump())
         scenario, effective = self.resolve(request)
         payload = {
             "request": request.model_dump(),
@@ -308,6 +324,31 @@ class RunStore:
         run_id = hashlib.sha256(json.dumps(identity, sort_keys=True).encode()).hexdigest()
         children = np.random.SeedSequence(request.seed).spawn(2)
         seeds = [int(s.generate_state(1)[0]) for s in children[1].spawn(request.replications)]
+        return payload | {
+            "run_id": run_id,
+            "replication_seeds": seeds,
+            "training_seed": int(children[0].generate_state(1)[0]),
+        }
+
+    def reserve_pair(self, a: RunRequest, b: RunRequest) -> list[tuple[RunStatus, bool]]:
+        manifests = [self.manifest(a), self.manifest(b)]
+        with self.lock:
+            needed = set()
+            for manifest in manifests:
+                identity = manifest["run_id"]
+                path = self.directory(identity) / "status.json"
+                if not path.is_file() or self.status(identity).status == "failed":
+                    needed.add(identity)
+            if len(self.pending) + len(needed) > self.settings.max_pending_runs:
+                raise HTTPException(
+                    503, "Local run queue cannot accept both conditions; retry later"
+                )
+            return [self.reserve(a), self.reserve(b)]
+
+    def reserve(self, request: RunRequest) -> tuple[RunStatus, bool]:
+        payload = self.manifest(request)
+        run_id = payload["run_id"]
+        seeds = payload["replication_seeds"]
         with self.lock:
             folder = self.directory(run_id)
             if (folder / "status.json").is_file():
@@ -325,16 +366,8 @@ class RunStore:
                 representative_seed=seeds[0],
             )
             write_json(folder / "request.json", request.model_dump())
-            write_json(folder / "scenario.json", scenario.model_dump())
-            write_json(
-                folder / "manifest.json",
-                payload
-                | {
-                    "run_id": run_id,
-                    "replication_seeds": seeds,
-                    "training_seed": int(children[0].generate_state(1)[0]),
-                },
-            )
+            write_json(folder / "scenario.json", payload["scenario"])
+            write_json(folder / "manifest.json", payload)
             write_json(folder / "status.json", status.model_dump())
             self.pending.add(run_id)
             return status, True

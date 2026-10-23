@@ -1,9 +1,10 @@
-# OpenSCM · open-source supply chain simulation
+# OpenSCM · supply-chain decision stress lab
 
-**An interactive operations and learning lab for designing networks, testing planning decisions and explaining supply-chain trade-offs.**
+**Frame an operating decision, compare plans, inspect the evidence and keep a recommendation you can defend.**
 
-OpenSCM connects a visual network builder, inventory and service monitoring, saved
-scenarios, paired experiments and a student sandbox in one Next.js workspace.
+A persistent **Decision Case** connects the operating question, model, complete A/B
+conditions, goals, prediction, run evidence and decision notes. The network builder,
+Planning Lab, learning sandbox and live inspectors become tools for that investigation.
 Start with reproducible synthetic data; no proprietary dataset or ERP connection
 is required. The reference study models an FMCG supply chain on Indian lanes, with
 costs in INR. Original project code is licensed under [Apache-2.0](LICENSE).
@@ -51,7 +52,9 @@ Start the frontend:
 npm run dev --prefix web
 ```
 
-Open [localhost:5173](http://localhost:5173). **Recorded study** mode works without
+Open [localhost:5173](http://localhost:5173) for Decision Cases (requires the API).
+For an API-free entry, open [the recorded operations overview](http://localhost:5173/?view=overview).
+**Recorded study** mode works without
 the simulation API for the operations views and recorded analytical labs.
 To save scenarios/models, validate topology or execute new simulations, start the
 local API in another terminal:
@@ -73,13 +76,33 @@ For a production-mode local preview, run `npm run build --prefix web`, then
 
 ## Feature walkthrough
 
-The sidebar groups the 13 modules into **Operate**, **Plan & simulate** and
-**Learn & reference**. Append a route below to `http://localhost:5173/` to open a
+### One case from question to decision
+
+Start a capacity, demand, inventory or sourcing investigation from ten documented
+templates. Record your prediction and acceptance goals, configure both conditions,
+save and run. Review actual paired intervals and service/cost/inventory trade-offs,
+inspect the live run, then save your observations and recommendation. Learning can
+save a full case; Planning Lab and the builder can load/update a case condition.
+
+![Decision case evidence showing historical goals, paired simulation results and linked execution context](web/e2e/snapshots/e4-decision-case.png)
+
+*Actual seeded capacity comparison from the E4 browser journey. Evidence retains
+its launch revision when the current notebook changes. Imported archives are
+explicitly unverified; reference labs are labelled separately from case runs.*
+
+Cases include revision conflicts/history, browser draft recovery, definition forks,
+versioned JSON packages and Markdown decision briefs. See [the case guide](docs/decision-cases.md).
+This foundation does not yet implement decision-time replay or bounded failure
+search; those remain E5/E7. Synthetic evidence is not a real-world certification.
+
+The sidebar starts with **Decision cases**, followed by the 13 existing tools in
+**Operate**, **Plan & simulate** and **Learn & reference**. Append a route below to `http://localhost:5173/` to open a
 module directly. Daily observation, selected facility and module are reflected in
 the URL; a URL does not preserve every unsaved form field.
 
 | Module | Route | What you can do | Data availability |
 | --- | --- | --- | --- |
+| Decision cases | `?view=cases` (home) | Save complete investigations, compare A/B, assess goals and export decision briefs | Local API; archived evidence survives raw cache removal |
 | Operations overview | `?view=overview` | Read service exposure, coverage and trends; open the next investigation | Recorded or completed live run |
 | Exception workbench | `?view=exceptions` | Filter daily exceptions, review sites and open inspectors | Recorded or completed live run; review flags are browser-local |
 | Control Tower | `?view=tower` | Explore topology, scrub days, query facilities and inspect inventory | Recorded or completed live run |
@@ -253,13 +276,14 @@ The learning loop is **question → prediction → experiment → evidence → r
 3. Run the experiment through the API. Read the metric deltas and interval-based
    indicators, including uncertain differences and service-goal qualifications.
 4. Open daily A/B evidence, choose a facility and SKU, and explore the mechanism.
-5. Record a reflection, export the notebook/evidence or save B in Planning Lab.
+5. Record a reflection, save the full decision case, export notebook/evidence or save B in Planning Lab.
 
 ![Learning experiment results with service, cost, inventory and amplification metrics, A/B estimates, paired intervals and direction indicators](docs/images/walkthrough/learning-results.png)
 
-*Actual results from the unchanged forecast lesson. Prediction/reflection text is
-browser-local. The full editable experiment session is not yet a server-persisted
-workbook; export evidence or save a scenario before leaving an investigation.*
+*Actual results from the unchanged forecast lesson. The session notebook is
+browser-local until explicitly copied into a Decision Case. “Save full decision
+case” now retains both conditions, the goal, notes and matching completed evidence
+on the server; the original local notebook remains available.*
 
 The **Visual explorer** provides ten supported daily series, facility/SKU selectors,
 measured/full day windows, summary indicators and four chart forms: time trend,
@@ -397,11 +421,11 @@ For capture commands and maintenance, see the
 | Frontend | Next.js, React, strict TypeScript, Tailwind/shadcn-style components and TanStack Query |
 | Visuals | Cytoscape supply-chain networks and ECharts scientific charts with source-labelled exports |
 
-Original milestones **M0–M10** and product expansions **E1, E2, E3, E6 and E9**
+Original milestones **M0–M10** and product expansions **E1, E2, E3, E4, E6 and E9**
 are implemented. This README covers the walkthrough portion of M12; the final
 case study/report and broader M11 delivery/accessibility work remain separate.
-The [upgrade roadmap](docs/upgrade-roadmap.md) also distinguishes planned workbooks,
-decision replay, experiment sweeps and ongoing replenishment rules from current
+The [upgrade roadmap](docs/upgrade-roadmap.md) also distinguishes planned
+decision replay, experiment sweeps/failure search and ongoing replenishment rules from current
 features. Future modules listed there are not advertised as available here.
 
 ## Development and verification

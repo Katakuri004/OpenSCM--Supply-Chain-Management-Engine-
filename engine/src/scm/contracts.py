@@ -854,7 +854,135 @@ class StudyEvidence(Contract):
     validation: list[ParameterNote]
 
 
+class CaseGoals(Contract):
+    service_floor: Fraction | None = None
+    cost_ceiling_inr: Nonnegative | None = None
+    inventory_ceiling_days: Nonnegative | None = None
+
+
+class DecisionCaseDraft(Contract):
+    format_version: Literal[1] = 1
+    name: str = Field(min_length=1, max_length=100)
+    question: str = Field(min_length=1, max_length=2000)
+    assumptions: str = Field(default="", max_length=10000)
+    prediction: str = Field(default="", max_length=4000)
+    observations: str = Field(default="", max_length=10000)
+    reflection: str = Field(default="", max_length=4000)
+    decision: str = Field(default="", max_length=10000)
+    lesson_id: Identifier | None = None
+    goals: CaseGoals = Field(default_factory=CaseGoals)
+    baseline: RunRequest
+    alternative: RunRequest
+
+    @model_validator(mode="after")
+    def paired_definition(self) -> Self:
+        if not self.name.strip() or not self.question.strip():
+            raise ValueError("Case name and operating question must contain text")
+        if (self.baseline.seed, self.baseline.replications) != (
+            self.alternative.seed,
+            self.alternative.replications,
+        ):
+            raise ValueError("Case conditions require matching seeds and replication counts")
+        return self
+
+
+class DecisionCaseUpdate(DecisionCaseDraft):
+    revision: int = Field(ge=1)
+
+
+class SavedDecisionCase(DecisionCaseUpdate):
+    id: Identifier
+    created_at: str
+    updated_at: str
+
+
+class CaseExecution(Contract):
+    id: Identifier
+    case_id: Identifier
+    launched_at: str
+    origin: Literal["case_launch", "attached"]
+    snapshot: SavedDecisionCase
+    run_a: Identifier
+    run_b: Identifier
+    status_a: RunStatus | None = None
+    status_b: RunStatus | None = None
+    evidence_available: bool = False
+
+    @model_validator(mode="after")
+    def aligned_execution(self) -> Self:
+        if self.case_id != self.snapshot.id:
+            raise ValueError("Execution must identify its case snapshot")
+        for status, identity, request in (
+            (self.status_a, self.run_a, self.snapshot.baseline),
+            (self.status_b, self.run_b, self.snapshot.alternative),
+        ):
+            if status is not None and (
+                status.run_id != identity
+                or status.seed != request.seed
+                or status.replications != request.replications
+            ):
+                raise ValueError("Run status must match its case condition")
+        return self
+
+
+class CaseEvidence(Contract):
+    execution: CaseExecution
+    comparison: Comparison
+    a: Kpis
+    b: Kpis
+    provenance: list[RunProvenance] = Field(min_length=2, max_length=2)
+    diagnostics: RunDiagnostics | None = None
+
+    @model_validator(mode="after")
+    def aligned_evidence(self) -> Self:
+        pair = (self.execution.run_a, self.execution.run_b)
+        if (
+            pair != (self.comparison.run_a, self.comparison.run_b)
+            or pair != (self.a.run_id, self.b.run_id)
+            or pair != tuple(row.run_id for row in self.provenance)
+        ):
+            raise ValueError("Case evidence must identify the same ordered run pair")
+        if self.execution.case_id != self.execution.snapshot.id:
+            raise ValueError("Execution must identify its case snapshot")
+        requests = (self.execution.snapshot.baseline, self.execution.snapshot.alternative)
+        if any(request != row.request for request, row in zip(requests, self.provenance)):
+            raise ValueError("Provenance requests must match the execution snapshot")
+        if any(kpis.replications != self.comparison.replications for kpis in (self.a, self.b)):
+            raise ValueError("KPI replication counts must match the comparison")
+        if self.comparison.replications != requests[0].replications:
+            raise ValueError("Comparison replication count must match the case")
+        if self.provenance[0].replication_seeds != self.provenance[1].replication_seeds:
+            raise ValueError("Paired evidence requires matching replication streams")
+        if self.provenance[0].input_sha256 != self.provenance[1].input_sha256:
+            raise ValueError("Paired evidence requires matching source fingerprints")
+        if self.diagnostics is not None and self.diagnostics.run_id != pair[1]:
+            raise ValueError("Diagnostics must identify condition B")
+        return self
+
+
+class CasePackage(Contract):
+    format: Literal["openscm-case-v1"]
+    definition: DecisionCaseDraft
+    evidence: CaseEvidence | None = None
+
+
+class CaseDetail(Contract):
+    case: SavedDecisionCase
+    imported_evidence: CaseEvidence | None = None
+
+
+class AttachCaseRuns(Contract):
+    revision: int = Field(ge=1)
+    run_a: Identifier
+    run_b: Identifier
+
+
 CONTRACTS: dict[str, type[Contract]] = {
+    "decision_case": SavedDecisionCase,
+    "case_execution": CaseExecution,
+    "case_evidence": CaseEvidence,
+    "case_package": CasePackage,
+    "case_detail": CaseDetail,
     "model_snapshot": ModelSnapshot,
     "builder_catalog": BuilderCatalog,
     "model_preview": ModelPreview,

@@ -6,7 +6,7 @@ test("operations overview reconciles to recorded health and opens actionable exc
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   const fixture = await (await page.request.get("/fixtures/tower.json")).json();
-  await page.goto("/");
+  await page.goto("/?view=overview");
   await expect(
     page.getByRole("heading", { name: "Operations overview", exact: true }),
   ).toBeVisible();

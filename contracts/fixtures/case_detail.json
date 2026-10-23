@@ -1,0 +1,93 @@
+{
+  "case": {
+    "format_version": 1,
+    "name": "Dispatch capacity investigation",
+    "question": "Does restricted DC dispatch reduce customer fill?",
+    "assumptions": "ASSUMPTION: synthetic teaching network; acceptance target is illustrative.",
+    "prediction": "Inventory may not protect customers when dispatch is constrained.",
+    "observations": "Inspect downstream receipts and dispatch utilization.",
+    "reflection": "",
+    "decision": "",
+    "lesson_id": "capacity",
+    "goals": {
+      "service_floor": 0.95,
+      "cost_ceiling_inr": null,
+      "inventory_ceiling_days": null
+    },
+    "baseline": {
+      "preset": "base_4dc",
+      "overrides": {
+        "horizon_days": 21,
+        "warmup_days": 7,
+        "network": null,
+        "demand": null,
+        "policy": null,
+        "bullwhip": null,
+        "disruptions": null
+      },
+      "seed": 222,
+      "replications": 1,
+      "options": {
+        "forecasting": false,
+        "segmented": false,
+        "bullwhip": false,
+        "lost_sales": false
+      },
+      "lab": {
+        "monthly_index": null,
+        "suppliers": {},
+        "skus": {},
+        "dc_capacity_factor": 1.0,
+        "forecast_method": null,
+        "forecast_window": null,
+        "forecast_alpha": null,
+        "forecast_beta": null,
+        "buffer_days": 0.0,
+        "expedite_factor": 1.0,
+        "expedite_unit_cost": 0.0,
+        "backup_suppliers": {}
+      },
+      "model": null
+    },
+    "alternative": {
+      "preset": "base_4dc",
+      "overrides": {
+        "horizon_days": 21,
+        "warmup_days": 7,
+        "network": null,
+        "demand": null,
+        "policy": null,
+        "bullwhip": null,
+        "disruptions": null
+      },
+      "seed": 222,
+      "replications": 1,
+      "options": {
+        "forecasting": false,
+        "segmented": false,
+        "bullwhip": false,
+        "lost_sales": false
+      },
+      "lab": {
+        "monthly_index": null,
+        "suppliers": {},
+        "skus": {},
+        "dc_capacity_factor": 0.35,
+        "forecast_method": null,
+        "forecast_window": null,
+        "forecast_alpha": null,
+        "forecast_beta": null,
+        "buffer_days": 0.0,
+        "expedite_factor": 1.0,
+        "expedite_unit_cost": 0.0,
+        "backup_suppliers": {}
+      },
+      "model": null
+    },
+    "revision": 1,
+    "id": "a60dc786bb5846ff9761af54c7f1573a",
+    "created_at": "2026-10-23T21:32:47.386682+00:00",
+    "updated_at": "2026-10-23T21:32:47.386682+00:00"
+  },
+  "imported_evidence": null
+}

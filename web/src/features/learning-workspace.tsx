@@ -1,3 +1,4 @@
+import { starterCase } from "../lib/cases";
 import { useEffect, useState } from "react";
 import { useMutation, useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArrowRight, BookOpen, Download, FlaskConical } from "lucide-react";
@@ -309,6 +310,52 @@ function LearningExperiment({
       set({ view: "portfolio", portfolio: saved.id });
     },
   });
+  const saveCase = useMutation({
+    mutationFn: async () => {
+      const saved = read(
+        await client.POST("/cases", {
+          body: {
+            ...starterCase(lesson.id),
+            baseline: a,
+            alternative: b,
+            prediction: notebook.prediction,
+            reflection: notebook.reflection,
+            goals: { service_floor: goal },
+          },
+        }),
+      );
+      let execution = "";
+      let attachmentError = "";
+      if (
+        result.data &&
+        submission &&
+        JSON.stringify(submission.input.a) === JSON.stringify(a) &&
+        JSON.stringify(submission.input.b) === JSON.stringify(b)
+      ) {
+        try {
+          const attached = read(
+            await client.POST("/cases/{identity}/attach", {
+              params: { path: { identity: saved.id } },
+              body: {
+                revision: saved.revision,
+                run_a: result.data.comparison.run_a,
+                run_b: result.data.comparison.run_b,
+              },
+            }),
+          );
+          execution = attached.id;
+        } catch (error) {
+          attachmentError = error instanceof Error ? error.message : "Evidence attachment failed.";
+        }
+      }
+      return { saved, execution, attachmentError };
+    },
+    onSuccess: (value) => {
+      void cache.invalidateQueries({ queryKey: ["cases"] });
+      if (value.attachmentError) return;
+      set({ view: "cases", decisionCase: value.saved.id, caseExecution: value.execution });
+    },
+  });
   const busy =
     launch.isPending ||
     statuses.some((row) => ["queued", "running"].includes(row.data?.status ?? ""));
@@ -318,7 +365,11 @@ function LearningExperiment({
       JSON.stringify(submission.input.b) !== JSON.stringify(b));
   const changed = requestDifferences(a, b);
   const error =
-    launch.error ?? persist.error ?? result.error ?? statuses.find((row) => row.error)?.error;
+    launch.error ??
+    persist.error ??
+    saveCase.error ??
+    result.error ??
+    statuses.find((row) => row.error)?.error;
   return (
     <div className="space-y-5">
       <section className="panel p-5">
@@ -349,9 +400,10 @@ function LearningExperiment({
           />
         </label>
         <p className="lab-help">
-          Notebook text is saved in this browser per lesson. Results and custom inputs last for this
-          open lesson; export evidence or save B in Planning Lab before switching lessons. No
-          automated grades.
+          Notebook text is saved in this browser per lesson. Save full decision case to retain both
+          conditions, goals, notes and any matching completed evidence on the server. Results and
+          custom inputs last for this open lesson; export evidence or save B in Planning Lab before
+          switching lessons. No automated grades.
         </p>
         {storageError && <p role="alert">{storageError}</p>}
       </section>
@@ -489,6 +541,28 @@ function LearningExperiment({
             Save B in Planning Lab
             <ArrowRight />
           </Button>
+          <Button
+            variant="outline"
+            disabled={saveCase.isPending || !api.data}
+            loading={saveCase.isPending}
+            onClick={() => saveCase.mutate()}
+          >
+            Save full decision case
+          </Button>
+          {saveCase.data?.attachmentError && (
+            <div role="alert" className="text-xs">
+              The case was saved, but its evidence could not be attached:{" "}
+              {saveCase.data.attachmentError}
+              <Button
+                variant="outline"
+                onClick={() =>
+                  set({ view: "cases", decisionCase: saveCase.data!.saved.id, caseExecution: "" })
+                }
+              >
+                Open saved case
+              </Button>
+            </div>
+          )}
           <Button
             variant="outline"
             onClick={() =>

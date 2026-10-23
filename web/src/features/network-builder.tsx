@@ -1,3 +1,4 @@
+import { CaseHandoff } from "../components/case-handoff";
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
@@ -312,6 +313,18 @@ export default function NetworkBuilder() {
     });
   return (
     <div className="space-y-5">
+      <CaseHandoff
+        request={request}
+        name={name}
+        load={(value) =>
+          apply(
+            syncNetwork({
+              ...value,
+              model: value.model ?? structuredClone(starter.request.model),
+            } as BuilderRequest),
+          )
+        }
+      />
       <section className="workspace-callout">
         <div>
           <p className="eyebrow">DESIGN / VALIDATE / SIMULATE</p>

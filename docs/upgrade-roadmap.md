@@ -1,7 +1,8 @@
 # Next implementation modules
 
 Proposed roadmap after the completed E1–E3 product expansions, dated 23 October
-2026. On 24 October the user prioritised E6, which is now implemented; the other
+2026. E4 is now delivered as [persistent Decision Cases](decision-cases.md).
+On 24 October the user prioritised E6, which is now implemented; the other
 modules below remain planned. The subsequent user-requested E9
 [interaction/motion polish](interaction-motion.md), delivered on 24 October, is a separate frontend milestone;
 it does not complete M11's broader audit. Product E numbers
@@ -15,14 +16,18 @@ is needed. Synthetic assumptions remain explicit throughout.
 
 | Order | Milestone | Main outcome | Depends on |
 | --- | --- | --- | --- |
-| 1 | E4 — Persistent experiment workbooks | Resume and share a complete learning experiment without losing work | Existing E2/E3 |
+| 1 | E4 — Persistent decision cases — implemented | Resume and share a complete investigation without losing work | Existing E2/E3 |
 | 2 | E5 — Simulation replay and decision traces | Explain how a daily replenishment decision leads to a result | Existing E3; E4 for saved investigations |
 | 3 | M11 — Delivery, accessibility and deployment quality | A reliable installation and accessible recorded demo | Existing frontend; E4/E5 included in verification |
 | 4 | E6 — Visual supply-chain model builder — implemented | Configure a custom supported network without editing source YAML | Existing E2 persistence; M11 packaging remains pending |
 | 5 | E7 — Experiment sweeps and decision frontiers | Compare many alternatives with budgets and uncertainty | E4; E6 for custom-network sweeps |
 | 6 | E8 — Replenishment rules and ongoing inventory protection | Test operational policies beyond an initial-stock buffer | E5 traces; E7 evaluation |
 
-## E4 — Persistent experiment workbooks
+## E4 — Persistent decision cases · implemented
+
+Delivered as the shared question → conditions → evidence → decision workflow.
+See [the case guide](decision-cases.md) for persistence, portable evidence, draft
+recovery, tool handoffs and exact scope. The original acceptance brief follows.
 
 **Problem:** E3 saves prediction/reflection text locally, but custom A/B inputs and
 results belong to the open lesson session. Planning Lab stores scenarios and
@@ -111,7 +116,7 @@ authorization, institutional login and instructor administration remain separate
 
 Implemented ahead of the original sequence at the user's request. See the
 [builder guide](network-builder.md) and [validation](validation.md) for delivered
-behaviour and evidence. E4, E5 and M11 remain separate pending milestones.
+behaviour and evidence. E4 is delivered; E5 and M11 remain separate pending milestones.
 
 **Problem:** students can adjust many assumptions, but custom topology and master
 data currently require source YAML changes and an API restart.
@@ -208,4 +213,5 @@ assignments and assessment rubrics; authenticated shared workspaces with access
 control and audit records; or a specific new operations mechanism such as shelf
 life or manufacturing/BOM. Do not combine all three into one milestone. M12's
 case study/report should describe measured, delivered capabilities and remain a
-separate task. Start next with **E4: persistent experiment workbooks**.
+separate task. E4 is delivered. Continue next with **E5: decision replay and traces**,
+then build bounded failure search and independent validation on case executions in E7.

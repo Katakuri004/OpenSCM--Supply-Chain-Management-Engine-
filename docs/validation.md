@@ -837,3 +837,36 @@ The README distinguishes recorded, analytical, input-preview and newly simulated
 evidence, browser/session state versus server persistence, and supported versus
 planned capabilities. This completes the feature-tour subtask, not M12's final
 case study/report, executive summary, resume or interview deliverables.
+
+## E4 persistent decision cases
+
+The case foundation passes the full `python -m scm.check` gate: **266 Python tests**,
+**20 frontend unit tests**, **25 Playwright tests**, strict TypeScript, mypy, Ruff,
+formatting, schema/OpenAPI/client drift and the Next.js production build. The
+upstream Starlette test-client deprecation warning remains non-failing.
+
+Fifteen focused Python case tests cover restart persistence, immutable paired
+evidence after raw cache removal, revision conflicts, exact run attachment,
+incompatible windows/masters, package versions, malformed provenance, shared queue
+capacity and cache identity stability across a saved JSON round trip. A Windows
+status-read regression verifies transient sharing-lock recovery, bounded retries
+and propagation of unrelated permission failures. Five new
+root contract fixtures validate the additive schemas. Frontend tests distinguish
+supported/breached/uncertain/missing criteria and validate recovery envelopes.
+
+Three browser journeys exercise the real engine and compare rendered cost deltas
+against API outputs. They cover create/edit/save/run, historical goals versus
+current notes, Control Tower round trips, browser-draft recovery, package export
+and import, externally supplied archive labels, stale saves without lost drafts,
+keyboard tabs and 390px layout, API failure, and complete learning/model handoffs.
+The prior 22 journeys remain green, including 100-node local scrubber requests
+and its existing 16.7ms health-batch budget. The updated Planning Lab editor
+baseline and new case evidence screenshot were visually reviewed.
+
+The recorder now writes [case results](evidence/decision-cases/results.json) and a
+[source/output manifest](evidence/decision-cases/manifest.json), preserving earlier
+milestones. The README adds an actual case screenshot and distinguishes the new
+API-backed home route from the API-free recorded overview. The [case guide](decision-cases.md)
+documents contracts, storage, import trust, acceptance semantics and recovery.
+This completes E4; E5 stage replay, E7 bounded failure search/independent validation
+and M11 delivery/access control remain separate milestones.

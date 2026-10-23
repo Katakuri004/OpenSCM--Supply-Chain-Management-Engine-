@@ -48,6 +48,7 @@ from scm.contracts import (
 )
 from scm.network.builder import build_network
 
+from api.app.cases import case_router
 from api.app.portfolio import PortfolioStore
 from api.app.query import filter_nodes, parse_filter
 from api.app.service import RunStore
@@ -439,6 +440,7 @@ def create_app(
             )
         )
 
+    app.include_router(case_router(portfolios, store))
     return app
 
 

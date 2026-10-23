@@ -23,6 +23,7 @@ import { useTower, viewNames, type ViewKey } from "../lib/state";
 import type { Network as SupplyNetwork } from "../lib/tower";
 
 export const navigation = [
+  { label: "DECISION STRESS LAB", items: [["cases", FlaskConical]] },
   {
     label: "OPERATE",
     items: [
@@ -92,7 +93,7 @@ export function WorkspaceSidebar() {
       </a>
       <p className="mt-3 px-3 text-[10px] text-[var(--secondary)]">OPEN SUPPLY CHAIN OPERATIONS</p>
       <div className="mx-2 my-6 rounded-lg border border-[var(--border)] bg-[var(--muted)] p-3">
-        <p className="text-xs font-medium">FMCG planning workspace</p>
+        <p className="text-xs font-medium">Supply-chain decision lab</p>
         <p className="mt-1 text-[10px] text-[var(--secondary)]">
           India network · synthetic scenarios
         </p>

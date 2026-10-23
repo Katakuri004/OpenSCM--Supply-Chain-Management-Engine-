@@ -680,3 +680,23 @@ allows 100 undo snapshots, a 350 ms validation debounce, 2 MB JSON imports and
 PNG dimensions up to 4096×4096. These are presentation/engineering choices.
 Names/notes and saved revisions reuse existing portfolio limits. Preview input
 charts describe configured assumptions; run result figures come from the engine.
+
+## E4 decision-case controls
+
+`configs/cases.yaml` contains engineering **ASSUMPTIONS**: `max_package_bytes =
+2,000,000` (UTF-8 JSON import limit), `history_limit = 50` (latest execution rows
+shown; older rows are retained), and `initial_lesson = capacity` (the initial
+library template). The matching frontend fixture is checked in tests. These are
+workspace choices, not empirical supply-chain parameters. Templates reuse
+`configs/learning.yaml` / `web/src/fixtures/learning.json`, including the illustrative
+0.95 immediate-fill goal and experiment design. No new simulation parameters are
+introduced. User goals are nullable nonnegative quantities; service is in [0,1],
+cost in INR over the measured window, inventory in days. One goal and a nonblank
+prediction are required to launch, but incomplete briefs can be saved.
+
+Case names are 1–100 characters, questions 1–2000; both require nonblank text.
+Assumptions, observations and decisions allow 10000 characters each; prediction
+and reflection allow 4000. Format version is 1. These are engineering bounds.
+Draft recovery uses browser storage per case, not a classroom grade or correctness
+score. Interval acceptance uses full individual 95% t intervals from engine
+replications; no combined confidence or external validity is implied.

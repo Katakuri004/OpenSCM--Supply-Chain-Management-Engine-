@@ -7,7 +7,7 @@ export default function LearningResults({
   goal,
 }: {
   result: LearningResult;
-  goal: number;
+  goal: number | undefined;
 }) {
   const metrics = [
     ["fill_rate", "Immediate fill rate", 100, "% / pp"],
@@ -22,15 +22,17 @@ export default function LearningResults({
   ] as const;
   const service = result.b.metrics.fill_rate;
   const goalText =
-    !Number.isFinite(goal) || goal < 0 || goal > 1
-      ? "Choose a service goal between 0 and 1"
-      : service?.mean == null
-        ? "Service unavailable"
-        : service.mean < goal
-          ? "B mean below your service goal"
-          : service.ci95 && service.ci95[0]! >= goal
-            ? "B interval meets your service goal"
-            : "B mean meets goal; uncertainty remains";
+    goal == null
+      ? "Compare the operating trade-offs"
+      : !Number.isFinite(goal) || goal < 0 || goal > 1
+        ? "Choose a service goal between 0 and 1"
+        : service?.mean == null
+          ? "Service unavailable"
+          : service.mean < goal
+            ? "B mean below your service goal"
+            : service.ci95 && service.ci95[0]! >= goal
+              ? "B interval meets your service goal"
+              : "B mean meets goal; uncertainty remains";
   const cost = result.comparison.costs;
   return (
     <div
@@ -44,9 +46,11 @@ export default function LearningResults({
           <p className="eyebrow">EVIDENCE / {result.comparison.replications} PAIRED REPLICATIONS</p>
           <h2 className="mt-2 text-lg font-semibold">{goalText}</h2>
           <p className="lab-help">
-            Goal: {number(goal * 100, 1)}% immediate fill. This is an editable learning criterion,
-            not the CSL policy target or a validated business requirement. Intervals describe
-            simulation uncertainty, not model error.
+            {goal == null
+              ? "No immediate fill criterion is configured."
+              : `Goal: ${number(goal * 100, 1)}% immediate fill.`}{" "}
+            This is an editable learning criterion, not the CSL policy target or a validated
+            business requirement. Intervals describe simulation uncertainty, not model error.
           </p>
         </div>
       </section>

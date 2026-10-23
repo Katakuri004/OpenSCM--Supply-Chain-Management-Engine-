@@ -5,7 +5,7 @@ import { platform, release } from "node:os";
 import { resolve, relative } from "node:path";
 
 const root = resolve("..");
-const output = resolve(root, "docs/evidence/interaction-motion");
+const output = resolve(root, "docs/evidence/decision-cases");
 const report = JSON.parse(await readFile(resolve(root, "data/m9-playwright/results.json"), "utf8"));
 const tests = [];
 let performance;
@@ -14,6 +14,7 @@ const portfolios = [];
 const learning = [];
 const models = [];
 const interactions = [];
+const cases = [];
 function visit(suite) {
   for (const spec of suite.specs ?? [])
     for (const test of spec.tests) {
@@ -35,6 +36,9 @@ function visit(suite) {
         if (attachment.name === "network-builder") {
           models.push(JSON.parse(Buffer.from(attachment.body, "base64").toString("utf8")));
         }
+        if (attachment.name === "decision-case") {
+          cases.push(JSON.parse(Buffer.from(attachment.body, "base64").toString("utf8")));
+        }
         if (attachment.name === "interaction-motion") {
           interactions.push(JSON.parse(Buffer.from(attachment.body, "base64").toString("utf8")));
         }
@@ -52,6 +56,7 @@ if (
   !learning.length ||
   !models.length ||
   !interactions.length ||
+  !cases.length ||
   report.errors.length
 )
   throw new Error("Run passing browser tests before recording evidence");
@@ -72,6 +77,7 @@ await writeFile(
       learning,
       models,
       interactions,
+      cases,
     },
     null,
     2,
@@ -127,6 +133,8 @@ sources.push(
   "web/.prettierignore",
   "web/components.json",
   "requirements-dev.lock",
+  "docs/decision-cases.md",
+  "tests/test_decision_cases.py",
   "docs/parameters.md",
   "docs/assumptions.md",
   "docs/validation.md",
@@ -159,7 +167,7 @@ const versions = Object.fromEntries(
   ),
 );
 const artifacts = [
-  "docs/evidence/interaction-motion/results.json",
+  "docs/evidence/decision-cases/results.json",
   "docs/evidence/m10/fixture_manifest.json",
   "docs/evidence/m9/fixture_manifest.json",
   "web/public/fixtures/studies.json",
@@ -173,6 +181,7 @@ await writeFile(
     {
       command: "npm run test:e2e --prefix web; npm run record:evidence --prefix web",
       git_sha: execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim(),
+      git_worktree_dirty: execFileSync("git", ["status", "--porcelain"], { encoding: "utf8" }).trim().length > 0,
       versions,
       input_sha256: await hashes(sources),
       output_sha256: await hashes(artifacts),

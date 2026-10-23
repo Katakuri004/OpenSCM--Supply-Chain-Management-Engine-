@@ -1,5 +1,11 @@
 # Learning sandbox
 
+E4 adds [Decision Cases](decision-cases.md): explicitly save the full current A/B
+investigation, goal, notebook and matching completed evidence from the learning
+workspace. The original per-lesson browser notebook remains available. Existing
+result attachment is labelled as a snapshot taken at attachment time, rather than
+a verified pre-run prediction. Current drafts never inherit stale results.
+
 Open `/?view=learning`. This is an end-to-end supply-chain experiment workspace:
 understand an operating question, predict, design A/B, simulate, inspect evidence,
 reflect and design the next experiment. It uses the existing engine. Lesson text

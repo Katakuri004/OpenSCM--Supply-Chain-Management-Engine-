@@ -1,0 +1,2303 @@
+{
+  "$defs": {
+    "BullwhipConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "signal_processing": {
+          "default": true,
+          "title": "Signal Processing",
+          "type": "boolean"
+        },
+        "batching": {
+          "default": true,
+          "title": "Batching",
+          "type": "boolean"
+        },
+        "price": {
+          "default": false,
+          "title": "Price",
+          "type": "boolean"
+        },
+        "rationing": {
+          "default": false,
+          "title": "Rationing",
+          "type": "boolean"
+        },
+        "pos_sharing": {
+          "default": false,
+          "title": "Pos Sharing",
+          "type": "boolean"
+        }
+      },
+      "title": "BullwhipConfig",
+      "type": "object"
+    },
+    "CanvasPosition": {
+      "additionalProperties": false,
+      "properties": {
+        "x": {
+          "maximum": 10000,
+          "minimum": -10000,
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "maximum": 10000,
+          "minimum": -10000,
+          "title": "Y",
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ],
+      "title": "CanvasPosition",
+      "type": "object"
+    },
+    "CaseEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "execution": {
+          "$ref": "#/$defs/CaseExecution"
+        },
+        "comparison": {
+          "$ref": "#/$defs/Comparison"
+        },
+        "a": {
+          "$ref": "#/$defs/Kpis"
+        },
+        "b": {
+          "$ref": "#/$defs/Kpis"
+        },
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/RunProvenance"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "title": "Provenance",
+          "type": "array"
+        },
+        "diagnostics": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RunDiagnostics"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "execution",
+        "comparison",
+        "a",
+        "b",
+        "provenance"
+      ],
+      "title": "CaseEvidence",
+      "type": "object"
+    },
+    "CaseExecution": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "case_id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Case Id",
+          "type": "string"
+        },
+        "launched_at": {
+          "title": "Launched At",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "case_launch",
+            "attached"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "snapshot": {
+          "$ref": "#/$defs/SavedDecisionCase"
+        },
+        "run_a": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Run A",
+          "type": "string"
+        },
+        "run_b": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Run B",
+          "type": "string"
+        },
+        "status_a": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RunStatus"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "status_b": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RunStatus"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "evidence_available": {
+          "default": false,
+          "title": "Evidence Available",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "case_id",
+        "launched_at",
+        "origin",
+        "snapshot",
+        "run_a",
+        "run_b"
+      ],
+      "title": "CaseExecution",
+      "type": "object"
+    },
+    "CaseGoals": {
+      "additionalProperties": false,
+      "properties": {
+        "service_floor": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Service Floor"
+        },
+        "cost_ceiling_inr": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cost Ceiling Inr"
+        },
+        "inventory_ceiling_days": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Inventory Ceiling Days"
+        }
+      },
+      "title": "CaseGoals",
+      "type": "object"
+    },
+    "Comparison": {
+      "additionalProperties": false,
+      "properties": {
+        "run_a": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Run A",
+          "type": "string"
+        },
+        "run_b": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Run B",
+          "type": "string"
+        },
+        "replications": {
+          "exclusiveMinimum": 0,
+          "title": "Replications",
+          "type": "integer"
+        },
+        "metrics": {
+          "additionalProperties": {
+            "$ref": "#/$defs/Estimate"
+          },
+          "minProperties": 1,
+          "propertyNames": {
+            "enum": [
+              "fill_rate",
+              "cycle_service_level",
+              "stockout_days",
+              "inventory_turns",
+              "days_of_inventory",
+              "cash_to_cash_days",
+              "otif",
+              "total_landed_cost_inr",
+              "bullwhip_ratio"
+            ]
+          },
+          "title": "Metrics",
+          "type": "object"
+        },
+        "costs": {
+          "$ref": "#/$defs/CostComparison"
+        }
+      },
+      "required": [
+        "run_a",
+        "run_b",
+        "replications",
+        "metrics",
+        "costs"
+      ],
+      "title": "Comparison",
+      "type": "object"
+    },
+    "CostComparison": {
+      "additionalProperties": false,
+      "properties": {
+        "component": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "type": "string"
+          },
+          "title": "Component",
+          "type": "array"
+        },
+        "a": {
+          "items": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "A",
+          "type": "array"
+        },
+        "b": {
+          "items": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "B",
+          "type": "array"
+        },
+        "delta": {
+          "items": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Delta",
+          "type": "array"
+        },
+        "ci95_low": {
+          "items": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Ci95 Low",
+          "type": "array"
+        },
+        "ci95_high": {
+          "items": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Ci95 High",
+          "type": "array"
+        }
+      },
+      "required": [
+        "component",
+        "a",
+        "b",
+        "delta",
+        "ci95_low",
+        "ci95_high"
+      ],
+      "title": "CostComparison",
+      "type": "object"
+    },
+    "Customer": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "latitude": {
+          "maximum": 90,
+          "minimum": -90,
+          "title": "Latitude",
+          "type": "number"
+        },
+        "longitude": {
+          "maximum": 180,
+          "minimum": -180,
+          "title": "Longitude",
+          "type": "number"
+        },
+        "kind": {
+          "enum": [
+            "retailer",
+            "b2b"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "region": {
+          "minimum": 0,
+          "title": "Region",
+          "type": "integer"
+        },
+        "demand_scale": {
+          "exclusiveMinimum": 0,
+          "title": "Demand Scale",
+          "type": "number"
+        },
+        "arrival_probability": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Arrival Probability",
+          "type": "number"
+        },
+        "target_csl": {
+          "exclusiveMaximum": 1,
+          "exclusiveMinimum": 0,
+          "title": "Target Csl",
+          "type": "number"
+        },
+        "shortage_penalty": {
+          "minimum": 0,
+          "title": "Shortage Penalty",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "latitude",
+        "longitude",
+        "kind",
+        "region",
+        "demand_scale",
+        "arrival_probability",
+        "target_csl",
+        "shortage_penalty"
+      ],
+      "title": "Customer",
+      "type": "object"
+    },
+    "DC": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "latitude": {
+          "maximum": 90,
+          "minimum": -90,
+          "title": "Latitude",
+          "type": "number"
+        },
+        "longitude": {
+          "maximum": 180,
+          "minimum": -180,
+          "title": "Longitude",
+          "type": "number"
+        },
+        "daily_capacity": {
+          "minimum": 0,
+          "title": "Daily Capacity",
+          "type": "number"
+        },
+        "annual_fixed_cost": {
+          "minimum": 0,
+          "title": "Annual Fixed Cost",
+          "type": "number"
+        },
+        "holding_rate": {
+          "exclusiveMinimum": 0,
+          "title": "Holding Rate",
+          "type": "number"
+        },
+        "handling_cost": {
+          "minimum": 0,
+          "title": "Handling Cost",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "latitude",
+        "longitude",
+        "daily_capacity",
+        "annual_fixed_cost",
+        "holding_rate",
+        "handling_cost"
+      ],
+      "title": "DC",
+      "type": "object"
+    },
+    "DemandConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "cv_scale": {
+          "default": 1.0,
+          "minimum": 0,
+          "title": "Cv Scale",
+          "type": "number"
+        },
+        "regional_rho": {
+          "default": 0.3,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Regional Rho",
+          "type": "number"
+        },
+        "seasonality": {
+          "const": "monthly_index_v1",
+          "default": "monthly_index_v1",
+          "title": "Seasonality",
+          "type": "string"
+        }
+      },
+      "title": "DemandConfig",
+      "type": "object"
+    },
+    "DiagnosticLane": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "source": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Source",
+          "type": "string"
+        },
+        "target": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Target",
+          "type": "string"
+        },
+        "shipped_units": {
+          "minimum": 0,
+          "title": "Shipped Units",
+          "type": "number"
+        },
+        "freight_inr": {
+          "minimum": 0,
+          "title": "Freight Inr",
+          "type": "number"
+        },
+        "closing_in_transit_units": {
+          "minimum": 0,
+          "title": "Closing In Transit Units",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "target",
+        "shipped_units",
+        "freight_inr",
+        "closing_in_transit_units"
+      ],
+      "title": "DiagnosticLane",
+      "type": "object"
+    },
+    "DiagnosticSite": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "supplier",
+            "dc",
+            "retailer",
+            "b2b"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "demand_units": {
+          "minimum": 0,
+          "title": "Demand Units",
+          "type": "number"
+        },
+        "shortage_units": {
+          "minimum": 0,
+          "title": "Shortage Units",
+          "type": "number"
+        },
+        "inventory_value_inr": {
+          "minimum": 0,
+          "title": "Inventory Value Inr",
+          "type": "number"
+        },
+        "cost_inr": {
+          "minimum": 0,
+          "title": "Cost Inr",
+          "type": "number"
+        },
+        "utilization": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Utilization"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "kind",
+        "demand_units",
+        "shortage_units",
+        "inventory_value_inr",
+        "cost_inr",
+        "utilization"
+      ],
+      "title": "DiagnosticSite",
+      "type": "object"
+    },
+    "DiagnosticSku": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "demand_units": {
+          "minimum": 0,
+          "title": "Demand Units",
+          "type": "number"
+        },
+        "shortage_units": {
+          "minimum": 0,
+          "title": "Shortage Units",
+          "type": "number"
+        },
+        "inventory_value_inr": {
+          "minimum": 0,
+          "title": "Inventory Value Inr",
+          "type": "number"
+        },
+        "forecast_wmape": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Forecast Wmape"
+        },
+        "forecast_bias": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Forecast Bias"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "demand_units",
+        "shortage_units",
+        "inventory_value_inr",
+        "forecast_wmape",
+        "forecast_bias"
+      ],
+      "title": "DiagnosticSku",
+      "type": "object"
+    },
+    "Disruption": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "supplier_outage",
+            "lead_time_multiplier",
+            "demand_shock",
+            "capacity_cut",
+            "moq_change",
+            "price_promo"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "target": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Target",
+          "type": "string"
+        },
+        "start_day": {
+          "minimum": 0,
+          "title": "Start Day",
+          "type": "integer"
+        },
+        "duration": {
+          "exclusiveMinimum": 0,
+          "title": "Duration",
+          "type": "integer"
+        },
+        "magnitude": {
+          "description": "Removed capacity fraction for outage/cut; discount fraction for promo; multiplier otherwise.",
+          "minimum": 0,
+          "title": "Magnitude",
+          "type": "number"
+        }
+      },
+      "required": [
+        "type",
+        "target",
+        "start_day",
+        "duration",
+        "magnitude"
+      ],
+      "title": "Disruption",
+      "type": "object"
+    },
+    "Estimate": {
+      "additionalProperties": false,
+      "properties": {
+        "mean": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Mean"
+        },
+        "ci95": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ci95"
+        }
+      },
+      "required": [
+        "mean"
+      ],
+      "title": "Estimate",
+      "type": "object"
+    },
+    "Inventory": {
+      "additionalProperties": false,
+      "properties": {
+        "dc_order_cost": {
+          "exclusiveMinimum": 0,
+          "title": "Dc Order Cost",
+          "type": "number"
+        },
+        "customer_order_cost": {
+          "exclusiveMinimum": 0,
+          "title": "Customer Order Cost",
+          "type": "number"
+        },
+        "customer_holding_rate": {
+          "exclusiveMinimum": 0,
+          "title": "Customer Holding Rate",
+          "type": "number"
+        },
+        "review_days": {
+          "exclusiveMinimum": 0,
+          "title": "Review Days",
+          "type": "integer"
+        },
+        "initial_stock_fraction": {
+          "minimum": 0,
+          "title": "Initial Stock Fraction",
+          "type": "number"
+        }
+      },
+      "required": [
+        "dc_order_cost",
+        "customer_order_cost",
+        "customer_holding_rate",
+        "review_days",
+        "initial_stock_fraction"
+      ],
+      "title": "Inventory",
+      "type": "object"
+    },
+    "JsonValue": {},
+    "Kpis": {
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "node_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Node Id"
+        },
+        "replications": {
+          "exclusiveMinimum": 0,
+          "title": "Replications",
+          "type": "integer"
+        },
+        "metrics": {
+          "additionalProperties": {
+            "$ref": "#/$defs/Estimate"
+          },
+          "minProperties": 1,
+          "propertyNames": {
+            "enum": [
+              "fill_rate",
+              "cycle_service_level",
+              "stockout_days",
+              "inventory_turns",
+              "days_of_inventory",
+              "cash_to_cash_days",
+              "otif",
+              "total_landed_cost_inr",
+              "bullwhip_ratio"
+            ]
+          },
+          "title": "Metrics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "run_id",
+        "replications",
+        "metrics"
+      ],
+      "title": "Kpis",
+      "type": "object"
+    },
+    "LabSettings": {
+      "additionalProperties": false,
+      "properties": {
+        "monthly_index": {
+          "anyOf": [
+            {
+              "items": {
+                "minimum": 0,
+                "type": "number"
+              },
+              "maxItems": 12,
+              "minItems": 12,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Monthly Index"
+        },
+        "suppliers": {
+          "patternProperties": {
+            "^[A-Za-z0-9_-]+$": {
+              "$ref": "#/$defs/SupplierAssumptions"
+            }
+          },
+          "propertyNames": {
+            "minLength": 1
+          },
+          "title": "Suppliers",
+          "type": "object"
+        },
+        "skus": {
+          "patternProperties": {
+            "^[A-Za-z0-9_-]+$": {
+              "$ref": "#/$defs/SkuAssumptions"
+            }
+          },
+          "propertyNames": {
+            "minLength": 1
+          },
+          "title": "Skus",
+          "type": "object"
+        },
+        "dc_capacity_factor": {
+          "default": 1,
+          "minimum": 0,
+          "title": "Dc Capacity Factor",
+          "type": "number"
+        },
+        "forecast_method": {
+          "anyOf": [
+            {
+              "enum": [
+                "moving_average",
+                "ses",
+                "holt"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Forecast Method"
+        },
+        "forecast_window": {
+          "anyOf": [
+            {
+              "maximum": 3650,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Forecast Window"
+        },
+        "forecast_alpha": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "maximum": 1,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Forecast Alpha"
+        },
+        "forecast_beta": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Forecast Beta"
+        },
+        "buffer_days": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Buffer Days",
+          "type": "number"
+        },
+        "expedite_factor": {
+          "default": 1,
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Expedite Factor",
+          "type": "number"
+        },
+        "expedite_unit_cost": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Expedite Unit Cost",
+          "type": "number"
+        },
+        "backup_suppliers": {
+          "patternProperties": {
+            "^[A-Za-z0-9_-]+$": {
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            }
+          },
+          "propertyNames": {
+            "minLength": 1
+          },
+          "title": "Backup Suppliers",
+          "type": "object"
+        }
+      },
+      "title": "LabSettings",
+      "type": "object"
+    },
+    "LaneAssumptions": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Source",
+          "type": "string"
+        },
+        "target": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Target",
+          "type": "string"
+        },
+        "distance_km": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Distance Km"
+        },
+        "lead_mean": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lead Mean"
+        },
+        "lead_cv": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lead Cv"
+        },
+        "delay_probability": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Delay Probability"
+        },
+        "delay_days": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Delay Days"
+        }
+      },
+      "required": [
+        "source",
+        "target"
+      ],
+      "title": "LaneAssumptions",
+      "type": "object"
+    },
+    "ModelSnapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "format_version": {
+          "const": 1,
+          "default": 1,
+          "title": "Format Version",
+          "type": "integer"
+        },
+        "spec": {
+          "$ref": "#/$defs/NetworkSpec"
+        },
+        "seasonality": {
+          "$ref": "#/$defs/Seasonality"
+        },
+        "positions": {
+          "patternProperties": {
+            "^[A-Za-z0-9_-]+$": {
+              "$ref": "#/$defs/CanvasPosition"
+            }
+          },
+          "propertyNames": {
+            "minLength": 1
+          },
+          "title": "Positions",
+          "type": "object"
+        }
+      },
+      "required": [
+        "spec",
+        "seasonality"
+      ],
+      "title": "ModelSnapshot",
+      "type": "object"
+    },
+    "NetworkConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "dc_count": {
+          "default": 4,
+          "maximum": 32,
+          "minimum": 1,
+          "title": "Dc Count",
+          "type": "integer"
+        },
+        "suppliers": {
+          "items": {
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "type": "string"
+          },
+          "title": "Suppliers",
+          "type": "array"
+        }
+      },
+      "title": "NetworkConfig",
+      "type": "object"
+    },
+    "NetworkSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "suppliers": {
+          "items": {
+            "$ref": "#/$defs/Supplier"
+          },
+          "maxItems": 16,
+          "minItems": 1,
+          "title": "Suppliers",
+          "type": "array"
+        },
+        "dcs": {
+          "items": {
+            "$ref": "#/$defs/DC"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Dcs",
+          "type": "array"
+        },
+        "customers": {
+          "items": {
+            "$ref": "#/$defs/Customer"
+          },
+          "maxItems": 128,
+          "minItems": 1,
+          "title": "Customers",
+          "type": "array"
+        },
+        "skus": {
+          "items": {
+            "$ref": "#/$defs/SKU"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Skus",
+          "type": "array"
+        },
+        "transport": {
+          "$ref": "#/$defs/Transport"
+        },
+        "inventory": {
+          "$ref": "#/$defs/Inventory"
+        },
+        "open_dcs": {
+          "anyOf": [
+            {
+              "items": {
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9_-]+$",
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Open Dcs"
+        },
+        "assignments": {
+          "patternProperties": {
+            "^[A-Za-z0-9_-]+$": {
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            }
+          },
+          "propertyNames": {
+            "minLength": 1
+          },
+          "title": "Assignments",
+          "type": "object"
+        },
+        "lanes": {
+          "items": {
+            "$ref": "#/$defs/LaneAssumptions"
+          },
+          "maxItems": 8192,
+          "title": "Lanes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "suppliers",
+        "dcs",
+        "customers",
+        "skus",
+        "transport",
+        "inventory"
+      ],
+      "title": "NetworkSpec",
+      "type": "object"
+    },
+    "PolicyConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "default": {
+          "enum": [
+            "QR",
+            "sS",
+            "RS",
+            "order_up_to"
+          ],
+          "type": "string",
+          "default": "QR",
+          "title": "Default"
+        },
+        "target_csl": {
+          "default": 0.95,
+          "exclusiveMaximum": 1,
+          "exclusiveMinimum": 0,
+          "title": "Target Csl",
+          "type": "number"
+        },
+        "segmentation": {
+          "const": "abc_xyz_v1",
+          "default": "abc_xyz_v1",
+          "title": "Segmentation",
+          "type": "string"
+        }
+      },
+      "title": "PolicyConfig",
+      "type": "object"
+    },
+    "RunDiagnostics": {
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "representative_seed": {
+          "minimum": 0,
+          "title": "Representative Seed",
+          "type": "integer"
+        },
+        "warmup_days": {
+          "minimum": 0,
+          "title": "Warmup Days",
+          "type": "integer"
+        },
+        "horizon_days": {
+          "exclusiveMinimum": 0,
+          "title": "Horizon Days",
+          "type": "integer"
+        },
+        "facilities": {
+          "items": {
+            "$ref": "#/$defs/DiagnosticSite"
+          },
+          "title": "Facilities",
+          "type": "array"
+        },
+        "skus": {
+          "items": {
+            "$ref": "#/$defs/DiagnosticSku"
+          },
+          "title": "Skus",
+          "type": "array"
+        },
+        "lanes": {
+          "items": {
+            "$ref": "#/$defs/DiagnosticLane"
+          },
+          "title": "Lanes",
+          "type": "array"
+        },
+        "cost_components": {
+          "patternProperties": {
+            "^[A-Za-z0-9_-]+$": {
+              "minimum": 0,
+              "type": "number"
+            }
+          },
+          "propertyNames": {
+            "minLength": 1
+          },
+          "title": "Cost Components",
+          "type": "object"
+        }
+      },
+      "required": [
+        "run_id",
+        "representative_seed",
+        "warmup_days",
+        "horizon_days",
+        "facilities",
+        "skus",
+        "lanes",
+        "cost_components"
+      ],
+      "title": "RunDiagnostics",
+      "type": "object"
+    },
+    "RunOptions": {
+      "additionalProperties": false,
+      "properties": {
+        "forecasting": {
+          "default": false,
+          "title": "Forecasting",
+          "type": "boolean"
+        },
+        "segmented": {
+          "default": false,
+          "title": "Segmented",
+          "type": "boolean"
+        },
+        "bullwhip": {
+          "default": false,
+          "title": "Bullwhip",
+          "type": "boolean"
+        },
+        "lost_sales": {
+          "default": false,
+          "title": "Lost Sales",
+          "type": "boolean"
+        }
+      },
+      "title": "RunOptions",
+      "type": "object"
+    },
+    "RunProvenance": {
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "request": {
+          "$ref": "#/$defs/RunRequest"
+        },
+        "scenario": {
+          "$ref": "#/$defs/Scenario"
+        },
+        "input_sha256": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Input Sha256",
+          "type": "object"
+        },
+        "versions": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Versions",
+          "type": "object"
+        },
+        "settings": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Settings",
+          "type": "object"
+        },
+        "replication_seeds": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Replication Seeds",
+          "type": "array"
+        },
+        "training_seed": {
+          "minimum": 0,
+          "title": "Training Seed",
+          "type": "integer"
+        },
+        "operating_snapshot": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "$ref": "#/$defs/JsonValue"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Operating Snapshot"
+        }
+      },
+      "required": [
+        "run_id",
+        "request",
+        "scenario",
+        "input_sha256",
+        "versions",
+        "settings",
+        "replication_seeds",
+        "training_seed"
+      ],
+      "title": "RunProvenance",
+      "type": "object"
+    },
+    "RunRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "preset": {
+          "default": "base_4dc",
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Preset",
+          "type": "string"
+        },
+        "overrides": {
+          "$ref": "#/$defs/ScenarioOverrides"
+        },
+        "seed": {
+          "default": 0,
+          "maximum": 4294967295,
+          "minimum": 0,
+          "title": "Seed",
+          "type": "integer"
+        },
+        "replications": {
+          "default": 1,
+          "exclusiveMinimum": 0,
+          "title": "Replications",
+          "type": "integer"
+        },
+        "options": {
+          "$ref": "#/$defs/RunOptions"
+        },
+        "lab": {
+          "$ref": "#/$defs/LabSettings"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ModelSnapshot"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "RunRequest",
+      "type": "object"
+    },
+    "RunStatus": {
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "queued",
+            "running",
+            "complete",
+            "failed"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "seed": {
+          "minimum": 0,
+          "title": "Seed",
+          "type": "integer"
+        },
+        "replications": {
+          "exclusiveMinimum": 0,
+          "title": "Replications",
+          "type": "integer"
+        },
+        "representative_seed": {
+          "minimum": 0,
+          "title": "Representative Seed",
+          "type": "integer"
+        },
+        "error": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error"
+        }
+      },
+      "required": [
+        "run_id",
+        "status",
+        "seed",
+        "replications",
+        "representative_seed"
+      ],
+      "title": "RunStatus",
+      "type": "object"
+    },
+    "SKU": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "unit_cost": {
+          "exclusiveMinimum": 0,
+          "title": "Unit Cost",
+          "type": "number"
+        },
+        "daily_mean": {
+          "minimum": 0,
+          "title": "Daily Mean",
+          "type": "number"
+        },
+        "cv": {
+          "minimum": 0,
+          "title": "Cv",
+          "type": "number"
+        },
+        "pack_size": {
+          "exclusiveMinimum": 0,
+          "title": "Pack Size",
+          "type": "integer"
+        },
+        "moq": {
+          "exclusiveMinimum": 0,
+          "title": "Moq",
+          "type": "integer"
+        },
+        "supplier": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Supplier",
+          "type": "string"
+        },
+        "value_class": {
+          "enum": [
+            "A",
+            "B",
+            "C"
+          ],
+          "title": "Value Class",
+          "type": "string"
+        },
+        "demand_kind": {
+          "enum": [
+            "normal",
+            "gamma"
+          ],
+          "title": "Demand Kind",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "unit_cost",
+        "daily_mean",
+        "cv",
+        "pack_size",
+        "moq",
+        "supplier",
+        "value_class",
+        "demand_kind"
+      ],
+      "title": "SKU",
+      "type": "object"
+    },
+    "SavedDecisionCase": {
+      "additionalProperties": false,
+      "properties": {
+        "format_version": {
+          "const": 1,
+          "default": 1,
+          "title": "Format Version",
+          "type": "integer"
+        },
+        "name": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "question": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Question",
+          "type": "string"
+        },
+        "assumptions": {
+          "default": "",
+          "maxLength": 10000,
+          "title": "Assumptions",
+          "type": "string"
+        },
+        "prediction": {
+          "default": "",
+          "maxLength": 4000,
+          "title": "Prediction",
+          "type": "string"
+        },
+        "observations": {
+          "default": "",
+          "maxLength": 10000,
+          "title": "Observations",
+          "type": "string"
+        },
+        "reflection": {
+          "default": "",
+          "maxLength": 4000,
+          "title": "Reflection",
+          "type": "string"
+        },
+        "decision": {
+          "default": "",
+          "maxLength": 10000,
+          "title": "Decision",
+          "type": "string"
+        },
+        "lesson_id": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lesson Id"
+        },
+        "goals": {
+          "$ref": "#/$defs/CaseGoals"
+        },
+        "baseline": {
+          "$ref": "#/$defs/RunRequest"
+        },
+        "alternative": {
+          "$ref": "#/$defs/RunRequest"
+        },
+        "revision": {
+          "minimum": 1,
+          "title": "Revision",
+          "type": "integer"
+        },
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "created_at": {
+          "title": "Created At",
+          "type": "string"
+        },
+        "updated_at": {
+          "title": "Updated At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "question",
+        "baseline",
+        "alternative",
+        "revision",
+        "id",
+        "created_at",
+        "updated_at"
+      ],
+      "title": "SavedDecisionCase",
+      "type": "object"
+    },
+    "Scenario": {
+      "additionalProperties": false,
+      "properties": {
+        "scenario": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Scenario",
+          "type": "string"
+        },
+        "horizon_days": {
+          "default": 365,
+          "exclusiveMinimum": 0,
+          "title": "Horizon Days",
+          "type": "integer"
+        },
+        "warmup_days": {
+          "default": 90,
+          "minimum": 0,
+          "title": "Warmup Days",
+          "type": "integer"
+        },
+        "replications": {
+          "default": 30,
+          "exclusiveMinimum": 0,
+          "title": "Replications",
+          "type": "integer"
+        },
+        "network": {
+          "$ref": "#/$defs/NetworkConfig"
+        },
+        "demand": {
+          "$ref": "#/$defs/DemandConfig"
+        },
+        "policy": {
+          "$ref": "#/$defs/PolicyConfig"
+        },
+        "bullwhip": {
+          "$ref": "#/$defs/BullwhipConfig"
+        },
+        "disruptions": {
+          "items": {
+            "$ref": "#/$defs/Disruption"
+          },
+          "title": "Disruptions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "scenario"
+      ],
+      "title": "Scenario",
+      "type": "object"
+    },
+    "ScenarioOverrides": {
+      "additionalProperties": false,
+      "properties": {
+        "horizon_days": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Horizon Days"
+        },
+        "warmup_days": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Warmup Days"
+        },
+        "network": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NetworkConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "demand": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DemandConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "policy": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PolicyConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "bullwhip": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BullwhipConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "disruptions": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/Disruption"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Disruptions"
+        }
+      },
+      "title": "ScenarioOverrides",
+      "type": "object"
+    },
+    "Seasonality": {
+      "additionalProperties": false,
+      "properties": {
+        "monthly_index_v1": {
+          "items": {
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 12,
+          "minItems": 12,
+          "title": "Monthly Index V1",
+          "type": "array"
+        }
+      },
+      "required": [
+        "monthly_index_v1"
+      ],
+      "title": "Seasonality",
+      "type": "object"
+    },
+    "SkuAssumptions": {
+      "additionalProperties": false,
+      "properties": {
+        "daily_mean": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Daily Mean"
+        },
+        "cv": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cv"
+        },
+        "unit_cost": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit Cost"
+        },
+        "supplier": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Supplier"
+        },
+        "moq": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Moq"
+        },
+        "pack_size": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pack Size"
+        }
+      },
+      "title": "SkuAssumptions",
+      "type": "object"
+    },
+    "Supplier": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "latitude": {
+          "maximum": 90,
+          "minimum": -90,
+          "title": "Latitude",
+          "type": "number"
+        },
+        "longitude": {
+          "maximum": 180,
+          "minimum": -180,
+          "title": "Longitude",
+          "type": "number"
+        },
+        "price_multiplier": {
+          "exclusiveMinimum": 0,
+          "title": "Price Multiplier",
+          "type": "number"
+        },
+        "lead_mean": {
+          "exclusiveMinimum": 0,
+          "title": "Lead Mean",
+          "type": "number"
+        },
+        "lead_cv": {
+          "minimum": 0,
+          "title": "Lead Cv",
+          "type": "number"
+        },
+        "moq": {
+          "exclusiveMinimum": 0,
+          "title": "Moq",
+          "type": "integer"
+        },
+        "daily_capacity": {
+          "minimum": 0,
+          "title": "Daily Capacity",
+          "type": "number"
+        },
+        "delay_probability": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Delay Probability",
+          "type": "number"
+        },
+        "delay_days": {
+          "minimum": 0,
+          "title": "Delay Days",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "latitude",
+        "longitude",
+        "price_multiplier",
+        "lead_mean",
+        "lead_cv",
+        "moq",
+        "daily_capacity",
+        "delay_probability",
+        "delay_days"
+      ],
+      "title": "Supplier",
+      "type": "object"
+    },
+    "SupplierAssumptions": {
+      "additionalProperties": false,
+      "properties": {
+        "lead_mean": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lead Mean"
+        },
+        "lead_cv": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lead Cv"
+        },
+        "delay_probability": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Delay Probability"
+        },
+        "delay_days": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Delay Days"
+        },
+        "daily_capacity": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Daily Capacity"
+        },
+        "price_multiplier": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Price Multiplier"
+        },
+        "moq": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Moq"
+        }
+      },
+      "title": "SupplierAssumptions",
+      "type": "object"
+    },
+    "Transport": {
+      "additionalProperties": false,
+      "properties": {
+        "circuity": {
+          "minimum": 1,
+          "title": "Circuity",
+          "type": "number"
+        },
+        "km_per_day": {
+          "exclusiveMinimum": 0,
+          "title": "Km Per Day",
+          "type": "number"
+        },
+        "outbound_handling_days": {
+          "minimum": 0,
+          "title": "Outbound Handling Days",
+          "type": "number"
+        },
+        "outbound_lead_cv": {
+          "minimum": 0,
+          "title": "Outbound Lead Cv",
+          "type": "number"
+        },
+        "ltl_per_unit_km": {
+          "minimum": 0,
+          "title": "Ltl Per Unit Km",
+          "type": "number"
+        },
+        "ftl_capacity": {
+          "exclusiveMinimum": 0,
+          "title": "Ftl Capacity",
+          "type": "number"
+        },
+        "ftl_fixed_cost": {
+          "minimum": 0,
+          "title": "Ftl Fixed Cost",
+          "type": "number"
+        },
+        "ftl_per_km": {
+          "minimum": 0,
+          "title": "Ftl Per Km",
+          "type": "number"
+        }
+      },
+      "required": [
+        "circuity",
+        "km_per_day",
+        "outbound_handling_days",
+        "outbound_lead_cv",
+        "ltl_per_unit_km",
+        "ftl_capacity",
+        "ftl_fixed_cost",
+        "ftl_per_km"
+      ],
+      "title": "Transport",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "case": {
+      "$ref": "#/$defs/SavedDecisionCase"
+    },
+    "imported_evidence": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CaseEvidence"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "case"
+  ],
+  "title": "CaseDetail",
+  "type": "object"
+}

@@ -298,6 +298,22 @@ verify persistence, narrow-screen navigation and error states. Update contracts,
 assumptions, teaching documentation and pass the full gate. Student reflections
 are browser-local, not instructor grades or a multi-user learning platform.
 
+### E4: persistent decision cases
+
+Implement the accepted decision-stress-lab direction as one foundation milestone:
+a persistent case linking question, assumptions, prediction, acceptance goals,
+complete A/B conditions, immutable execution evidence and decision notes. Reuse
+the existing engine and tools. Add explicit learning/model/scenario handoffs and
+preserve old scenario records. Make cases the home workflow; label reference labs
+separately from case-specific live evidence. E5 replay and E7 failure search remain
+separate tasks, with no placeholder execution or robustness claims.
+
+Acceptance: tests first; restart and cache-removal persistence, exact run attachment,
+revision conflicts/history, invalid pairs and package boundaries, JSON portability,
+unsaved draft recovery, interval-based goal indicators and actual browser journeys.
+Update contracts, fixtures, OpenAPI/client, assumptions, README and the full gate.
+See [decision cases](decision-cases.md) for delivered scope and storage boundaries.
+
 ### E6: interactive visual network builder (user-prioritised)
 
 The user explicitly selected E6 ahead of the other proposed upgrades. Implement
@@ -305,7 +321,7 @@ one connected milestone: editable supplier/DC/customer and SKU masters; draggabl
 Cytoscape canvas with explicit geographic versus display movement; customer/DC
 connections, open-DC selection, lane assumptions and economics; versioned model
 import/export and server persistence; shared engine validation and actual runs
-carrying immutable model snapshots. E4, E5 and M11 remain separate pending tasks.
+carrying immutable model snapshots. E4 is delivered separately; E5 and M11 remain pending.
 
 Acceptance: tests first; topology/reference/unit/resource validation, custom routing
 and lane semantics, revision conflicts/history, cache/provenance integrity and
@@ -347,7 +363,7 @@ does not complete M12's report, executive summary, resume or interview deliverab
 ## 12. Eight-week schedule
 
 The original schedule below is historical. After E1–E3, follow the proposed
-[upgrade roadmap](upgrade-roadmap.md): E4 persistent workbooks, E5 decision replay,
+[upgrade roadmap](upgrade-roadmap.md): E4 persistent decision cases (delivered), E5 decision replay,
 M11 delivery/accessibility, E6 visual model builder, E7 experiment sweeps and E8
 ongoing replenishment rules. These are separate implementation tasks; the roadmap
 defines dependencies, test-first acceptance and scope boundaries. It does not
